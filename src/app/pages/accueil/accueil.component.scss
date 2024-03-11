@@ -1,0 +1,32 @@
+#container {
+    display: flex;
+    flex-direction: row;
+}
+
+#left-container {
+    width: 20%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    border-right: darken(white, 15%) solid 1px;
+}
+
+#main-content {
+    width: 80%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.topic {
+    margin: 20px 0;
+}
+
+.line {
+    width: 80%;
+    height: 1px;
+    background-color: darken(white, 15%);
+}

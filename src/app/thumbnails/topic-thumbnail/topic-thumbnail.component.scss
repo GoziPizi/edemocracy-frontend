@@ -1,0 +1,21 @@
+#container {
+    width: 100%;
+}
+
+#container img {
+    width: 60%;
+}
+
+#header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#header i {
+    margin-left: 10px;
+    border-radius: 50%;
+    background-color: darken(white, 15%);
+    padding: 8px;
+    cursor: pointer;
+}

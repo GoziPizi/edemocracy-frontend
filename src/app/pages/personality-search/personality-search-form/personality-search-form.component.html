@@ -1,0 +1,28 @@
+<div id="container">
+    <div id="searchForm">
+        <p>Bord Politique</p>
+        <ng-select [items]="politicSideOptions"
+           bindLabel="nom"
+           bindValue="valeur"
+           [multiple]="false"
+           [(ngModel)]="politicSide"
+           class="custom">
+        </ng-select>
+        <p>Pour:</p>
+        <ng-select [items]="topicOptions"
+           bindLabel="nom"
+           bindValue="valeur"
+           [multiple]="true"
+           [(ngModel)]="for"
+           class="custom">
+        </ng-select>
+        <p>Contre:</p>
+        <ng-select [items]="topicOptions"
+           bindLabel="nom"
+           bindValue="valeur"
+           [multiple]="true"
+           [(ngModel)]="against"
+           class="custom">
+        </ng-select>
+    </div>
+</div>

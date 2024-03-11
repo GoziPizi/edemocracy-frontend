@@ -1,0 +1,9 @@
+<div id="container">
+    <div id="searchFormContainer">
+        <app-personality-search-form id="searchForm" #searchForm ></app-personality-search-form>
+        <button id="searchButton" (click)="onSubmit()">Rechercher</button>
+    </div>
+    <div id="result-container">
+        <app-personality-result-thumbnail *ngFor="let personality of personalityList" [personality]="personality"></app-personality-result-thumbnail>
+    </div>
+</div>
