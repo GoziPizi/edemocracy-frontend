@@ -1,10 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { PersonalityWithUser } from '../../../models/personality';
+import { RouterModule } from '@angular/router';
+import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
 
 @Component({
   selector: 'app-personality-result-thumbnail',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './personality-result-thumbnail.component.html',
   styleUrl: './personality-result-thumbnail.component.scss'
 })
@@ -13,16 +15,7 @@ export class PersonalityResultThumbnailComponent {
   @Input() personality!: PersonalityWithUser;
 
   get politicSide(): string {
-    switch (this.personality.user.politicSide) {
-      case 'left':
-        return 'Gauche';
-      case 'CENTER':
-        return 'Centre';
-      case 'right':
-        return 'Droite';
-      default:
-        return '';
-    }
+    return politicSideMapperEnumToUser(this.personality.user.politicSide);
   }
 
 }

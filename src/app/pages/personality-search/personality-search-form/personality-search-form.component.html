@@ -10,16 +10,16 @@
         </ng-select>
         <p>Pour:</p>
         <ng-select [items]="topicOptions"
-           bindLabel="nom"
-           bindValue="valeur"
+           bindLabel="title"
+           bindValue="id"
            [multiple]="true"
            [(ngModel)]="for"
            class="custom">
         </ng-select>
         <p>Contre:</p>
         <ng-select [items]="topicOptions"
-           bindLabel="nom"
-           bindValue="valeur"
+           bindLabel="title"
+           bindValue="id"
            [multiple]="true"
            [(ngModel)]="against"
            class="custom">

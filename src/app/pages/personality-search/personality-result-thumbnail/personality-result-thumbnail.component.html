@@ -1,9 +1,11 @@
-<div id="container">
-    <div id="profile-picture-container">
-        <img id="profile-picture" src="../../../../assets/default-profil.webp" alt="image de profil" />
+<a [routerLink]="['/personalites', personality.id]">
+    <div id="container">
+        <div id="profile-picture-container">
+            <img id="profile-picture" src="../../../../assets/default-profil.webp" alt="image de profil" />
+        </div>
+        <div>
+            <h3>{{personality.user.firstName}} {{personality.user.name}}</h3>
+            <h4>{{politicSide}}</h4>
+        </div>
     </div>
-    <div>
-        <h3>{{personality.user.firstName}} {{personality.user.name}}</h3>
-        <h4>{{politicSide}}</h4>
-    </div>
-</div>
+</a>

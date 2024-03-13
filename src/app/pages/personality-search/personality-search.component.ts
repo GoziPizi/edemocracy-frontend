@@ -30,7 +30,6 @@ export class PersonalitySearchComponent {
     const criteria = this.personalitySearchForm.getCriterias();
     this.apiHandlerService.searchPersonalities(criteria).subscribe((response: any) => {
       this.personalityList = response;
-      console.log(this.personalityList)
     });
   }
 

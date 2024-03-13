@@ -22,9 +22,7 @@ export class AccueilComponent {
   }
 
   ngOnInit() {
-    console.log('HomeNewsComponent');
     this.apiHandler.getTopics().subscribe((response: any) => {
-      console.log(response);
       this.topics = response;
     });
   }

@@ -18,3 +18,20 @@ export function politicSideMapper(politicSide: string): PoliticSides {
         return PoliticSides.CENTER;
     }
 }
+
+export function politicSideMapperEnumToUser(politicSide: PoliticSides): string {
+    switch(politicSide) {
+        case PoliticSides.CENTER:
+        return 'Centre';
+        case PoliticSides.LEFT:
+        return 'Gauche';
+        case PoliticSides.RIGHT:
+        return 'Droite';
+        case PoliticSides.FARLEFT:
+        return 'Extrême gauche';
+        case PoliticSides.FARRIGHT:
+        return 'Extrême droite';
+        default:
+        return 'Centre';
+    }
+}

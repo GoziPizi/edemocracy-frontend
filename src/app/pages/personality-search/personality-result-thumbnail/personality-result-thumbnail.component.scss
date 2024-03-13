@@ -1,8 +1,18 @@
+a {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 #container {
     width: 100%;
     padding: 10px;
     display: flex;
     flex-direction: row;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
 }
 
 #profile-picture-container {

@@ -8,3 +8,8 @@ export class Topic {
     createdAt: Date = new Date();
     updatedAt: Date = new Date();
 }
+
+export class TopicSearchItem {
+    id: string = 'id';
+    title: string = 'Titre du Sujet';
+}

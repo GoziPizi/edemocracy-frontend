@@ -4,6 +4,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { politicSideMapper } from '../../../mappers/politicside-mapper';
 import { PersonalitySearchCriteria } from '../../../models/criterias';
+import { TopicSearchItem } from '../../../models/topics';
+import { ApiHandlerService } from '../../../services/api-handler.service';
 
 @Component({
   selector: 'app-personality-search-form',
@@ -20,7 +22,23 @@ export class PersonalitySearchFormComponent {
 
   for: string[] = [];
   against: string[] = [];
-  topicOptions: string[] = ['ecologie', 'economie', 'sante', 'education']
+  topicOptions: TopicSearchItem[] = [];
+
+  constructor(
+    private apiHandler: ApiHandlerService
+  ) { }
+
+  ngOnInit() {
+    this.fetchTopics();
+  }
+
+  fetchTopics() {
+    this.apiHandler.getParentsTopicSearchItems().subscribe(
+      (topics: TopicSearchItem[]) => {
+        this.topicOptions = topics;
+      }
+    );
+  }
 
   public getCriterias(): PersonalitySearchCriteria {
     let criteria: PersonalitySearchCriteria = new PersonalitySearchCriteria();
@@ -31,7 +49,6 @@ export class PersonalitySearchFormComponent {
     if (this.against.length > 0) {
       criteria = {...criteria, against: this.against}
     }
-    console.log(criteria);
     return criteria;
   }
 

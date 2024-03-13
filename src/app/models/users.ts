@@ -1,3 +1,5 @@
+import { PoliticSides } from "../enums/politicSides";
+
 export class User {
     id: string = '';
     firstName: string = '';
@@ -7,7 +9,7 @@ export class User {
     profession: string = '';
     phone: string = '';
     language: string = '';
-    politicSide: string = '';
+    politicSide: PoliticSides = PoliticSides.CENTER;
     role: string = '';
     follows: string[] = [];
     createdAt: Date = new Date();
@@ -18,5 +20,5 @@ export class PublicUser {
     id: string = '';
     firstName: string = '';
     name: string = '';
-    politicSide: string = '';
+    politicSide: PoliticSides = PoliticSides.CENTER;
 }

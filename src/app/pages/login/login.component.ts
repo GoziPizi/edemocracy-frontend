@@ -27,8 +27,6 @@ export class LoginComponent {
     this.loginSubscription = this.apiHandler.isLogged.subscribe((isLogged: boolean) => {
       if (isLogged) {
         this.router.navigate(['/accueil']);
-      } else {
-        console.log('Not logged in');
       }
     });
   }

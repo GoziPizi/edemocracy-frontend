@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PersonalitySearchCriteria } from '../models/criterias';
+import { TopicSearchItem } from '../models/topics';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +54,25 @@ export class ApiHandlerService {
     });
   }
 
+  getParentsTopicSearchItems(): Observable<TopicSearchItem[]> {
+    const token = localStorage.getItem('token');
+    return this.http.get<TopicSearchItem[]>(`${this.baseUrl}/api/topics/parentlist`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Personalities related methods
+
+  getPersonality(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/personality/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
 
   searchPersonalities(criteria: PersonalitySearchCriteria) {
     const token = localStorage.getItem('token');
