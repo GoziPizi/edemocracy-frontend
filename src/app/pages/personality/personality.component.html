@@ -1,6 +1,9 @@
 <div id="container">
     <div id="left-container">
         <h3>Contre:</h3>
+        <div class="topic-container">
+            <app-small-topic-thumbnail *ngFor="let topic of personality.for" [topicId]="topic"></app-small-topic-thumbnail>
+        </div>
     </div>
     <div id="mid-container">
         <div id="presentation">

@@ -5,11 +5,13 @@ import { PersonalityWithUser } from '../../models/personality';
 import { politicSideMapperEnumToUser } from '../../mappers/politicside-mapper';
 import { OpinionsComponent } from './opinions/opinions.component';
 import { CareerComponent } from './career/career.component';
+import { SmallTopicThumbnailComponent } from '../../thumbnails/topic-thumbnail/small-topic-thumbnail/small-topic-thumbnail.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-personality',
   standalone: true,
-  imports: [OpinionsComponent, CareerComponent],
+  imports: [OpinionsComponent, CareerComponent, SmallTopicThumbnailComponent, CommonModule],
   templateUrl: './personality.component.html',
   styleUrl: './personality.component.scss'
 })
@@ -38,6 +40,7 @@ export class PersonalityComponent {
     this.apiHandler.getPersonality(this.personalityId).subscribe({
       next: (response: any) => {
         this.personality = response;
+        console.log(this.personality);
       },
       error: (error: any) => {
         console.log(error);

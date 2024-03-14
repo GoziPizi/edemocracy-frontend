@@ -9,6 +9,8 @@ export const routes: Routes = [
     { path: 'personalites', loadComponent: () => import('./pages/personality-search/personality-search.component').then(m => m.PersonalitySearchComponent) },
     { path: 'personalites/:id', loadComponent: () => import('./pages/personality/personality.component').then(m => m.PersonalityComponent) },
     { path: 'partis', loadComponent: () => import('./pages/party-search/party-search.component').then(m => m.PartySearchComponent) },
-    
+    { path: 'topic/:id', loadComponent: () => import('./pages/topic/topic.component').then(m => m.TopicComponent) },
+    { path: 'debate/:id', loadComponent: () => import('./pages/debate/debate.component').then(m => m.DebateComponent) },
+    { path: 'profil', loadComponent: () => import('./pages/profil/profil.component').then(m => m.ProfilComponent) },
     { path: '**', redirectTo: 'accueil' }
 ];

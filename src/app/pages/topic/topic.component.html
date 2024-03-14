@@ -1,0 +1,14 @@
+<div id="container">
+    <h3>{{topicTitle}}</h3>
+    <p>{{topic.description}}</p>
+    <div id="medias-display">
+        <img src="../../../assets/topic-fixtures.png" alt="Débat associé">
+    </div>
+    <div id="associated-debate">
+        <app-associated-debates [topicId]="topicId"></app-associated-debates>
+    </div>
+    <div id="children-topics" *ngIf="topic.childrenId.length > 0">
+        <p>Sous-sujets: </p>
+        <app-children-topic *ngFor="let childrenId of topic.childrenId" [childrenTopicId]="childrenId"></app-children-topic>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+#votes {
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+}
+
+#votes p {
+    margin: 0;
+    padding: 0;
+    margin: 0 5px;
+}
+
+#votes i {
+    margin-top: 0;
+    margin-bottom: auto;
+}

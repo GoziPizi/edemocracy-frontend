@@ -1,0 +1,9 @@
+<div id="container">
+    <h3>{{childrenTopicTitle}}</h3>
+    <div *ngIf="childrenTopic.childrenId.length > 0">
+        <p>Sous-sujets: </p>
+        <div id="children-topics">
+            <app-children-topic *ngFor="let childrenId of childrenTopic.childrenId" [childrenTopicId]="childrenId"></app-children-topic>
+        </div>
+    </div>
+</div>

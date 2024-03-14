@@ -5,6 +5,7 @@ export class Topic {
     parentTopicId: string = '';
     childrenId: string[] = [];
     medias: string[] = [];
+    debates: string[] = [];
     createdAt: Date = new Date();
     updatedAt: Date = new Date();
 }
