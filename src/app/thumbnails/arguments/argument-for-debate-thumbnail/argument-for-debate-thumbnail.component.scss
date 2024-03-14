@@ -13,4 +13,18 @@
 #votes i {
     margin-top: 0;
     margin-bottom: auto;
+    color: lightgray;
+    cursor: pointer;
+
+    &:hover {
+        color: darken(lightgray, 10%)
+    }
+}
+
+.green {
+    color: green !important;
+}
+
+.red {
+    color: red !important;
 }

@@ -122,4 +122,32 @@ export class ApiHandlerService {
       },
     });
   }
+
+  //Argument related methods
+  deleteVote(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.delete(`${this.baseUrl}/api/arguments/${id}/vote`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  voteUp(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/arguments/${id}/vote`, { vote: true }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  voteDown(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/arguments/${id}/vote`, { vote: false }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
 }
