@@ -1,0 +1,18 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#creation-form {
+    background-color: darken(white, 5%);
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+#creation-form > * {
+    margin: 10px 0;
+}

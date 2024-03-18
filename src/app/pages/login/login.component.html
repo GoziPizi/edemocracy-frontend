@@ -1,9 +1,9 @@
 <div id="container">
     <form [formGroup]="loginForm" id="login-form">
-        <label for="email">Email</label>
+        <label for="email">E-mail :</label>
         <input type="text" formControlName="email" id="email" name="email" required>
-        <label for="password">Password</label>
+        <label for="password">Mot de Passe :</label>
         <input type="password" formControlName="password" id="password" name="password" required>
-        <button type="submit" [disabled]="!loginForm.valid" (click)="login()">Login</button>
+        <button type="submit" [disabled]="!loginForm.valid" (click)="login()">Connexion</button>
     </form>
 </div>

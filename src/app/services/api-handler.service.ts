@@ -5,6 +5,9 @@ import { PersonalitySearchCriteria } from '../models/criterias';
 import { TopicSearchItem } from '../models/topics';
 import { Debate } from '../models/debate';
 import { Argument } from '../models/argument';
+import { DebateVote } from '../enums/voteDebate';
+import { PoliticSides } from '../enums/politicSides';
+import { Party } from '../models/party';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +34,11 @@ export class ApiHandlerService {
     });
   }
 
+  logout() {
+    localStorage.removeItem('token');
+    this.isLogged.next(false);
+  }
+
   checkLogin() {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -45,11 +53,28 @@ export class ApiHandlerService {
     });
   }
 
+  register(form: any) {
+    let data = form.value;
+    data.telephone = '078948'
+    data.address = 'Rue de la paix'
+    data.profession = 'Developpeur'
+    data.politicSide = PoliticSides.CENTER
+    data.language = 'fr'
+    //remove passwordConfirmation
+    delete data.passwordConfirmation;
+    this.http.post(`${this.baseUrl}/api/login/register`, data).subscribe((response: any) => {
+      if (response.key) {
+        localStorage.setItem('token', response.key);
+        this.isLogged.next(true);
+      }
+    });
+  }
+
   //Topics related methods
 
   getTopics() {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/topics/`, {
+    return this.http.get(`${this.baseUrl}/api/topics/parentlist`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -114,6 +139,15 @@ export class ApiHandlerService {
     });
   }
 
+  voteForDebate(id: string, vote: DebateVote){
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/debates/${id}/vote`, {vote}, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   getDebateArguments(id: string) {
     const token = localStorage.getItem('token');
     return this.http.get<Argument[]>(`${this.baseUrl}/api/debates/${id}/arguments`, {
@@ -124,6 +158,16 @@ export class ApiHandlerService {
   }
 
   //Argument related methods
+
+  getArgument(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/arguments/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   deleteVote(id: string) {
     const token = localStorage.getItem('token');
     return this.http.delete(`${this.baseUrl}/api/arguments/${id}/vote`, {
@@ -135,7 +179,7 @@ export class ApiHandlerService {
 
   voteUp(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/arguments/${id}/vote`, { vote: true }, {
+    return this.http.post(`${this.baseUrl}/api/arguments/${id}/vote`, { value: true }, {
       headers: {
         Authorization: `${token}`,
       },
@@ -144,7 +188,45 @@ export class ApiHandlerService {
 
   voteDown(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/arguments/${id}/vote`, { vote: false }, {
+    return this.http.post(`${this.baseUrl}/api/arguments/${id}/vote`, { value: false }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  //Party related methods
+
+  createParty(form: any) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/parties`, form, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getParty(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<Party>(`${this.baseUrl}/api/parties/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  updateParty(id:string, form: any) {
+    const token = localStorage.getItem('token');
+    return this.http.put(`${this.baseUrl}/api/parties/${id}`, form, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  checkAdminPartyRights(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<boolean>(`${this.baseUrl}/api/parties/${id}/check-admin`, {
       headers: {
         Authorization: `${token}`,
       },

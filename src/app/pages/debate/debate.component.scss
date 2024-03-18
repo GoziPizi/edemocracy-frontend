@@ -1,4 +1,4 @@
-#container {
+#top-container {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -19,4 +19,11 @@
     width: 25%;
     padding: 10px;
     border-left: 1px solid darken(white, 10%)
+}
+
+#vote-selector {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between
 }

@@ -1,0 +1,25 @@
+<div id="container">
+    <div id="for">
+        <app-vertical-topic-selector [selected]="originalParty.for" #forSelector ></app-vertical-topic-selector>
+    </div>
+    <div id="informations">
+        <form [formGroup]="partyUpdateForm" id="updateForm">
+            <label for="name">Nom du parti</label>
+        <input type="text" formControlName="name" id="name" name="name" required>
+        <label for="description">Description du parti</label>
+        <input type="text" formControlName="description" id="description" name="description" required>
+        <label for="reason">Raison de l'existence du parti</label>
+        <input type="text" formControlName="reason" id="reason" name="reason" required>
+        <label for="politicSide">Bord politique du parti</label>
+        <select formControlName="politicSide" id="politicSide" name="politicSide" required>
+            <option *ngFor="let side of politicSides" [value]="side" >
+                {{mapperEnumToString(side)}}
+            </option>
+        </select>
+        </form>
+        <p id="validate-button" (click)="onSubmit()" >Valider</p>
+    </div>
+    <div id="against">
+        <app-vertical-topic-selector [selected]="originalParty.against" #againstSelector ></app-vertical-topic-selector>
+    </div>
+</div>

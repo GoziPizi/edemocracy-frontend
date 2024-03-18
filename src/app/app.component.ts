@@ -4,16 +4,20 @@ import { Router, RouterOutlet } from '@angular/router';
 import { ApiHandlerService } from './services/api-handler.service';
 import { HeaderComponent } from './utils/header/header.component';
 import { FooterComponent } from './utils/footer/footer.component';
+import { LoadingScreenComponent } from './utils/loading-screen/loading-screen.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent, LoadingScreenComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'nom-du-projet';
+
+  title = 'E-democracy';
+  isFooterVisible = true;
+  navigationChangeSubscription: any;
 
   constructor(
     private apiHandler: ApiHandlerService,
@@ -21,8 +25,14 @@ export class AppComponent {
   ) {
     this.apiHandler.isLogged.subscribe((isLogged: boolean) => {
       if(!isLogged){
-        this.router.navigate(['/connexion']);
+        this.router.navigate(['/landing']);
       }
+    });
+  }
+
+  ngOnInit() {
+    this.navigationChangeSubscription = this.router.events.subscribe(() => {
+      this.isFooterVisible = this.router.url !== '/landing' && this.router.url !== '/connexion' && this.router.url !== '/inscription';
     });
   }
 

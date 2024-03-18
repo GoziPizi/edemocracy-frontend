@@ -1,0 +1,31 @@
+<div id="container">
+    <div id="modify-button" *ngIf="isAdmin" >
+        <a [routerLink]="['/modify-party', partyId]" >Modifier le party</a>
+    </div>
+    <div id="left-container">
+        <h3>Pour:</h3>
+        <div class="topic-container">
+            <app-small-topic-thumbnail *ngFor="let topic of party.for" [topicId]="topic"></app-small-topic-thumbnail>
+        </div>
+    </div>
+    <div id="mid-container">
+        <div id="presentation">
+            <h2>{{party.name}}</h2>
+            <h4>{{mapperEnumToString(party.politicSide)}}</h4>
+        </div>
+        <div class="line"></div>
+        <div id="history">
+            <app-party-historic></app-party-historic>
+        </div>
+        <div class="line"></div>
+        <div id="opinions">
+            <app-party-opinions></app-party-opinions>
+        </div>
+    </div>
+    <div id="right-container">
+        <h3>Contre:</h3>
+        <div class="topic-container">
+            <app-small-topic-thumbnail *ngFor="let topic of party.against" [topicId]="topic"></app-small-topic-thumbnail>
+        </div>
+    </div>
+</div>

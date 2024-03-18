@@ -1,23 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Debate } from '../../models/debate';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { Argument } from '../../models/argument';
 import { ActivatedRoute } from '@angular/router';
 import { ArgumentForDebateThumbnailComponent } from '../../thumbnails/arguments/argument-for-debate-thumbnail/argument-for-debate-thumbnail.component';
 import { CommonModule } from '@angular/common';
+import { ForAgainstDebateComponent } from './for-against-debate/for-against-debate.component';
+import { DebateVote } from '../../enums/voteDebate';
+import { debateVoteEnumToString, stringToDebateVoteEnum } from '../../mappers/vote-mapper';
 
 @Component({
   selector: 'app-debate',
   standalone: true,
-  imports: [ArgumentForDebateThumbnailComponent, CommonModule],
+  imports: [ArgumentForDebateThumbnailComponent, ForAgainstDebateComponent, CommonModule],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss'
 })
 export class DebateComponent {
 
+  @ViewChild(ForAgainstDebateComponent) forAgainstDebate!: ForAgainstDebateComponent;
+
   debateId: string = '1';
   debate: Debate = new Debate();
   arguments: Argument[] = [];
+
+  voteValues = Object.values(DebateVote).filter(value => typeof value === 'string') as string[];
+  selectedVote: string | null = null;
 
   routeSubscription: any;
 
@@ -29,6 +37,7 @@ export class DebateComponent {
   }
 
   ngOnInit() {
+    console.log(this.voteValues)
     this.routeSubscription = this.route.params.subscribe(params => {
       this.debateId = params['id'];
       this.getDebate();
@@ -44,6 +53,7 @@ export class DebateComponent {
     this.apiHandler.getDebate(this.debateId).subscribe(
       (debate: Debate) => {
         this.debate = debate;
+        this.updateForAgainstDebateWidth();
       }
     );
   }
@@ -55,6 +65,30 @@ export class DebateComponent {
         console.log(this.arguments);
       }
     );
+  }
+
+  voteForDebate(vote: string) {
+    this.apiHandler.voteForDebate(this.debateId, stringToDebateVoteEnum(vote)).subscribe({
+      next: () => {
+        this.getDebate();
+        this.getDebateArguments
+      }
+    })
+  }
+
+  updateForAgainstDebateWidth() {
+    let width = 0.5;
+    if(this.debate.nbVotes == 0) {
+      width = 0.5;
+      return;
+    }
+    let ratio = this.debate.score / (2*this.debate.nbVotes); // between -1 and 1
+    width = (ratio + 1) / 2;
+    this.forAgainstDebate.updateWidth(width);
+  }
+
+  mapper(vote: string) {
+    return debateVoteEnumToString(stringToDebateVoteEnum(vote));
   }
 
   get popularArguments(): Argument[] {

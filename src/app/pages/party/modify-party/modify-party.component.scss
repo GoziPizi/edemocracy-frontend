@@ -1,0 +1,35 @@
+#container {
+    background-color: darken(white, 5%);
+    display: flex;
+    flex-direction: row;
+}
+
+#for {
+    width: 20%;
+}
+
+#informations {
+    width: 60%;
+}
+
+#informations form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+#updateForm > * {
+    margin-bottom: 10px;
+}
+
+#against {
+    width: 20%;
+}
+
+#validate-button {
+    background-color: darken(white, 10%);
+    padding: 10px;
+    width: max-content;
+    cursor: pointer;
+}

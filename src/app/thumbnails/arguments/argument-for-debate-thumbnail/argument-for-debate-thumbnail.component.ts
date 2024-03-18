@@ -19,46 +19,32 @@ export class ArgumentForDebateThumbnailComponent {
   ) { }
 
   onVoteDown() {
-    if(this.argument.hasVote === false){
+    if(this.argument.hasVote === false) {
       this.apiHandler.deleteVote(this.argument.id).subscribe(() => {
-        this.argument.hasVote = null;
-        this.argument.nbBad--;
+        this.fetchArgument();
       });
-      return;
-    }
-    if(this.argument.hasVote === true){
-      this.apiHandler.deleteVote(this.argument.id).subscribe(() => {
-        this.argument.hasVote = null;
-        this.argument.nbGood--;
-        this.onVoteDown();
-      });
-      return;
     }
     this.apiHandler.voteDown(this.argument.id).subscribe(() => {
-      this.argument.hasVote = false;
-      this.argument.nbBad++;
+      this.fetchArgument();
     });
   }
 
   onVoteUp() {
-    if(this.argument.hasVote === true){
+    if(this.argument.hasVote) {
       this.apiHandler.deleteVote(this.argument.id).subscribe(() => {
-        this.argument.hasVote = null;
-        this.argument.nbGood--;
+        this.fetchArgument();
       });
-      return;
-    }
-    if(this.argument.hasVote === false){
-      this.apiHandler.deleteVote(this.argument.id).subscribe(() => {
-        this.argument.hasVote = null;
-        this.argument.nbBad--;
-        this.onVoteUp();
-      });
-      return;
     }
     this.apiHandler.voteUp(this.argument.id).subscribe(() => {
-      this.argument.hasVote = true;
-      this.argument.nbGood++;
+      this.fetchArgument();
+    });
+  }
+
+  fetchArgument() {
+    this.apiHandler.getArgument(this.argument.id).subscribe({
+      next: (arg: any) => {
+        this.argument = arg;
+      }
     });
   }
 

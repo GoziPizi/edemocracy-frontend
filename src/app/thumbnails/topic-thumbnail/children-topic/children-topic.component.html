@@ -1,9 +1,13 @@
 <div id="container">
-    <h3>{{childrenTopicTitle}}</h3>
-    <div *ngIf="childrenTopic.childrenId.length > 0">
-        <p>Sous-sujets: </p>
+    <div id="header" (click)="toggleChildrenTopics()">
+        <a [routerLink]="['/topic',childrenTopicId]" (click)="clickLink($event)" ><h3 id="title" >{{childrenTopicTitle}}</h3></a>
+        <i class="fa-solid fa-chevron-up" *ngIf="showChildrenTopics && showArrow" ></i>
+        <i class="fa-solid fa-chevron-down" *ngIf="!showChildrenTopics && showArrow"></i>
+    </div>
+    <div id="children-topics-container" *ngIf="showChildrenTopics">
+        <div class="vertical-line"></div>
         <div id="children-topics">
-            <app-children-topic *ngFor="let childrenId of childrenTopic.childrenId" [childrenTopicId]="childrenId"></app-children-topic>
+            <app-children-topic *ngFor="let childrenId of childrenTopic.childrenId" [childrenTopicId]="childrenId" ></app-children-topic>
         </div>
     </div>
 </div>

@@ -8,7 +8,7 @@
         <app-associated-debates [topicId]="topicId"></app-associated-debates>
     </div>
     <div id="children-topics" *ngIf="topic.childrenId.length > 0">
-        <p>Sous-sujets: </p>
-        <app-children-topic *ngFor="let childrenId of topic.childrenId" [childrenTopicId]="childrenId"></app-children-topic>
+        <h4>Autres sujets:</h4>
+        <app-children-topic [childrenTopicId]="topic.id" ></app-children-topic>
     </div>
 </div>

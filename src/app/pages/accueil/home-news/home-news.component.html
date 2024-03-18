@@ -2,7 +2,7 @@
     <h3>Actualités</h3>
     <div id="topic-container">
         <div *ngFor="let topic of topics">
-            <p>{{topic.title}}</p>
+            <a [routerLink]="['/topic', topic.id]" ><p>{{topic.title}}</p></a>
         </div>
     </div>
 </div>

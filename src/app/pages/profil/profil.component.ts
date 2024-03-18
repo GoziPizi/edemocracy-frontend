@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ApiHandlerService } from '../../services/api-handler.service';
 
 @Component({
   selector: 'app-profil',
@@ -8,5 +9,14 @@ import { Component } from '@angular/core';
   styleUrl: './profil.component.scss'
 })
 export class ProfilComponent {
+
+  constructor(
+    private apiHandler: ApiHandlerService
+  ) {
+  }
+
+  logout(){
+    this.apiHandler.logout();
+  }
 
 }

@@ -1,15 +1,23 @@
 <div id="container">
-    <div id="recent-arguments">
-        <h4>Arguments Récents:</h4>
-        <div class="arguments-container">
-            <app-argument-for-debate-thumbnail *ngFor="let argument of arguments" [argument]="argument"></app-argument-for-debate-thumbnail>
+    <div id="top-container">
+        <div id="recent-arguments">
+            <h4>Arguments Récents:</h4>
+            <div class="arguments-container">
+                <app-argument-for-debate-thumbnail *ngFor="let argument of arguments" [argument]="argument"></app-argument-for-debate-thumbnail>
+            </div>
+        </div>
+        <div id="main-content">
+            <h3>{{debate.title}}</h3>
+            <p>{{debate.description}}</p>
+        </div>
+        <div id="popular-arguments">
+            <h4>Arguments Populaires:</h4>
         </div>
     </div>
-    <div id="main-content">
-        <h3>{{debate.title}}</h3>
-        <p>{{debate.description}}</p>
-    </div>
-    <div id="popular-arguments">
-        <h4>Arguments Populaires:</h4>
+    <div id="for-against">
+        <div id="vote-selector">
+            <p *ngFor="let value of voteValues" class="vote-button" (click)="voteForDebate(value)" [ngClass]="{'selected' : value === selectedVote}">{{mapper(value)}}</p>
+        </div>
+        <app-for-against-debate></app-for-against-debate>
     </div>
 </div>
