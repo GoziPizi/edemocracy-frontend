@@ -18,6 +18,9 @@ export const routes: Routes = [
 
     { path: 'topic/:id', loadComponent: () => import('./pages/topic/topic.component').then(m => m.TopicComponent) },
     { path: 'debate/:id', loadComponent: () => import('./pages/debate/debate.component').then(m => m.DebateComponent) },
+
+    { path: 'publish-topic', loadComponent: () => import('./pages/publish-topic/publish-topic.component').then(m => m.PublishTopicComponent) },
+
     { path: 'profil', loadComponent: () => import('./pages/profil/profil.component').then(m => m.ProfilComponent) },
     { path: '**', redirectTo: 'accueil' }
 ];

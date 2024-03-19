@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Topic } from '../../models/topics';
 
 @Component({
@@ -10,6 +10,14 @@ import { Topic } from '../../models/topics';
 })
 export class TopicThumbnailComponent {
 
-  topic: Topic = new Topic();
+  @Input() topic: Topic = new Topic();
+
+  get title() {
+    return this.topic ? this.topic.title : 'Titre du topic'
+  }
+
+  get description() {
+    return this.topic ? this.topic.description : 'Description du topic'
+  }
 
 }

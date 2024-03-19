@@ -8,6 +8,8 @@ import { Argument } from '../models/argument';
 import { DebateVote } from '../enums/voteDebate';
 import { PoliticSides } from '../enums/politicSides';
 import { Party } from '../models/party';
+import { User } from '../models/users';
+import { Personality } from '../models/personality';
 
 @Injectable({
   providedIn: 'root',
@@ -70,9 +72,56 @@ export class ApiHandlerService {
     });
   }
 
+  //Users related methods
+
+  getUser() { 
+    const token = localStorage.getItem('token');
+    return this.http.get<User>(`${this.baseUrl}/api/users`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getUserParty() {
+    const token = localStorage.getItem('token');
+    return this.http.get<Party>(`${this.baseUrl}/api/users/party`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getUserPersonality() {
+    const token = localStorage.getItem('token');
+    return this.http.get<Personality>(`${this.baseUrl}/api/users/personality`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Topics related methods
 
   getTopics() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/topics`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getTopicslist() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/topics/fulllist`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getTopicsParentlist() {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.baseUrl}/api/topics/parentlist`, {
       headers: {
@@ -102,6 +151,15 @@ export class ApiHandlerService {
   getDebatesByTopicId(id: string) {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.baseUrl}/api/topics/${id}/debates`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  postTopic(form: any) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/topics`, form, {
       headers: {
         Authorization: `${token}`,
       },

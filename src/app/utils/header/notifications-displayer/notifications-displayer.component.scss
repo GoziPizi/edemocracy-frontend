@@ -1,0 +1,16 @@
+#bell {
+    color: black
+}
+
+#container {
+    position: relative;
+}
+
+#notifications {
+    display: none;
+    position: absolute;
+}
+
+#container:hover #notifications {
+    display: block
+}

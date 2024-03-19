@@ -2,9 +2,14 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    align-items: center;
     background-color: darken(white, 5%);
 
     border-bottom: darken(white, 15%) solid 1px;
+}
+
+#bell {
+    margin: 0 10px;
 }
 
 .header-link {

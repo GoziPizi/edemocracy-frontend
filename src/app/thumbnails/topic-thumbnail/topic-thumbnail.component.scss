@@ -1,5 +1,11 @@
 #container {
     width: 100%;
+    background-color: darken(white, 10%);
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #container img {
@@ -7,6 +13,7 @@
 }
 
 #header {
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -18,4 +25,12 @@
     background-color: darken(white, 15%);
     padding: 8px;
     cursor: pointer;
+
+    &:hover {
+        background-color: darken(white, 20%);
+    }
+}
+
+#description {
+    width: 100%;
 }
