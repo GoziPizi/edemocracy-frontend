@@ -1,0 +1,18 @@
+<div id="container">
+    <div id="header">
+        <h1>Création d'un sujet</h1>
+    </div>
+    <form [formGroup]="topicCreationForm" id="creationForm">
+        <label for="title">Titre du sujet</label>
+        <input type="text" formControlName="title" id="title" name="title" required>
+        <label for="description">Description du sujet</label>
+        <input type="text" formControlName="description" id="description" name="description" required>
+        <label for="parentId">Sujet parent</label>
+        <select formControlName="parentId" id="parentId" name="parentId" required>
+            <option *ngFor="let topic of topicOptions" [value]="topic.id" >
+                {{topic.title}}
+            </option>
+        </select>
+        <p id="create-button" (click)="onSubmit()" >Créer</p>
+    </form>
+</div>

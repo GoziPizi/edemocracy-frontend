@@ -1,3 +1,34 @@
 <div id="container">
-    <p (click)="logout()" >Deconnexion</p>
+    <p (click)="logout()" id="logout">Deconnexion</p>
+    <div id="settings">
+        <h3>Réglages</h3>
+    </div>
+    <div id="cotisation">
+        <h3>Cotisation</h3>
+        <a>Lien vers la cotisation</a>
+    </div>
+    <div id="party" *ngIf="userParty" >
+        <h3>Parti: </h3>
+        <p>{{userParty.name}}</p>
+        <a [routerLink]="['/modify-party', userParty.id]">Modifier le parti</a>
+    </div>
+    <div id="personality">
+        <div id="create-personality" *ngIf="!userPersonality">
+            <h3>Devenir une personalité</h3>
+            <a>Créer une personnalité</a>
+        </div>
+        <div id="modify-personality" *ngIf="userPersonality">
+            <h3>Personnalité</h3>
+            <p>id: {{userPersonality.id}}</p>
+        </div>
+    </div>
+    <div id="follows">
+        <h3>Abonnements</h3>
+    </div>
+    <div id="opinions">
+        <h3>Opinions</h3>
+    </div>
+    <div id="personals">
+        <h3>Infos Personnelles</h3>
+    </div>
 </div>

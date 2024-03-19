@@ -1,4 +1,7 @@
 <div id="container">
+    <div [routerLink]="['/publish-topic']" id="publish-button">
+        <i class="fas fa-plus fa-3x"></i>
+    </div>
     <div id="left-container">
         <app-home-news></app-home-news>
         <app-home-topics></app-home-topics>
@@ -7,11 +10,11 @@
         <h2>Les dernières actualités</h2>
         <div class="line"></div>
         <div class="topic" id="first-topic">
-            <app-topic-thumbnail></app-topic-thumbnail>
+            <app-topic-thumbnail [topic]="topics[0]" *ngIf="this.topics[0]" ></app-topic-thumbnail>
         </div>
         <div class="line"></div>
         <div class="topic" id="second-topic">
-            <app-topic-thumbnail></app-topic-thumbnail>
+            <app-topic-thumbnail [topic]="topics[1]" *ngIf="this.topics[1]" ></app-topic-thumbnail>
         </div>
     </div>
 </div>

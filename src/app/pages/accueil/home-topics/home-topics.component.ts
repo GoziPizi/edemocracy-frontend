@@ -21,7 +21,7 @@ export class HomeTopicsComponent {
   }
 
   ngOnInit() {
-    this.apiHandler.getTopics().subscribe((response: any) => {
+    this.apiHandler.getTopicsParentlist().subscribe((response: any) => {
       this.topics = response;
     });
   }
