@@ -1,0 +1,11 @@
+<a [routerLink]="['/partis', party.id]">
+    <div id="container">
+        <div id="profile-picture-container">
+            <img id="profile-picture" src="../../../../assets/default-profil.webp" alt="image de profil" />
+        </div>
+        <div>
+            <h3>{{party.name}}</h3>
+            <h4>{{mapperEnumToString(party.politicSide)}}</h4>
+        </div>
+    </div>
+</a>

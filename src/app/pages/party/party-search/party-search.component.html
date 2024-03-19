@@ -1,5 +1,9 @@
 <div id="container">
-    <div id="header">
-        <p [routerLink]="['/create-party']" >Créer un parti</p>
+    <div id="searchFormContainer">
+        <app-party-search-form id="searchForm" #searchForm ></app-party-search-form>
+        <button id="searchButton" (click)="onSubmit()">Rechercher</button>
+    </div>
+    <div id="result-container">
+        <app-party-result-thumbnail *ngFor="let party of partyList" [party]="party"></app-party-result-thumbnail>
     </div>
 </div>
