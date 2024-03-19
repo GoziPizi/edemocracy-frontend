@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { PersonalitySearchCriteria } from '../models/criterias';
+import { PartySearchCriteria, PersonalitySearchCriteria } from '../models/criterias';
 import { TopicSearchItem } from '../models/topics';
 import { Debate } from '../models/debate';
 import { Argument } from '../models/argument';
@@ -227,6 +227,15 @@ export class ApiHandlerService {
   checkAdminPartyRights(id: string) {
     const token = localStorage.getItem('token');
     return this.http.get<boolean>(`${this.baseUrl}/api/parties/${id}/check-admin`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  searchParties(criteria: PartySearchCriteria) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/parties/search`, criteria, {
       headers: {
         Authorization: `${token}`,
       },

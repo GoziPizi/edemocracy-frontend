@@ -5,3 +5,9 @@ export class PersonalitySearchCriteria {
     for?: string[] = [];
     against?: string[] = [];
 }
+
+export class PartySearchCriteria {
+    politicSide: PoliticSides = PoliticSides.CENTER;
+    for?: string[] = [];
+    against?: string[] = [];
+}

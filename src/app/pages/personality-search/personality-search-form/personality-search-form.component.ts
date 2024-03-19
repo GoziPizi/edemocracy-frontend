@@ -2,10 +2,11 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { PoliticSides } from '../../../enums/politicSides';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { politicSideMapper } from '../../../mappers/politicside-mapper';
 import { PersonalitySearchCriteria } from '../../../models/criterias';
 import { TopicSearchItem } from '../../../models/topics';
 import { ApiHandlerService } from '../../../services/api-handler.service';
+import { PoliticSideDropdownItem } from '../../../models/politicSides';
+import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
 
 @Component({
   selector: 'app-personality-search-form',
@@ -18,15 +19,25 @@ import { ApiHandlerService } from '../../../services/api-handler.service';
 export class PersonalitySearchFormComponent {
 
   politicSide: PoliticSides = PoliticSides.CENTER;
-  politicSideOptions: string[] = Object.values(PoliticSides);
+  politicSideOptions: PoliticSideDropdownItem[] = [];
 
   for: string[] = [];
   against: string[] = [];
   topicOptions: TopicSearchItem[] = [];
 
+  mapperEnumToString = politicSideMapperEnumToUser;
+
   constructor(
     private apiHandler: ApiHandlerService
-  ) { }
+  ) {
+    const politicSides = Object.values(PoliticSides);
+    this.politicSideOptions = politicSides.map((side: PoliticSides) => {
+      return {
+        value: side,
+        label: politicSideMapperEnumToUser(side)
+      }
+    });
+  }
 
   ngOnInit() {
     this.fetchTopics();
@@ -42,7 +53,7 @@ export class PersonalitySearchFormComponent {
 
   public getCriterias(): PersonalitySearchCriteria {
     let criteria: PersonalitySearchCriteria = new PersonalitySearchCriteria();
-    criteria.politicSide = politicSideMapper(this.politicSide);
+    criteria.politicSide = this.politicSide;
     if (this.for.length > 0) {
       criteria = {...criteria, for: this.for}
     }
