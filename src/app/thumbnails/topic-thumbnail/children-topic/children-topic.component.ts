@@ -26,6 +26,12 @@ export class ChildrenTopicComponent {
     this.getTopic();
   }
 
+  updateTopic(topicId: string) {
+    console.log('updateTopic', topicId);
+    this.childrenTopicId = topicId;
+    this.getTopic();
+  }
+
   getTopic() {
     this.apiHandler.getTopicById(this.childrenTopicId).
       subscribe({

@@ -1,0 +1,11 @@
+<div id="container">
+    <form [formGroup]="createDebateForm" id="create-debate-form">
+        <label for="title">Titre</label>
+        <input type="text" formControlName="title" id="title" name="title" required>
+        <label for="description">Description</label>
+        <textarea formControlName="description" id="description" name="description" required></textarea>
+        <label for="topicId">Parent</label>
+        <input formControlName="topicId" id="topicId" name="topicId">
+        <p (click)="onSubmit()" id="validate-button">Valider</p>
+    </form>
+</div>

@@ -1,4 +1,9 @@
 <div id="container">
     <h3>Débats associés:</h3>
+    <div *ngIf="debates.length === 0" id="no-debate">
+        <p>Il n'y a pas encore de débat associé à ce sujet</p>
+        <p (click)="createDebate()" id=create-debate-button>Créer un débat</p>
+    </div>
     <app-debate-thumbnail *ngFor="let debate of debates" [debate]="debate"></app-debate-thumbnail>
+    <p (click)="createDebate()" id=create-debate-button *ngIf="debates.length > 0" >Créer un débat</p>
 </div>

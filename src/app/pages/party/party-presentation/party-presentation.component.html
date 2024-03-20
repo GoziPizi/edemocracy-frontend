@@ -12,6 +12,7 @@
         <div id="presentation">
             <h2>{{party.name}}</h2>
             <h4>{{mapperEnumToString(party.politicSide)}}</h4>
+            <a [routerLink]="['/partis', party.id,'membres']" >Voir les membres</a>
         </div>
         <div class="line"></div>
         <div id="history">

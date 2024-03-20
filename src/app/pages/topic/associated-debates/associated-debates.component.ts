@@ -3,6 +3,7 @@ import { ApiHandlerService } from '../../../services/api-handler.service';
 import { Debate } from '../../../models/debate';
 import { DebateThumbnailComponent } from '../../../thumbnails/debates/debate-thumbnail/debate-thumbnail.component';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-associated-debates',
@@ -17,14 +18,15 @@ export class AssociatedDebatesComponent {
   debates: Debate[] = [];
 
   constructor(
-    private apiHandler: ApiHandlerService
+    private apiHandler: ApiHandlerService, 
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.getDebates();
   }
 
-  getDebates() {
+  getDebates(): void {
     this.apiHandler.getDebatesByTopicId(this.topicId).
       subscribe({
         next: (response: any) => {
@@ -33,6 +35,18 @@ export class AssociatedDebatesComponent {
         error: (error: any) => {
         }
       });
+  }
+
+  updateTopic(topicId: string) {
+    this.topicId = topicId;
+    this.getDebates();
+  }
+
+  createDebate() {
+    this.router.navigate(['/debate/create'], {
+      queryParams: {topicId: this.topicId},
+      queryParamsHandling: 'merge'
+    })
   }
 
 }

@@ -216,7 +216,25 @@ export class ApiHandlerService {
     });
   }
 
+  postDebate(form: any) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/debates`, form, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Argument related methods
+
+  postArgument(content: string, debateId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/arguments`, { content, debateId }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
 
   getArgument(id: string) {
     const token = localStorage.getItem('token');
@@ -295,6 +313,42 @@ export class ApiHandlerService {
   searchParties(criteria: PartySearchCriteria) {
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/parties/search`, criteria, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getPartyMembers(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<User[]>(`${this.baseUrl}/api/parties/${id}/members`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  addMemberToParty(partyId: string, email: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/parties/${partyId}/members`, { email }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getInvitations() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/invitations`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getInvitation(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/invitations/${id}`, {
       headers: {
         Authorization: `${token}`,
       },

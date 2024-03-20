@@ -1,8 +1,10 @@
 <div id="container">
-    <div id="header">
-        <h3>{{title}}</h3>
-        <i class="fa-solid fa-share fa-l"></i>
-    </div>
-    <p id="description" >{{description}}</p>
-    <img src="../../../assets/topic-fixtures.png" alt="{{topic.title}}">
+    <a [routerLink]="['/topic', topic.id]">
+        <div id="header">
+            <h3>{{title}}</h3>
+            <i class="fa-solid fa-share fa-l"></i>
+        </div>
+        <p id="description" >{{description}}</p>
+        <img src="../../../assets/topic-fixtures.png" alt="{{topic.title}}">
+    </a>
 </div>

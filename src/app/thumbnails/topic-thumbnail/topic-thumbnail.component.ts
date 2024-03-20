@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Topic } from '../../models/topics';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-topic-thumbnail',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './topic-thumbnail.component.html',
   styleUrl: './topic-thumbnail.component.scss'
 })

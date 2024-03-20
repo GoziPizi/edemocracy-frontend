@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { Topic } from '../../models/topics';
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +15,9 @@ import { AssociatedDebatesComponent } from './associated-debates/associated-deba
 })
 export class TopicComponent {
 
+  @ViewChild("associatedDebates") associatedDebatesComponent?: AssociatedDebatesComponent;
+  @ViewChild("childrenTopics") childrenTopicComponent?: ChildrenTopicComponent;
+
   topicId: string = 'topicId';
   topic: Topic = new Topic();
 
@@ -27,6 +30,8 @@ export class TopicComponent {
     this.route.params.subscribe(params => {
       this.topicId = params['id'];
       this.getTopic();
+      this.associatedDebatesComponent?.updateTopic(this.topicId)
+      this.childrenTopicComponent?.updateTopic(this.topicId)
     });
   }
 

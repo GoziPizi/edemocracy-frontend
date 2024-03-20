@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { Party } from '../../../models/party';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -38,7 +38,8 @@ export class ModifyPartyComponent {
   constructor(
     private route: ActivatedRoute,
     private apiHandler: ApiHandlerService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private router: Router
   ) {
     this.partyId = this.route.snapshot.params['id'];
     this.getParty();
@@ -64,6 +65,7 @@ export class ModifyPartyComponent {
   }
 
   onSubmit() {
+    this.loadingService.increment();
     if (this.partyUpdateForm.valid) {
       const data = {
         ...this.originalParty,
@@ -73,6 +75,8 @@ export class ModifyPartyComponent {
       };
       this.apiHandler.updateParty(this.partyId, data).subscribe(
         (response: any) => {
+          this.loadingService.decrement();
+          this.router.navigate(['/partis', this.partyId]);
         }
       );
     }

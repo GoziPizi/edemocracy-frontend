@@ -1,4 +1,9 @@
-<div id="container">
-    <h4>{{debateTitle}}</h4>
-    <p>{{debateDescription}}</p>
-</div>
+<a [routerLink]="['/debate', debate.id]">
+    <div id="container">
+        <div id="header">
+            <h4>{{debateTitle}}</h4>
+            <p>{{nbVotes}} votants</p>
+        </div>
+        <p>{{debateDescription}}</p>
+    </div>
+</a>

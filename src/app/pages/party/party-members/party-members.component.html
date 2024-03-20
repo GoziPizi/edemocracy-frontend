@@ -1,0 +1,18 @@
+<div id="container">
+    <div id="content">
+        <h3>Membres de {{party.name}} :</h3>
+        <div id="members">
+            <div *ngFor="let user of users">
+                <p>{{user.firstName}}</p>
+            </div>
+        </div>
+        <p *ngIf="isAdmin" id="add-members" (click)="setAddMenu(true)" >Ajouter des membres</p>
+    </div>
+    <div id="add-menu" *ngIf="isAddMenuOpen" >
+        <h3>Ajouter des membres</h3>
+        <form [formGroup]="inviteForm" id="invite-form">
+            <input type="text" formControlName="email" placeholder="Email">
+            <button type="submit" (click)="inviteUser()">Inviter</button>
+        </form>
+    </div>
+</div>

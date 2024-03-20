@@ -8,11 +8,16 @@ import { CommonModule } from '@angular/common';
 import { ForAgainstDebateComponent } from './for-against-debate/for-against-debate.component';
 import { DebateVote } from '../../enums/voteDebate';
 import { debateVoteEnumToInt, debateVoteEnumToString, stringToDebateVoteEnum } from '../../mappers/vote-mapper';
+import { SmallTopicThumbnailComponent } from '../../thumbnails/topic-thumbnail/small-topic-thumbnail/small-topic-thumbnail.component';
+import { TopicThumbnailComponent } from '../../thumbnails/topic-thumbnail/topic-thumbnail.component';
+import { Topic } from '../../models/topics';
+import { FormsModule } from '@angular/forms';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-debate',
   standalone: true,
-  imports: [ArgumentForDebateThumbnailComponent, ForAgainstDebateComponent, CommonModule],
+  imports: [ArgumentForDebateThumbnailComponent, ForAgainstDebateComponent, CommonModule, TopicThumbnailComponent, FormsModule],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss'
 })
@@ -23,6 +28,8 @@ export class DebateComponent {
   debateId: string = '1';
   debate: Debate = new Debate();
   arguments: Argument[] = [];
+
+  debateTopic: Topic = new Topic();
 
   voteValues = [
     DebateVote.REALLY_AGAINST,
@@ -36,9 +43,13 @@ export class DebateComponent {
 
   mapperEnumToString = debateVoteEnumToString;
 
+  isPopUpOpen: boolean = false;
+  argumentTitle: string = '';
+
   constructor(
     private apiHandler: ApiHandlerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private loadingService: LoadingService
   ) { }
 
   ngOnInit() {
@@ -58,6 +69,7 @@ export class DebateComponent {
       (debate: Debate) => {
         this.debate = debate;
         this.updateForAgainstDebateWidth();
+        this.getTopic();
       }
     );
   }
@@ -66,6 +78,15 @@ export class DebateComponent {
     this.apiHandler.getDebateArguments(this.debateId).subscribe(
       (args: Argument[]) => {
         this.arguments = args;
+      }
+    );
+  }
+
+  getTopic() {
+    this.apiHandler.getTopicById(this.debate.topicId).subscribe(
+      (topic: any) => {
+        console.log(topic);
+        this.debateTopic = topic;
       }
     );
   }
@@ -95,6 +116,22 @@ export class DebateComponent {
     let vote = this.debate.hasVote as unknown
 
     return value2 === vote;
+  }
+
+  onValidate() {
+    this.loadingService.increment();
+    this.apiHandler.postArgument(this.argumentTitle, this.debateId).subscribe({
+      next: () => {
+        this.getDebateArguments();
+        this.loadingService.decrement();
+        this.isPopUpOpen = false;
+        this.argumentTitle = '';
+      }
+    });
+  }
+
+  togglePopUp() {
+    this.isPopUpOpen = !this.isPopUpOpen;
   }
 
   get popularArguments(): Argument[] {

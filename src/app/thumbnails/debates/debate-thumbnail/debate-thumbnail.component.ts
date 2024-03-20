@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Debate } from '../../../models/debate';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-debate-thumbnail',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './debate-thumbnail.component.html',
   styleUrl: './debate-thumbnail.component.scss'
 })
@@ -17,6 +18,13 @@ export class DebateThumbnailComponent {
       return this.debate.title;
     }
     return '';
+  }
+
+  get nbVotes() {
+    if(this.debate) {
+      return this.debate.nbVotes;
+    }
+    return 0;
   }
 
   get debateDescription() {

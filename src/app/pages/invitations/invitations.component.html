@@ -1,0 +1,3 @@
+<div id="container">
+    <a *ngFor="let invitation of invitations" [routerLink]="['/invitation', invitation.id]" >{{invitation.id}}</a>
+</div>

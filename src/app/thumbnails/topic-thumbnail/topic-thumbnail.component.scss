@@ -1,3 +1,9 @@
+a {
+    text-decoration: none;
+    color: black;
+
+}
+
 #container {
     width: 100%;
     background-color: darken(white, 10%);
@@ -6,6 +12,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    &:hover {
+        background-color: darken(white, 20%);
+    }
 }
 
 #container img {

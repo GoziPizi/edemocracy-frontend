@@ -4,17 +4,28 @@
             <h4>Arguments Récents:</h4>
             <div class="arguments-container">
                 <app-argument-for-debate-thumbnail *ngFor="let argument of arguments" [argument]="argument"></app-argument-for-debate-thumbnail>
+                <p id="add-argument" (click)="togglePopUp()" >Ajouter un argument</p>
             </div>
         </div>
         <div id="main-content">
             <h3>{{debate.title}}</h3>
             <p>{{debate.description}}</p>
+            <div id="topic-of-debate">
+                <h4>Sujet du débat:</h4>
+                <app-topic-thumbnail [topic]="debateTopic" id="topic-thumbnail"></app-topic-thumbnail>
+            </div>
         </div>
         <div id="popular-arguments">
             <h4>Arguments Populaires:</h4>
+            <div class="arguments-container">
+                <app-argument-for-debate-thumbnail *ngFor="let argument of arguments" [argument]="argument"></app-argument-for-debate-thumbnail>
+            </div>
         </div>
     </div>
     <div id="for-against">
+        <div id="nb-of-votes">
+            <p>{{debate.nbVotes}} votants</p>
+        </div>
         <h4>Votez pour ou contre cette idée:</h4>
         <div id="vote-selector">
             <p 
@@ -24,5 +35,13 @@
                 [ngClass]="{'selected' : isCurrentValue(value)}">{{mapperEnumToString(value)}}</p>
         </div>
         <app-for-against-debate></app-for-against-debate>
+    </div>
+</div>
+<div id="argument-pop-up" *ngIf="isPopUpOpen">
+    <div id="pop-up-content">
+        <i class="fas fa-times" (click)="togglePopUp()"></i>
+        <h3>Ajouter un argument</h3>
+        <input type="text" placeholder="Titre de l'argument" [(ngModel)]="argumentTitle">
+        <p id="create-argument" (click)="onValidate()" >Valider</p>
     </div>
 </div>

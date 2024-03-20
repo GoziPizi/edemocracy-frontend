@@ -5,10 +5,10 @@
         <img src="../../../assets/topic-fixtures.png" alt="Débat associé">
     </div>
     <div id="associated-debate">
-        <app-associated-debates [topicId]="topicId"></app-associated-debates>
+        <app-associated-debates #associatedDebates [topicId]="topicId"></app-associated-debates>
     </div>
     <div id="children-topics" *ngIf="topic.childrenId.length > 0">
         <h4>Autres sujets:</h4>
-        <app-children-topic [childrenTopicId]="topic.id" ></app-children-topic>
+        <app-children-topic [childrenTopicId]="topic.id" #childrenTopics></app-children-topic>
     </div>
 </div>
