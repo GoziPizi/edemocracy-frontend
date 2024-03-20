@@ -1,3 +1,5 @@
+import { DebateVote } from "../enums/voteDebate";
+
 export class Debate {
     id: string = '';
     title: string = '';
@@ -5,4 +7,5 @@ export class Debate {
     topicId?: string = '';
     score: number = 0;
     nbVotes: number = 0;
+    hasVote: DebateVote | null = null;
 }

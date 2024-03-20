@@ -31,7 +31,6 @@ export class AssociatedDebatesComponent {
           this.debates = response;
         },
         error: (error: any) => {
-          console.log(error);
         }
       });
   }

@@ -29,7 +29,6 @@ export class SmallTopicThumbnailComponent {
         this.topic = response;
       },
       error: (error: any) => {
-        console.log(error);
       }
     });
   }

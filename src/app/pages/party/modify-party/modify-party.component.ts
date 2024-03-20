@@ -54,7 +54,6 @@ export class ModifyPartyComponent {
   }
 
   updateForm() {
-    console.log(this.originalParty)
     this.partyUpdateForm = new FormGroup({
       name: new FormControl(this.originalParty.name, [Validators.required]),
       description: new FormControl(this.originalParty.description, [Validators.required]),
@@ -74,7 +73,6 @@ export class ModifyPartyComponent {
       };
       this.apiHandler.updateParty(this.partyId, data).subscribe(
         (response: any) => {
-          console.log(response);
         }
       );
     }

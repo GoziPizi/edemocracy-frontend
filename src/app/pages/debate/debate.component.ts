@@ -7,7 +7,7 @@ import { ArgumentForDebateThumbnailComponent } from '../../thumbnails/arguments/
 import { CommonModule } from '@angular/common';
 import { ForAgainstDebateComponent } from './for-against-debate/for-against-debate.component';
 import { DebateVote } from '../../enums/voteDebate';
-import { debateVoteEnumToString, stringToDebateVoteEnum } from '../../mappers/vote-mapper';
+import { debateVoteEnumToInt, debateVoteEnumToString, stringToDebateVoteEnum } from '../../mappers/vote-mapper';
 
 @Component({
   selector: 'app-debate',
@@ -24,20 +24,24 @@ export class DebateComponent {
   debate: Debate = new Debate();
   arguments: Argument[] = [];
 
-  voteValues = Object.values(DebateVote).filter(value => typeof value === 'string') as string[];
-  selectedVote: string | null = null;
+  voteValues = [
+    DebateVote.REALLY_AGAINST,
+    DebateVote.AGAINST,
+    DebateVote.NEUTRAL,
+    DebateVote.FOR,
+    DebateVote.REALLY_FOR
+  ]
 
   routeSubscription: any;
+
+  mapperEnumToString = debateVoteEnumToString;
 
   constructor(
     private apiHandler: ApiHandlerService,
     private route: ActivatedRoute
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
-    console.log(this.voteValues)
     this.routeSubscription = this.route.params.subscribe(params => {
       this.debateId = params['id'];
       this.getDebate();
@@ -62,16 +66,15 @@ export class DebateComponent {
     this.apiHandler.getDebateArguments(this.debateId).subscribe(
       (args: Argument[]) => {
         this.arguments = args;
-        console.log(this.arguments);
       }
     );
   }
 
-  voteForDebate(vote: string) {
-    this.apiHandler.voteForDebate(this.debateId, stringToDebateVoteEnum(vote)).subscribe({
+  voteForDebate(vote: DebateVote) {
+    this.apiHandler.voteForDebate(this.debateId, vote).subscribe({
       next: () => {
         this.getDebate();
-        this.getDebateArguments
+        this.getDebateArguments();
       }
     })
   }
@@ -82,13 +85,16 @@ export class DebateComponent {
       width = 0.5;
       return;
     }
-    let ratio = this.debate.score / (2*this.debate.nbVotes); // between -1 and 1
+    let ratio = this.debate.score / (2*this.debate.nbVotes);
     width = (ratio + 1) / 2;
     this.forAgainstDebate.updateWidth(width);
   }
 
-  mapper(vote: string) {
-    return debateVoteEnumToString(stringToDebateVoteEnum(vote));
+  isCurrentValue(value: number):boolean {
+    let value2 = DebateVote[value] as unknown
+    let vote = this.debate.hasVote as unknown
+
+    return value2 === vote;
   }
 
   get popularArguments(): Argument[] {

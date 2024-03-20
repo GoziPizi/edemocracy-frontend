@@ -26,10 +26,8 @@ export class PartySearchComponent {
 
   onSubmit() {
     const criteria = this.partySearchForm.getCriterias();
-    console.log(criteria);
     this.apiHandler.searchParties(criteria).subscribe((response: any) => {
       this.partyList = response;
-      console.log(this.partyList);
     });
   }
 

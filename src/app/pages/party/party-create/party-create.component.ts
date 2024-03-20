@@ -33,7 +33,6 @@ export class PartyCreateComponent {
     if (this.partyCreationForm.valid) {
       this.apiHandler.createParty(this.partyCreationForm.value).subscribe(
         (response) => {
-          console.log(response)
         }
       )
     }

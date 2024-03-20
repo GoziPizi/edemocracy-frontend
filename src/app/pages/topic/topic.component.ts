@@ -37,7 +37,6 @@ export class TopicComponent {
           this.topic = response;
         },
         error: (error: any) => {
-          console.log(error);
         }
       });
   }

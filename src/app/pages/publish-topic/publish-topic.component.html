@@ -8,7 +8,7 @@
         <label for="description">Description du sujet</label>
         <input type="text" formControlName="description" id="description" name="description" required>
         <label for="parentId">Sujet parent</label>
-        <select formControlName="parentId" id="parentId" name="parentId" required>
+        <select formControlName="parentTopicId" id="parentId" name="parentId" required>
             <option *ngFor="let topic of topicOptions" [value]="topic.id" >
                 {{topic.title}}
             </option>

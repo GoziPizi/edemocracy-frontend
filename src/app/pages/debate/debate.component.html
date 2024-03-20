@@ -15,8 +15,13 @@
         </div>
     </div>
     <div id="for-against">
+        <h4>Votez pour ou contre cette idée:</h4>
         <div id="vote-selector">
-            <p *ngFor="let value of voteValues" class="vote-button" (click)="voteForDebate(value)" [ngClass]="{'selected' : value === selectedVote}">{{mapper(value)}}</p>
+            <p 
+                *ngFor="let value of voteValues" 
+                class="vote-button" 
+                (click)="voteForDebate(value)" 
+                [ngClass]="{'selected' : isCurrentValue(value)}">{{mapperEnumToString(value)}}</p>
         </div>
         <app-for-against-debate></app-for-against-debate>
     </div>

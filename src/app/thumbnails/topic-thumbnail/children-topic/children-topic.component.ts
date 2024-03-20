@@ -34,7 +34,6 @@ export class ChildrenTopicComponent {
           this.showArrow = this.childrenTopic.childrenId.length > 0;
         },
         error: (error: any) => {
-          console.log(error);
         }
       });
   }

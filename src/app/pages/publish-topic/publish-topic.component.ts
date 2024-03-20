@@ -4,6 +4,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { TopicSearchItem } from '../../models/topics';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { LoadingService } from '../../services/loading.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-publish-topic',
@@ -19,12 +20,13 @@ export class PublishTopicComponent {
   topicCreationForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    parentId: new FormControl('', [Validators.required]),
+    parentTopicId: new FormControl('', [Validators.required]),
   })
 
   constructor(
     private apiHandler: ApiHandlerService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +41,6 @@ export class PublishTopicComponent {
         this.loadingService.decrement()
       },
       error: (error) => {
-        console.error(error)
         this.loadingService.decrement()
       }
     })
@@ -49,12 +50,10 @@ export class PublishTopicComponent {
     this.loadingService.increment()
     this.apiHandler.postTopic(this.topicCreationForm.value).subscribe({
       next: (response: any) => {
-        console.log(response)
-        //TODO: navigate to the post
         this.loadingService.decrement()
+        this.router.navigate(['/topic', response.id])
       },
       error: (error) => {
-        console.error(error)
         this.loadingService.decrement()
       }
     })

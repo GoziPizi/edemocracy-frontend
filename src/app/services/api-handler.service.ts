@@ -10,6 +10,7 @@ import { PoliticSides } from '../enums/politicSides';
 import { Party } from '../models/party';
 import { User } from '../models/users';
 import { Personality } from '../models/personality';
+import { debateVoteEnumToStrictString, debateVoteEnumToString } from '../mappers/vote-mapper';
 
 @Injectable({
   providedIn: 'root',
@@ -197,9 +198,9 @@ export class ApiHandlerService {
     });
   }
 
-  voteForDebate(id: string, vote: DebateVote){
+  voteForDebate(id: string, value: DebateVote){
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/debates/${id}/vote`, {vote}, {
+    return this.http.post(`${this.baseUrl}/api/debates/${id}/vote`, {value: debateVoteEnumToStrictString(value)}, {
       headers: {
         Authorization: `${token}`,
       },

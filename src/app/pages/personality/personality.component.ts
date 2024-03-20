@@ -40,10 +40,8 @@ export class PersonalityComponent {
     this.apiHandler.getPersonality(this.personalityId).subscribe({
       next: (response: any) => {
         this.personality = response;
-        console.log(this.personality);
       },
       error: (error: any) => {
-        console.log(error);
       }
     });
   }
