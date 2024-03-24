@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build && scp -r -i '~/.ssh/edemoc-dev.pem' ./dist/nom-du-projet/browser ubuntu@ec2-51-21-35-237.eu-north-1.compute.amazonaws.com:~",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

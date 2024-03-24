@@ -8,11 +8,14 @@ import { VerticalTopicSelectorComponent } from '../../../utils/topic-selector/ve
 import { CommonModule } from '@angular/common';
 import { PoliticSides } from '../../../enums/politicSides';
 import { LoadingService } from '../../../services/loading.service';
+import { HistoricEventComponent } from '../party-presentation/party-historic/historic-event/historic-event.component';
+import { HistoricEventParty } from '../../../models/historicEventParty';
+import { sortEventsByDate, sortEventsByDateDesc } from '../../../utils/sortingFunctions';
 
 @Component({
   selector: 'app-modify-party',
   standalone: true,
-  imports: [VerticalTopicSelectorComponent, FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [VerticalTopicSelectorComponent, FormsModule, ReactiveFormsModule, CommonModule, HistoricEventComponent],
   templateUrl: './modify-party.component.html',
   styleUrl: './modify-party.component.scss'
 })
@@ -20,6 +23,8 @@ export class ModifyPartyComponent {
 
   partyId: string = '';
   originalParty: Party = new Party();
+
+  events: HistoricEventParty[] = [];
 
   @ViewChild("forSelector") forSelector!: VerticalTopicSelectorComponent;
   @ViewChild("againstSelector") againstSelector!: VerticalTopicSelectorComponent;
@@ -29,6 +34,13 @@ export class ModifyPartyComponent {
     description: new FormControl('', [Validators.required]),
     reason: new FormControl('', [Validators.required]),
     politicSide: new FormControl('', [Validators.required])
+  });
+
+  createEventForm = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    content: new FormControl('', [Validators.required]),
+    dateStart: new FormControl('', [Validators.required]),
+    dateEnd: new FormControl('', [Validators.required])
   });
 
   politicSides = Object.values(PoliticSides);
@@ -43,6 +55,7 @@ export class ModifyPartyComponent {
   ) {
     this.partyId = this.route.snapshot.params['id'];
     this.getParty();
+    this.fetchEvents();
   }
 
   getParty() {
@@ -51,6 +64,12 @@ export class ModifyPartyComponent {
       this.updateForm();
       this.forSelector.updateSelectedTopics(this.originalParty.for);
       this.againstSelector.updateSelectedTopics(this.originalParty.against);
+    });
+  }
+
+  fetchEvents() {
+    this.apiHandler.getAllHistoricEvents(this.partyId).subscribe((events: any) => {
+      this.events = sortEventsByDateDesc(events);
     });
   }
 
@@ -82,4 +101,46 @@ export class ModifyPartyComponent {
     }
   }
 
+  createEvent() {
+    this.loadingService.increment();
+    if (this.createEventForm.valid) {
+      let form: any = {
+        title: this.createEventForm.get('title')?.value,
+        content: this.createEventForm.get('content')?.value,
+      };
+      let dateStart = this.createEventForm.get('dateStart')?.value;
+      let dateEnd = this.createEventForm.get('dateEnd')?.value;
+      dateStart = dateStart ? new Date(dateStart).toISOString() : '';
+      dateEnd = dateEnd ? new Date(dateEnd).toISOString() : '';
+
+      form = {
+        ...form,
+        dateStart,
+        dateEnd
+      };
+
+      this.apiHandler.postHistoricEvent(this.partyId, form).subscribe({
+        next: () => {
+          this.fetchEvents();
+          this.loadingService.decrement();
+        },
+        error: () => {
+          this.loadingService.decrement();
+        }
+      });
+    }
+  }
+
+  deleteEvent(eventId: string) {
+    this.loadingService.increment();
+    this.apiHandler.deleteHistoricEvent(this.partyId,eventId).subscribe({
+      next: () => {
+        this.fetchEvents();
+        this.loadingService.decrement();
+      },
+      error: () => {
+        this.loadingService.decrement();
+      }
+    });
+  }
 }

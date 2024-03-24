@@ -10,13 +10,19 @@
     </div>
     <div id="mid-container">
         <div id="presentation">
-            <h2>{{party.name}}</h2>
-            <h4>{{mapperEnumToString(party.politicSide)}}</h4>
+            <div id="header-presentation">
+                <div id="textual-presentation">
+                    <h2>{{party.name}}</h2>
+                    <h4>{{mapperEnumToString(party.politicSide)}}</h4>
+                </div>
+                <img src="../../../../assets/default-profil.webp" >
+            </div>
             <a [routerLink]="['/partis', party.id,'membres']" >Voir les membres</a>
+            <p>{{party.description}}</p>
         </div>
         <div class="line"></div>
         <div id="history">
-            <app-party-historic></app-party-historic>
+            <app-party-historic [partyId]="partyId" ></app-party-historic>
         </div>
         <div class="line"></div>
         <div id="opinions">

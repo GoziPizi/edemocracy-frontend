@@ -1,7 +1,7 @@
 export enum PoliticSides {
-    FARLEFT = 'FARLEFT',
+    FAR_LEFT = 'FAR_LEFT',
     LEFT = 'LEFT',
     CENTER = 'CENTER',
     RIGHT = 'RIGHT',
-    FARRIGHT = 'FARRIGHT'
+    FAR_RIGHT = 'FAR_RIGHT'
 }

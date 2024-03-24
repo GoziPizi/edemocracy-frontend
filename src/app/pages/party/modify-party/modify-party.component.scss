@@ -33,3 +33,53 @@
     width: max-content;
     cursor: pointer;
 }
+
+#create-event-form {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+#create-event-form #header {
+    display: flex;
+    flex-direction: row;
+}
+
+#historic{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#historic > * {
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+.event-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.event-container i {
+    cursor: pointer;
+    &:hover {
+        color: red;
+    }
+}
+
+.event {
+    width: 90%;
+}
+
+#create-event-button {
+    background-color: darken(white, 10%);
+    padding: 10px;
+    width: max-content;
+    cursor: pointer;
+    border-radius: 10px;
+}

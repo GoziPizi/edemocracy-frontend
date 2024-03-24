@@ -1,0 +1,24 @@
+<div id="container">
+    <div id="ban-words">
+        <h2>Liste des mots bannis</h2>
+        <div class="list-element" *ngFor="let word of banWords">
+            <p>{{word.word}}</p>
+            <i class="fa fa-trash" (click)="removeBanWord(word.id)"></i>
+        </div>
+        <div id="add-banword">
+            <input type="text" [(ngModel)]="newBanWord" placeholder="Ajouter un ban word">
+            <button (click)="addBanWord()">Add</button>
+        </div>
+    </div>
+    <div id="admins">
+        <h2>Liste des admins</h2>
+        <div class="list-element" *ngFor="let admin of admins">
+            <p>{{admin.firstName}} {{admin.name}} </p>
+            <i class="fa fa-times" (click)="removeAdmin(admin.id)"></i>
+        </div>
+        <div id="add-admin">
+            <input type="text" [(ngModel)]="newAdmin" placeholder="Ajouter un admin">
+            <button (click)="addAdmin()">Ajouter</button>
+        </div>
+    </div>
+</div>

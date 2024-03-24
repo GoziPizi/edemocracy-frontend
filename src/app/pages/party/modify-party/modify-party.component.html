@@ -23,3 +23,24 @@
         <app-vertical-topic-selector [selected]="originalParty.against" #againstSelector ></app-vertical-topic-selector>
     </div>
 </div>
+<div id="historic">
+    <form id="create-event-form" [formGroup]="createEventForm" >
+        <div id="header">
+            <label for="title">Titre de l'événement</label>
+            <input type="text" id="title" name="title" formControlName="title" required>
+            <label for="dateStart">Date de début</label>
+            <input type="date" id="dateStart" name="dateStart" formControlName="dateStart" required>
+            <label for="dateEnd">Date de fin</label>
+            <input type="date" id="dateEnd" name="dateEnd" formControlName="dateEnd" required>
+        </div>
+        <label for="content">Description de l'événement</label>
+        <input type="text" id="content" name="content" formControlName="content" required>
+        <p id="create-event-button" (click)="createEvent()">Créer l'événement</p>
+    </form>
+    <div id="past-events">
+        <div *ngFor="let event of events" class="event-container">
+            <app-historic-event [event]="event" class="event"></app-historic-event>
+            <i class="fas fa-trash-alt" (click)="deleteEvent(event.id)"></i>
+        </div>
+    </div>
+</div>

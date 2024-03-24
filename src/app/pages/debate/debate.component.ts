@@ -85,7 +85,6 @@ export class DebateComponent {
   getTopic() {
     this.apiHandler.getTopicById(this.debate.topicId).subscribe(
       (topic: any) => {
-        console.log(topic);
         this.debateTopic = topic;
       }
     );

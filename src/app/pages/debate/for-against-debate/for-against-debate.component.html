@@ -1,8 +1,14 @@
 <div id="container">
-    <div id="for" [ngStyle]="{'width' : stringWidth}" >
-
+    <div id="pourcentages">
+        <p>Pour : {{pourcentageFor}}%</p>
+        <p>Contre : {{pourcentageAgainst}}%</p>
     </div>
-    <div id="against" [ngStyle]="{'width' : oppositeStringWidth}">
-        
+    <div id="bar-container">
+        <div id="for" [ngStyle]="{'width' : stringWidth}" >
+    
+        </div>
+        <div id="against" [ngStyle]="{'width' : oppositeStringWidth}">
+            
+        </div>
     </div>
 </div>

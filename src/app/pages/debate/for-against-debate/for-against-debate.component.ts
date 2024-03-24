@@ -17,6 +17,14 @@ export class ForAgainstDebateComponent {
     
   }
 
+  get pourcentageFor() {
+    return Math.round(this.width * 100);
+  }
+
+  get pourcentageAgainst() {
+    return Math.round((1 - this.width) * 100);
+  }
+
   get stringWidth() {
     return `${this.width * 100}%`;
   }

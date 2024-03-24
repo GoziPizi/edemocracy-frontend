@@ -18,7 +18,6 @@
 
     display: flex;
     flex-direction: column;
-    align-items: center;
 
     padding: 20px 5%;
     width: 50%;
@@ -28,6 +27,11 @@
 
 #creationForm > * {
     margin-bottom: 20px;
+}
+
+#description {
+    width: 100%;
+    resize: none;
 }
 
 #create-button {

@@ -27,7 +27,6 @@ export class ChildrenTopicComponent {
   }
 
   updateTopic(topicId: string) {
-    console.log('updateTopic', topicId);
     this.childrenTopicId = topicId;
     this.getTopic();
   }

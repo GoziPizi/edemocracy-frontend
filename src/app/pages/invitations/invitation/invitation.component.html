@@ -1,1 +1,10 @@
-<p>{{invitation.id}}</p>
+<div id="container">
+    <div id="content">
+        <h2>Vous avez reçu une invitation pour le parti: </h2>
+        <app-party-result-thumbnail [party]="party" *ngIf="party.id !== 'id'" ></app-party-result-thumbnail>
+        <div id="button-container">
+            <p (click)="answer(true)">Accepter</p>
+            <p (click)="answer(false)">Refuser</p>
+        </div>
+    </div>
+</div>

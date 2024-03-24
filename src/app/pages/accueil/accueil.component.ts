@@ -25,7 +25,7 @@ export class AccueilComponent {
 
   ngOnInit() {
     this.apiHandler.getTopics().subscribe((response: any) => {
-      this.topics = response.slice(0, 2);
+      this.topics = response.slice(0, 10);
     });
   }
 }

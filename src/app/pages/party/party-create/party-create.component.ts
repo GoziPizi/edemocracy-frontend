@@ -4,6 +4,7 @@ import { PoliticSides } from '../../../enums/politicSides';
 import { CommonModule } from '@angular/common';
 import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
 import { ApiHandlerService } from '../../../services/api-handler.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-party-create',
@@ -15,7 +16,8 @@ import { ApiHandlerService } from '../../../services/api-handler.service';
 export class PartyCreateComponent {
 
   constructor(
-    private apiHandler: ApiHandlerService
+    private apiHandler: ApiHandlerService,
+    private router: Router
   ) { }
 
   partyCreationForm = new FormGroup({
@@ -32,7 +34,8 @@ export class PartyCreateComponent {
   createParty() {
     if (this.partyCreationForm.valid) {
       this.apiHandler.createParty(this.partyCreationForm.value).subscribe(
-        (response) => {
+        (response: any) => {
+          this.router.navigate(['/partis', response.id])
         }
       )
     }

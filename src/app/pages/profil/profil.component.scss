@@ -3,7 +3,7 @@
     padding: 20px;
 }
 
-#container div {
+#container > div {
     background-color: darken(white, 5%);
     padding: 20px;
     margin: 10px;
@@ -23,12 +23,34 @@
     cursor: pointer;
 }
 
-#party {
+#partis {
+    display: flex;
+    flex-direction: column;
+}
+
+.party {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-#party > * {
-    margin: 10px;
+.party i {
+    margin-left: 10px;
+    cursor: pointer;
 }
+
+.open-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.open-menu-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.open-menu-header i {
+    margin-left: 10px;
+}
+

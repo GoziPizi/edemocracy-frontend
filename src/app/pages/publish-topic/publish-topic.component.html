@@ -6,7 +6,7 @@
         <label for="title">Titre du sujet</label>
         <input type="text" formControlName="title" id="title" name="title" required>
         <label for="description">Description du sujet</label>
-        <input type="text" formControlName="description" id="description" name="description" required>
+        <textarea rows=4 type="textarea" formControlName="description" id="description" name="description" required></textarea>
         <label for="parentId">Sujet parent</label>
         <select formControlName="parentTopicId" id="parentId" name="parentId" required>
             <option *ngFor="let topic of topicOptions" [value]="topic.id" >

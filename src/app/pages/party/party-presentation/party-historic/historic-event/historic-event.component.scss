@@ -1,0 +1,15 @@
+#container {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+
+    background-color: darken(white, 10%);
+    border-radius: 10px;
+}
+
+#header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

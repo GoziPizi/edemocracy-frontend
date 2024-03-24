@@ -8,13 +8,9 @@
     </div>
     <div id="main-content">
         <h2>Les dernières actualités</h2>
-        <div class="line"></div>
-        <div class="topic" id="first-topic">
-            <app-topic-thumbnail [topic]="topics[0]" *ngIf="this.topics[0]" ></app-topic-thumbnail>
-        </div>
-        <div class="line"></div>
-        <div class="topic" id="second-topic">
-            <app-topic-thumbnail [topic]="topics[1]" *ngIf="this.topics[1]" ></app-topic-thumbnail>
+        <div *ngFor="let topic of topics" class="topic-container">
+            <app-topic-thumbnail class="topic-component" [topic]="topic" *ngIf="topic" ></app-topic-thumbnail>
+            <div class="line"></div>
         </div>
     </div>
 </div>

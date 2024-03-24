@@ -2,9 +2,9 @@
     <a [routerLink]="['/topic', topic.id]">
         <div id="header">
             <h3>{{title}}</h3>
-            <i class="fa-solid fa-share fa-l"></i>
+            <i class="fa-solid fa-share fa-l" (click)="share($event)" ></i>
         </div>
         <p id="description" >{{description}}</p>
-        <img src="../../../assets/topic-fixtures.png" alt="{{topic.title}}">
+        <img [src]="image" alt="{{topic.title}}">
     </a>
 </div>

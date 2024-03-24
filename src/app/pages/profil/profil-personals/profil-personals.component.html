@@ -1,0 +1,14 @@
+<div id="container">
+    <form [formGroup]="updateInformationsForm" id="updateForm" >
+        <!--phone, adress, profession, description-->
+        <label for="telephone">Téléphone</label>
+        <input type="text" formControlName="telephone" id="telephone" name="telephone">
+        <label for="adress">Adresse</label>
+        <input type="text" formControlName="address" id="address" name="address">
+        <label for="profession">Profession</label>
+        <input type="text" formControlName="profession" id="profession" name="profession">
+        <label for="description">Description</label>
+        <textarea formControlName="description" id="description" name="description"></textarea>
+    </form>
+    <p id="validate-button" (click)="onSubmit()" >Valider</p>
+</div>

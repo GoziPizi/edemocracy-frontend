@@ -1,0 +1,38 @@
+#container {
+    display: flex;
+    flex-direction: row;
+}
+
+#container > div {
+    width: 50%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: darken(white, 5%);
+}
+
+.list-element {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding: 5px 10px;
+    background-color: darken(white, 10%);
+    width: max-content;
+    border-radius: 5px;
+
+    margin-bottom: 10px;
+}   
+
+.list-element p {
+    margin: 0;
+}
+
+.list-element i {
+    margin-left: 10px;
+
+    cursor: pointer;
+
+    &:hover {
+        color: red;
+    }
+}

@@ -1,5 +1,9 @@
 <div id="container">
     <p (click)="logout()" id="logout">Deconnexion</p>
+    <div *ngIf="userProfil.role === 'ADMIN'">
+        <h3>Vous êtes administrateur</h3>
+        <a [routerLink]="['/admin']">Accéder à l'administration</a>
+    </div>
     <div id="settings">
         <h3>Réglages</h3>
     </div>
@@ -7,10 +11,12 @@
         <h3>Cotisation</h3>
         <a>Lien vers la cotisation</a>
     </div>
-    <div id="party" *ngIf="userParty" >
-        <h3>Parti: </h3>
-        <p>{{userParty.name}}</p>
-        <a [routerLink]="['/modify-party', userParty.id]">Modifier le parti</a>
+    <div id="partis" *ngIf="userPartis.length > 0">
+        <h3>Partis</h3>
+        <div *ngFor="let party of userPartis" class="party">
+            <p>Parti: {{party.description}}</p>
+            <i class="fas fa-arrow-right fa-xl" [routerLink]="['/partis', party.id]" ></i>
+        </div>
     </div>
     <div id="personality">
         <div id="create-personality" *ngIf="!userPersonality">
@@ -19,16 +25,26 @@
         </div>
         <div id="modify-personality" *ngIf="userPersonality">
             <h3>Personnalité</h3>
-            <p>id: {{userPersonality.id}}</p>
+            <p>Vous êtes une personalité publique</p>
         </div>
     </div>
     <div id="follows">
         <h3>Abonnements</h3>
     </div>
-    <div id="opinions">
-        <h3>Opinions</h3>
+    <div id="opinions" class="open-menu">
+        <div class="open-menu-header">
+            <h3>Opinions</h3>
+            <i class="fas fa-chevron-down" *ngIf="!opinions" (click)="toggleOpinions()"></i>
+            <i class="fas fa-chevron-up" *ngIf="opinions" (click)="toggleOpinions()"></i>
+        </div>
+        <app-profil-opinions *ngIf="opinions"></app-profil-opinions>
     </div>
     <div id="personals">
-        <h3>Infos Personnelles</h3>
+        <div class="open-menu-header">
+            <h3>Informations Personelles</h3>
+            <i class="fas fa-chevron-down" *ngIf="!personals" (click)="togglePersonals()"></i>
+            <i class="fas fa-chevron-up" *ngIf="personals" (click)="togglePersonals()"></i>
+        </div>
+        <app-profil-personals *ngIf="personals"></app-profil-personals>
     </div>
 </div>

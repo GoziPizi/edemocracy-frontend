@@ -6,8 +6,9 @@ export class User {
     name: string = '';
     email: string = '';
     address: string = '';
+    description: string = '';
     profession: string = '';
-    phone: string = '';
+    telephone: string = '';
     language: string = '';
     politicSide: PoliticSides = PoliticSides.CENTER;
     role: string = '';

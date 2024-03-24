@@ -26,7 +26,7 @@ export class VerticalTopicSelectorComponent {
 
   fetchTopics() {
     //FIXME prendre tous les topics.
-    this.apiHandler.getParentsTopicSearchItems().subscribe(
+    this.apiHandler.getTopicslist().subscribe(
       (topics: TopicSearchItem[]) => {
         this.topics = topics;
       }

@@ -10,7 +10,8 @@ import { PoliticSides } from '../enums/politicSides';
 import { Party } from '../models/party';
 import { User } from '../models/users';
 import { Personality } from '../models/personality';
-import { debateVoteEnumToStrictString, debateVoteEnumToString } from '../mappers/vote-mapper';
+import { debateVoteEnumToStrictString } from '../mappers/vote-mapper';
+import { OpinionWithTopicName } from '../models/opinions';
 
 @Injectable({
   providedIn: 'root',
@@ -84,9 +85,18 @@ export class ApiHandlerService {
     });
   }
 
-  getUserParty() {
+  updateUser(form: any) {
     const token = localStorage.getItem('token');
-    return this.http.get<Party>(`${this.baseUrl}/api/users/party`, {
+    return this.http.put(`${this.baseUrl}/api/users`, form, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getUserPartis() {
+    const token = localStorage.getItem('token');
+    return this.http.get<Party[]>(`${this.baseUrl}/api/users/partis`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -96,6 +106,24 @@ export class ApiHandlerService {
   getUserPersonality() {
     const token = localStorage.getItem('token');
     return this.http.get<Personality>(`${this.baseUrl}/api/users/personality`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getOpinions() {
+    const token = localStorage.getItem('token');
+    return this.http.get<OpinionWithTopicName[]>(`${this.baseUrl}/api/users/opinions`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  postOpinion(topicId: string, opinion: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/users/opinions`, { topicId, opinion }, {
       headers: {
         Authorization: `${token}`,
       },
@@ -113,18 +141,18 @@ export class ApiHandlerService {
     });
   }
 
-  getTopicslist() {
+  getTopicslist(): Observable<TopicSearchItem[]> {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/topics/fulllist`, {
+    return this.http.get<TopicSearchItem[]>(`${this.baseUrl}/api/topics/fulllist`, {
       headers: {
         Authorization: `${token}`,
       },
     });
   }
 
-  getTopicsParentlist() {
+  getTopicsParentlist(): Observable<TopicSearchItem[]> {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/topics/parentlist`, {
+    return this.http.get<TopicSearchItem[]>(`${this.baseUrl}/api/topics/parentlist`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -134,15 +162,6 @@ export class ApiHandlerService {
   getTopicById(id: string) {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.baseUrl}/api/topics/${id}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
-  }
-
-  getParentsTopicSearchItems(): Observable<TopicSearchItem[]> {
-    const token = localStorage.getItem('token');
-    return this.http.get<TopicSearchItem[]>(`${this.baseUrl}/api/topics/parentlist`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -311,6 +330,7 @@ export class ApiHandlerService {
   }
 
   searchParties(criteria: PartySearchCriteria) {
+    console.log(criteria);
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/parties/search`, criteria, {
       headers: {
@@ -349,6 +369,98 @@ export class ApiHandlerService {
   getInvitation(id: string) {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.baseUrl}/api/invitations/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  answerInvitation(id: string, answer: boolean) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/invitations/${id}/answer`, { answer }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getAllHistoricEvents(partyId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/parties/${partyId}/history`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  postHistoricEvent(partyId: string, form: any) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/parties/${partyId}/history`, form, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  deleteHistoricEvent(partyId: string, eventId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.delete(`${this.baseUrl}/api/parties/${partyId}/history/${eventId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  //Admin related methods
+
+  getBanWords() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/admin/banwords`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  addBanWord(banWord: any) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/admin/banwords`, {word: banWord}, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  removeBanWord(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.delete(`${this.baseUrl}/api/admin/banwords/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getAdmins() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/admin/admins`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  setAdmin(email: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/admin/admins`, {email}, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  removeAdmin(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.delete(`${this.baseUrl}/api/admin/admins/${id}`, {
       headers: {
         Authorization: `${token}`,
       },

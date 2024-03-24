@@ -6,20 +6,25 @@ import { Personality } from '../../models/personality';
 import { LoadingService } from '../../services/loading.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ProfilOpinionsComponent } from './profil-opinions/profil-opinions.component';
+import { ProfilPersonalsComponent } from './profil-personals/profil-personals.component';
 
 @Component({
   selector: 'app-profil',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ProfilOpinionsComponent, ProfilPersonalsComponent],
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss'
 })
 export class ProfilComponent {
 
   userProfil: User = new User();
-  userParty: Party | null = null;
+  userPartis: Party[] = [];
   userPersonality: Personality | null = null;
   follows: string[] = [];
+
+  opinions: boolean = false; 
+  personals: boolean = false;
 
   constructor(
     private apiHandler: ApiHandlerService,
@@ -29,7 +34,7 @@ export class ProfilComponent {
 
   ngOnInit(){
     this.fetchUserProfil();
-    this.fetchUserParty();
+    this.fetchUserPartis();
     this.fetchUserPersonality();
   }
 
@@ -41,10 +46,10 @@ export class ProfilComponent {
     });
   }
 
-  fetchUserParty(){
+  fetchUserPartis(){
     this.loadingService.increment();
-    this.apiHandler.getUserParty().subscribe((data: Party) => {
-      this.userParty = data;
+    this.apiHandler.getUserPartis().subscribe((data: Party[]) => {
+      this.userPartis = data;
       this.loadingService.decrement();
     });
   }
@@ -59,6 +64,14 @@ export class ProfilComponent {
 
   logout(){
     this.apiHandler.logout();
+  }
+
+  toggleOpinions() {
+    this.opinions = !this.opinions;
+  }
+
+  togglePersonals() {
+    this.personals = !this.personals;
   }
 
 }

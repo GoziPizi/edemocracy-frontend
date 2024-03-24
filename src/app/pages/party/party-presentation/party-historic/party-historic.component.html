@@ -1,3 +1,6 @@
 <div id="container">
-    <p>Ce party n'a encore rien publié</p>
+    <p *ngIf="historicEvents.length === 0" >Ce party n'a encore rien publié</p>
+    <div *ngFor="let event of historicEvents" id="events">
+        <app-historic-event [event]="event" class="event"></app-historic-event>
+    </div>
 </div>

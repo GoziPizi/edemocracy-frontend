@@ -4,3 +4,17 @@
     align-items: center;
     justify-content: center;
 }
+
+#events {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.event {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 80%;
+}

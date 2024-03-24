@@ -44,7 +44,7 @@ export class PersonalitySearchFormComponent {
   }
 
   fetchTopics() {
-    this.apiHandler.getParentsTopicSearchItems().subscribe(
+    this.apiHandler.getTopicslist().subscribe(
       (topics: TopicSearchItem[]) => {
         this.topicOptions = topics;
       }
