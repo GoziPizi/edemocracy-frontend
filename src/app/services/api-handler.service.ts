@@ -57,6 +57,25 @@ export class ApiHandlerService {
     });
   }
 
+  parseJwt(token:string) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
+
+  getUserId() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+    const payload = this.parseJwt(token);
+    return payload.id;
+  }
+
   register(form: any) {
     let data = form.value;
     data.telephone = '078948'
@@ -411,6 +430,33 @@ export class ApiHandlerService {
   deleteHistoricEvent(partyId: string, eventId: string) {
     const token = localStorage.getItem('token');
     return this.http.delete(`${this.baseUrl}/api/parties/${partyId}/history/${eventId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getPartyComments(partyId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/parties/${partyId}/comments`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  postPartyComment(partyId: string, content: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/parties/${partyId}/comments`, { content }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  deletePartyComment(partyId: string, commentId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.delete(`${this.baseUrl}/api/parties/${partyId}/comments/${commentId}`, {
       headers: {
         Authorization: `${token}`,
       },
