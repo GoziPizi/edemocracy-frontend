@@ -12,6 +12,7 @@ export class ImageInputComponent {
 
   @ViewChild('imageFileInput') imageFileInput!: ElementRef;
 
+  @Input() tolerance: number = 0.05;
   @Input() ratio: number = 1;
   @Input() text: string = 'Upload Image';
 
@@ -60,13 +61,20 @@ export class ImageInputComponent {
     img.onload = () => {
       this.width = img.width;
       this.height = img.height;
-      this.isGoodRatio = Math.abs(this.width / this.height - this.ratio) < 0.05;
+      this.isGoodRatio = Math.abs(this.width / this.height - this.ratio) < this.tolerance;
     }
   }
 
   removeImage() {
     this.image = new File([], '');
     this.imagePreview = null;
+  }
+
+  isThereAnImage(): boolean {
+    if (this.image.size === 0) {
+      return false;
+    }
+    return true;
   }
 
   isRationCorrect(): boolean {

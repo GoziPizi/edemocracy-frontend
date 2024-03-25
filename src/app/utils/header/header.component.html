@@ -1,12 +1,9 @@
 <div id="container" *ngIf="apiHandler.isLogged.getValue()">
     <h2><a [routerLink]="['accueil']" class="header-link">Accueil</a></h2>
-    <h2><a [routerLink]="['personalites']" class="header-link">Personalités Politiques</a></h2>
-    <h2><a [routerLink]="['partis']" class="header-link">Partis Politiques</a></h2>
+    <h2><a [routerLink]="['personalites']" class="header-link">Personalités</a></h2>
+    <h2><a [routerLink]="['partis']" class="header-link">Partis</a></h2>
     <h2><a [routerLink]="['follows']" class="header-link">Suivi</a></h2>
-    <div id="search-bar">
-        <input type="text" id="search-input" placeholder="Rechercher">
-        <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </div>
+    <app-search-header id=search-bar ></app-search-header>
     <div id="profil">
         <img src="../../../assets/default-profil.webp" alt="profil" id="profil-img">
         <h2><a [routerLink]="['profil']" class="header-link">Profil</a></h2>

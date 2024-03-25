@@ -1,4 +1,5 @@
 <div id="opinions-container">
+    <p *ngIf="opinions.length === 0">Vous n'avez pas encore d'opinions enregistrées</p>
     <div *ngFor="let opinion of opinions" class="single-opinion">
         <p>{{opinion.topicTitle}}</p>
         <p class="content" >{{opinion.opinion}}</p>

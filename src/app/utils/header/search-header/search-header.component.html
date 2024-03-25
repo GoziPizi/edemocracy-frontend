@@ -1,0 +1,24 @@
+<div id="container">
+    <div id="search-bar">
+        <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Rechercher" 
+            [(ngModel)]="searchTerm" 
+            (ngModelChange)="onSearchTermChange()" 
+            (keypress)="onKeyDown($event)">
+        <button id="search-button" (click)="navigateToSearch()" ><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div id="hidden-content">
+            <div id="waiting-search" *ngIf="waitingForSearchResult">
+                <div class="spinner"></div>
+            </div>
+            <div id="search-result" *ngIf="searchTerm!=='' && !waitingForSearchResult">
+                <app-search-item *ngFor="let item of searchResults" [searchItem]="item" ></app-search-item>
+            </div>
+            <div id="no-result" *ngIf="searchTerm!=='' && searchResults.length===0 && !waitingForSearchResult">
+                <p>Aucun résultat</p>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -17,6 +17,7 @@ export class AdminComponent {
 
   banWords: BanWord[] = [];
   admins: User[] = [];
+  verificationRequests: any[] = [];
 
   newAdmin: string = '';
   newBanWord: string = '';
@@ -30,6 +31,7 @@ export class AdminComponent {
   ngOnInit() {
     this.fetchBanWords();
     this.fetchAdmins();
+    this.fetchVerificationRequests();
   }
 
   fetchBanWords() {
@@ -41,6 +43,12 @@ export class AdminComponent {
   fetchAdmins() {
     this.apiHandler.getAdmins().subscribe((response : any) => {
       this.admins = response;
+    });
+  }
+
+  fetchVerificationRequests() {
+    this.apiHandler.getVerificationRequests().subscribe((response : any) => {
+      this.verificationRequests = response;
     });
   }
 
@@ -67,6 +75,18 @@ export class AdminComponent {
     this.apiHandler.setAdmin(this.newAdmin).subscribe(() => {
       this.newAdmin = '';
       this.fetchAdmins();
+    });
+  }
+
+  acceptVerificationRequest(id: string) {
+    this.apiHandler.verifyRequest(id, true).subscribe(() => {
+      this.fetchVerificationRequests();
+    });
+  }
+
+  rejectVerificationRequest(id: string) {
+    this.apiHandler.verifyRequest(id, false).subscribe(() => {
+      this.fetchVerificationRequests();
     });
   }
 

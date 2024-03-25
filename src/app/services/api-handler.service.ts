@@ -12,6 +12,8 @@ import { User } from '../models/users';
 import { Personality } from '../models/personality';
 import { debateVoteEnumToStrictString } from '../mappers/vote-mapper';
 import { OpinionWithTopicName } from '../models/opinions';
+import { environment } from '../../environments/environment';
+import { SearchResult } from '../models/searchResult';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +27,7 @@ export class ApiHandlerService {
   constructor(
     private http: HttpClient
   ) {
-    this.baseUrl = 'http://localhost:8080';
+    this.baseUrl = environment.api_url;
     this.checkLogin();
   }
 
@@ -77,20 +79,7 @@ export class ApiHandlerService {
   }
 
   register(form: any) {
-    let data = form.value;
-    data.telephone = '078948'
-    data.address = 'Rue de la paix'
-    data.profession = 'Developpeur'
-    data.politicSide = PoliticSides.CENTER
-    data.language = 'fr'
-    //remove passwordConfirmation
-    delete data.passwordConfirmation;
-    this.http.post(`${this.baseUrl}/api/login/register`, data).subscribe((response: any) => {
-      if (response.key) {
-        localStorage.setItem('token', response.key);
-        this.isLogged.next(true);
-      }
-    });
+    return this.http.post(`${this.baseUrl}/api/login/register`, form);
   }
 
   //Users related methods
@@ -143,6 +132,15 @@ export class ApiHandlerService {
   postOpinion(topicId: string, opinion: string) {
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/users/opinions`, { topicId, opinion }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  deleteOpinion(opinionId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.delete(`${this.baseUrl}/api/users/opinions/${opinionId}`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -513,6 +511,35 @@ export class ApiHandlerService {
   removeAdmin(id: string) {
     const token = localStorage.getItem('token');
     return this.http.delete(`${this.baseUrl}/api/admin/admins/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getVerificationRequests() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/admin/verifications-request`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  verifyRequest(id: string, verified: boolean) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/admin/verifications-request/${id}`, {verified}, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  //Search related methods
+
+  textSearch(query: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<SearchResult[]>(`${this.baseUrl}/api/search/all/${query}`, {
       headers: {
         Authorization: `${token}`,
       },

@@ -28,4 +28,10 @@ export class ProfilOpinionsComponent {
     });
   }
 
+  deleteOpinion(opinionId: string){
+    this.apiHandler.deleteOpinion(opinionId).subscribe(() => {
+      this.fetchOpinions();
+    });
+  }
+
 }

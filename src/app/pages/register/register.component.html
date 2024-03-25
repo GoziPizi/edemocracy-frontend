@@ -26,6 +26,10 @@
         <label for="passwordConfirmation">Confirmation du mot de passe :</label>
         <input type="password" formControlName="passwordConfirmation" id="passwordConfirmation" name="passwordConfirmation" required>
 
+        <p>Carte d'identité: </p>
+        <app-image-input #rectoInput [text]="'Recto'" [ratio]="1" [tolerance]="10"></app-image-input>
+        <app-image-input #versoInput [text]="'Verso'" [ratio]="1" [tolerance]="10"></app-image-input>
+
         <button type="submit" [disabled]="!registerForm.valid" (click)="register()">Inscription</button>
     </form> 
 </div>

@@ -22,3 +22,12 @@
         </div>
     </div>
 </div>
+<div id="verification-requests">
+    <div *ngFor="let request of verificationRequests">
+        <p>Requete: {{request.id}}</p>
+        <a target="_blank" [href]="request.recto" >Recto</a>
+        <a target="_blank" [href]="request.verso">Verso</a>
+        <button (click)="acceptVerificationRequest(request.id)">Accepter</button>
+        <button (click)="rejectVerificationRequest(request.id)">Refuser</button>
+    </div>
+</div>

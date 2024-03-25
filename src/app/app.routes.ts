@@ -17,6 +17,8 @@ export const routes: Routes = [
     { path: 'create-party', loadComponent: () => import('./pages/party/party-create/party-create.component').then(m => m.PartyCreateComponent) },
     { path: 'modify-party/:id', loadComponent: () => import('./pages/party/modify-party/modify-party.component').then(m => m.ModifyPartyComponent) },
 
+    { path: 'search', loadComponent: () => import('./pages/search/search.component').then(m => m.SearchComponent) },
+
     { path: 'topic/:id', loadComponent: () => import('./pages/topic/topic.component').then(m => m.TopicComponent) },
 
     { path: 'debate/create', loadComponent: () => import('./pages/debate/create-debate/create-debate.component').then(m => m.CreateDebateComponent)},
