@@ -41,7 +41,6 @@ export class AdminComponent {
   fetchAdmins() {
     this.apiHandler.getAdmins().subscribe((response : any) => {
       this.admins = response;
-      console.log(this.admins);
     });
   }
 

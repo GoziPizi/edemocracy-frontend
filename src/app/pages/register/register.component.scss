@@ -45,3 +45,9 @@
         background-color: rgba(0, 0, 0, 0.2);
     }
 }
+
+.ng-select.custom .ng-select-container {
+    height: 80px;
+}
+
+@import "@ng-select/ng-select/themes/default.theme.css";

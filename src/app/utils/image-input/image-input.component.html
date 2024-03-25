@@ -1,0 +1,19 @@
+<div id="drop-zone"
+    (dragover)="onDragOver($event)"
+    (drop)="onDropCover($event)"
+    (click)="triggerFileInputCover()"
+    [ngStyle]="{'border-color': !isGoodRatio ? 'red' : '#ccc'}">
+    <p *ngIf="!imagePreview">{{text}}</p>
+    <img 
+        *ngIf="imagePreview"
+        [src]="imagePreview"
+        alt="Image Preview"
+        id="image-preview"
+    >
+</div>
+<input
+    #imageFileInput
+    type="file"
+    style="display: none;"
+    (change)="onFileSelected($event)">
+<p *ngIf="!isGoodRatio" id="error-ratio">Image de la mauvaise dimension</p>

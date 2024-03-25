@@ -2,7 +2,7 @@
     <h3>{{topicTitle}}</h3>
     <p>{{topic.description}}</p>
     <div id="medias-display">
-        <img src="../../../assets/topic-fixtures.png" alt="Débat associé">
+        <img [src]="topic.medias[0]" alt="Débat associé">
     </div>
     <div id="associated-debate">
         <app-associated-debates #associatedDebates [topicId]="topicId"></app-associated-debates>

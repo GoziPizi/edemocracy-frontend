@@ -177,9 +177,16 @@ export class ApiHandlerService {
     });
   }
 
-  postTopic(form: any) {
+  postTopic(form: any, image?: File) {
+    let formData = new FormData();
+    for(let key in form) {
+      formData.append(key, form[key]);
+    }
+    if (image) {
+      formData.append('image', image);
+    }
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/topics`, form, {
+    return this.http.post(`${this.baseUrl}/api/topics`, formData, {
       headers: {
         Authorization: `${token}`,
       },
@@ -330,7 +337,6 @@ export class ApiHandlerService {
   }
 
   searchParties(criteria: PartySearchCriteria) {
-    console.log(criteria);
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/parties/search`, criteria, {
       headers: {
