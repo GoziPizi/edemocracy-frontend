@@ -1,0 +1,20 @@
+<div id="container">
+    <div id="input-comment">
+        <form [formGroup]="newCommentForm">
+            <textarea formControlName="content" placeholder="Votre commentaire"></textarea>
+            <button type="submit" (click)="addComment()">Envoyer</button>
+        </form>
+    </div>
+    <div id="comments-list">
+        <div class="single-comment" *ngFor="let comment of comments">
+            <i class="fas fa-times" *ngIf="comment.userId === userId" (click)="deleteComment(comment.id)"></i>
+            <div class="comment-header">
+                <p>{{comment.user.firstName}} {{comment.user.name}}</p>
+                <p>{{comment.createdAt | date:'dd/MM/yyyy, HH\'h\'mm'}}</p>
+            </div>
+            <div class="comment-content">
+                <p>{{comment.content}}</p>
+            </div>
+        </div>
+    </div>
+</div>

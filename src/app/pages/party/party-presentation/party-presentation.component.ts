@@ -8,11 +8,12 @@ import { SmallTopicThumbnailComponent } from '../../../thumbnails/topic-thumbnai
 import { PartyHistoricComponent } from './party-historic/party-historic.component';
 import { PartyOpinionsComponent } from './party-opinions/party-opinions.component';
 import { LoadingService } from '../../../services/loading.service';
+import { PartyCommentsComponent } from './party-comments/party-comments.component';
 
 @Component({
   selector: 'app-party-presentation',
   standalone: true,
-  imports: [RouterModule, CommonModule, SmallTopicThumbnailComponent, PartyHistoricComponent, PartyOpinionsComponent],
+  imports: [RouterModule, CommonModule, SmallTopicThumbnailComponent, PartyHistoricComponent, PartyOpinionsComponent, PartyCommentsComponent],
   templateUrl: './party-presentation.component.html',
   styleUrl: './party-presentation.component.scss'
 })
