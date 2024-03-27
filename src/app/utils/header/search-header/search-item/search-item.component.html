@@ -1,1 +1,8 @@
-<p>{{searchItem.title}}</p>
+<div id="container" (click)="navigateToItem()">
+    <div id="left-side">
+        <img [src]="searchItem.picture" alt="item image">
+    </div>
+    <div id="right-side">
+        <p>{{searchItem.title}}</p>
+    </div>
+</div>

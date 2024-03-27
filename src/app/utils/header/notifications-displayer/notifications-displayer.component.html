@@ -1,5 +1,10 @@
 <div id="container">
     <i class="fa-solid fa-bell fa-xl" id="bell"></i>
-    <p id="notifications">Pas de notifications pour le moment</p>
+    <div id="notifications">
+        <p *ngIf="this.notifications.length === 0">Pas de notifications pour le moment</p>
+        <div *ngFor="let notification of this.notifications">
+            <app-single-notification [notification]="notification" (removeNotificationEvent)="deleteNotification($event)" ></app-single-notification>
+        </div>
+    </div>
 </div>
 

@@ -38,6 +38,7 @@
 #hidden-content {
     z-index: 1000;
     position: absolute;
+    display: none;
     top: 95%;
     width: 30em;
     background-color: darken(white, 30%);

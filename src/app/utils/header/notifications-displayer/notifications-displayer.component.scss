@@ -9,6 +9,14 @@
 #notifications {
     display: none;
     position: absolute;
+    min-width: 250px; /* Ajustez cette valeur pour assurer la lisibilité */
+    width: 20vw;
+    right: 0;
+    top: 100%; /* Ajustez si nécessaire pour aligner correctement */
+    background-color: white; /* Choisissez une couleur de fond appropriée */
+    border: 1px solid #ccc; /* Optionnel, pour la délimitation */
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1); /* Optionnel, pour un effet d'ombre */
+    z-index: 100;
 }
 
 #container:hover #notifications {

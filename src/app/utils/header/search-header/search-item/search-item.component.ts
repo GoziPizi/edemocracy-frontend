@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { SearchResult } from '../../../../models/searchResult';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-item',
@@ -12,4 +13,25 @@ export class SearchItemComponent {
 
   @Input() searchItem!: SearchResult
   
+  constructor(
+    private router: Router
+  ) { }
+
+  navigateToItem(){
+    let route: string;
+    switch(this.searchItem.type){
+      case 'Personality':
+        route = 'personalites';
+        break;
+      case 'Party':
+        route = 'partis';
+        break;
+      case 'Topic':
+        route = 'topic';
+        break;
+      default:
+        route = '/search';
+    }
+    this.router.navigate([route, this.searchItem.id])
+  }
 }

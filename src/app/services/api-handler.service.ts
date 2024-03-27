@@ -14,6 +14,7 @@ import { debateVoteEnumToStrictString } from '../mappers/vote-mapper';
 import { OpinionWithTopicName } from '../models/opinions';
 import { environment } from '../../environments/environment';
 import { SearchResult } from '../models/searchResult';
+import { NotificationEdemoc } from '../models/notifications';
 
 @Injectable({
   providedIn: 'root',
@@ -540,6 +541,34 @@ export class ApiHandlerService {
   textSearch(query: string) {
     const token = localStorage.getItem('token');
     return this.http.get<SearchResult[]>(`${this.baseUrl}/api/search/all/${query}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  //Notifications related methods
+  getNotifications() {
+    const token = localStorage.getItem('token');
+    return this.http.get<NotificationEdemoc[]>(`${this.baseUrl}/api/notification`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  deleteNotification(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.delete(`${this.baseUrl}/api/notification/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  markNotificationAsRead(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/notification/${id}/read`, {}, {
       headers: {
         Authorization: `${token}`,
       },
