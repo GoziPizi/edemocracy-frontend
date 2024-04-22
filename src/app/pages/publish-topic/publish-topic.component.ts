@@ -23,7 +23,7 @@ export class PublishTopicComponent {
   topicCreationForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    parentTopicId: new FormControl('', [Validators.required]),
+    parentTopicId: new FormControl(''),
   })
 
   constructor(

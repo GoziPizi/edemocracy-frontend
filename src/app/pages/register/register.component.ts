@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { professions } from './professions';
@@ -8,6 +8,7 @@ import { ImageInputComponent } from '../../utils/image-input/image-input.compone
 import { PoliticSides } from '../../enums/politicSides';
 import { PoliticSideDropdownItem } from '../../models/politicSides';
 import { politicSideMapperEnumToUser } from '../../mappers/politicside-mapper';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-register',
@@ -40,7 +41,9 @@ export class RegisterComponent {
   mapperEnumToString = politicSideMapperEnumToUser;
 
   constructor(
-    private apiHandler: ApiHandlerService
+    private apiHandler: ApiHandlerService,
+    private router: Router, 
+    private loadingService: LoadingService
   ) {
     const politicSides = Object.values(PoliticSides);
     this.politicSideOptions = politicSides.map((side: PoliticSides) => {
@@ -52,6 +55,7 @@ export class RegisterComponent {
   }
 
   register() {
+    this.loadingService.increment();
     if(this.registerForm.valid && this.rectoInput.isThereAnImage() && this.versoInput.isThereAnImage()) {
       let formData = new FormData();
 
@@ -69,7 +73,6 @@ export class RegisterComponent {
 
       formData.append('language', 'fr');
       formData.append('address', 'FR');
-      formData.append('politicSide', PoliticSides.CENTER)
 
       formData.delete('passwordConfirmation');
 
@@ -80,8 +83,12 @@ export class RegisterComponent {
         formData.append('verso', versoFile);
         this.apiHandler.register(formData).subscribe({
           next: (response:any) => {
+            this.router.navigate(['/accueil'])
+            this.loadingService.decrement();
           },
           error: (error:any) => {
+            console.error(error);
+            this.loadingService.decrement();
           }
         })
       }
