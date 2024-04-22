@@ -23,6 +23,7 @@ export const routes: Routes = [
 
     { path: 'debate/create', loadComponent: () => import('./pages/debate/create-debate/create-debate.component').then(m => m.CreateDebateComponent)},
     { path: 'debate/:id', loadComponent: () => import('./pages/debate/debate.component').then(m => m.DebateComponent) },
+    { path: 'debate', loadComponent: () => import('./pages/debate/debates-home/debates-home.component').then(m => m.DebatesHomeComponent) },
 
     { path: 'invitations', loadComponent: () => import('./pages/invitations/invitations.component').then(m => m.InvitationsComponent) },
     { path: 'invitation/:id', loadComponent: () => import('./pages/invitations/invitation/invitation.component').then(m => m.InvitationComponent) },

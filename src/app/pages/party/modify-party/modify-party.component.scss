@@ -42,7 +42,11 @@
 
 #create-event-form #header {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+}
+
+#create-event-form #header > * {
+    margin-bottom: 10px;
 }
 
 #historic{
@@ -78,6 +82,7 @@
 
 #create-event-button {
     background-color: darken(white, 10%);
+    margin-top: 10px;
     padding: 10px;
     width: max-content;
     cursor: pointer;

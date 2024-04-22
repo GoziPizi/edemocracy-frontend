@@ -6,6 +6,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { professions } from './professions';
 import { ImageInputComponent } from '../../utils/image-input/image-input.component';
 import { PoliticSides } from '../../enums/politicSides';
+import { PoliticSideDropdownItem } from '../../models/politicSides';
+import { politicSideMapperEnumToUser } from '../../mappers/politicside-mapper';
 
 @Component({
   selector: 'app-register',
@@ -20,20 +22,33 @@ export class RegisterComponent {
   @ViewChild('rectoInput') rectoInput!: ImageInputComponent;
   @ViewChild('versoInput') versoInput!: ImageInputComponent;
 
+  politicSideOptions: PoliticSideDropdownItem[] = [];
+
   registerForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
+    telephone: new FormControl('', [Validators.required, Validators.pattern(/^\+?\d{10,15}$/)]),
     profession: new FormControl('', [Validators.required]),
+    politicSide: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required] ),
     passwordConfirmation: new FormControl('', [Validators.required] )
   });
 
   professions = professions;
 
+  mapperEnumToString = politicSideMapperEnumToUser;
+
   constructor(
     private apiHandler: ApiHandlerService
   ) {
+    const politicSides = Object.values(PoliticSides);
+    this.politicSideOptions = politicSides.map((side: PoliticSides) => {
+      return {
+        value: side,
+        label: politicSideMapperEnumToUser(side)
+      }
+    });
   }
 
   register() {
@@ -52,7 +67,6 @@ export class RegisterComponent {
         }
       }
 
-      formData.append('telephone', '1234567890');
       formData.append('language', 'fr');
       formData.append('address', 'FR');
       formData.append('politicSide', PoliticSides.CENTER)
@@ -66,10 +80,8 @@ export class RegisterComponent {
         formData.append('verso', versoFile);
         this.apiHandler.register(formData).subscribe({
           next: (response:any) => {
-            console.log(response);
           },
           error: (error:any) => {
-            console.error(error);
           }
         })
       }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { Debate } from '../../models/debate';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { Argument } from '../../models/argument';
@@ -7,23 +7,30 @@ import { ArgumentForDebateThumbnailComponent } from '../../thumbnails/arguments/
 import { CommonModule } from '@angular/common';
 import { ForAgainstDebateComponent } from './for-against-debate/for-against-debate.component';
 import { DebateVote } from '../../enums/voteDebate';
-import { debateVoteEnumToInt, debateVoteEnumToString, stringToDebateVoteEnum } from '../../mappers/vote-mapper';
-import { SmallTopicThumbnailComponent } from '../../thumbnails/topic-thumbnail/small-topic-thumbnail/small-topic-thumbnail.component';
+import { debateVoteEnumToString } from '../../mappers/vote-mapper';
 import { TopicThumbnailComponent } from '../../thumbnails/topic-thumbnail/topic-thumbnail.component';
 import { Topic } from '../../models/topics';
 import { FormsModule } from '@angular/forms';
 import { LoadingService } from '../../services/loading.service';
+import { SingleArgumentPresentationComponent } from './single-argument-presentation/single-argument-presentation.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-debate',
   standalone: true,
-  imports: [ArgumentForDebateThumbnailComponent, ForAgainstDebateComponent, CommonModule, TopicThumbnailComponent, FormsModule],
+  imports: [ArgumentForDebateThumbnailComponent, ForAgainstDebateComponent, CommonModule, TopicThumbnailComponent, FormsModule, SingleArgumentPresentationComponent],
   templateUrl: './debate.component.html',
-  styleUrl: './debate.component.scss'
+  styleUrl: './debate.component.scss',
+  encapsulation: ViewEncapsulation.None,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DebateComponent {
 
   @ViewChild(ForAgainstDebateComponent) forAgainstDebate!: ForAgainstDebateComponent;
+  @ViewChild('swiperContainer', { static: false }) swiper!: ElementRef;
+
+  voteSubject$ = new Subject<{argumentId: string, vote: boolean}>
+  voteSubjectSubscription: any;
 
   debateId: string = '1';
   debate: Debate = new Debate();
@@ -32,11 +39,11 @@ export class DebateComponent {
   debateTopic: Topic = new Topic();
 
   voteValues = [
-    DebateVote.REALLY_AGAINST,
-    DebateVote.AGAINST,
-    DebateVote.NEUTRAL,
+    DebateVote.REALLY_FOR,
     DebateVote.FOR,
-    DebateVote.REALLY_FOR
+    DebateVote.NEUTRAL,
+    DebateVote.AGAINST,
+    DebateVote.REALLY_AGAINST
   ]
 
   routeSubscription: any;
@@ -49,8 +56,14 @@ export class DebateComponent {
   constructor(
     private apiHandler: ApiHandlerService,
     private route: ActivatedRoute,
-    private loadingService: LoadingService
-  ) { }
+    private loadingService: LoadingService,
+  ) {
+    this.voteSubjectSubscription = this.voteSubject$.subscribe({
+      next: (data) => {
+        this.voteForArgument(data.argumentId, data.vote);
+      }
+    });
+  }
 
   ngOnInit() {
     this.routeSubscription = this.route.params.subscribe(params => {
@@ -62,6 +75,7 @@ export class DebateComponent {
 
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
+    this.voteSubjectSubscription.unsubscribe();
   }
 
   getDebate() {
@@ -77,7 +91,7 @@ export class DebateComponent {
   getDebateArguments() {
     this.apiHandler.getDebateArguments(this.debateId).subscribe(
       (args: Argument[]) => {
-        this.arguments = args;
+        this.arguments = [...args]
       }
     );
   }
@@ -97,6 +111,32 @@ export class DebateComponent {
         this.getDebateArguments();
       }
     })
+  }
+
+  voteForArgument(argumentId: string, vote: boolean | null) {
+    if(vote === null) {
+      this.loadingService.increment();
+      this.apiHandler.deleteVote(argumentId).subscribe(() => {
+        this.loadingService.decrement();
+        this.refreshPage();
+      });
+      return;
+    }
+    if(vote) {
+      this.loadingService.increment();
+      this.apiHandler.voteUp(argumentId).subscribe(() => {
+        this.loadingService.decrement();
+        this.refreshPage();
+      });
+      return;
+    }
+    else {
+      this.loadingService.increment();
+      this.apiHandler.voteDown(argumentId).subscribe(() => {
+        this.loadingService.decrement();
+        this.refreshPage();
+      });
+    }
   }
 
   updateForAgainstDebateWidth() {
@@ -133,16 +173,38 @@ export class DebateComponent {
     this.isPopUpOpen = !this.isPopUpOpen;
   }
 
+  refreshPage() {
+    window.location.reload();
+  }
+
+  isPositive(value: number): boolean {
+    // const result = value === DebateVote.REALLY_FOR || value === DebateVote.FOR;
+    // if(result) {
+    //   console.log('positive')
+    //   console.log(value)
+    //   console.log(DebateVote[value])
+    // }
+    // return result
+    return true;
+  }
+
+  isNegative(value: number): boolean {
+    const result = value === DebateVote.REALLY_AGAINST || value === DebateVote.AGAINST;
+    return result
+  }
+
   get popularArguments(): Argument[] {
-    return this.arguments.sort((a, b) => {
-      return (b.nbGood + b.nbBad);
+    let tab = [...this.arguments].sort((a, b) => {
+      return (b.nbGood + b.nbBad) - (a.nbGood + a.nbBad);
     });
+    return tab;
   }
 
   get recentArguments(): Argument[] {
-    return this.arguments.sort((a, b) => {
-      return (new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    let tab = [...this.arguments].sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
-  }
+    return tab;
+  }  
 
 }

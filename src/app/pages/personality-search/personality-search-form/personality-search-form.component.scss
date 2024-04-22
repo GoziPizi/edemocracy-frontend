@@ -1,5 +1,17 @@
-#container{
-    background-color: darken(white, 5%);
+#container-form{
+    background-color: darken(white, 15%);
+
+    padding: 10px;
+    padding-bottom: 20px;
+    border-radius: 20px;
+}
+
+#container h4 {
+    margin-left: 5px;
+}
+
+#container p {
+    margin-left: 10px;
 }
 
 @import "@ng-select/ng-select/themes/default.theme.css";

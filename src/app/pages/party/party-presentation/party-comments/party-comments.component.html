@@ -1,7 +1,7 @@
 <div id="container">
     <div id="input-comment">
         <form [formGroup]="newCommentForm">
-            <textarea formControlName="content" placeholder="Votre commentaire"></textarea>
+            <textarea id="comment-textarea" rows="4" formControlName="content" placeholder="Votre commentaire"></textarea>
             <button type="submit" (click)="addComment()">Envoyer</button>
         </form>
     </div>

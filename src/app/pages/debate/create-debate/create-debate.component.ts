@@ -3,11 +3,14 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { LoadingService } from '../../../services/loading.service';
+import { Topic } from '../../../models/topics';
+import { SmallTopicThumbnailComponent } from '../../../thumbnails/topic-thumbnail/small-topic-thumbnail/small-topic-thumbnail.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-debate',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, SmallTopicThumbnailComponent, CommonModule],
   templateUrl: './create-debate.component.html',
   styleUrl: './create-debate.component.scss'
 })

@@ -24,7 +24,14 @@ export class NotificationsDisplayerComponent {
   }
 
   deleteNotification(id: string) {
-    console.log('Deleting notification with id', id);
+    this.apiHandler.deleteNotification(id).subscribe({
+      next: () => {
+        this.fetchNotifications();
+      },
+      error: (error) => {
+        console.error('Error deleting notification', error);
+      }
+    });
   }
 
   fetchNotifications() {

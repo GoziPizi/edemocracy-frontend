@@ -24,7 +24,8 @@ export class ImageInputComponent {
 
   isGoodRatio: boolean = true;
 
-  constructor() { }
+  constructor() {
+  }
 
   onDragOver(event : any) {
     event.preventDefault();
@@ -65,9 +66,17 @@ export class ImageInputComponent {
     }
   }
 
+  setImage(image: string) {
+    this.imagePreview = image;
+  }
+
   removeImage() {
     this.image = new File([], '');
     this.imagePreview = null;
+  }
+
+  removeImageFile() {
+    this.image = new File([], '');
   }
 
   isThereAnImage(): boolean {
@@ -92,6 +101,10 @@ export class ImageInputComponent {
       return null;
     }
     return this.image;
+  }
+
+  get isImageValid(): boolean {
+    return this.isThereAnImage() && this.isRationCorrect();
   }
 
 }

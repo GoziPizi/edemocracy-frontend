@@ -14,7 +14,6 @@ export class ForAgainstDebateComponent {
 
   updateWidth(width: number) {
     this.width = width;
-    
   }
 
   get pourcentageFor() {

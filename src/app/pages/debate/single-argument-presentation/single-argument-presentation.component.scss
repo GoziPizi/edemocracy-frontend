@@ -1,0 +1,45 @@
+@import '../../../../colors.scss';
+#container {
+    padding: 5px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+
+    background-color: darken(white, 10%);
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+#content {
+    direction: ltr;
+}
+
+#votes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+}
+
+#votes p {
+    margin: 0;
+    padding: 0;
+    margin: 0 5px;
+}
+
+#votes i {
+    color: lightgray;
+    cursor: pointer;
+
+    &:hover {
+        color: darken(lightgray, 10%)
+    }
+}
+
+.green {
+    color: $hope-green !important;
+}
+
+.red {
+    color: $debate-red !important;
+}

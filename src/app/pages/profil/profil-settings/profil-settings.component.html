@@ -1,0 +1,11 @@
+<div id="container">
+    <button (click)="onDeleteAccount()" id="delete-button" >Supprimer mon compte</button>
+</div>
+<div id="pop-up" *ngIf="popUpWindow" >
+    <div id="pop-up-content">
+        <h3>Suppression du compte</h3>
+        <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+        <button (click)="onDeleteAccount()">Oui</button>
+        <button (click)="onClosePopUp()">Non</button>
+    </div>
+</div>

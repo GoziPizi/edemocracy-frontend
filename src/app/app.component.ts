@@ -25,7 +25,7 @@ export class AppComponent {
     private router: Router
   ) {
     this.apiHandler.isLogged.subscribe((isLogged: boolean) => {
-      if(!isLogged){
+      if(!isLogged && this.router.url !== '/connexion' && this.router.url !== '/inscription'){
         this.router.navigate(['/landing']);
       }
     });

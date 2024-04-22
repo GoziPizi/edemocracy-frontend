@@ -12,3 +12,9 @@
     </form>
     <p id="validate-button" (click)="onSubmit()" >Valider</p>
 </div>
+<div id="new-image">
+    <h3>Changer votre image de profil</h3>
+    <app-image-input [text]="'Nouvelle image de profil'" id="image-input" #imageInput ></app-image-input>
+    <p *ngIf="imageCorrectlyUploaded" >Votre image a bien été mise à jour</p>
+    <button id="validate-button" (click)="onSubmitImage()" [disabled]="!imageInput.isImageValid">Valider</button>
+</div>

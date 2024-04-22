@@ -6,4 +6,5 @@
         <input type="password" formControlName="password" id="password" name="password" required>
         <button type="submit" [disabled]="!loginForm.valid" (click)="login()">Connexion</button>
     </form>
+    <p *ngIf="invalidLogin" id="error-id">Identifiants non corrects</p>
 </div>

@@ -1,19 +1,19 @@
-<div id="container">
+    <div id="container">
     <div id="header">
         <h1>Création d'un sujet</h1>
     </div>
     <form [formGroup]="topicCreationForm" id="creationForm">
-        <label for="title">Titre du sujet</label>
+        <label for="title">Titre du sujet :</label>
         <input type="text" formControlName="title" id="title" name="title" required>
-        <label for="description">Description du sujet</label>
+        <label for="description">Description du sujet :</label>
         <textarea rows=4 type="textarea" formControlName="description" id="description" name="description" required></textarea>
-        <label for="parentId">Sujet parent</label>
+        <label for="parentId">Sujet parent (optionnel) :</label>
         <select formControlName="parentTopicId" id="parentId" name="parentId" required>
             <option *ngFor="let topic of topicOptions" [value]="topic.id" >
                 {{topic.title}}
             </option>
         </select>
         <app-image-input [ratio]="16/9" [text]="'Image du sujet'" ></app-image-input>
-        <p id="create-button" (click)="onSubmit()" >Créer</p>
+        <button id="create-button" (click)="onSubmit()" [disabled]="!topicCreationForm.valid || !imageInput.isImageValid" >Créer</button>
     </form>
 </div>

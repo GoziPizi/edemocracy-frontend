@@ -1,0 +1,20 @@
+<div id="container">
+    <div id="header">
+        <h1>Débats</h1>
+        <div id="order">
+            <p>Trier par: </p>
+            <button 
+                (click)="setOrder('time')"
+                [ngClass]="{'selected': orderBy === 'time'}">Date</button>
+            <button 
+                (click)="setOrder('popularity')"
+                [ngClass]="{'selected': orderBy === 'popularity'}">Popularité</button>
+        </div>
+    </div>
+
+    <div id="debates">
+        <div *ngFor="let debate of debates">
+            <app-debate-thumbnail [debate]="debate" class='debate-thumbnail' ></app-debate-thumbnail>
+        </div>
+    </div>
+</div>

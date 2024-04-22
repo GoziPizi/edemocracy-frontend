@@ -3,9 +3,11 @@
         <label for="title">Titre</label>
         <input type="text" formControlName="title" id="title" name="title" required>
         <label for="description">Description</label>
-        <textarea formControlName="description" id="description" name="description" required></textarea>
-        <label for="topicId">Parent</label>
-        <input formControlName="topicId" id="topicId" name="topicId">
-        <p (click)="onSubmit()" id="validate-button">Valider</p>
+        <textarea rows="4" formControlName="description" id="description" name="description" required></textarea>
+        <div id="topic-presentation" *ngIf="createDebateForm.value.topicId">
+            <label for="topicId">Sujet du débat :</label>
+            <app-small-topic-thumbnail [topicId]="createDebateForm.value.topicId"></app-small-topic-thumbnail>
+        </div>
+        <button (click)="onSubmit()" id="validate-button">Valider</button>
     </form>
 </div>

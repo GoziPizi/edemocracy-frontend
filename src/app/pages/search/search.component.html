@@ -1,2 +1,4 @@
-aa
+<div id="empty-search" *ngIf="searchResult.length === 0">
+    <h3>Aucun résultats</h3>
+</div>
 <app-search-item *ngFor="let item of searchResult" [searchItem]="item" ></app-search-item>

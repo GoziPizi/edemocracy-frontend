@@ -19,6 +19,8 @@ export class PersonalitySearchComponent {
 
   personalityList: PersonalityWithUser[] = [];
 
+  hasResearched = false;
+
   constructor(
     private apiHandlerService: ApiHandlerService
   ) { }
@@ -27,6 +29,7 @@ export class PersonalitySearchComponent {
   }
 
   onSubmit() {
+    this.hasResearched = true;
     const criteria = this.personalitySearchForm.getCriterias();
     this.apiHandlerService.searchPersonalities(criteria).subscribe((response: any) => {
       this.personalityList = response;

@@ -1,8 +1,11 @@
+@import '../../../colors.scss';
+
 #header {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    background-color: darken(white, 5%);
+    padding: 10px;
+    border-bottom: 1px solid darken(white, 15%);
 }
 
 #container {
@@ -16,6 +19,7 @@
     flex-direction: column;
     align-items: center;
     border-right: 1px solid darken(white, 15%);
+    padding: 10px;
 }
 
 #searchForm {
@@ -25,6 +29,16 @@
 #searchButton {
     margin-top: 10px;
     width: 50%;
+    cursor: pointer;
+
+    &:hover {
+        color: $democracy-blue;
+        border-color: 1px solid $democracy-blue;
+
+        &:active {
+            border-color: $democracy-blue;
+        }
+    }
 }
 
 #result-container {

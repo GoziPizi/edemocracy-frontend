@@ -34,11 +34,9 @@ export class SearchComponent {
     this.apiHandler.textSearch(this.query).subscribe({
       next: (res) => {
         this.searchResult = res;
-        console.log(res);
         this.loadingService.decrement()
       },
       error: (err) => {
-        console.error(err);
         this.loadingService.decrement()
       }
     });

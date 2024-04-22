@@ -1,0 +1,17 @@
+<div id="container">
+    <p id="content">{{argument.content}}</p>
+    <div id="votes">
+        <p>{{argument.nbGood}}</p>
+        <i 
+            class="fa fa-thumbs-up" 
+            aria-hidden="true" 
+            [ngClass]="{'green' : argument.hasVote}"
+            (click)="onVoteUp()"></i>
+        <p>{{argument.nbBad}}</p>
+        <i 
+            class="fa fa-thumbs-down"
+            aria-hidden="true" 
+            [ngClass]="{'red' : argument.hasVote == false}"
+            (click)="onVoteDown()"></i>
+    </div>
+</div>

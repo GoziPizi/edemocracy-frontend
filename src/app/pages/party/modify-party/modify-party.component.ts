@@ -10,7 +10,7 @@ import { PoliticSides } from '../../../enums/politicSides';
 import { LoadingService } from '../../../services/loading.service';
 import { HistoricEventComponent } from '../party-presentation/party-historic/historic-event/historic-event.component';
 import { HistoricEventParty } from '../../../models/historicEventParty';
-import { sortEventsByDate, sortEventsByDateDesc } from '../../../utils/sortingFunctions';
+import { sortEventsByDateDesc } from '../../../utils/sortingFunctions';
 
 @Component({
   selector: 'app-modify-party',
@@ -123,6 +123,7 @@ export class ModifyPartyComponent {
         next: () => {
           this.fetchEvents();
           this.loadingService.decrement();
+          this.createEventForm.reset();
         },
         error: () => {
           this.loadingService.decrement();

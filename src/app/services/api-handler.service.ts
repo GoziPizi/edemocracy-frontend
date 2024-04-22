@@ -33,11 +33,16 @@ export class ApiHandlerService {
   }
 
   login(email: string, password: string) {
-    this.http.post(`${this.baseUrl}/api/login`, { email, password }).subscribe((response: any) => {
-      if (response.key) {
-        localStorage.setItem('token', response.key);
-        this.isLogged.next(true);
-      }
+    this.http.post(`${this.baseUrl}/api/login`, { email, password }).subscribe({
+      next: (response: any) => {
+        if (response.key) {
+          localStorage.setItem('token', response.key);
+          this.isLogged.next(true);
+        }
+      },
+      error: (error) => {
+        this.isLogged.next(false);
+      },
     });
   }
 
@@ -50,6 +55,7 @@ export class ApiHandlerService {
     const token = localStorage.getItem('token');
     if (!token) {
       this.isLogged.next(false);
+      return;
     }
     this.http.post(`${this.baseUrl}/api/login/check`, { token }).subscribe((response: any) => {
       if (response) {
@@ -83,6 +89,15 @@ export class ApiHandlerService {
     return this.http.post(`${this.baseUrl}/api/login/register`, form);
   }
 
+  deleteUser() {
+    const token = localStorage.getItem('token');
+    return this.http.delete(`${this.baseUrl}/api/users`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Users related methods
 
   getUser() { 
@@ -97,6 +112,17 @@ export class ApiHandlerService {
   updateUser(form: any) {
     const token = localStorage.getItem('token');
     return this.http.put(`${this.baseUrl}/api/users`, form, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  updateUserImage(image: File) {
+    const token = localStorage.getItem('token');
+    let formData = new FormData();
+    formData.append('profilePicture', image);
+    return this.http.put(`${this.baseUrl}/api/users/profile-picture`, formData, {
       headers: {
         Authorization: `${token}`,
       },
@@ -231,7 +257,43 @@ export class ApiHandlerService {
     });
   }
 
+  becomePersonality() {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/personality`, {}, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  updatePersonalityDescription(description: string) {
+    const token = localStorage.getItem('token');
+    return this.http.put(`${this.baseUrl}/api/personality`, { description }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Debate related methods
+
+  getDebatesByTime() {
+    const token = localStorage.getItem('token');
+    return this.http.get<Debate[]>(`${this.baseUrl}/api/debates/by-time`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getDebatesByPopularity() {
+    const token = localStorage.getItem('token');
+    return this.http.get<Debate[]>(`${this.baseUrl}/api/debates/by-popularity`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
 
   getDebate(id: string) {
     const token = localStorage.getItem('token');

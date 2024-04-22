@@ -1,36 +1,67 @@
-#container {
+@import '../../../colors.scss';
+
+.separation-line {
+    width: 30%;
+    //light blue
+    background-color: darken(white, 10%);
+    height: 1px;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+#page-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
-#top-container {
+#presentation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 10px 50px;
+}
+
+#presentation h3 {
+    text-align: center;
+}
+
+#debate-presentation p {
+    background-color: transparentize($color: $democracy-blue, $amount: 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+#arguments-container {
     width: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 #recent-arguments {
-    width: 25%;
+    width: 33%;
     padding: 10px;
-    border-right: 1px solid darken(white, 10%)
-}
+    margin: 10px;
 
-#main-content {
-    width: 50%;
-    padding: 10px;
-}
-
-#topic-thumbnail {
-    display: block;
-    width: 70%;
+    background-color: transparentize($color: $democracy-blue, $amount: 0.8);
+    border-radius: 10px;
 }
 
 #popular-arguments {
-    width: 25%;
+    width: 60%;
     padding: 10px;
-    border-left: 1px solid darken(white, 10%)
+    margin: 10px;
+
+    background-color: transparentize($color: $democracy-blue, $amount: 0.8);
+    border-radius: 10px;
 }
 
 #for-against {
@@ -75,17 +106,32 @@
     background-color: darken(white, 30%);
 }
 
+.selected .red {
+    background-color: $debate-red;
+}
+
 #add-argument {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#add-argument button {
+    cursor: pointer;
+    font-size:large;
     padding: 10px;
     border-radius: 10px;
-    background-color: darken(white, 20%);
+    border: 1px solid darken($participation-yellow, 20%);
 
-    width: max-content;
-    cursor: pointer;
+    background-color: $participation-yellow;
+    color: white;
 
     &:hover {
-        background-color: darken(white, 30%);
+        background-color: darken($participation-yellow, 10%);
     }
+}
+
+#add-argument button i {
+    margin-right: 10px;
 }
 
 #argument-pop-up {
@@ -142,4 +188,21 @@
     &:hover {
         background-color: darken(white, 30%);
     }
+}
+
+.single-argument-presentation {
+    padding: 10px;
+}
+
+swiper-container {
+    width: 100%;
+}
+
+swiper-slide {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
 }

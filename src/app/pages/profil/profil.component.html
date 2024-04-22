@@ -4,32 +4,63 @@
         <h3>Vous êtes administrateur</h3>
         <a [routerLink]="['/admin']">Accéder à l'administration</a>
     </div>
-    <div id="settings">
-        <h3>Réglages</h3>
+    <div id="settings" class="open-menu">
+        <div class="open-menu-header">
+            <h3>Paramètres</h3>
+            <i class="fas fa-chevron-down" *ngIf="!settings" (click)="toggleSettings()"></i>
+            <i class="fas fa-chevron-up" *ngIf="settings" (click)="toggleSettings()"></i>
+        </div>
+        <app-profil-settings *ngIf="settings"></app-profil-settings>
     </div>
-    <div id="cotisation">
-        <h3>Cotisation</h3>
-        <a>Lien vers la cotisation</a>
+
+    <div id="cotisation" class="open-menu">
+        <div class="open-menu-header">
+            <h3>Cotisation</h3>
+            <i class="fas fa-chevron-down" *ngIf="!cotisation" (click)="toggleCotisation()"></i>
+            <i class="fas fa-chevron-up" *ngIf="cotisation" (click)="toggleCotisation()"></i>
+        </div>
+        <p *ngIf="cotisation" >Lien vers la cotisation</p>
     </div>
-    <div id="partis" *ngIf="userPartis.length > 0">
-        <h3>Partis</h3>
-        <div *ngFor="let party of userPartis" class="party">
-            <p>Parti: {{party.description}}</p>
-            <i class="fas fa-arrow-right fa-xl" [routerLink]="['/partis', party.id]" ></i>
+
+    <div id="partis" class="open-menu" *ngIf="userPartis.length > 0">
+        <div class="open-menu-header">
+            <h3>Partis</h3>
+            <i class="fas fa-chevron-down" *ngIf="!partis" (click)="togglePartis()"></i>
+            <i class="fas fa-chevron-up" *ngIf="partis" (click)="togglePartis()"></i>
+        </div>
+        <div id="party-container" *ngIf="partis">
+            <div *ngFor="let party of userPartis" class="party">
+                <p>Parti: {{party.description}}</p>
+                <i class="fas fa-arrow-right fa-xl" [routerLink]="['/partis', party.id]" ></i>
+            </div>
         </div>
     </div>
-    <div id="personality">
-        <div id="create-personality" *ngIf="!userPersonality">
-            <h3>Devenir une personalité</h3>
-            <a>Créer une personnalité</a>
-        </div>
-        <div id="modify-personality" *ngIf="userPersonality">
+
+    <div id="personality" class="open-menu">
+        <div class="open-menu-header">
             <h3>Personnalité</h3>
-            <p>Vous êtes une personalité publique</p>
+            <i class="fas fa-chevron-down" *ngIf="!personality" (click)="togglePersonality()"></i>
+            <i class="fas fa-chevron-up" *ngIf="personality" (click)="togglePersonality()"></i>
+        </div>
+        <div id="personality-container" *ngIf="personality" >
+            <div id="create-personality" *ngIf="!userPersonality">
+                <button (click)="createPersonality()" >Devenir une personalité publiques</button>
+            </div>
+            <div id="modify-personality" *ngIf="userPersonality">
+                <p>Vous êtes une personalité publique</p>
+                <textarea #personalityDescription id="personality-description" (input)="onPersonalityDescriptionChange()" >{{userPersonality.description}}</textarea>
+                <button (click)="updatePersonality()" *ngIf="isPersonalityModified" >Mettre à jour</button> 
+            </div>
         </div>
     </div>
-    <div id="follows">
-        <h3>Abonnements</h3>
+
+    <div id="follows" class="open-menu">
+        <div class="open-menu-header">
+            <h3>Abonnements</h3>
+            <i class="fas fa-chevron-down" *ngIf="!followsOpen" (click)="toggleFollows()"></i>
+            <i class="fas fa-chevron-up" *ngIf="followsOpen" (click)="toggleFollows()"></i>
+        </div>
+        <p *ngIf="followsOpen" >Lien vers les abonnements</p>   
     </div>
     <div id="opinions" class="open-menu">
         <div class="open-menu-header">

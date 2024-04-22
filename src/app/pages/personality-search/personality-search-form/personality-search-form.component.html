@@ -1,6 +1,7 @@
-<div id="container">
+<div id="container-form">
+   <h4>Critères de recherche :</h4>
     <div id="searchForm">
-        <p>Bord Politique</p>
+        <p>Bord Politique :</p>
         <ng-select [items]="politicSideOptions"
            bindLabel="label"
            bindValue="value"
@@ -8,7 +9,7 @@
            [(ngModel)]="politicSide"
            class="custom">
         </ng-select>
-        <p>Pour:</p>
+        <p>Sujets pour :</p>
         <ng-select [items]="topicOptions"
            bindLabel="title"
            bindValue="id"
@@ -16,7 +17,7 @@
            [(ngModel)]="for"
            class="custom">
         </ng-select>
-        <p>Contre:</p>
+        <p>Sujets contre :</p>
         <ng-select [items]="topicOptions"
            bindLabel="title"
            bindValue="id"

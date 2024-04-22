@@ -10,6 +10,7 @@ export class User {
     profession: string = '';
     telephone: string = '';
     language: string = '';
+    profilePicture?: string = '';
     politicSide: PoliticSides = PoliticSides.CENTER;
     role: string = '';
     follows: string[] = [];

@@ -1,5 +1,11 @@
+@import '../../../../colors.scss';
+
 #bell {
-    color: black
+    color: black;
+
+    &:hover {
+        color: $participation-yellow;
+    }
 }
 
 #container {

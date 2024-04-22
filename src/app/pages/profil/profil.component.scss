@@ -52,5 +52,18 @@
 
 .open-menu-header i {
     margin-left: 10px;
+    cursor : pointer;
+
+    color: darkgray;
+
+    &:hover {
+        color: black;
+    }
+}
+
+#personality-description {
+    margin-top: 10px;
+    width: 400px;
+    resize: none;
 }
 
