@@ -1,0 +1,29 @@
+<div id="container">
+    <div id="search-bar">
+        <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Rechercher" 
+            [(ngModel)]="searchTerm" 
+            (ngModelChange)="onSearchTermChange()">
+        <div id="hidden-content">
+            <div id="waiting-search" *ngIf="waitingForSearchResult">
+                <div class="spinner"></div>
+            </div>
+            <div id="search-result" *ngIf="searchTerm!=='' && !waitingForSearchResult">
+                <app-topic-selector-result *ngFor="let topic of searchResults" [topic]="topic" (click)="selectTopic(topic)"></app-topic-selector-result>
+            </div>
+            <div id="no-result" *ngIf="searchTerm!=='' && searchResults.length===0 && !waitingForSearchResult">
+                <p>Aucun résultat</p>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="selectedTopic" id="selected-topic">
+        <i class="fa-solid fa-times" (click)="unselectTopic()"></i>
+        <img [src]="selectedTopic.medias[0]" alt="topic image">
+        <p>{{selectedTopic.title}}</p>
+    </div>
+    <div *ngIf="!selectedTopic" id="no-topic">
+        <p>Aucun sujet choisi</p>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+#container {
+    position: relative;
+}
+
+input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: darken(white, 15%);
+    color: #000;
+    font-size: 1em;
+    font-weight: 600;
+    width: 300px;
+    margin-right: 10px;
+}
+
+#hidden-content {
+    z-index: 1000;
+    position: absolute;
+    display: none;
+    width: 30em;
+    background-color: darken(white, 30%);
+}
+
+#waiting-search {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#search-bar:hover #hidden-content {
+    display: block;
+}
+
+.spinner {
+    border: 8px solid rgba(255, 255, 255, 0.3);   /* Couleur grise claire du cercle */
+    border-radius: 50%;                           /* Cercle parfait */
+    border-top: 8px solid #000;                   /* Couleur du secteur supérieur du cercle */
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;           /* Animation pour faire tourner le spinner */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#selected-topic {
+
+    margin-top: 10px;
+    width: max-content;
+
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+
+    background-color: darken(white, 15%);
+}
+
+#selected-topic img {
+    width: 20%;
+}
+
+#selected-topic i {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+
+    color: #777;
+
+    &:hover {
+        color: darken(#000, 20%);
+    }
+}

@@ -1,0 +1,18 @@
+#container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+
+    background-color: darken(white, 10%);
+
+    &:hover {
+        background-color: darken(white, 20%);
+    }
+
+    cursor: pointer;
+}
+
+#container img {
+    width: 20%;
+}
