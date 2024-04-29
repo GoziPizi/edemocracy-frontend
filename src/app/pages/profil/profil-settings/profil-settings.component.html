@@ -1,5 +1,6 @@
 <div id="container">
     <button (click)="onDeleteAccount()" id="delete-button" >Supprimer mon compte</button>
+    <button routerLink="['/reset-password']" id="reset-password-button" >Réinitialiser mon mot de passe</button>
 </div>
 <div id="pop-up" *ngIf="popUpWindow" >
     <div id="pop-up-content">

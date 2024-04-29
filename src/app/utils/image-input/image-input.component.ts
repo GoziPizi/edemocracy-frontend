@@ -44,7 +44,7 @@ export class ImageInputComponent {
   onFileSelected(event : any) {
     this.image = event.target.files[0];
     this.updateImagePreview();
-    this.isRationCorrect();
+    this.isRatioCorrect();
   }
 
   updateImagePreview() {
@@ -86,7 +86,7 @@ export class ImageInputComponent {
     return true;
   }
 
-  isRationCorrect(): boolean {
+  isRatioCorrect(): boolean {
     if (this.image.size === 0) {
       return false;
     }
@@ -104,7 +104,7 @@ export class ImageInputComponent {
   }
 
   get isImageValid(): boolean {
-    return this.isThereAnImage() && this.isRationCorrect();
+    return this.isThereAnImage() && this.isRatioCorrect();
   }
 
 }

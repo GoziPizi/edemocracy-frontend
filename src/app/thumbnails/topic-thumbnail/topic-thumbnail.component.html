@@ -5,6 +5,10 @@
             <i class="fa-solid fa-share fa-l" (click)="share($event)" ></i>
         </div>
         <p id="description" >{{description}}</p>
-        <img [src]="image" alt="{{topic.title}}">
+        <img *ngIf="mediaType==='image'" [src]="image" alt="{{topic.title}}">
+        <youtube-player class="video-player" *ngIf="mediaType==='video'"
+            [videoId]="videoId"
+            [width]="'60%'">
+        </youtube-player>
     </a>
 </div>

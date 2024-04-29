@@ -2,10 +2,13 @@
     <div id="input-comment">
         <form [formGroup]="newCommentForm">
             <textarea id="comment-textarea" rows="4" formControlName="content" placeholder="Votre commentaire"></textarea>
-            <button type="submit" (click)="addComment()">Envoyer</button>
+            <button type="submit" id="submit-button" (click)="addComment()">Envoyer</button>
         </form>
     </div>
     <div id="comments-list">
+        <div id="comments-header">
+            <h3>Commentaires</h3>
+        </div>
         <div class="single-comment" *ngFor="let comment of comments">
             <i class="fas fa-times" *ngIf="comment.userId === userId" (click)="deleteComment(comment.id)"></i>
             <div class="comment-header">

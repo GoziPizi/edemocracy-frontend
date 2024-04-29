@@ -98,6 +98,14 @@ export class ApiHandlerService {
     });
   }
 
+  resetPassword(email: string) {
+    return this.http.post(`${this.baseUrl}/api/login/reset-password`, { email });
+  }
+
+  changePassword(email: string, token: string, password: string) {
+    return this.http.post(`${this.baseUrl}/api/login/change-password`, { email, token, password });
+  }
+
   //Users related methods
 
   getUser() { 
@@ -603,6 +611,15 @@ export class ApiHandlerService {
   textSearch(query: string) {
     const token = localStorage.getItem('token');
     return this.http.get<SearchResult[]>(`${this.baseUrl}/api/search/all/${query}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  textSearchByType(query: string, type: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/search/${type}/${query}`, {
       headers: {
         Authorization: `${token}`,
       },

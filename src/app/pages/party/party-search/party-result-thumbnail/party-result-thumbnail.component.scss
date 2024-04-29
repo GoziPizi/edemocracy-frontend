@@ -10,6 +10,8 @@ a {
     display: flex;
     flex-direction: row;
 
+    background-color: darken($color: white, $amount: 5%);
+
     &:hover {
         background-color: rgba(0, 0, 0, 0.1);
     }

@@ -177,17 +177,6 @@ export class DebateComponent {
     window.location.reload();
   }
 
-  isPositive(value: number): boolean {
-    // const result = value === DebateVote.REALLY_FOR || value === DebateVote.FOR;
-    // if(result) {
-    //   console.log('positive')
-    //   console.log(value)
-    //   console.log(DebateVote[value])
-    // }
-    // return result
-    return true;
-  }
-
   isNegative(value: number): boolean {
     const result = value === DebateVote.REALLY_AGAINST || value === DebateVote.AGAINST;
     return result

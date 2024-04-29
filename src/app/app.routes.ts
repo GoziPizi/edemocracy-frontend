@@ -5,6 +5,8 @@ export const routes: Routes = [
     { path: 'landing', loadComponent: () => import('./pages/landing/landing.component').then(m => m.LandingComponent) },
     { path: 'connexion', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) },
     { path: 'inscription', loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent) },
+    { path: 'reset-password', loadComponent: () => import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent) },
+    { path: 'change-password', loadComponent: () => import('./pages/change-password/change-password.component').then(m => m.ChangePasswordComponent) },
 
     { path: 'accueil', loadComponent: () => import('./pages/accueil/accueil.component').then(m => m.AccueilComponent) },
 

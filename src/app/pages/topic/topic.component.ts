@@ -5,11 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { ChildrenTopicComponent } from '../../thumbnails/topic-thumbnail/children-topic/children-topic.component';
 import { CommonModule } from '@angular/common';
 import { AssociatedDebatesComponent } from './associated-debates/associated-debates.component';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 @Component({
   selector: 'app-topic',
   standalone: true,
-  imports: [ChildrenTopicComponent, AssociatedDebatesComponent, CommonModule],
+  imports: [ChildrenTopicComponent, AssociatedDebatesComponent, CommonModule, YouTubePlayerModule],
   templateUrl: './topic.component.html',
   styleUrl: './topic.component.scss'
 })
@@ -51,6 +52,36 @@ export class TopicComponent {
       return this.topic.title;
     }
     return '';
+  }
+
+  get mediaType() {
+    let link = this.topic.medias[0] ? this.topic.medias[0] : '';
+    if(!link) return 'none';
+    if(link.includes('youtu')) return 'video';
+    else return 'image';
+  }
+
+  extractVideoID(url: string) {
+    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[\?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+
+    const match = url.match(regex);
+    
+    if (match && match[1]) {
+        return match[1];
+    }
+
+    return '';
+  }
+
+  get videoId() {
+    let link = this.topic.medias[0] ? this.topic.medias[0] : '';
+    if(!link) return '';
+    if(link.includes('youtu')) return this.extractVideoID(link);
+    else return ''; 
+  }
+
+  get image() {
+    return this.topic.medias[0] ? this.topic.medias[0] : '/assets/topic-fixtures.png'
   }
 
 }

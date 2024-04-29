@@ -1,8 +1,8 @@
 <div id="container">
     <div id="header">
         {{event.title}}
-        {{event.dateStart}}
-        {{event.dateEnd}}
+        du {{event.dateStart| date:'dd/MM/yyyy'}}
+        au {{event.dateEnd | date:'dd/MM/yyyy'}}
     </div>
     <div id="content">
         {{event.content}}

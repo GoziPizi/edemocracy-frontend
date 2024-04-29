@@ -1,3 +1,5 @@
+@import '../../../colors.scss';
+
 #container {
     display: flex;
     flex-direction: column;
@@ -12,6 +14,14 @@
 }
 
 #creationForm {
+    background-color: darken(white, 10%);
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#formContainer {
 
     background-color: darken(white, 10%);
     border-radius: 10px;
@@ -20,13 +30,35 @@
     flex-direction: column;
 
     padding: 20px 5%;
-    width: 50%;
     min-width: 400px;
+    width: 50%;
     margin-bottom: 20px;
 }
 
 #creationForm > * {
     margin-bottom: 20px;
+}
+
+#creationForm > input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: darken(white, 15%);
+    color: #000;
+    font-size: 1em;
+    font-weight: 600;
+    width: 100%;
+}
+
+#creationForm > textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: darken(white, 15%);
+    color: #000;
+    font-size: 1em;
+
+    resize: none;
 }
 
 #description {
@@ -35,12 +67,20 @@
 }
 
 #create-button {
+    border: none; 
+    border-radius: 10px;
+
     padding: 10px 20px;
     background-color: darken(white, 20%);
     width: max-content;
     cursor: pointer;
 
     &:hover {
+        background-color: $democracy-blue;
+    }
+
+    &:disabled {
         background-color: darken(white, 30%);
+        cursor: not-allowed;
     }
 }

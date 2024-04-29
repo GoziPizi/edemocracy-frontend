@@ -2,7 +2,11 @@
     <h3>{{topicTitle}}</h3>
     <p>{{topic.description}}</p>
     <div id="medias-display">
-        <img [src]="topic.medias[0]" alt="Débat associé">
+        <h3>Médias associé:</h3>
+        <img *ngIf="mediaType==='image'" [src]="image" alt="{{topic.title}}">
+        <youtube-player id="video-player" *ngIf="mediaType==='video'"
+            [videoId]="videoId">
+        </youtube-player>
     </div>
     <div id="associated-debate">
         <app-associated-debates #associatedDebates [topicId]="topicId"></app-associated-debates>

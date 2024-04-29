@@ -25,6 +25,34 @@
     border-radius: 10px;
 }
 
+#comment-textarea {
+    resize: none;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid darken(white, 10%);
+    background-color: darken(white, 5%);
+    color: #000;
+    font-size: 1em;
+}
+
+#submit-button {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: darken(white, 15%);
+    color: #000;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    width: max-content;
+    align-self: flex-end;
+
+    &:hover {
+        background-color: darken(white, 10%);
+    }
+}
+
 .single-comment {
     position: relative;
 
@@ -55,8 +83,4 @@
 
 .comment-header p {
     margin-right: 10px;
-}
-
-#comment-textarea {
-    resize: none;
 }

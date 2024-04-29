@@ -27,17 +27,22 @@
 }
 
 #searchButton {
+
     margin-top: 10px;
-    width: 50%;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+
+    background-color: darken(white, 15%);
+    color: #000;
+    font-size: 1em;
+    font-weight: 600;
+    
     cursor: pointer;
 
     &:hover {
-        color: $democracy-blue;
-        border-color: 1px solid $democracy-blue;
-
-        &:active {
-            border-color: $democracy-blue;
-        }
+        background-color: darken(white, 10%);
     }
 }
 

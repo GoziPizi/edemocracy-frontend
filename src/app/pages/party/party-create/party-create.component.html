@@ -8,13 +8,13 @@
         <label for="description">Description du parti</label>
         <input type="text" formControlName="description" id="description" name="description" required>
         <label for="reason">Raison de l'existence du parti</label>
-        <input type="text" formControlName="reason" id="reason" name="reason" required>
+        <textarea type="text" formControlName="reason" id="reason" name="reason" required></textarea>
         <label for="politicSide">Bord politique du parti</label>
         <select formControlName="politicSide" id="politicSide" name="politicSide" required>
             <option *ngFor="let side of politicSides" [value]="side" >
                 {{mapperSideToString(side)}}
             </option>
         </select>
-        <button type="submit" [disabled]="!partyCreationForm.valid" (click)="createParty()">Créer</button>
+        <button type="submit" id="submit-button" [disabled]="!partyCreationForm.valid" (click)="createParty()">Créer</button>
     </form>
 </div>

@@ -1,6 +1,6 @@
 <div id="container">
     <p (click)="logout()" id="logout">Deconnexion</p>
-    <div *ngIf="userProfil.role === 'ADMIN'">
+    <div id="admin-content" *ngIf="userProfil.role === 'ADMIN'">
         <h3>Vous êtes administrateur</h3>
         <a [routerLink]="['/admin']">Accéder à l'administration</a>
     </div>
@@ -48,8 +48,9 @@
             </div>
             <div id="modify-personality" *ngIf="userPersonality">
                 <p>Vous êtes une personalité publique</p>
+                <p>Présentation:</p>
                 <textarea #personalityDescription id="personality-description" (input)="onPersonalityDescriptionChange()" >{{userPersonality.description}}</textarea>
-                <button (click)="updatePersonality()" *ngIf="isPersonalityModified" >Mettre à jour</button> 
+                <button (click)="updatePersonality()" *ngIf="isPersonalityModified" id="modify-personality-button">Mettre à jour</button>
             </div>
         </div>
     </div>

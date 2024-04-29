@@ -1,3 +1,5 @@
+@import '../../../../colors.scss';
+
 #container {
     display: flex;
     flex-direction: column;
@@ -6,13 +8,59 @@
 }
 
 #creation-form {
+    width: 70%;
+    max-width: 800px;
     background-color: darken(white, 5%);
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 #creation-form > * {
     margin: 10px 0;
+}
+
+input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: darken(white, 10%);
+    color: #000;
+    font-size: 1em;
+    border: 2px solid darken(white, 20%);
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: darken(white, 10%);
+    color: #000;
+    font-size: 1em;
+    border: 2px solid darken(white, 20%);
+}
+
+#submit-button {
+
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+
+    background-color: darken(white, 15%);
+    color: #000;
+    font-size: 1em;
+    font-weight: 600;
+    
+    cursor: pointer;
+
+    &:hover {
+        background-color: darken(white, 10%);
+        color: $democracy-blue;
+    }
 }
