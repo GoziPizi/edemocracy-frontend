@@ -6,13 +6,14 @@
                 <p>{{user.firstName}}</p>
             </div>
         </div>
-        <p *ngIf="isAdmin" id="add-members" (click)="setAddMenu(true)" >Ajouter des membres</p>
+        <button *ngIf="isAdmin" id="add-members" (click)="setAddMenu(true)" >Ajouter des membres</button>
     </div>
     <div id="add-menu" *ngIf="isAddMenuOpen" >
         <h3>Ajouter des membres</h3>
         <form [formGroup]="inviteForm" id="invite-form">
             <input type="text" formControlName="email" placeholder="Email">
-            <button type="submit" (click)="inviteUser()">Inviter</button>
+            <button [disabled]="this.inviteForm.invalid" type="submit" (click)="inviteUser()">Inviter</button>
+            <p *ngIf='error'>Le mail saisi ne correspond à aucun utilisateur</p>
         </form>
     </div>
 </div>

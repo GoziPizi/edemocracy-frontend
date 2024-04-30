@@ -1,5 +1,6 @@
 export class Topic {
     id: string = 'id';
+    userId: string = 'userId';
     title: string = 'Titre du Sujet';
     description: string = 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet ';
     parentTopicId: string = '';

@@ -24,6 +24,8 @@ export class PartyMembersComponent {
 
   isAddMenuOpen: boolean = false;
 
+  error = false; 
+
   pendingInvites: PublicUser[] = [];
   inviteForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email])
@@ -73,8 +75,12 @@ export class PartyMembersComponent {
       this.loadingService.decrement();
       return;
     }
-    this.apiHandler.addMemberToParty(this.partyId, this.inviteForm.value.email).subscribe(() => {
-      this.loadingService.decrement();
+    this.apiHandler.addMemberToParty(this.partyId, this.inviteForm.value.email).subscribe({
+      next: () => this.loadingService.decrement(),
+      error: () => {
+        this.loadingService.decrement()
+        this.error = true;
+      }
     });
   }
 

@@ -64,7 +64,6 @@ export class TopicSelectorComponent {
 
   handleResults = (res: any) => {
     this.searchResults = res.slice(0, 5);
-    console.log(this.searchResults);
     this.waitingForSearchResult = false;
   }
 

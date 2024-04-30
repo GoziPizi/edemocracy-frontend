@@ -1,3 +1,5 @@
+@import '../../../../colors.scss';
+
 #container {
     padding: 20px 0;
     width: 100%;
@@ -25,15 +27,50 @@
     position: absolute;
 
     right: 20px;
-    bottom: 20px;
 
+    border: none; 
+    border-radius: 10px;
+
+    padding: 10px 20px;
+    background-color: darken(white, 20%);
+    width: max-content;
     cursor: pointer;
 
+    &:hover {
+        background-color: $democracy-blue;
+    }
+
+    &:disabled {
+        background-color: darken(white, 30%);
+        cursor: not-allowed;
+    }
+}
+
+#invite-form > input {
     padding: 10px;
     border-radius: 5px;
+    border: none;
+    background-color: darken(white, 15%);
+    color: #000;
+    font-size: 1em;
+}
+
+#invite-form > button {
+    border: none; 
+    border-radius: 5px;
+
+    margin-left: 10px;
+    padding: 10px 20px;
     background-color: darken(white, 20%);
+    width: max-content;
+    cursor: pointer;
 
     &:hover {
+        background-color: $democracy-blue;
+    }
+
+    &:disabled {
         background-color: darken(white, 30%);
+        cursor: not-allowed;
     }
 }

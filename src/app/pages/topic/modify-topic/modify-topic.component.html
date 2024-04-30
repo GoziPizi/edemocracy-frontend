@@ -1,0 +1,9 @@
+<div id="container">
+    <form [formGroup]="topicModificationForm" id="modify-form">
+        <label for="title">Titre du sujet</label>
+        <input type="text" formControlName="title" id="title" name="title" required>
+        <label for="description">Description</label>
+        <textarea rows="6" formControlName="description" id="description" name="description" required></textarea>
+        <button type="submit" id="modify-button" (click)="patchTopic()">Modifier</button>
+    </form>
+</div>

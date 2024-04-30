@@ -245,6 +245,15 @@ export class ApiHandlerService {
     });
   }
 
+  patchTopic(id: string, form: any) {
+    const token = localStorage.getItem('token');
+    return this.http.patch(`${this.baseUrl}/api/topics/${id}`, form, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Personalities related methods
 
   getPersonality(id: string) {

@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { Topic } from '../../models/topics';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ChildrenTopicComponent } from '../../thumbnails/topic-thumbnail/children-topic/children-topic.component';
 import { CommonModule } from '@angular/common';
 import { AssociatedDebatesComponent } from './associated-debates/associated-debates.component';
@@ -10,7 +10,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 @Component({
   selector: 'app-topic',
   standalone: true,
-  imports: [ChildrenTopicComponent, AssociatedDebatesComponent, CommonModule, YouTubePlayerModule],
+  imports: [ChildrenTopicComponent, AssociatedDebatesComponent, CommonModule, YouTubePlayerModule, RouterModule],
   templateUrl: './topic.component.html',
   styleUrl: './topic.component.scss'
 })
@@ -22,10 +22,14 @@ export class TopicComponent {
   topicId: string = 'topicId';
   topic: Topic = new Topic();
 
+  userId: string = 'userId';
+
   constructor(
     private apiHandler: ApiHandlerService, 
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this.userId = this.apiHandler.getUserId();
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

@@ -1,5 +1,6 @@
 #container {
     padding: 20px;
+    position: relative;
 }
 
 #medias-display {
@@ -19,4 +20,36 @@
 #children-topics {
     width: 50%;
 
+}
+
+#create-topic {
+    position: fixed;
+    right: 20px;
+    top: 80px;
+
+    padding: 10px 20px;
+    background: darken(white, 10%);
+    border-radius: 10px;
+    border: 1px solid darken(white, 20%);
+
+    cursor: pointer;
+    &:hover {
+        background: darken(white, 20%);
+    }
+}
+
+#modify-topic {
+    position: fixed;
+    right: 20px;
+    top: 130px;
+
+    padding: 10px 20px;
+    background: darken(white, 10%);
+    border-radius: 10px;
+    border: 1px solid darken(white, 20%);
+
+    cursor: pointer;
+    &:hover {
+        background: darken(white, 20%);
+    }
 }

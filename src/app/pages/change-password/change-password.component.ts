@@ -30,7 +30,6 @@ export class ChangePasswordComponent {
         email: params['email'],
         token: params['token']
       });
-      console.log(this.changePasswordForm.value)
     });
   }
 
@@ -42,11 +41,9 @@ export class ChangePasswordComponent {
       this.apiHandler.changePassword(email, token, newPassword).subscribe(
         {
           next: (response) => {
-            console.log(response);
             this.router.navigate(['/login']);
           },
           error: (error) => {
-            console.log(error);
           }
         
         }

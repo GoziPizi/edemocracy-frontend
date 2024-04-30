@@ -24,10 +24,8 @@ export class ResetPasswordComponent {
   onSubmit() {
     this.apiHandler.resetPassword(this.email).subscribe(
       (response) => {
-        console.log(response);
       },
       (error) => {
-        console.log(error);
       }
     );
   }

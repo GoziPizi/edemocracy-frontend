@@ -31,6 +31,7 @@ export const routes: Routes = [
     { path: 'invitation/:id', loadComponent: () => import('./pages/invitations/invitation/invitation.component').then(m => m.InvitationComponent) },
 
     { path: 'publish-topic', loadComponent: () => import('./pages/publish-topic/publish-topic.component').then(m => m.PublishTopicComponent) },
+    { path: 'modify-topic/:id', loadComponent: () => import('./pages/topic/modify-topic/modify-topic.component').then(m => m.ModifyTopicComponent) },
 
     { path: 'profil', loadComponent: () => import('./pages/profil/profil.component').then(m => m.ProfilComponent) },
 
