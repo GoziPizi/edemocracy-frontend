@@ -1,7 +1,7 @@
 import { Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { Debate } from '../../models/debate';
 import { ApiHandlerService } from '../../services/api-handler.service';
-import { Argument } from '../../models/argument';
+import { Argument, ArgumentType } from '../../models/argument';
 import { ActivatedRoute } from '@angular/router';
 import { ArgumentForDebateThumbnailComponent } from '../../thumbnails/arguments/argument-for-debate-thumbnail/argument-for-debate-thumbnail.component';
 import { CommonModule } from '@angular/common';
@@ -36,6 +36,10 @@ export class DebateComponent {
   debate: Debate = new Debate();
   arguments: Argument[] = [];
 
+  agumentsFor: Argument[] = [];
+  agumentsAgainst: Argument[] = [];
+  argumentsSolution: Argument[] = [];
+
   debateTopic: Topic = new Topic();
 
   voteValues = [
@@ -52,6 +56,7 @@ export class DebateComponent {
 
   isPopUpOpen: boolean = false;
   argumentTitle: string = '';
+  argumentType: ArgumentType = ArgumentType.FOR;
 
   constructor(
     private apiHandler: ApiHandlerService,
@@ -159,7 +164,7 @@ export class DebateComponent {
 
   onValidate() {
     this.loadingService.increment();
-    this.apiHandler.postArgument(this.argumentTitle, this.debateId).subscribe({
+    this.apiHandler.postArgument(this.argumentTitle, this.argumentType,this.debateId).subscribe({
       next: () => {
         this.getDebateArguments();
         this.loadingService.decrement();

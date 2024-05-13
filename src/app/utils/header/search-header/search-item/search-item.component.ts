@@ -34,4 +34,15 @@ export class SearchItemComponent {
     }
     this.router.navigate([route, this.searchItem.id])
   }
+
+  loadBackupImage(){
+    this.searchItem.picture = '../../../assets/E-Democracy..png';
+  }
+
+  get image(){
+    if(this.searchItem.picture && this.searchItem.picture !== ''){
+      return this.searchItem.picture;
+    }
+    return '../../../assets/E-Democracy..png';
+  }
 }

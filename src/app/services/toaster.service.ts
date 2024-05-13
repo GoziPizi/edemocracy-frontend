@@ -15,6 +15,5 @@ export class ToasterService {
   }
 
   error(message: string) {
-    console.error(message);
   }
 }

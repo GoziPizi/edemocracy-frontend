@@ -29,7 +29,6 @@ export class NotificationsDisplayerComponent {
         this.fetchNotifications();
       },
       error: (error) => {
-        console.error('Error deleting notification', error);
       }
     });
   }
@@ -40,7 +39,6 @@ export class NotificationsDisplayerComponent {
         this.notifications = notifications;
       },
       error: (error) => {
-        console.error('Error fetching notifications', error);
       }
     });
     }

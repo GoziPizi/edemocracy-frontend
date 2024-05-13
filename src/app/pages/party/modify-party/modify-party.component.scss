@@ -36,6 +36,17 @@ input {
     margin-bottom: 10px;
 }
 
+#logo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#image-input {
+    width: 128px;
+}
+
 #against {
     width: 20%;
 }

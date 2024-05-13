@@ -1,7 +1,7 @@
 <div id="container">
     <h3>{{topicTitle}}</h3>
     <p>{{topic.description}}</p>
-    <div id="medias-display">
+    <div id="medias-display" *ngIf="mediaType!=='none'" >
         <h3>Médias associé:</h3>
         <img *ngIf="mediaType==='image'" [src]="image" alt="{{topic.title}}">
         <youtube-player id="video-player" *ngIf="mediaType==='video'"

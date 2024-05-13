@@ -1,11 +1,10 @@
-@import '../../../colors.scss';
+@import '../../../styles.scss';
 
 .separation-line {
     width: 30%;
     //light blue
     background-color: darken(white, 10%);
     height: 1px;
-
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -178,20 +177,15 @@
     width: 80%;
 }
 
-#create-argument {
-    background-color: darken(white, 20%);
-    padding: 10px;
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    &:hover {
-        background-color: darken(white, 30%);
-    }
-}
-
 .single-argument-presentation {
     padding: 10px;
+}
+
+#type-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 swiper-container {

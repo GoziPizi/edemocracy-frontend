@@ -21,7 +21,7 @@ export class HomeNewsComponent {
   }
 
   ngOnInit() {
-    this.apiHandler.getTopicsParentlist().subscribe((response: any) => {
+    this.apiHandler.getRecentTopics().subscribe((response: any) => {
       this.topics = response;
     });
   }

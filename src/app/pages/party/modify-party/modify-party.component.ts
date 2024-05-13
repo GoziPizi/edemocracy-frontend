@@ -11,11 +11,12 @@ import { LoadingService } from '../../../services/loading.service';
 import { HistoricEventComponent } from '../party-presentation/party-historic/historic-event/historic-event.component';
 import { HistoricEventParty } from '../../../models/historicEventParty';
 import { sortEventsByDateDesc } from '../../../utils/sortingFunctions';
+import { ImageInputComponent } from '../../../utils/image-input/image-input.component';
 
 @Component({
   selector: 'app-modify-party',
   standalone: true,
-  imports: [VerticalTopicSelectorComponent, FormsModule, ReactiveFormsModule, CommonModule, HistoricEventComponent],
+  imports: [VerticalTopicSelectorComponent, FormsModule, ReactiveFormsModule, CommonModule, HistoricEventComponent, ImageInputComponent],
   templateUrl: './modify-party.component.html',
   styleUrl: './modify-party.component.scss'
 })
@@ -26,6 +27,7 @@ export class ModifyPartyComponent {
 
   events: HistoricEventParty[] = [];
 
+  @ViewChild("imageInput") imageInput!: ImageInputComponent;
   @ViewChild("forSelector") forSelector!: VerticalTopicSelectorComponent;
   @ViewChild("againstSelector") againstSelector!: VerticalTopicSelectorComponent;
 
@@ -64,6 +66,7 @@ export class ModifyPartyComponent {
       this.updateForm();
       this.forSelector.updateSelectedTopics(this.originalParty.for);
       this.againstSelector.updateSelectedTopics(this.originalParty.against);
+      this.imageInput.setImage(this.originalParty.logo);
     });
   }
 
@@ -143,5 +146,20 @@ export class ModifyPartyComponent {
         this.loadingService.decrement();
       }
     });
+  }
+
+  uploadLogo() {
+    const logo = this.imageInput.getImageFile();
+    if (logo) {
+      this.loadingService.increment();
+      this.apiHandler.updatePartyLogo(this.partyId, logo).subscribe({
+        next: () => {
+          this.loadingService.decrement();
+        },
+        error: () => {
+          this.loadingService.decrement();
+        }
+      });
+    }
   }
 }

@@ -52,4 +52,8 @@ export class PartyPresentationComponent {
     });
   }
 
+  get partyLogo() {
+    return (this.party.logo && this.party.logo != '') ? this.party.logo : '../../../../assets/default-profil.webp';
+  }
+
 }

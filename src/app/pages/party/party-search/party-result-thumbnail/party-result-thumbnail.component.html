@@ -1,7 +1,7 @@
 <a [routerLink]="['/partis', party.id]">
     <div id="container">
         <div id="profile-picture-container">
-            <img id="profile-picture" src="../../../../assets/default-profil.webp" alt="image de profil" />
+            <img id="profile-picture" [src]="partyLogo" alt="image de profil" />
         </div>
         <div>
             <h3>{{party.name}}</h3>

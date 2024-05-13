@@ -1,7 +1,5 @@
 <div id="container">
-    <div id="modify-button" *ngIf="isAdmin" >
-        <a [routerLink]="['/modify-party', partyId]" >Modifier le party</a>
-    </div>
+    <button *ngIf="isAdmin" [routerLink]="['/modify-party', partyId]" class="validate-button admin-button">Modifier le parti</button>
     <div id="left-container">
         <h3>Pour:</h3>
         <div class="topic-container">
@@ -15,9 +13,9 @@
                     <h2>{{party.name}}</h2>
                     <h4>{{mapperEnumToString(party.politicSide)}}</h4>
                 </div>
-                <img src="../../../../assets/default-profil.webp" >
+                <img [src]="partyLogo" >
             </div>
-            <a [routerLink]="['/partis', party.id,'membres']" >Voir les membres</a>
+            <button class="validate-button" [routerLink]="['/partis', party.id,'membres']" >Voir les membres</button>
             <p>{{party.description}}</p>
         </div>
         <div class="line"></div>

@@ -29,5 +29,13 @@
 }
 
 #presentation {
-    padding: 10px
+    padding: 10px;
+    position: relative;
+}
+
+#presentation img {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 150px;
 }

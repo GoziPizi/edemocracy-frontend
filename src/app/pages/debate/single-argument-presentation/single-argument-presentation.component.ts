@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Argument } from '../../../models/argument';
+import { Argument, ArgumentType } from '../../../models/argument';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -28,6 +28,19 @@ export class SingleArgumentPresentationComponent {
       return;
     }
     this.$voteSubject.next({argumentId: this.argument.id, vote: false});
+  }
+
+  getColorByValue(): string {
+    switch(this.argument.type) {
+      case ArgumentType.FOR:
+        return '#8ec9ff'; // Choisissez la couleur que vous souhaitez pour 'FOR'
+      case ArgumentType.AGAINST:
+        return '#ffd1d1'; // Choisissez la couleur que vous souhaitez pour 'AGAINST'
+      case ArgumentType.SOLUTION:
+        return '#ffe599'; // Choisissez la couleur que vous souhaitez pour 'SOLUTION'
+      default:
+        return 'transparent'; // Couleur par défaut ou aucune couleur
+    }
   }
 
 }

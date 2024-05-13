@@ -73,6 +73,14 @@
         <i class="fas fa-times" (click)="togglePopUp()"></i>
         <h3>Ajouter un argument</h3>
         <input type="text" placeholder="Titre de l'argument" [(ngModel)]="argumentTitle">
-        <p id="create-argument" (click)="onValidate()" >Valider</p>
+        <div id="type-container">
+            <label for="for">Pour</label>
+            <input type="radio" id="for" name="argumentType" value="FOR" [(ngModel)]="argumentType">
+            <label for="against">Contre</label>
+            <input type="radio" id="against" name="argumentType" value="AGAINST" [(ngModel)]="argumentType">
+            <label for="solution">Solution</label>
+            <input type="radio" id="solution" name="argumentType" value="SOLUTION" [(ngModel)]="argumentType">
+        </div>
+        <p class="validate-button" (click)="onValidate()" >Valider</p>
     </div>
 </div>

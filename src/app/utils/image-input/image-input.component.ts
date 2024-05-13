@@ -62,7 +62,7 @@ export class ImageInputComponent {
     img.onload = () => {
       this.width = img.width;
       this.height = img.height;
-      this.isGoodRatio = Math.abs(this.width / this.height - this.ratio) < this.tolerance;
+      this.isGoodRatio = Math.abs(this.width / this.height - this.ratio) <= this.tolerance;
     }
   }
 

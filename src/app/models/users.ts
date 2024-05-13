@@ -23,4 +23,5 @@ export class PublicUser {
     firstName: string = '';
     name: string = '';
     politicSide: PoliticSides = PoliticSides.CENTER;
+    profilePicture?: string = '';
 }

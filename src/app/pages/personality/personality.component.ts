@@ -27,6 +27,8 @@ export class PersonalityComponent {
   personalityId: string = '';
   personality: PersonalityWithUser = new PersonalityWithUser();
 
+  defaultImage = "../assets/default-profil.webp"
+
   ngOnInit() {
     this.paramSubscription = this.route.params.subscribe({
       next: (params: any) => {
@@ -39,6 +41,7 @@ export class PersonalityComponent {
   getPersonality() {
     this.apiHandler.getPersonality(this.personalityId).subscribe({
       next: (response: any) => {
+        console.log(response);
         this.personality = response;
       },
       error: (error: any) => {

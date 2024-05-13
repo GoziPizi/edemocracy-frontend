@@ -89,7 +89,6 @@ export class RegisterComponent {
             this.loadingService.decrement();
           },
           error: (error:any) => {
-            console.error(error);
             this.loadingService.decrement();
           }
         })

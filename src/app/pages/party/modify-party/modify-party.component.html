@@ -19,7 +19,12 @@
         </select>
         </form>
         <button class="validate-button" (click)="onSubmit()" >Valider</button>
+        <div id="logo">
+            <app-image-input id="image-input" #imageInput ></app-image-input>
+            <button class="validate-button" (click)="uploadLogo()" >Changer le logo</button>
+        </div>
     </div>
+    
     <div id="against">
         <app-vertical-topic-selector [selected]="originalParty.against" #againstSelector ></app-vertical-topic-selector>
     </div>

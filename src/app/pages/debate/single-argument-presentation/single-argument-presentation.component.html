@@ -1,4 +1,4 @@
-<div id="container">
+<div id="container" [ngStyle]="{ 'background-color': getColorByValue() }" >
     <p id="content">{{argument.content}}</p>
     <div id="votes">
         <p>{{argument.nbGood}}</p>

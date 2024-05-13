@@ -27,7 +27,6 @@ export class AppComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.apiHandler.isLogged.subscribe((isLogged: boolean) => {
-          console.log(this.router.url);
           if (!isLogged 
             && this.router.url !== '/connexion' 
             && this.router.url !== '/inscription'

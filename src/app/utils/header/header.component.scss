@@ -34,6 +34,14 @@ h2 {
     border-radius: 5px;
     border: none;
     background-color: darken(white, 5%);
+
+    @media screen and (max-width: 1400px) {
+        font-size: 20px;
+    }
+
+    @media screen and (max-width: 1200px) {
+        font-size: 16px;
+    }
 }
 
 h2 i {

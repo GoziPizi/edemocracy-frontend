@@ -16,4 +16,4 @@
     type="file"
     style="display: none;"
     (change)="onFileSelected($event)">
-<p *ngIf="!isGoodRatio" id="error-ratio">Image de la mauvaise dimension</p>
+<p *ngIf="!isGoodRatio" id="error-ratio">Image de la mauvaise dimension, le ratio demandé est {{ratio}}</p>

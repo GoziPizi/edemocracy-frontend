@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { PartySearchCriteria, PersonalitySearchCriteria } from '../models/criterias';
 import { TopicSearchItem } from '../models/topics';
 import { Debate } from '../models/debate';
-import { Argument } from '../models/argument';
+import { Argument, ArgumentType } from '../models/argument';
 import { DebateVote } from '../enums/voteDebate';
 import { PoliticSides } from '../enums/politicSides';
 import { Party } from '../models/party';
@@ -211,6 +211,15 @@ export class ApiHandlerService {
     });
   }
 
+  getRecentTopics() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/topics/recent`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   getTopicById(id: string) {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.baseUrl}/api/topics/${id}`, {
@@ -350,9 +359,9 @@ export class ApiHandlerService {
 
   //Argument related methods
 
-  postArgument(content: string, debateId: string) {
+  postArgument(content: string, argumentType: ArgumentType, debateId: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/arguments`, { content, debateId }, {
+    return this.http.post(`${this.baseUrl}/api/arguments`, { content, argumentType, debateId }, {
       headers: {
         Authorization: `${token}`,
       },
@@ -418,6 +427,17 @@ export class ApiHandlerService {
   updateParty(id:string, form: any) {
     const token = localStorage.getItem('token');
     return this.http.put(`${this.baseUrl}/api/parties/${id}`, form, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  updatePartyLogo(id: string, image: File) {
+    const token = localStorage.getItem('token');
+    let formData = new FormData();
+    formData.append('logo', image);
+    return this.http.put(`${this.baseUrl}/api/parties/${id}/logo`, formData, {
       headers: {
         Authorization: `${token}`,
       },
