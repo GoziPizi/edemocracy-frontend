@@ -1,4 +1,4 @@
-@import '../../../colors.scss';
+@import '../../../styles.scss';
 
 #container {
     display: flex;
@@ -66,21 +66,6 @@
     resize: none;
 }
 
-#create-button {
-    border: none; 
-    border-radius: 10px;
-
-    padding: 10px 20px;
-    background-color: darken(white, 20%);
-    width: max-content;
-    cursor: pointer;
-
-    &:hover {
-        background-color: $democracy-blue;
-    }
-
-    &:disabled {
-        background-color: darken(white, 30%);
-        cursor: not-allowed;
-    }
+.validate-button {
+    margin-top: 10px;
 }

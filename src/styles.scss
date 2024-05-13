@@ -1,6 +1,37 @@
+@import './colors.scss';
+
 html, body {
     width: 100%;
     padding: 0;
     margin: 0;
     font-family: 'Helvetica', sans-serif;
+}
+
+.input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: darken(white, 15%);
+    color: #000;
+    font-size: 1em;
+    width: 100%;
+}
+
+.validate-button {
+    border: none; 
+    border-radius: 10px;
+
+    padding: 10px 20px;
+    background-color: darken(white, 20%);
+    width: max-content;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $democracy-blue;
+    }
+
+    &:disabled {
+        background-color: darken(white, 30%);
+        cursor: not-allowed;
+    }
 }

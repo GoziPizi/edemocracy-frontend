@@ -18,7 +18,7 @@
             </option>
         </select>
         </form>
-        <p id="validate-button" (click)="onSubmit()" >Valider</p>
+        <button class="validate-button" (click)="onSubmit()" >Valider</button>
     </div>
     <div id="against">
         <app-vertical-topic-selector [selected]="originalParty.against" #againstSelector ></app-vertical-topic-selector>
@@ -38,7 +38,7 @@
         </div>
         <label for="content">Description de l'événement</label>
         <input type="text" id="content" name="content" formControlName="content" required>
-        <button id="create-event-button" (click)="createEvent()" [disabled]="!createEventForm.valid" >Créer l'événement</button>
+        <button class="validate-button" (click)="createEvent()" [disabled]="!createEventForm.valid" >Créer l'événement</button>
     </form>
     <div id="past-events">
         <div *ngFor="let event of events" class="event-container">

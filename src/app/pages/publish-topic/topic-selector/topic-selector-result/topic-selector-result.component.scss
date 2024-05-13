@@ -1,10 +1,14 @@
+@import '../../../../../colors.scss';
+
 #container {
+
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: start;
 
-    background-color: darken(white, 10%);
+    background-color: darken(white, 15%);
+    border-top: 1px solid white;
 
     &:hover {
         background-color: darken(white, 20%);
@@ -15,4 +19,8 @@
 
 #container img {
     width: 20%;
+}
+
+#container p {
+    margin-left: 10px;
 }

@@ -1,5 +1,7 @@
 <div id="container">
+    <i id="back-arrow" [routerLink]="['/landing']" class="fa-solid fa-arrow-left"></i>
     <form [formGroup]="registerForm" id="register-form" >
+        <img src="../../../assets/E-Democracy..png" height="300px" width="600px">
         <label for="firstName">Prénom :</label>
         <input type="text" formControlName="firstName" id="firstName" name="firstName" required>
 
@@ -44,6 +46,6 @@
         <app-image-input #rectoInput [text]="'Recto'" [ratio]="1" [tolerance]="10"></app-image-input>
         <app-image-input #versoInput [text]="'Verso'" [ratio]="1" [tolerance]="10"></app-image-input>
 
-        <button type="submit" [disabled]="!registerForm.valid" (click)="register()">Inscription</button>
+        <button type="submit" [disabled]="!registerForm.valid" (click)="register()" class="validate-button">Inscription</button>
     </form> 
 </div>

@@ -1,10 +1,12 @@
 <div id="container">
+    <i id="back-arrow" [routerLink]="['/landing']" class="fa-solid fa-arrow-left"></i>
+    <img src="../../../assets/E-Democracy..png" height="300px" width="600px">
     <form [formGroup]="loginForm" id="login-form">
         <label for="email">E-mail :</label>
         <input type="text" formControlName="email" id="email" name="email" required>
         <label for="password">Mot de Passe :</label>
         <input type="password" formControlName="password" id="password" name="password" required>
-        <button type="submit" [disabled]="!loginForm.valid" (click)="login()">Connexion</button>
+        <button type="submit" [disabled]="!loginForm.valid" (click)="login()" class="validate-button" >Connexion</button>
     </form>
     <p *ngIf="invalidLogin" id="error-id">Identifiants non corrects</p>
 </div>

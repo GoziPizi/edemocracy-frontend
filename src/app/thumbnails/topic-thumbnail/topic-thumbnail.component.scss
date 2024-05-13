@@ -3,7 +3,9 @@
 a {
     text-decoration: none;
     color: black;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #container {
@@ -11,8 +13,6 @@ a {
     background-color: darken(white, 10%);
     padding: 10px;
     border-radius: 10px;
-    display: flex;
-    flex-direction: column;
 
     &:hover {
         background-color: darken(white, 20%);
@@ -23,9 +23,6 @@ a {
     width: 60%;
 }
 
-#container .video-player {
-    width: 60%;
-}
 
 #header {
     width: 100%;

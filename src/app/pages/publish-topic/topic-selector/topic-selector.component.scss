@@ -16,10 +16,13 @@ input {
 
 #hidden-content {
     z-index: 1000;
+
     position: absolute;
     display: none;
+
     width: 30em;
     background-color: darken(white, 30%);
+    border-radius: 10px;
 }
 
 #waiting-search {
