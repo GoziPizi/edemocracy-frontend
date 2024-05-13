@@ -37,5 +37,10 @@ export const routes: Routes = [
 
     { path: 'admin', loadComponent: () => import('./pages/admin/admin.component').then(m => m.AdminComponent)},
 
+    //legal-notice
+    { path: 'legal-notice', loadComponent: () => import('./pages/legal-notice/legal-notice/legal-notice.component').then(m => m.LegalNoticeComponent) },
+    { path: 'privacy-policy', loadComponent: () => import('./pages/legal-notice/privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent) },
+    { path: 'terms-of-service', loadComponent: () => import('./pages/legal-notice/terms-of-service/terms-of-service.component').then(m => m.TermsOfServiceComponent) },
+
     { path: '**', redirectTo: 'accueil' }
 ];

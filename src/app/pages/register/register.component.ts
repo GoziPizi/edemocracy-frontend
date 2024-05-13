@@ -33,7 +33,8 @@ export class RegisterComponent {
     profession: new FormControl('', [Validators.required]),
     politicSide: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required] ),
-    passwordConfirmation: new FormControl('', [Validators.required] )
+    passwordConfirmation: new FormControl('', [Validators.required] ),
+    termsAccepted: new FormControl(false, [Validators.requiredTrue])
   });
 
   professions = professions;
@@ -75,6 +76,7 @@ export class RegisterComponent {
       formData.append('address', 'FR');
 
       formData.delete('passwordConfirmation');
+      formData.delete('termsAccepted');
 
       const rectoFile: File | undefined = this.rectoInput.getImageFile() || undefined;
       const versoFile: File | undefined = this.versoInput.getImageFile() || undefined;

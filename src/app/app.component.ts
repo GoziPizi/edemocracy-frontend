@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ApiHandlerService } from './services/api-handler.service';
 import { HeaderComponent } from './utils/header/header.component';
 import { FooterComponent } from './utils/footer/footer.component';
@@ -24,9 +24,23 @@ export class AppComponent {
     private apiHandler: ApiHandlerService,
     private router: Router
   ) {
-    this.apiHandler.isLogged.subscribe((isLogged: boolean) => {
-      if(!isLogged && this.router.url !== '/connexion' && this.router.url !== '/inscription'){
-        this.router.navigate(['/landing']);
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.apiHandler.isLogged.subscribe((isLogged: boolean) => {
+          console.log(this.router.url);
+          if (!isLogged 
+            && this.router.url !== '/connexion' 
+            && this.router.url !== '/inscription'
+            && this.router.url !== '/landing'
+            && this.router.url !== '/reset-password'
+            && this.router.url !== '/change-password'
+            && this.router.url !== '/legal-notice'
+            && this.router.url !== '/privacy-policy'
+            && this.router.url !== '/terms-of-service'
+            && this.router.url !== '/') {
+            this.router.navigate(['/landing']);
+          }
+        });
       }
     });
   }
