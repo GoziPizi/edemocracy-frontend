@@ -22,7 +22,7 @@ export class DebateThumbnailComponent {
 
   get nbVotes() {
     if(this.debate) {
-      return this.debate.nbVotes;
+      return this.debate.debateResult.nbVotes;
     }
     return 0;
   }

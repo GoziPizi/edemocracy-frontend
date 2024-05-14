@@ -682,4 +682,14 @@ export class ApiHandlerService {
       },
     });
   }
+
+  //Contributions related methods
+  getCheckoutSession() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/contribution/checkout-session`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
 }

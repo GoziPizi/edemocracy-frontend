@@ -19,7 +19,7 @@
             <i class="fas fa-chevron-down" *ngIf="!cotisation" (click)="toggleCotisation()"></i>
             <i class="fas fa-chevron-up" *ngIf="cotisation" (click)="toggleCotisation()"></i>
         </div>
-        <p *ngIf="cotisation" >Lien vers la cotisation</p>
+        <button *ngIf="!userProfil.contribution" class="validate-button" (click)="onContribute()" >Cotiser</button>
     </div>
 
     <div id="partis" class="open-menu" *ngIf="userPartis.length > 0">

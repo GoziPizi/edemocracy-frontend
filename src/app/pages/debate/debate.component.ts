@@ -37,7 +37,8 @@ import { ArgumentDebatePresentationComponent } from './argument-debate-presentat
 })
 export class DebateComponent {
 
-  @ViewChild(ForAgainstDebateComponent) forAgainstDebate!: ForAgainstDebateComponent;
+  @ViewChild('debateResult') forAgainstDebate!: ForAgainstDebateComponent;
+  @ViewChild('debateContributorsResult') forAgainstContributorsDebate!: ForAgainstDebateComponent;
   @ViewChild('swiperContainer', { static: false }) swiper!: ElementRef;
 
   @ViewChild('argumentsFor') argumentsForDisplayer!: ArgumentsDisplayerComponent;
@@ -102,6 +103,7 @@ export class DebateComponent {
       (debate: Debate) => {
         this.debate = debate;
         this.updateForAgainstDebateWidth();
+        this.updateForAgainstContributorsDebateWidth();
         this.getTopic();
         this.argumentDebatePresentation.setArgumentId(this.debate.argumentId);
 
@@ -164,13 +166,24 @@ export class DebateComponent {
 
   updateForAgainstDebateWidth() {
     let width = 0.5;
-    if(this.debate.nbVotes == 0) {
+    if(this.debate.debateResult.nbVotes == 0) {
       width = 0.5;
       return;
     }
-    let ratio = this.debate.score / (2*this.debate.nbVotes);
+    let ratio = this.debate.debateResult.score / (2*this.debate.debateResult.nbVotes);
     width = (ratio + 1) / 2;
     this.forAgainstDebate.updateWidth(width);
+  }
+
+  updateForAgainstContributorsDebateWidth() {
+    let width = 0.5;
+    if(this.debate.debateContributorsResult.nbVotes == 0) {
+      width = 0.5;
+      return;
+    }
+    let ratio = this.debate.debateContributorsResult.score / (2*this.debate.debateContributorsResult.nbVotes);
+    width = (ratio + 1) / 2;
+    this.forAgainstContributorsDebate.updateWidth(width);
   }
 
   updateArguments() {

@@ -90,6 +90,20 @@ export class ProfilComponent {
     });
   }
   
+  onContribute() {
+    this.loadingService.increment();
+    this.apiHandler.getCheckoutSession().subscribe({
+      next: (session: any) => {
+        const session_url = session.url;
+        window.location.href = session_url
+      },
+      error: (error) => {
+        this.toasterService.error('Une erreur est survenue lors de la création de la session de paiement.');
+        this.loadingService.decrement();
+      }
+    });
+  }
+
   createPersonality(){
     this.loadingService.increment();
     this.apiHandler.becomePersonality().subscribe(() => {

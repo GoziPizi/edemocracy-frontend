@@ -66,7 +66,8 @@
     </div>
     <div id="for-against">
         <div id="nb-of-votes">
-            <p>{{debate.nbVotes}} votants</p>
+            <p>{{debate.debateResult.nbVotes}} votants</p>
+            <p>{{debate.debateContributorsResult.nbVotes}} contributeurs votants</p>
         </div>
         <h4>Votez pour ou contre cette idée:</h4>
         <div id="vote-selector">
@@ -76,7 +77,10 @@
                 (click)="voteForDebate(value)" 
                 [ngClass]="{'selected' : isCurrentValue(value), 'green' : true, 'red' : isNegative(value) }">{{mapperEnumToString(value)}}</p>
         </div>
-        <app-for-against-debate></app-for-against-debate>
+        <p>Vote complet:</p>
+        <app-for-against-debate #debateResult ></app-for-against-debate>
+        <p>Vote des contributeurs uniquement: </p>
+        <app-for-against-debate #debateContributorsResult ></app-for-against-debate>
     </div>
 </div>
 
