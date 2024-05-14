@@ -14,4 +14,6 @@
             [ngClass]="{'red' : argument.hasVote == false}"
             (click)="onVoteDown()"></i>
     </div>
+    <button *ngIf="argument.childDebateId !== null" class="validate-button" (click)="onViewDebate()" >Voir le débat associé</button>
+    <button *ngIf="argument.childDebateId === null" (click)="onCreateDebate()" class="validate-button">Créer un débat</button>
 </div>

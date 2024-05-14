@@ -17,7 +17,6 @@ export class ArgumentsDisplayerComponent {
 
   setArgumentsList(value: Argument[]) {
     this.arguments = value;
-    console.log(this.arguments)
   }
 
 }

@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { Argument, ArgumentType } from '../../../models/argument';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-single-argument-presentation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './single-argument-presentation.component.html',
   styleUrl: './single-argument-presentation.component.scss'
 })
@@ -13,6 +14,13 @@ export class SingleArgumentPresentationComponent {
 
   @Input() argument!: Argument;
   @Input() $voteSubject!: any;
+
+  constructor(
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+  }
 
   onVoteUp() {
     if(this.argument.hasVote){
@@ -41,6 +49,19 @@ export class SingleArgumentPresentationComponent {
       default:
         return 'transparent'; // Couleur par défaut ou aucune couleur
     }
+  }
+
+  onViewDebate() {
+    this.router.navigate(['/debate', this.argument.childDebateId], {
+      queryParamsHandling: 'merge'
+    })
+  }
+
+  onCreateDebate() {
+    this.router.navigate(['/debate/create'], {
+      queryParams: {argumentId: this.argument.id},
+      queryParamsHandling: 'merge'
+    })
   }
 
 }

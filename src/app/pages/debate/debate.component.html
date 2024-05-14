@@ -14,6 +14,10 @@
 
     <div class="separation-line"></div>
 
+    <app-argument-debate-presentation #argumentDebatePresentation></app-argument-debate-presentation>
+
+    <div class="separation-line" *ngIf="debate.argumentId !== null"></div>
+
     <div id="arguments-container">
         <div id="recent-arguments">
             <h4>Arguments Récents:</h4>

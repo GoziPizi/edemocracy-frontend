@@ -23,7 +23,6 @@ export class ChildrenTopicComponent {
   ) { }
 
   ngOnInit() {
-    console.log(this.childrenTopicId);
     this.getTopic();
   }
 

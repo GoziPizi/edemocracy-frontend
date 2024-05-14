@@ -30,6 +30,11 @@ export class CreateDebateComponent {
         if (topicId) {
           this.createDebateForm.patchValue({topicId: topicId})
         }
+        const argumentId: string | null = params['argumentId']
+        if (argumentId) {
+          this.createDebateForm.patchValue({argumentId: argumentId})
+        }
+        this.fetchArgument()
       }
     })
   }
@@ -37,8 +42,27 @@ export class CreateDebateComponent {
   createDebateForm = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    topicId: new FormControl('', Validators.required),
+    topicId: new FormControl(''),
+    argumentId: new FormControl('')
   })
+
+  argumentValue: string = ''
+
+  fetchArgument() {
+    if (!this.createDebateForm.value.argumentId) {
+      return
+    }
+    this.loadingService.increment()
+    this.apiHandler.getArgument(this.createDebateForm.value.argumentId).subscribe({
+      next: (response: any) => {
+        this.argumentValue = response.content
+        this.loadingService.decrement()
+      },
+      error: (error) => {
+        this.loadingService.decrement()
+      }
+    })
+  }
 
   onSubmit() {
     this.loadingService.increment()

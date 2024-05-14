@@ -8,6 +8,10 @@
             <label for="topicId">Sujet du débat :</label>
             <app-small-topic-thumbnail [topicId]="createDebateForm.value.topicId"></app-small-topic-thumbnail>
         </div>
+        <div id="argument-presentation" *ngIf="createDebateForm.value.argumentId">
+            <label for="argumentId">Argument du débat :</label>
+            <p>{{argumentValue}}</p>
+        </div>
         <button (click)="onSubmit()" class="validate-button">Valider</button>
     </form>
 </div>

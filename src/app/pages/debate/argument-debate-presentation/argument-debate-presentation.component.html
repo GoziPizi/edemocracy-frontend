@@ -1,0 +1,5 @@
+<div id="container" *ngIf="argumentId" >
+    <h4>Argument faisant l'object du débat: </h4>
+    <p>{{argument.content}}</p>
+    <button (click)="onSeeDebate()" class="validate-button">Voir le débat</button> 
+</div>

@@ -6,13 +6,13 @@ export enum ArgumentType {
 
 export class Argument {
     id: string = '';
-    content: string = 'Il n\'y a pas encore d\'argument';
+    content: string = 'Contenu par défaut';
     userId: string = '';
     debateId: string = '';
     type: ArgumentType = ArgumentType.FOR;
     nbGood: number = 0;
     nbBad: number = 0;
-    childDebateId: string = '';
+    childDebateId?: string = '';
     hasVote: boolean | null = null;
     createdAt: string = '';
     updatedAt: string = '';

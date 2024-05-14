@@ -2,7 +2,7 @@ import { Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation, Elemen
 import { Debate } from '../../models/debate';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { Argument, ArgumentType } from '../../models/argument';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArgumentForDebateThumbnailComponent } from '../../thumbnails/arguments/argument-for-debate-thumbnail/argument-for-debate-thumbnail.component';
 import { CommonModule } from '@angular/common';
 import { ForAgainstDebateComponent } from './for-against-debate/for-against-debate.component';
@@ -15,11 +15,21 @@ import { LoadingService } from '../../services/loading.service';
 import { SingleArgumentPresentationComponent } from './single-argument-presentation/single-argument-presentation.component';
 import { Subject } from 'rxjs';
 import { ArgumentsDisplayerComponent } from './arguments-displayer/arguments-displayer.component';
+import { ArgumentDebatePresentationComponent } from './argument-debate-presentation/argument-debate-presentation.component';
 
 @Component({
   selector: 'app-debate',
   standalone: true,
-  imports: [ArgumentForDebateThumbnailComponent, ForAgainstDebateComponent, CommonModule, TopicThumbnailComponent, FormsModule, SingleArgumentPresentationComponent, ArgumentsDisplayerComponent],
+  imports: [
+    ArgumentForDebateThumbnailComponent, 
+    ForAgainstDebateComponent, 
+    CommonModule, 
+    TopicThumbnailComponent, 
+    FormsModule, 
+    SingleArgumentPresentationComponent, 
+    ArgumentsDisplayerComponent,
+    ArgumentDebatePresentationComponent
+  ],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -33,6 +43,8 @@ export class DebateComponent {
   @ViewChild('argumentsFor') argumentsForDisplayer!: ArgumentsDisplayerComponent;
   @ViewChild('argumentsAgainst') argumentsAgainstDisplayer!: ArgumentsDisplayerComponent;
   @ViewChild('argumentsSolution') argumentsSolutionDisplayer!: ArgumentsDisplayerComponent;
+
+  @ViewChild('argumentDebatePresentation') argumentDebatePresentation!: ArgumentDebatePresentationComponent;
 
   voteSubject$ = new Subject<{argumentId: string, vote: boolean}>
   voteSubjectSubscription: any;
@@ -62,6 +74,7 @@ export class DebateComponent {
   constructor(
     private apiHandler: ApiHandlerService,
     private route: ActivatedRoute,
+    private router: Router,
     private loadingService: LoadingService,
   ) {
     this.voteSubjectSubscription = this.voteSubject$.subscribe({
@@ -90,6 +103,8 @@ export class DebateComponent {
         this.debate = debate;
         this.updateForAgainstDebateWidth();
         this.getTopic();
+        this.argumentDebatePresentation.setArgumentId(this.debate.argumentId);
+
       }
     );
   }
@@ -104,6 +119,7 @@ export class DebateComponent {
   }
 
   getTopic() {
+    if(!this.debate.topicId) return;
     this.apiHandler.getTopicById(this.debate.topicId).subscribe(
       (topic: any) => {
         this.debateTopic = topic;
