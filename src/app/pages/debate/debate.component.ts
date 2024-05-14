@@ -1,4 +1,4 @@
-import { Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation, ElementRef } from '@angular/core';
 import { Debate } from '../../models/debate';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { Argument, ArgumentType } from '../../models/argument';
@@ -14,11 +14,12 @@ import { FormsModule } from '@angular/forms';
 import { LoadingService } from '../../services/loading.service';
 import { SingleArgumentPresentationComponent } from './single-argument-presentation/single-argument-presentation.component';
 import { Subject } from 'rxjs';
+import { ArgumentsDisplayerComponent } from './arguments-displayer/arguments-displayer.component';
 
 @Component({
   selector: 'app-debate',
   standalone: true,
-  imports: [ArgumentForDebateThumbnailComponent, ForAgainstDebateComponent, CommonModule, TopicThumbnailComponent, FormsModule, SingleArgumentPresentationComponent],
+  imports: [ArgumentForDebateThumbnailComponent, ForAgainstDebateComponent, CommonModule, TopicThumbnailComponent, FormsModule, SingleArgumentPresentationComponent, ArgumentsDisplayerComponent],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -29,16 +30,16 @@ export class DebateComponent {
   @ViewChild(ForAgainstDebateComponent) forAgainstDebate!: ForAgainstDebateComponent;
   @ViewChild('swiperContainer', { static: false }) swiper!: ElementRef;
 
+  @ViewChild('argumentsFor') argumentsForDisplayer!: ArgumentsDisplayerComponent;
+  @ViewChild('argumentsAgainst') argumentsAgainstDisplayer!: ArgumentsDisplayerComponent;
+  @ViewChild('argumentsSolution') argumentsSolutionDisplayer!: ArgumentsDisplayerComponent;
+
   voteSubject$ = new Subject<{argumentId: string, vote: boolean}>
   voteSubjectSubscription: any;
 
   debateId: string = '1';
   debate: Debate = new Debate();
   arguments: Argument[] = [];
-
-  agumentsFor: Argument[] = [];
-  agumentsAgainst: Argument[] = [];
-  argumentsSolution: Argument[] = [];
 
   debateTopic: Topic = new Topic();
 
@@ -97,6 +98,7 @@ export class DebateComponent {
     this.apiHandler.getDebateArguments(this.debateId).subscribe(
       (args: Argument[]) => {
         this.arguments = [...args]
+        this.updateArguments();
       }
     );
   }
@@ -155,6 +157,12 @@ export class DebateComponent {
     this.forAgainstDebate.updateWidth(width);
   }
 
+  updateArguments() {
+    this.argumentsForDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.FOR));
+    this.argumentsAgainstDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.AGAINST));
+    this.argumentsSolutionDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.SOLUTION));
+  }
+
   isCurrentValue(value: number):boolean {
     let value2 = DebateVote[value] as unknown
     let vote = this.debate.hasVote as unknown
@@ -166,10 +174,12 @@ export class DebateComponent {
     this.loadingService.increment();
     this.apiHandler.postArgument(this.argumentTitle, this.argumentType,this.debateId).subscribe({
       next: () => {
-        this.getDebateArguments();
         this.loadingService.decrement();
-        this.isPopUpOpen = false;
-        this.argumentTitle = '';
+        this.refreshPage();
+      }, 
+      error: (err) => {
+        this.loadingService.decrement();
+        this.refreshPage();
       }
     });
   }

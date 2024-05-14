@@ -1,0 +1,12 @@
+<swiper-container 
+    *ngIf="arguments.length > 0"
+    #swiperContainer
+    navigation="true"
+    centeredSlides="true"
+    [slidesPerView]=3 >
+    <swiper-slide *ngFor="let argument of arguments">
+        <app-single-argument-presentation 
+            class="single-argument-presentation" 
+            [argument]="argument"></app-single-argument-presentation>
+    </swiper-slide>
+</swiper-container>

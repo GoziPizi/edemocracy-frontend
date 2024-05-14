@@ -52,6 +52,14 @@
     <div id=add-argument>
         <button (click)="togglePopUp()"><i class="fa-regular fa-comment-dots"></i>Ajouter un argument</button>
     </div>
+    <div id="sorted-arguments">
+        <h4>Arguments pour: </h4>
+        <app-arguments-displayer class="sorted-arguments-displayer" #argumentsFor></app-arguments-displayer>
+        <h4>Arguments contre: </h4>
+        <app-arguments-displayer #argumentsAgainst></app-arguments-displayer>
+        <h4>Solutions: </h4>
+        <app-arguments-displayer #argumentsSolution></app-arguments-displayer>
+    </div>
     <div id="for-against">
         <div id="nb-of-votes">
             <p>{{debate.nbVotes}} votants</p>

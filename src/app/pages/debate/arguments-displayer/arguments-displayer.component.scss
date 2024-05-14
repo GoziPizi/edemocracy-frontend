@@ -1,0 +1,21 @@
+@import '../../../../colors.scss';
+
+.single-argument-presentation {
+    width: 100%;
+}
+
+swiper-container {
+    background-color: transparentize($color: $democracy-blue, $amount: 0.8);
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+swiper-slide {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
