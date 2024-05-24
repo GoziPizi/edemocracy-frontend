@@ -1,26 +1,11 @@
 <div id="container">
-    <div id="left-container">
-        <h3>Contre:</h3>
-        <div class="topic-container">
-            <app-small-topic-thumbnail *ngFor="let topic of personality.for" [topicId]="topic"></app-small-topic-thumbnail>
-        </div>
+    <div id="presentation">
+        <h2>{{personality.user.firstName}} {{personality.user.name}}</h2>
+        <h4>{{politicSide}}</h4>
+        <img src="{{personality.user.profilePicture || defaultImage}}" alt="Photo de {{personality.user.firstName}} {{personality.user.name}}">
     </div>
-    <div id="mid-container">
-        <div id="presentation">
-            <h2>{{personality.user.firstName}} {{personality.user.name}}</h2>
-            <h4>{{politicSide}}</h4>
-            <img src="{{personality.user.profilePicture || defaultImage}}" alt="Photo de {{personality.user.firstName}} {{personality.user.name}}">
-        </div>
-        <div class="line"></div>
-        <div id="career">
-            <app-career></app-career>
-        </div>
-        <div class="line"></div>
-        <div id="opinions">
-            <app-opinions></app-opinions>
-        </div>
-    </div>
-    <div id="right-container">
-        <h3>Pour:</h3>
+    <div class="line"></div>
+    <div id="opinions">
+        <app-opinions #opinionsDisplayer></app-opinions>
     </div>
 </div>

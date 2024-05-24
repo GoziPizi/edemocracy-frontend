@@ -14,6 +14,12 @@
             [ngClass]="{'red' : argument.hasVote == false}"
             (click)="onVoteDown()"></i>
     </div>
+    <div id="color-bar">
+        <div id="for" [ngStyle]="{'width' : stringWidth, 'background-color': greenColor}" >
+        </div>
+        <div id="against" [ngStyle]="{'width' : oppositeStringWidth, 'background-color': redColor}">
+        </div>
+    </div>
     <button *ngIf="argument.childDebateId !== null" class="validate-button" (click)="onViewDebate()" >Voir le débat associé</button>
     <button *ngIf="argument.childDebateId === null" (click)="onCreateDebate()" class="validate-button">Créer un débat</button>
 </div>

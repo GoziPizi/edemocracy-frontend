@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { ActivatedRoute } from '@angular/router';
 import { PersonalityWithUser } from '../../models/personality';
@@ -17,6 +17,8 @@ import { CommonModule } from '@angular/common';
 })
 
 export class PersonalityComponent {
+
+  @ViewChild('opinionsDisplayer') opinionsDisplayer!: OpinionsComponent;
 
   constructor(
     private apiHandler: ApiHandlerService,
@@ -42,6 +44,7 @@ export class PersonalityComponent {
     this.apiHandler.getPersonality(this.personalityId).subscribe({
       next: (response: any) => {
         this.personality = response;
+        this.opinionsDisplayer.setPersonalityId(this.personalityId);
       },
       error: (error: any) => {
       }

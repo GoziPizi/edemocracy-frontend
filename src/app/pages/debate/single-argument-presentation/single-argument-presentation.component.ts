@@ -64,4 +64,26 @@ export class SingleArgumentPresentationComponent {
     })
   }
 
+  get redColor() {
+    return this.argument.hasVote === false ? '#D72631' : 'gray';
+  }
+
+  get greenColor() {
+    return this.argument.hasVote === true ? '#2E8B57' : 'gray';
+  }
+
+  get stringWidth() {
+    if(this.argument.nbGood + this.argument.nbBad === 0) {
+      return '50%';
+    }
+    return `${this.argument.nbGood / (this.argument.nbGood + this.argument.nbBad) * 100}%`;
+  }
+
+  get oppositeStringWidth() {
+    if(this.argument.nbGood + this.argument.nbBad === 0) {
+      return '50%';
+    }
+    return `${this.argument.nbBad / (this.argument.nbGood + this.argument.nbBad) * 100}%`;
+  }
+
 }

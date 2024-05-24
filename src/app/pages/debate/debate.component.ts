@@ -133,7 +133,6 @@ export class DebateComponent {
     this.apiHandler.voteForDebate(this.debateId, vote).subscribe({
       next: () => {
         this.getDebate();
-        this.getDebateArguments();
       }
     })
   }
@@ -226,6 +225,22 @@ export class DebateComponent {
     return result
   }
 
+  getClass(value: number): string {
+    switch(value) {
+      case -2:
+        return 'red';
+      case -1:
+        return 'orange';
+      case 0:
+        return 'grey';
+      case 1:
+        return 'lightgreen';
+      case 2:
+        return 'green';
+    }
+    return 'grey';
+  }
+
   get popularArguments(): Argument[] {
     let tab = [...this.arguments].sort((a, b) => {
       return (b.nbGood + b.nbBad) - (a.nbGood + a.nbBad);
@@ -239,5 +254,12 @@ export class DebateComponent {
     });
     return tab;
   }  
+
+  get isDebateFromArgument(): boolean {
+    if(this.debate.argumentId === null || this.debate.argumentId === undefined || this.debate.argumentId === '') {
+      return false;
+    }
+    return true;
+  }
 
 }

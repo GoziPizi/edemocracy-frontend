@@ -1,7 +1,19 @@
 <div id="opinions-container">
+    <button class="validate-button" (click)="openPopup()" >Ajouter</button>
     <p *ngIf="opinions.length === 0">Vous n'avez pas encore d'opinions enregistrées</p>
     <div *ngFor="let opinion of opinions" class="single-opinion">
-        <p>{{opinion.topicTitle}}</p>
+        <p>{{opinion.topicTitle}}:</p>
         <p class="content" >{{opinion.opinion}}</p>
+        <i class="fas fa-trash-alt" (click)="deleteOpinion(opinion.id)"></i>
+    </div>
+</div>
+<div id="pop-up-container" *ngIf="isPopupOpen" >
+    <div id="pop-up">
+        <i class="fas fa-times" (click)="closePopup()"></i>
+        <p>Veuillez choisir un sujet et donner votre opinion.</p>
+        <app-topic-selector #topicSelector ></app-topic-selector>
+        <textarea [ngClass]="{'too-long': isOpinionTooLong}" class="input" [(ngModel)]="opinionString" placeholder="Votre opinion"></textarea>
+        <p *ngIf="isOpinionTooLong" class="too-long">Votre opinion est trop longue (50 caractères maximum).</p>
+        <button class="validate-button" id="add-opinion" (click)="addOpinion()" [disabled]="!isValidateButtonEnabled" >Valider</button>
     </div>
 </div>

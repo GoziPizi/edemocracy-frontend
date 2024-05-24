@@ -45,3 +45,13 @@
 .red {
     color: $debate-red !important;
 }
+
+#color-bar {
+    width: 100%;
+    height: 10px;
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+
+    margin-bottom: 10px;
+}

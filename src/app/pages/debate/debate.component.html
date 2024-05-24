@@ -16,7 +16,7 @@
 
     <app-argument-debate-presentation #argumentDebatePresentation></app-argument-debate-presentation>
 
-    <div class="separation-line" *ngIf="debate.argumentId !== null"></div>
+    <div class="separation-line" *ngIf="isDebateFromArgument"></div>
 
     <div id="arguments-container">
         <div id="recent-arguments">
@@ -73,9 +73,9 @@
         <div id="vote-selector">
             <p 
                 *ngFor="let value of voteValues" 
-                class="vote-button" 
-                (click)="voteForDebate(value)" 
-                [ngClass]="{'selected' : isCurrentValue(value), 'green' : true, 'red' : isNegative(value) }">{{mapperEnumToString(value)}}</p>
+                class="validate-button {{getClass(value)}} "
+                (click)="voteForDebate(value)"
+                [ngClass]="{'selected' : isCurrentValue(value)}">{{mapperEnumToString(value)}}</p>
         </div>
         <p>Vote complet:</p>
         <app-for-against-debate #debateResult ></app-for-against-debate>

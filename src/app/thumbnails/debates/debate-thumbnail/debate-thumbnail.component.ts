@@ -20,13 +20,6 @@ export class DebateThumbnailComponent {
     return '';
   }
 
-  get nbVotes() {
-    if(this.debate) {
-      return this.debate.debateResult.nbVotes;
-    }
-    return 0;
-  }
-
   get debateDescription() {
     if(this.debate) {
       return this.debate.description;

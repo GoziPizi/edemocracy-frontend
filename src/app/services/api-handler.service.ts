@@ -301,6 +301,15 @@ export class ApiHandlerService {
     });
   }
 
+  getPersonalityOpinions(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<OpinionWithTopicName[]>(`${this.baseUrl}/api/personality/${id}/opinions`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Debate related methods
 
   getDebatesByTime() {

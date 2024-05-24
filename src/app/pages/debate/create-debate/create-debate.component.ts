@@ -56,6 +56,7 @@ export class CreateDebateComponent {
     this.apiHandler.getArgument(this.createDebateForm.value.argumentId).subscribe({
       next: (response: any) => {
         this.argumentValue = response.content
+        this.createDebateForm.patchValue({description: 'Réponse concernant l\'argument: \"' +response.content + '\"'})
         this.loadingService.decrement()
       },
       error: (error) => {
