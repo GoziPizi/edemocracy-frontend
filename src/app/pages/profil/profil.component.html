@@ -1,5 +1,5 @@
 <div id="container">
-    <p (click)="logout()" id="logout">Deconnexion</p>
+    <p (click)="logout()" id="logout" class="validate-button" >Deconnexion</p>
     <div id="admin-content" *ngIf="userProfil.role === 'ADMIN'">
         <h3>Vous êtes administrateur</h3>
         <a [routerLink]="['/admin']">Accéder à l'administration</a>
@@ -53,15 +53,6 @@
                 <button (click)="updatePersonality()" *ngIf="isPersonalityModified" id="modify-personality-button">Mettre à jour</button>
             </div>
         </div>
-    </div>
-
-    <div id="follows" class="open-menu">
-        <div class="open-menu-header">
-            <h3>Abonnements</h3>
-            <i class="fas fa-chevron-down" *ngIf="!followsOpen" (click)="toggleFollows()"></i>
-            <i class="fas fa-chevron-up" *ngIf="followsOpen" (click)="toggleFollows()"></i>
-        </div>
-        <p *ngIf="followsOpen" >Lien vers les abonnements</p>   
     </div>
     <div id="opinions" class="open-menu">
         <div class="open-menu-header">

@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { ForAgainstDebateComponent } from './for-against-debate/for-against-debate.component';
 import { DebateVote } from '../../enums/voteDebate';
 import { debateVoteEnumToString } from '../../mappers/vote-mapper';
-import { TopicThumbnailComponent } from '../../thumbnails/topic-thumbnail/topic-thumbnail.component';
 import { Topic } from '../../models/topics';
 import { FormsModule } from '@angular/forms';
 import { LoadingService } from '../../services/loading.service';
@@ -23,8 +22,7 @@ import { ArgumentDebatePresentationComponent } from './argument-debate-presentat
   imports: [
     ArgumentForDebateThumbnailComponent, 
     ForAgainstDebateComponent, 
-    CommonModule, 
-    TopicThumbnailComponent, 
+    CommonModule,
     FormsModule, 
     SingleArgumentPresentationComponent, 
     ArgumentsDisplayerComponent,

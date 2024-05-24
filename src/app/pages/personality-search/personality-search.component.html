@@ -5,7 +5,7 @@
 <div id="container">
     <div id="searchFormContainer">
         <app-personality-search-form id="searchForm" #searchForm ></app-personality-search-form>
-        <button id="searchButton" (click)="onSubmit()">Rechercher</button>
+        <button class="validate-button" (click)="onSubmit()">Rechercher</button>
     </div>
     <div id="result-container">
         <p *ngIf="hasResearched && personalityList.length === 0">Aucun élément ne correspond à votre recherche</p>

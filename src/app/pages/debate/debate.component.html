@@ -1,9 +1,5 @@
 <div id="page-container">
-    <div id="header">
-        <h1>Débat</h1>
-    </div>
-
-    <div class="separation-line"></div>
+    <h1 style="margin-bottom: 0" >Débat</h1>
 
     <div id="presentation">
         <div id="debate-presentation">
@@ -17,6 +13,8 @@
     <app-argument-debate-presentation #argumentDebatePresentation></app-argument-debate-presentation>
 
     <div class="separation-line" *ngIf="isDebateFromArgument"></div>
+
+    <h1>Arguments récents et populaires</h1>
 
     <div id="arguments-container">
         <div id="recent-arguments">
@@ -53,23 +51,32 @@
             <p *ngIf="popularArguments.length === 0">Aucun argument populaire</p>
         </div>
     </div>
-    <div id=add-argument>
-        <button (click)="togglePopUp()"><i class="fa-regular fa-comment-dots"></i>Ajouter un argument</button>
-    </div>
+
+    <div class="separation-line"></div>
+
+    <h1>Arguments par type</h1>
+
     <div id="sorted-arguments">
         <h4>Arguments pour: </h4>
-        <app-arguments-displayer class="sorted-arguments-displayer" #argumentsFor></app-arguments-displayer>
+        <app-arguments-displayer #argumentsFor></app-arguments-displayer>
         <h4>Arguments contre: </h4>
         <app-arguments-displayer #argumentsAgainst></app-arguments-displayer>
         <h4>Solutions: </h4>
         <app-arguments-displayer #argumentsSolution></app-arguments-displayer>
     </div>
+
+    <div id=add-argument>
+        <button (click)="togglePopUp()"><i class="fa-regular fa-comment-dots"></i>Ajouter un argument</button>
+    </div>
+
+    <div class="separation-line"></div>
+
     <div id="for-against">
         <div id="nb-of-votes">
             <p>{{debate.debateResult.nbVotes}} votants</p>
             <p>{{debate.debateContributorsResult.nbVotes}} contributeurs votants</p>
         </div>
-        <h4>Votez pour ou contre cette idée:</h4>
+        <h1>Votez pour ou contre cette idée:</h1>
         <div id="vote-selector">
             <p 
                 *ngFor="let value of voteValues" 
@@ -77,11 +84,12 @@
                 (click)="voteForDebate(value)"
                 [ngClass]="{'selected' : isCurrentValue(value)}">{{mapperEnumToString(value)}}</p>
         </div>
-        <p>Vote complet:</p>
+        <p>Total des votes:</p>
         <app-for-against-debate #debateResult ></app-for-against-debate>
-        <p>Vote des contributeurs uniquement:</p>
+        <p>Vote des contributeurs:</p>
         <app-for-against-debate #debateContributorsResult ></app-for-against-debate>
     </div>
+
 </div>
 
 <div id="argument-pop-up" *ngIf="isPopUpOpen">

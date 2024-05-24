@@ -1,5 +1,10 @@
-<app-header></app-header>
-<app-toaster></app-toaster>
-<router-outlet></router-outlet>
-<app-footer *ngIf="isFooterVisible" ></app-footer>
-<app-loading-screen></app-loading-screen>
+
+<div id="page-container">
+    <app-header></app-header>
+    <app-toaster></app-toaster>
+    <div id="content">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footer *ngIf="isFooterVisible" ></app-footer>
+    <app-loading-screen></app-loading-screen>
+</div>

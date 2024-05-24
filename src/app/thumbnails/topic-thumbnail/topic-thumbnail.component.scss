@@ -10,12 +10,11 @@ a {
 
 #container {
     width: 100%;
-    background-color: darken(white, 10%);
     padding: 10px;
     border-radius: 10px;
 
     &:hover {
-        background-color: darken(white, 20%);
+        background-color: darken(white, 5%);
     }
 }
 
@@ -34,12 +33,11 @@ a {
 #header i {
     margin-left: 10px;
     border-radius: 50%;
-    background-color: darken(white, 15%);
     padding: 8px;
     cursor: pointer;
 
     &:hover {
-        background-color: $participation-yellow;
+        color: $participation-yellow;
     }
 }
 

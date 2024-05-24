@@ -22,7 +22,7 @@
     flex-direction: column;
     align-items: center;
 
-    padding: 10px 50px;
+    padding: 0 50px;
 }
 
 #presentation h3 {
@@ -69,8 +69,6 @@
 
     display: flex;
     flex-direction: column;
-
-    background-color: darken(white, 10%);
 }
 
 #nb-of-votes {
@@ -82,7 +80,7 @@
 
 }
 
-#for-against h4 {
+#for-against h1 {
     align-self: center;
 }
 
@@ -203,8 +201,8 @@
     width: 100%;
 }
 
-.sorted-arguments-displayer {
-    width: 100%;
+#sorted-arguments h4 {
+    margin-left: 10px;
 }
 
 swiper-container {

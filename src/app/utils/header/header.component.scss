@@ -7,9 +7,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: darken(white, 5%);
-
-    border-bottom: darken(white, 15%) solid 1px;
+    background-color: $democracy-blue;
 }
 
 #bell {
@@ -19,12 +17,12 @@
 .header-link {
     margin: 0 20px;
     text-decoration: none;
-    color: #000;
+    color: white;
     font-weight: 600;
     cursor: pointer;
 
     &:hover {
-        color: #666;
+        color: darken(white, 10%);
     }
 }
 
@@ -33,7 +31,6 @@ h2 {
     padding: 10px;
     border-radius: 5px;
     border: none;
-    background-color: darken(white, 5%);
 
     @media screen and (max-width: 1400px) {
         font-size: 20px;
@@ -46,7 +43,6 @@ h2 {
 
 h2 i {
     margin-right: 10px;
-    color: $democracy-blue;
 }
 
 #search-bar {
