@@ -13,6 +13,9 @@ export class Debate {
 
 export class DebateResult {
     id: string = '';
-    score: number = 0;
-    nbVotes: number = 0;
+    nbReallyFor: number = 0;
+    nbFor: number = 0;
+    nbAgainst: number = 0;
+    nbReallyAgainst: number = 0;
+    nbNeutral: number = 0;
 }

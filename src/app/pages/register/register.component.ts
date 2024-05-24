@@ -9,6 +9,7 @@ import { PoliticSides } from '../../enums/politicSides';
 import { PoliticSideDropdownItem } from '../../models/politicSides';
 import { politicSideMapperEnumToUser } from '../../mappers/politicside-mapper';
 import { LoadingService } from '../../services/loading.service';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-register',
@@ -44,7 +45,8 @@ export class RegisterComponent {
   constructor(
     private apiHandler: ApiHandlerService,
     private router: Router, 
-    private loadingService: LoadingService
+    private loadingService: LoadingService, 
+    private toaster: ToasterService
   ) {
     const politicSides = Object.values(PoliticSides);
     this.politicSideOptions = politicSides.map((side: PoliticSides) => {
@@ -85,10 +87,12 @@ export class RegisterComponent {
         formData.append('verso', versoFile);
         this.apiHandler.register(formData).subscribe({
           next: (response:any) => {
-            this.router.navigate(['/accueil'])
+            this.toaster.success('Inscription réussie');
+            this.router.navigate(['/connexion'])
             this.loadingService.decrement();
           },
           error: (error:any) => {
+            this.toaster.success('Une erreur est survenue lors de l\'inscription');
             this.loadingService.decrement();
           }
         })

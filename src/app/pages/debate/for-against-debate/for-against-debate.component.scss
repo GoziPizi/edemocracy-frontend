@@ -19,10 +19,22 @@
     flex-direction: row;
 }
 
-#for {
+#really-for {
     background-color: $hope-green
 }
 
-#against {
+#for {
+    background-color: transparentize($color: $hope-green, $amount: 0.4)
+}
+
+#really-against {
     background-color: $debate-red
+}
+
+#against {
+    background-color: transparentize($color: $debate-red, $amount: 0.4)
+}
+
+#neutral {
+    background-color: gray;
 }

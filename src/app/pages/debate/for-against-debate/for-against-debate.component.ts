@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { DebateResult } from '../../../models/debate';
 
 @Component({
   selector: 'app-for-against-debate',
@@ -10,26 +11,43 @@ import { Component, Input } from '@angular/core';
 })
 export class ForAgainstDebateComponent {
 
-  width: number = 0.5;
+  debateResult: DebateResult = new DebateResult();
 
-  updateWidth(width: number) {
-    this.width = width;
+  setDebateResult(debateResult: DebateResult) {
+    this.debateResult = debateResult;
   }
 
-  get pourcentageFor() {
-    return Math.round(this.width * 100);
+  get totalVotes() {
+    return this.debateResult.nbReallyFor + this.debateResult.nbFor + this.debateResult.nbNeutral + this.debateResult.nbAgainst + this.debateResult.nbReallyAgainst;
   }
 
-  get pourcentageAgainst() {
-    return Math.round((1 - this.width) * 100);
+  get reallyForPourcentage() {
+    if (this.totalVotes === 0) return 20;
+    return this.debateResult.nbReallyFor / this.totalVotes * 100;
   }
 
-  get stringWidth() {
-    return `${this.width * 100}%`;
+  get forPourcentage() {
+    if (this.totalVotes === 0) return 20;
+    return this.debateResult.nbFor / this.totalVotes * 100;
   }
 
-  get oppositeStringWidth() {
-    return `${(1 - this.width) * 100}%`;
+  get neutralPourcentage() {
+    if (this.totalVotes === 0) return 20;
+    return this.debateResult.nbNeutral / this.totalVotes * 100;
+  }
+
+  get againstPourcentage() {
+    if (this.totalVotes === 0) return 20;
+    return this.debateResult.nbAgainst / this.totalVotes * 100;
+  }
+
+  get reallyAgainstPourcentage() {
+    if (this.totalVotes === 0) return 20;
+    return this.debateResult.nbReallyAgainst / this.totalVotes * 100;
+  }
+
+  round(value: number) {
+    return Math.round(value);
   }
 
 }

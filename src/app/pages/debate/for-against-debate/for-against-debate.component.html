@@ -1,12 +1,21 @@
 <div id="container">
     <div id="pourcentages">
-        <p>Pour : {{pourcentageFor}}%</p>
-        <p>Contre : {{pourcentageAgainst}}%</p>
+        <p>Vraiment pour : {{round(reallyForPourcentage)}}%</p>
+        <p>Pour : {{round(forPourcentage)}}%</p>
+        <p>Neutre : {{round(neutralPourcentage)}}%</p>
+        <p>Contre : {{round(againstPourcentage)}}%</p>
+        <p>Vraiment contre : {{round(reallyAgainstPourcentage)}}%</p>
     </div>
     <div id="bar-container">
-        <div id="for" [ngStyle]="{'width' : stringWidth}" >
+        <div id="really-for" [ngStyle]="{'width' : reallyForPourcentage + '%'}" >
         </div>
-        <div id="against" [ngStyle]="{'width' : oppositeStringWidth}">
+        <div id="for" [ngStyle]="{'width' : forPourcentage + '%'}" >
+        </div>
+        <div id="neutral" [ngStyle]="{'width' : neutralPourcentage + '%'}" >
+        </div>
+        <div id="against" [ngStyle]="{'width' : againstPourcentage + '%'}">
+        </div>
+        <div id="really-against" [ngStyle]="{'width' : reallyAgainstPourcentage + '%'}" >
         </div>
     </div>
 </div>

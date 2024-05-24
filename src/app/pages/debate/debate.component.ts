@@ -30,7 +30,6 @@ import { ArgumentDebatePresentationComponent } from './argument-debate-presentat
   ],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss',
-  encapsulation: ViewEncapsulation.None,
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DebateComponent {
@@ -100,8 +99,8 @@ export class DebateComponent {
     this.apiHandler.getDebate(this.debateId).subscribe(
       (debate: Debate) => {
         this.debate = debate;
-        this.updateForAgainstDebateWidth();
-        this.updateForAgainstContributorsDebateWidth();
+        this.forAgainstDebate.setDebateResult(this.debate.debateResult);
+        this.forAgainstContributorsDebate.setDebateResult(this.debate.debateContributorsResult);
         this.getTopic();
         this.argumentDebatePresentation.setArgumentId(this.debate.argumentId);
 
@@ -161,28 +160,6 @@ export class DebateComponent {
     }
   }
 
-  updateForAgainstDebateWidth() {
-    let width = 0.5;
-    if(this.debate.debateResult.nbVotes == 0) {
-      width = 0.5;
-      return;
-    }
-    let ratio = this.debate.debateResult.score / (2*this.debate.debateResult.nbVotes);
-    width = (ratio + 1) / 2;
-    this.forAgainstDebate.updateWidth(width);
-  }
-
-  updateForAgainstContributorsDebateWidth() {
-    let width = 0.5;
-    if(this.debate.debateContributorsResult.nbVotes == 0) {
-      width = 0.5;
-      return;
-    }
-    let ratio = this.debate.debateContributorsResult.score / (2*this.debate.debateContributorsResult.nbVotes);
-    width = (ratio + 1) / 2;
-    this.forAgainstContributorsDebate.updateWidth(width);
-  }
-
   updateArguments() {
     this.argumentsForDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.FOR));
     this.argumentsAgainstDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.AGAINST));
@@ -237,6 +214,26 @@ export class DebateComponent {
         return 'green';
     }
     return 'grey';
+  }
+
+  get numberOfVotants(): number {
+    const result = 
+      this.debate.debateResult.nbReallyFor +
+      this.debate.debateResult.nbFor +
+      this.debate.debateResult.nbNeutral +
+      this.debate.debateResult.nbAgainst +
+      this.debate.debateResult.nbReallyAgainst;
+    return result;
+  }
+
+  get numberOfContributors(): number {
+    const result = 
+      this.debate.debateContributorsResult.nbReallyFor +
+      this.debate.debateContributorsResult.nbFor +
+      this.debate.debateContributorsResult.nbNeutral +
+      this.debate.debateContributorsResult.nbAgainst +
+      this.debate.debateContributorsResult.nbReallyAgainst;
+    return result;
   }
 
   get popularArguments(): Argument[] {
