@@ -22,4 +22,9 @@ export class LoadingService {
       this.loading = false;
     }
   }
+
+  reset() {
+    this.counter = 0;
+    this.loading = false;
+  }
 }

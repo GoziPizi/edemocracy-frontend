@@ -15,6 +15,8 @@ import { OpinionWithTopicName } from '../models/opinions';
 import { environment } from '../../environments/environment';
 import { SearchResult } from '../models/searchResult';
 import { NotificationEdemoc } from '../models/notifications';
+import { VisitorService } from './visitor.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -26,10 +28,16 @@ export class ApiHandlerService {
   isLogged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private visitorService: VisitorService,
+    private router: Router
   ) {
     this.baseUrl = environment.api_url;
     this.checkLogin();
+  }
+
+  deleteToken() {
+    localStorage.removeItem('token');
   }
 
   login(email: string, password: string) {
@@ -37,6 +45,7 @@ export class ApiHandlerService {
       next: (response: any) => {
         if (response.key) {
           localStorage.setItem('token', response.key);
+          this.visitorService.setIsVisitor(false);
           this.isLogged.next(true);
         }
       },
@@ -49,20 +58,26 @@ export class ApiHandlerService {
   logout() {
     localStorage.removeItem('token');
     this.isLogged.next(false);
+    this.visitorService.setIsVisitor(true); 
+    this.router.navigate(['/landing']);
   }
 
   checkLogin() {
     const token = localStorage.getItem('token');
     if (!token) {
+      this.visitorService.setIsVisitor(true);
       this.isLogged.next(false);
       return;
     }
-    this.http.post(`${this.baseUrl}/api/login/check`, { token }).subscribe((response: any) => {
-      if (response) {
+    this.http.post(`${this.baseUrl}/api/login/check`, { token }).subscribe({
+      next: (response: any) => {
         this.isLogged.next(true);
-      } else {
+        this.visitorService.setIsVisitor(false);
+      },
+      error: (error) => {
         this.isLogged.next(false);
-      }
+        localStorage.removeItem('token');
+      },
     });
   }
 
@@ -111,6 +126,15 @@ export class ApiHandlerService {
   getUser() { 
     const token = localStorage.getItem('token');
     return this.http.get<User>(`${this.baseUrl}/api/users`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getUserById(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<User>(`${this.baseUrl}/api/users/${id}`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -351,6 +375,51 @@ export class ApiHandlerService {
   getDebateArguments(id: string) {
     const token = localStorage.getItem('token');
     return this.http.get<Argument[]>(`${this.baseUrl}/api/debates/${id}/arguments`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getDebateReformulations(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/debates/${id}/reformulations`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  postReformulation(debateId: string, content: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/debates/${debateId}/reformulations`, { content }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  voteForReformulation(id: string, value: boolean | null) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/debates/reformulations/${id}/vote`, { value }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getDebateReformulation(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/debates/reformulations/${id}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getDebateReformulationVote(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/debates/reformulations/${id}/vote`, {
       headers: {
         Authorization: `${token}`,
       },
