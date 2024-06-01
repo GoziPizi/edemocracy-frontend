@@ -4,6 +4,7 @@ import { PartyCommentWithName } from '../../../../models/partyComments';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoadingService } from '../../../../services/loading.service';
+import { VisitorService } from '../../../../services/visitor.service';
 
 @Component({
   selector: 'app-party-comments',
@@ -27,7 +28,8 @@ export class PartyCommentsComponent {
 
   constructor(
     private apiHandler: ApiHandlerService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private visitorService: VisitorService
   ) {
     this.userId = this.apiHandler.getUserId();
   }
@@ -44,6 +46,7 @@ export class PartyCommentsComponent {
   }
 
   checkAdmin() {
+    if (this.visitorService.isVisitor) return;
     this.apiHandler.checkAdminPartyRights(this.partyId).subscribe((isAdmin: boolean) => {
       this.isAdmin = isAdmin;
     });
@@ -76,5 +79,9 @@ export class PartyCommentsComponent {
         this.loadingService.decrement();
       }
     });
+  }
+
+  get isVisitor() {
+    return this.visitorService.isVisitor;
   }
 }

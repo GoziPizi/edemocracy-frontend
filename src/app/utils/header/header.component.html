@@ -1,12 +1,15 @@
-<div id="container" *ngIf="apiHandler.isLogged.getValue()">
+<div id="container">
     <h2><a [routerLink]="['accueil']" class="header-link"><i class="fa-solid fa-house"></i>Accueil</a></h2>
     <h2><a [routerLink]="['personalites']" class="header-link"><i class="fa-solid fa-user"></i>Personalités</a></h2>
     <h2><a [routerLink]="['partis']" class="header-link"><i class="fa-solid fa-people-group"></i>Partis</a></h2>
     <h2><a [routerLink]="['debate']" class="header-link"><i class="fa-solid fa-comments"></i>Débats</a></h2>
     <app-search-header id=search-bar ></app-search-header>
-    <div id="profil">
+    <div id="profil" *ngIf="!isVisitor">
         <img [src]="profilePicture" [routerLink]="['profil']" alt="profil" id="profil-img">
         <h2><a [routerLink]="['profil']" class="header-link">Profil</a></h2>
+    </div>
+    <div id="visitor" *ngIf="isVisitor">
+        <h2> <a [routerLink]="['landing']" class="header-link">Connexion</a></h2>
     </div>
     <app-notifications-displayer id="bell"></app-notifications-displayer>
 </div>

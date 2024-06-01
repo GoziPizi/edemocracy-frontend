@@ -12,6 +12,7 @@ import { HistoricEventComponent } from '../party-presentation/party-historic/his
 import { HistoricEventParty } from '../../../models/historicEventParty';
 import { sortEventsByDateDesc } from '../../../utils/sortingFunctions';
 import { ImageInputComponent } from '../../../utils/image-input/image-input.component';
+import { ToasterService } from '../../../services/toaster.service';
 
 @Component({
   selector: 'app-modify-party',
@@ -53,7 +54,8 @@ export class ModifyPartyComponent {
     private route: ActivatedRoute,
     private apiHandler: ApiHandlerService,
     private loadingService: LoadingService,
-    private router: Router
+    private router: Router,
+    private toasterService: ToasterService
   ) {
     this.partyId = this.route.snapshot.params['id'];
     this.getParty();
@@ -61,12 +63,20 @@ export class ModifyPartyComponent {
   }
 
   getParty() {
-    this.apiHandler.getParty(this.partyId).subscribe((party: Party) => {
-      this.originalParty = party;
-      this.updateForm();
-      this.forSelector.updateSelectedTopics(this.originalParty.for);
-      this.againstSelector.updateSelectedTopics(this.originalParty.against);
-      this.imageInput.setImage(this.originalParty.logo);
+    this.loadingService.increment();
+    this.apiHandler.getParty(this.partyId).subscribe({
+      next: (party: any) => {
+        this.loadingService.decrement();
+        this.originalParty = party;
+        this.updateForm();
+        this.forSelector.updateSelectedTopics(this.originalParty.for);
+        this.againstSelector.updateSelectedTopics(this.originalParty.against);
+        this.imageInput.setImage(this.originalParty.logo);
+      },
+      error: () => {
+        this.loadingService.decrement();
+        this.toasterService.error('Erreur lors de la récupération du parti');
+      }
     });
   }
 
@@ -95,13 +105,19 @@ export class ModifyPartyComponent {
         for: this.forSelector.getTopics(),
         against: this.againstSelector.getTopics()
       };
-      this.apiHandler.updateParty(this.partyId, data).subscribe(
-        (response: any) => {
+      this.apiHandler.updateParty(this.partyId, data).subscribe({
+        next: () => {
           this.loadingService.decrement();
+          this.toasterService.success('Parti mis à jour');
           this.router.navigate(['/partis', this.partyId]);
+        },
+        error: () => {
+          this.loadingService.decrement();
+          this.toasterService.error('Erreur lors de la mise à jour du parti');
         }
-      );
+      });
     }
+    this.loadingService.decrement();
   }
 
   createEvent() {
@@ -125,14 +141,17 @@ export class ModifyPartyComponent {
       this.apiHandler.postHistoricEvent(this.partyId, form).subscribe({
         next: () => {
           this.fetchEvents();
+          this.toasterService.success('Evénement ajouté');
           this.loadingService.decrement();
           this.createEventForm.reset();
         },
         error: () => {
+          this.toasterService.error('Erreur lors de la création de l\'événement');
           this.loadingService.decrement();
         }
       });
     }
+    this.loadingService.decrement();
   }
 
   deleteEvent(eventId: string) {
@@ -140,9 +159,11 @@ export class ModifyPartyComponent {
     this.apiHandler.deleteHistoricEvent(this.partyId,eventId).subscribe({
       next: () => {
         this.fetchEvents();
+        this.toasterService.success('Evénement supprimé');
         this.loadingService.decrement();
       },
       error: () => {
+        this.toasterService.error('Erreur lors de la suppression de l\'événement');
         this.loadingService.decrement();
       }
     });
@@ -154,9 +175,11 @@ export class ModifyPartyComponent {
       this.loadingService.increment();
       this.apiHandler.updatePartyLogo(this.partyId, logo).subscribe({
         next: () => {
+          this.toasterService.success('Logo mis à jour');
           this.loadingService.decrement();
         },
         error: () => {
+          this.toasterService.error('Erreur lors de la mise à jour du logo');
           this.loadingService.decrement();
         }
       });

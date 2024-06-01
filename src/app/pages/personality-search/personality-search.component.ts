@@ -5,6 +5,8 @@ import { ApiHandlerService } from '../../services/api-handler.service';
 import { PersonalityWithUser } from '../../models/personality';
 import { PersonalityResultThumbnailComponent } from './personality-result-thumbnail/personality-result-thumbnail.component';
 import { CommonModule } from '@angular/common';
+import { LoadingService } from '../../services/loading.service';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-personality-search',
@@ -22,7 +24,9 @@ export class PersonalitySearchComponent {
   hasResearched = false;
 
   constructor(
-    private apiHandlerService: ApiHandlerService
+    private apiHandlerService: ApiHandlerService,
+    private loadingService: LoadingService,
+    private toasterService: ToasterService
   ) { }
 
   ngOnInit() {
@@ -31,8 +35,17 @@ export class PersonalitySearchComponent {
   onSubmit() {
     this.hasResearched = true;
     const criteria = this.personalitySearchForm.getCriterias();
-    this.apiHandlerService.searchPersonalities(criteria).subscribe((response: any) => {
-      this.personalityList = response;
+    this.loadingService.increment();
+    this.apiHandlerService.searchPersonalities(criteria).subscribe({
+      next: (response: any) => {
+        this.loadingService.decrement();
+        this.personalityList = response;
+      },
+      error: (error: any) => {
+        this.loadingService.decrement();
+        this.toasterService.error('Erreur lors de la recherche des personnalités');
+        console.error(error);
+      }
     });
   }
 

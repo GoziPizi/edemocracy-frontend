@@ -1,18 +1,21 @@
-<div id="container" [ngStyle]="{ 'background-color': getColorByValue() }" >
+<div id="container" [ngStyle]="{ 'background-color': getColorByValue() }" (click)="navigateToDebate()" >
     <p id="content">{{argument.content}}</p>
+    <p id="author">Proposé par: {{displayName}}</p>
     <div id="votes">
         <p>{{argument.nbGood}}</p>
         <i 
+            *ngIf="!isVisitor"
             class="fa fa-thumbs-up" 
             aria-hidden="true" 
             [ngClass]="{'green' : argument.hasVote}"
-            (click)="onVoteUp()"></i>
+            (click)="onVoteUp($event)"></i>
         <p>{{argument.nbBad}}</p>
         <i 
+            *ngIf="!isVisitor"
             class="fa fa-thumbs-down"
             aria-hidden="true" 
             [ngClass]="{'red' : argument.hasVote == false}"
-            (click)="onVoteDown()"></i>
+            (click)="onVoteDown($event)"></i>
     </div>
     <div id="color-bar">
         <div id="for" [ngStyle]="{'width' : stringWidth, 'background-color': greenColor}" >
@@ -20,6 +23,4 @@
         <div id="against" [ngStyle]="{'width' : oppositeStringWidth, 'background-color': redColor}">
         </div>
     </div>
-    <button *ngIf="argument.childDebateId !== null" class="validate-button" (click)="onViewDebate()" >Voir le débat associé</button>
-    <button *ngIf="argument.childDebateId === null" (click)="onCreateDebate()" class="validate-button">Créer un débat</button>
 </div>

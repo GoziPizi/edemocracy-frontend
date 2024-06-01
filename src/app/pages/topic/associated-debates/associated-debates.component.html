@@ -5,5 +5,5 @@
         <p (click)="createDebate()" id=create-debate-button>Créer un débat</p>
     </div>
     <app-debate-thumbnail *ngFor="let debate of debates" [debate]="debate"></app-debate-thumbnail>
-    <p (click)="createDebate()" id=create-debate-button *ngIf="debates.length > 0" >Créer un débat</p>
+    <button (click)="createDebate()" class="validate-button" *ngIf="debates.length > 0" [disabled]="isVisitor" >Créer un débat</button>
 </div>

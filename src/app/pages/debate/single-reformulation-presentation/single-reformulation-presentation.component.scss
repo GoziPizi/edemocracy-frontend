@@ -1,7 +1,6 @@
 @import '../../../../styles.scss';
 
 #container {
-    position: relative;
     padding: 5px;
     border-radius: 20px;
     display: flex;
@@ -17,12 +16,6 @@
 
 #content {
     direction: ltr;
-}
-
-#author {
-    position: absolute;
-    top: 0;
-    right: 10px;
 }
 
 #votes {
@@ -63,4 +56,12 @@
     border-radius: 10px;
 
     margin-bottom: 10px;
+}
+
+.fa-thumbs-up.selected {
+    color: $hope-green !important;
+}
+
+.fa-thumbs-down.selected {
+    color: $debate-red !important;
 }

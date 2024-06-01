@@ -2,7 +2,7 @@
     <div id="input-comment">
         <form [formGroup]="newCommentForm">
             <textarea id="comment-textarea" rows="4" formControlName="content" placeholder="Votre commentaire"></textarea>
-            <button type="submit" id="submit-button" (click)="addComment()">Envoyer</button>
+            <button [disabled]="isVisitor" type="submit" class="validate-button" (click)="addComment()">Envoyer</button>
         </form>
     </div>
     <div id="comments-list">

@@ -6,6 +6,7 @@ import { ChildrenTopicComponent } from '../../thumbnails/topic-thumbnail/childre
 import { CommonModule } from '@angular/common';
 import { AssociatedDebatesComponent } from './associated-debates/associated-debates.component';
 import { YouTubePlayerModule } from '@angular/youtube-player';
+import { VisitorService } from '../../services/visitor.service';
 
 @Component({
   selector: 'app-topic',
@@ -26,7 +27,8 @@ export class TopicComponent {
 
   constructor(
     private apiHandler: ApiHandlerService, 
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private visitorService: VisitorService
   ) {
     this.userId = this.apiHandler.getUserId();
   }
@@ -86,6 +88,10 @@ export class TopicComponent {
 
   get image() {
     return this.topic.medias[0] ? this.topic.medias[0] : '/assets/topic-fixtures.png'
+  }
+
+  get isVisitor() {
+    return this.visitorService.isVisitor;
   }
 
 }

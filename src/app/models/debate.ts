@@ -19,3 +19,20 @@ export class DebateResult {
     nbReallyAgainst: number = 0;
     nbNeutral: number = 0;
 }
+
+export class DebateDescriptionReformulation {
+    id: string = '';
+    debateId: string = '';
+    content: string = '';
+    score: number = 0;
+    createdAt: string = '';
+}
+
+export class DebateReformulationVote {
+    id: string = '';
+    debateReformulationId: string = '';
+    userId: string = '';
+    value: boolean = false;
+    createdAt: Date = new Date();
+    updatedAt: Date = new Date();
+}

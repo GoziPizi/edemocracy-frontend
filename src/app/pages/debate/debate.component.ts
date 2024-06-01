@@ -1,5 +1,5 @@
 import { Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation, ElementRef } from '@angular/core';
-import { Debate } from '../../models/debate';
+import { Debate, DebateDescriptionReformulation } from '../../models/debate';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { Argument, ArgumentType } from '../../models/argument';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,6 +15,9 @@ import { SingleArgumentPresentationComponent } from './single-argument-presentat
 import { Subject } from 'rxjs';
 import { ArgumentsDisplayerComponent } from './arguments-displayer/arguments-displayer.component';
 import { ArgumentDebatePresentationComponent } from './argument-debate-presentation/argument-debate-presentation.component';
+import { SingleReformulationPresentationComponent } from './single-reformulation-presentation/single-reformulation-presentation.component';
+import { ToasterService } from '../../services/toaster.service';
+import { VisitorService } from '../../services/visitor.service';
 
 @Component({
   selector: 'app-debate',
@@ -26,7 +29,8 @@ import { ArgumentDebatePresentationComponent } from './argument-debate-presentat
     FormsModule, 
     SingleArgumentPresentationComponent, 
     ArgumentsDisplayerComponent,
-    ArgumentDebatePresentationComponent
+    ArgumentDebatePresentationComponent,
+    SingleReformulationPresentationComponent
   ],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss',
@@ -50,6 +54,7 @@ export class DebateComponent {
   debateId: string = '1';
   debate: Debate = new Debate();
   arguments: Argument[] = [];
+  reformulations: DebateDescriptionReformulation[] = [];
 
   debateTopic: Topic = new Topic();
 
@@ -66,14 +71,18 @@ export class DebateComponent {
   mapperEnumToString = debateVoteEnumToString;
 
   isPopUpOpen: boolean = false;
+  reformulationPopUp: boolean = false;
   argumentTitle: string = '';
   argumentType: ArgumentType = ArgumentType.FOR;
+  reformulationProposition: string = '';
 
   constructor(
     private apiHandler: ApiHandlerService,
     private route: ActivatedRoute,
     private router: Router,
     private loadingService: LoadingService,
+    private toasterService: ToasterService,
+    private visitorService: VisitorService
   ) {
     this.voteSubjectSubscription = this.voteSubject$.subscribe({
       next: (data) => {
@@ -87,6 +96,7 @@ export class DebateComponent {
       this.debateId = params['id'];
       this.getDebate();
       this.getDebateArguments();
+      this.getDebateReformulations();
     });
   }
 
@@ -96,25 +106,52 @@ export class DebateComponent {
   }
 
   getDebate() {
-    this.apiHandler.getDebate(this.debateId).subscribe(
-      (debate: Debate) => {
+    this.loadingService.increment();
+    this.apiHandler.getDebate(this.debateId).subscribe({
+      next: (debate: Debate) => {
+        this.loadingService.decrement();
         this.debate = debate;
         this.forAgainstDebate.setDebateResult(this.debate.debateResult);
         this.forAgainstContributorsDebate.setDebateResult(this.debate.debateContributorsResult);
         this.getTopic();
         this.argumentDebatePresentation.setArgumentId(this.debate.argumentId);
+      },
+      error: (err) => {
+        this.loadingService.decrement();
+        this.toasterService.error('Erreur lors de la récupération du débat');
+      } 
+    });
+  }
 
+  getDebateArguments() {
+    this.loadingService.increment();
+    this.apiHandler.getDebateArguments(this.debateId).subscribe(
+      {
+        next: (args: Argument[]) => {
+          this.loadingService.decrement();
+          this.arguments = args;
+          this.updateArguments();
+        },
+        error: (err) => {
+          this.loadingService.decrement();
+          this.toasterService.error('Erreur lors de la récupération des arguments');
+        }
       }
     );
   }
 
-  getDebateArguments() {
-    this.apiHandler.getDebateArguments(this.debateId).subscribe(
-      (args: Argument[]) => {
-        this.arguments = [...args]
-        this.updateArguments();
+  getDebateReformulations() {
+    this.loadingService.increment();
+    this.apiHandler.getDebateReformulations(this.debateId).subscribe({
+      next: (reformulations: any) => {
+        this.reformulations = reformulations;
+        this.loadingService.decrement();
+      },
+      error: (err) => {
+        this.loadingService.decrement();
+        this.toasterService.error('Erreur lors de la récupération des reformulations');
       }
-    );
+    });
   }
 
   getTopic() {
@@ -127,35 +164,66 @@ export class DebateComponent {
   }
 
   voteForDebate(vote: DebateVote) {
+    this.loadingService.increment();
     this.apiHandler.voteForDebate(this.debateId, vote).subscribe({
       next: () => {
+        this.loadingService.decrement();
+        this.toasterService.success('Vote enregistré');
         this.getDebate();
+      },
+      error: (err) => {
+        this.loadingService.decrement();
+        this.toasterService.error('Erreur lors du vote');
       }
     })
   }
 
   voteForArgument(argumentId: string, vote: boolean | null) {
+    this.loadingService.increment();
     if(vote === null) {
       this.loadingService.increment();
-      this.apiHandler.deleteVote(argumentId).subscribe(() => {
-        this.loadingService.decrement();
-        this.refreshPage();
+      this.apiHandler.deleteVote(argumentId).subscribe({
+        next: () => {
+          this.loadingService.decrement();
+          this.toasterService.success('Vote supprimé');
+          this.refreshPage();
+        },
+        error: (err) => {
+          this.loadingService.decrement();
+          this.toasterService.error('Erreur lors de la suppression du vote');
+          this.refreshPage();
+        }
       });
       return;
     }
     if(vote) {
       this.loadingService.increment();
-      this.apiHandler.voteUp(argumentId).subscribe(() => {
-        this.loadingService.decrement();
-        this.refreshPage();
+      this.apiHandler.voteUp(argumentId).subscribe({
+        next: () => {
+          this.loadingService.decrement();
+          this.toasterService.success('Vote enregistré');
+          this.refreshPage();
+        },
+        error: (err) => {
+          this.loadingService.decrement();
+          this.toasterService.error('Erreur lors du vote');
+          this.refreshPage();
+        }
       });
       return;
     }
     else {
       this.loadingService.increment();
-      this.apiHandler.voteDown(argumentId).subscribe(() => {
-        this.loadingService.decrement();
-        this.refreshPage();
+      this.apiHandler.voteDown(argumentId).subscribe({
+        next: () => {
+          this.loadingService.decrement();
+          this.toasterService.success('Vote enregistré');
+          this.refreshPage();
+        },error: (err) => {
+          this.loadingService.decrement();
+          this.toasterService.error('Erreur lors du vote');
+          this.refreshPage();
+        }
       });
     }
   }
@@ -178,10 +246,28 @@ export class DebateComponent {
     this.apiHandler.postArgument(this.argumentTitle, this.argumentType,this.debateId).subscribe({
       next: () => {
         this.loadingService.decrement();
+        this.toasterService.success('Argument enregistré');
         this.refreshPage();
       }, 
       error: (err) => {
         this.loadingService.decrement();
+        this.toasterService.error('Erreur lors de l\'enregistrement de l\'argument');
+        this.refreshPage();
+      }
+    });
+  }
+
+  onValidateReformulation() {
+    this.loadingService.increment();
+    this.apiHandler.postReformulation(this.debateId, this.reformulationProposition).subscribe({
+      next: () => {
+        this.loadingService.decrement();
+        this.toasterService.success('Reformulation enregistrée');
+        this.refreshPage();
+      },
+      error: (err) => {
+        this.loadingService.decrement();
+        this.toasterService.error('Erreur lors de l\'enregistrement de la reformulation');
         this.refreshPage();
       }
     });
@@ -189,6 +275,10 @@ export class DebateComponent {
 
   togglePopUp() {
     this.isPopUpOpen = !this.isPopUpOpen;
+  }
+
+  toggleReformulationPopUp() {
+    this.reformulationPopUp = !this.reformulationPopUp;
   }
 
   refreshPage() {
@@ -236,25 +326,24 @@ export class DebateComponent {
     return result;
   }
 
-  get popularArguments(): Argument[] {
-    let tab = [...this.arguments].sort((a, b) => {
-      return (b.nbGood + b.nbBad) - (a.nbGood + a.nbBad);
-    });
-    return tab;
+  get popularReformulations(): DebateDescriptionReformulation[] {
+    return this.reformulations.sort((a, b) => b.score - a.score).slice(0, 3);
   }
-
-  get recentArguments(): Argument[] {
-    let tab = [...this.arguments].sort((a, b) => {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
-    return tab;
-  }  
+  
+  get recentReformulations(): DebateDescriptionReformulation[] {
+    return this.reformulations.slice(0, 3);
+  }
 
   get isDebateFromArgument(): boolean {
     if(this.debate.argumentId === null || this.debate.argumentId === undefined || this.debate.argumentId === '') {
       return false;
     }
     return true;
+  }
+
+  get isVisitor() {
+    console.log('Is visitor ?',this.visitorService.isVisitor);
+    return this.visitorService.isVisitor;
   }
 
 }

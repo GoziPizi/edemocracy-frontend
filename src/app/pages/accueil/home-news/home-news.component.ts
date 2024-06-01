@@ -21,8 +21,10 @@ export class HomeNewsComponent {
   }
 
   ngOnInit() {
-    this.apiHandler.getRecentTopics().subscribe((response: any) => {
-      this.topics = response;
+    this.apiHandler.getRecentTopics().subscribe({
+      next: (response: any) => {
+        this.topics = response.slice(0, 5);
+      }
     });
   }
 

@@ -35,22 +35,10 @@
     font-size: 1em;
 }
 
-#submit-button {
+.validate-button {
     margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: darken(white, 15%);
-    color: #000;
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    width: max-content;
-    align-self: flex-end;
-
-    &:hover {
-        background-color: darken(white, 10%);
-    }
+    margin-right: 10px;
+    margin-left: auto;
 }
 
 .single-comment {

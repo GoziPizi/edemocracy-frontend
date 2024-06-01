@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { Router } from '@angular/router';
+import { LoadingService } from '../../../services/loading.service';
+import { ToasterService } from '../../../services/toaster.service';
 
 @Component({
   selector: 'app-party-create',
@@ -17,7 +19,9 @@ export class PartyCreateComponent {
 
   constructor(
     private apiHandler: ApiHandlerService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService,
+    private toasterService: ToasterService
   ) { }
 
   partyCreationForm = new FormGroup({
@@ -33,11 +37,18 @@ export class PartyCreateComponent {
 
   createParty() {
     if (this.partyCreationForm.valid) {
-      this.apiHandler.createParty(this.partyCreationForm.value).subscribe(
-        (response: any) => {
+      this.loadingService.increment();
+      this.apiHandler.createParty(this.partyCreationForm.value).subscribe({
+        next: (response: any) => {
+          this.loadingService.decrement();
+          this.toasterService.success('Parti créé avec succès')
           this.router.navigate(['/partis', response.id])
+        },
+        error: error => {
+          this.loadingService.decrement();
+          this.toasterService.error('Erreur lors de la création du parti')
         }
-      )
+      })
     }
   }
 

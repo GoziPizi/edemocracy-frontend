@@ -4,6 +4,7 @@ import { Debate } from '../../../models/debate';
 import { DebateThumbnailComponent } from '../../../thumbnails/debates/debate-thumbnail/debate-thumbnail.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { VisitorService } from '../../../services/visitor.service';
 
 @Component({
   selector: 'app-associated-debates',
@@ -19,7 +20,8 @@ export class AssociatedDebatesComponent {
 
   constructor(
     private apiHandler: ApiHandlerService, 
-    private router: Router
+    private router: Router,
+    private visitorService: VisitorService
   ) { }
 
   ngOnInit() {
@@ -47,6 +49,10 @@ export class AssociatedDebatesComponent {
       queryParams: {topicId: this.topicId},
       queryParamsHandling: 'merge'
     })
+  }
+
+  get isVisitor() {
+    return this.visitorService.isVisitor;
   }
 
 }

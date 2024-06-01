@@ -1,6 +1,6 @@
 
 <div id="page-container">
-    <app-header></app-header>
+    <app-header *ngIf="isHeaderVisible" ></app-header>
     <app-toaster></app-toaster>
     <div id="content">
         <router-outlet></router-outlet>

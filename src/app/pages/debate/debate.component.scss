@@ -1,5 +1,9 @@
 @import '../../../styles.scss';
 
+.validate-button {
+    color: black;
+}
+
 .separation-line {
     width: 30%;
     //light blue
@@ -112,23 +116,13 @@
     background-color: $hope-green;
 }
 
-
-
-.selected.green {
-    background-color: $hope-green;
-}
-
-#add-argument {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-#add-argument button {
+button {
     cursor: pointer;
     font-size:large;
     padding: 10px;
     border-radius: 10px;
     border: 1px solid darken($participation-yellow, 20%);
+    margin: 20px 0;
 
     background-color: $participation-yellow;
     color: white;
@@ -136,9 +130,14 @@
     &:hover {
         background-color: darken($participation-yellow, 10%);
     }
+
+    &:disabled {
+        background-color: darken($participation-yellow, 20%);
+        cursor: not-allowed;
+    }
 }
 
-#add-argument button i {
+button i {
     margin-right: 10px;
 }
 
@@ -154,7 +153,19 @@
     align-items: center;
 }
 
-#pop-up-content {
+#reformulation-pop-up {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.pop-up-content {
 
     z-index: 101;
     background-color: darken(white, 10%);
@@ -174,14 +185,14 @@
     align-items: center;
 }
 
-#pop-up-content i {
+.pop-up-content i {
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
 }
 
-#pop-up-content input {
+.pop-up-content input {
     margin-bottom: 20px;
     width: 80%;
 }

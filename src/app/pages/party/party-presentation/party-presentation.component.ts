@@ -9,6 +9,8 @@ import { PartyHistoricComponent } from './party-historic/party-historic.componen
 import { PartyOpinionsComponent } from './party-opinions/party-opinions.component';
 import { LoadingService } from '../../../services/loading.service';
 import { PartyCommentsComponent } from './party-comments/party-comments.component';
+import { ToasterService } from '../../../services/toaster.service';
+import { VisitorService } from '../../../services/visitor.service';
 
 @Component({
   selector: 'app-party-presentation',
@@ -29,7 +31,9 @@ export class PartyPresentationComponent {
   constructor(
     private route: ActivatedRoute,
     private apiHandler: ApiHandlerService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private toasterService: ToasterService,
+    private visitorService: VisitorService
   ) {
     this.partyId = this.route.snapshot.params['id'];
     this.getParty();
@@ -45,6 +49,7 @@ export class PartyPresentationComponent {
   }
 
   checkAdmin() {
+    if (this.visitorService.isVisitor) return;
     this.loadingService.increment();
     this.apiHandler.checkAdminPartyRights(this.partyId).subscribe((isAdmin: boolean) => {
       this.isAdmin = isAdmin;

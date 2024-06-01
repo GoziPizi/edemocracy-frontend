@@ -1,0 +1,18 @@
+<div id="container">
+    <p id="content">{{reformulation.content}}</p>
+    <div id="votes">
+        <p>{{reformulation.score}}</p>
+        <i
+            *ngIf="!isVisitor"
+            (click)="onLike()"
+            class="fa fa-thumbs-up" 
+            aria-hidden="true"
+            [ngClass]="{'selected' : hasVoteUp}"></i>
+        <i
+            *ngIf="!isVisitor"
+            (click)="onDislike()"
+            class="fa fa-thumbs-down"
+            aria-hidden="true"
+            [ngClass]="{'selected' : hasVoteDown}"></i>
+    </div>
+</div>

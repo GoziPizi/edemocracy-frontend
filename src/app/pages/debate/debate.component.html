@@ -14,41 +14,41 @@
 
     <div class="separation-line" *ngIf="isDebateFromArgument"></div>
 
-    <h1>Arguments récents et populaires</h1>
+    <h1>Reformulations récentes et populaires</h1>
+
+    <div id=add-reformulation>
+        <button (click)="toggleReformulationPopUp()" [disabled]="isVisitor" ><i class="fa-regular fa-comment-dots"></i>Proposer une reformulation</button>
+    </div>
 
     <div id="arguments-container">
         <div id="recent-arguments">
-            <h4>Arguments Récents:</h4>
+            <h4>Reformulations Récents:</h4>
             <swiper-container 
-                *ngIf="recentArguments.length > 0"
+                *ngIf="recentReformulations.length > 0"
                 navigation="true" 
                 dir="rtl"
                 >
-                <swiper-slide *ngFor="let argument of recentArguments">
-                    <app-single-argument-presentation 
+                <swiper-slide *ngFor="let reformulation of recentReformulations">
+                    <app-single-reformulation-presentation 
                         class="single-argument-presentation" 
-                        [argument]="argument"
-                        [$voteSubject]="voteSubject$"></app-single-argument-presentation>
+                        [reformulation]="reformulation"></app-single-reformulation-presentation>
                 </swiper-slide>
             </swiper-container>
-            <p *ngIf="recentArguments.length === 0">Aucun argument récent</p>
         </div>
         <div id="popular-arguments">
-            <h4>Arguments Populaires:</h4>
+            <h4>Reformulations Populaires:</h4>
             <swiper-container 
-                *ngIf="popularArguments.length > 0"
+                *ngIf="popularReformulations.length > 0"
                 #swiperContainer
                 navigation="true"
                 centeredSlides="true"
                 [slidesPerView]=2 >
-                <swiper-slide *ngFor="let argument of popularArguments">
-                    <app-single-argument-presentation 
+                <swiper-slide *ngFor="let reformulation of popularReformulations">
+                    <app-single-reformulation-presentation 
                         class="single-argument-presentation" 
-                        [argument]="argument"
-                        [$voteSubject]="voteSubject$"></app-single-argument-presentation>
+                        [reformulation]="reformulation"></app-single-reformulation-presentation>
                 </swiper-slide>
             </swiper-container>
-            <p *ngIf="popularArguments.length === 0">Aucun argument populaire</p>
         </div>
     </div>
 
@@ -58,15 +58,15 @@
 
     <div id="sorted-arguments">
         <h4>Arguments pour: </h4>
-        <app-arguments-displayer #argumentsFor></app-arguments-displayer>
+        <app-arguments-displayer #argumentsFor [voteSubject$]="voteSubject$"></app-arguments-displayer>
         <h4>Arguments contre: </h4>
-        <app-arguments-displayer #argumentsAgainst></app-arguments-displayer>
+        <app-arguments-displayer #argumentsAgainst [voteSubject$]="voteSubject$"></app-arguments-displayer>
         <h4>Solutions: </h4>
-        <app-arguments-displayer #argumentsSolution></app-arguments-displayer>
+        <app-arguments-displayer #argumentsSolution [voteSubject$]="voteSubject$"></app-arguments-displayer>
     </div>
 
     <div id=add-argument>
-        <button (click)="togglePopUp()"><i class="fa-regular fa-comment-dots"></i>Ajouter un argument</button>
+        <button (click)="togglePopUp()" [disabled]="isVisitor"><i class="fa-regular fa-comment-dots"></i>Ajouter un argument</button>
     </div>
 
     <div class="separation-line"></div>
@@ -78,11 +78,12 @@
         </div>
         <h1>Votez pour ou contre cette idée:</h1>
         <div id="vote-selector">
-            <p 
+            <button 
                 *ngFor="let value of voteValues" 
-                class="validate-button {{getClass(value)}} "
+                class="validate-button {{getClass(value)}}"
+                [disabled]="isVisitor"
                 (click)="voteForDebate(value)"
-                [ngClass]="{'selected' : isCurrentValue(value)}">{{mapperEnumToString(value)}}</p>
+                [ngClass]="{'selected' : isCurrentValue(value)}">{{mapperEnumToString(value)}}</button>
         </div>
         <p>Total des votes:</p>
         <app-for-against-debate #debateResult ></app-for-against-debate>
@@ -93,7 +94,7 @@
 </div>
 
 <div id="argument-pop-up" *ngIf="isPopUpOpen">
-    <div id="pop-up-content">
+    <div class="pop-up-content">
         <i class="fas fa-times" (click)="togglePopUp()"></i>
         <h3>Ajouter un argument</h3>
         <input type="text" placeholder="Titre de l'argument" [(ngModel)]="argumentTitle">
@@ -106,5 +107,13 @@
             <input type="radio" id="solution" name="argumentType" value="SOLUTION" [(ngModel)]="argumentType">
         </div>
         <p class="validate-button" (click)="onValidate()" >Valider</p>
+    </div>
+</div>
+<div id="reformulation-pop-up" *ngIf="reformulationPopUp">
+    <div class="pop-up-content">
+        <i class="fas fa-times" (click)="toggleReformulationPopUp()"></i>
+        <h3>Proposer une reformulation</h3>
+        <input type="textarea" placeholder="Reformulation" [(ngModel)]="reformulationProposition">
+        <p class="validate-button" (click)="onValidateReformulation()" >Valider</p>
     </div>
 </div>

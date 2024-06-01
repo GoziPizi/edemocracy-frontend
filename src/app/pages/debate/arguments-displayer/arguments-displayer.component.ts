@@ -14,6 +14,7 @@ import { SingleArgumentPresentationComponent } from '../single-argument-presenta
 export class ArgumentsDisplayerComponent {
 
   @Input() arguments: Argument[] = [];
+  @Input() voteSubject$!: any;
 
   setArgumentsList(value: Argument[]) {
     this.arguments = value;

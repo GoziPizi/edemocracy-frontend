@@ -4,6 +4,7 @@ import { ApiHandlerService } from '../../../services/api-handler.service';
 import { Party } from '../../../models/party';
 import { PartyResultThumbnailComponent } from '../../party/party-search/party-result-thumbnail/party-result-thumbnail.component';
 import { CommonModule } from '@angular/common';
+import { ToasterService } from '../../../services/toaster.service';
 
 @Component({
   selector: 'app-invitation',
@@ -23,7 +24,8 @@ export class InvitationComponent {
   constructor(
     private apiHandler: ApiHandlerService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toasterService: ToasterService
   ) {
     this.route.params.subscribe(params => {
       this.invitationId = params['id'];
@@ -53,8 +55,14 @@ export class InvitationComponent {
   }
 
   answer(answer: boolean) {
-    this.apiHandler.answerInvitation(this.invitationId, answer).subscribe((response: any) => {
-      this.router.navigate(['/partis', this.partyId])
+    this.apiHandler.answerInvitation(this.invitationId, answer).subscribe({
+      next: (response: any) => {
+        this.toasterService.success('Réponse envoyée');
+        this.router.navigate(['/partis', this.partyId])
+      },
+      error: (error: any) => {
+        this.toasterService.error('Erreur lors de la réponse à l\'invitation');
+      }
     });
   }
 

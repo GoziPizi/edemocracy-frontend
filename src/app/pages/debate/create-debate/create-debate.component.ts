@@ -6,6 +6,7 @@ import { LoadingService } from '../../../services/loading.service';
 import { Topic } from '../../../models/topics';
 import { SmallTopicThumbnailComponent } from '../../../thumbnails/topic-thumbnail/small-topic-thumbnail/small-topic-thumbnail.component';
 import { CommonModule } from '@angular/common';
+import { ToasterService } from '../../../services/toaster.service';
 
 @Component({
   selector: 'app-create-debate',
@@ -20,7 +21,8 @@ export class CreateDebateComponent {
     private route: ActivatedRoute,
     private apiHandler: ApiHandlerService,
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private toasterService: ToasterService
   ) { }
 
   ngOnInit(): void {
@@ -70,10 +72,12 @@ export class CreateDebateComponent {
     this.apiHandler.postDebate(this.createDebateForm.value).subscribe({
       next: (response: any) => {
         this.loadingService.decrement()
+        this.toasterService.success('Débat créé')
         this.router.navigate(['/debate', response.id])
       },
       error: (error) => {
         this.loadingService.decrement()
+        this.toasterService.error('Erreur lors de la création du débat')
       }
     })
   }

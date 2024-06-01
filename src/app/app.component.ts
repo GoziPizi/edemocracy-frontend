@@ -24,31 +24,14 @@ export class AppComponent {
     private apiHandler: ApiHandlerService,
     private router: Router
   ) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.apiHandler.isLogged.subscribe((isLogged: boolean) => {
-          if (!isLogged 
-            && this.router.url !== '/connexion' 
-            && this.router.url !== '/inscription'
-            && this.router.url !== '/landing'
-            && this.router.url !== '/reset-password'
-            && this.router.url !== '/change-password'
-            && this.router.url !== '/legal-notice'
-            && this.router.url !== '/privacy-policy'
-            && this.router.url !== '/terms-of-service'
-            && this.router.url !== '/') {
-            this.router.navigate(['/landing']);
-          }
-        });
-      }
-    });
+
   }
 
-  ngOnInit() {
-    this.navigationChangeSubscription = this.router.events.subscribe(() => {
-      this.isFooterVisible = this.router.url !== '/landing' && this.router.url !== '/connexion' && this.router.url !== '/inscription';
-    });
+  get isHeaderVisible() {
+    if (this.router.url === '/connexion' || this.router.url === '/inscription' || this.router.url === '/landing') {
+      return false;
+    }
+    return true;
   }
-
 
 }

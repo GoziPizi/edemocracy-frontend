@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 import { Argument, ArgumentType } from '../../../models/argument';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { VisitorService } from '../../../services/visitor.service';
+import { User } from '../../../models/users';
+import { ApiHandlerService } from '../../../services/api-handler.service';
 
 @Component({
   selector: 'app-single-argument-presentation',
@@ -14,15 +17,28 @@ export class SingleArgumentPresentationComponent {
 
   @Input() argument!: Argument;
   @Input() $voteSubject!: any;
+  user: User = new User();
 
   constructor(
-    private router: Router
+    private router: Router,
+    private visitorService: VisitorService,
+    private apiService: ApiHandlerService
   ) { }
 
   ngOnInit() {
+    this.fetchUser();
   }
 
-  onVoteUp() {
+  fetchUser() {
+    this.apiService.getUserById(this.argument.userId).subscribe({
+      next: (user: any) => {
+        this.user = user;
+      }
+    })
+  }
+
+  onVoteUp(event: any) {
+    event.stopPropagation();
     if(this.argument.hasVote){
       this.$voteSubject.next({argumentId: this.argument.id, vote: null});
       return;
@@ -30,12 +46,19 @@ export class SingleArgumentPresentationComponent {
     this.$voteSubject.next({argumentId: this.argument.id, vote: true});
   }
   
-  onVoteDown() {
+  onVoteDown(event: any) {
+    event.stopPropagation();
     if(this.argument.hasVote === false){
       this.$voteSubject.next({argumentId: this.argument.id, vote: null});
       return;
     }
     this.$voteSubject.next({argumentId: this.argument.id, vote: false});
+  }
+
+  navigateToDebate() {
+    this.router.navigate(['/debate', this.argument.childDebateId], {
+      queryParamsHandling: 'merge'
+    })
   }
 
   getColorByValue(): string {
@@ -84,6 +107,14 @@ export class SingleArgumentPresentationComponent {
       return '50%';
     }
     return `${this.argument.nbBad / (this.argument.nbGood + this.argument.nbBad) * 100}%`;
+  }
+
+  get isVisitor() {
+    return this.visitorService.isVisitor;
+  }
+
+  get displayName() {
+    return this.user.firstName;
   }
 
 }

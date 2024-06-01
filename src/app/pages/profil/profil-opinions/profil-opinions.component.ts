@@ -57,7 +57,6 @@ export class ProfilOpinionsComponent {
         this.opinions = this.opinions.filter(opinion => opinion.id !== opinionId);
       }, 
       error: (error: any) => {
-        console.log('Error while deleting opinion', error);
       }
     });
   }

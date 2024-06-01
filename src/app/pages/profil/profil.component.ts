@@ -5,12 +5,13 @@ import { Party } from '../../models/party';
 import { Personality } from '../../models/personality';
 import { LoadingService } from '../../services/loading.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ProfilOpinionsComponent } from './profil-opinions/profil-opinions.component';
 import { ProfilPersonalsComponent } from './profil-personals/profil-personals.component';
 import { FormsModule } from '@angular/forms';
 import { ToasterService } from '../../services/toaster.service';
 import { ProfilSettingsComponent } from './profil-settings/profil-settings.component';
+import { VisitorService } from '../../services/visitor.service';
 
 @Component({
   selector: 'app-profil',
@@ -42,11 +43,17 @@ export class ProfilComponent {
   constructor(
     private apiHandler: ApiHandlerService,
     private loadingService: LoadingService, 
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private visitorService: VisitorService,
+    private router: Router
   ) {
   }
 
   ngOnInit(){
+    if (this.visitorService.isVisitor) {
+      this.router.navigate(['/accueil']);
+      this.loadingService.reset();
+    }
     this.fetchUserProfil();
     this.fetchUserPartis();
     this.fetchUserPersonality();

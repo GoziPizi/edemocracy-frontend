@@ -6,6 +6,7 @@ import { ApiHandlerService } from '../../../services/api-handler.service';
 import { Party } from '../../../models/party';
 import { LoadingService } from '../../../services/loading.service';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { VisitorService } from '../../../services/visitor.service';
 
 @Component({
   selector: 'app-party-members',
@@ -34,7 +35,8 @@ export class PartyMembersComponent {
   constructor(
     private route: ActivatedRoute,
     private apiHandler: ApiHandlerService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private visitorService: VisitorService
   ) {}
 
   ngOnInit() {
@@ -58,6 +60,7 @@ export class PartyMembersComponent {
   }
 
   checkAdmin() {
+    if(this.visitorService.isVisitor) return;
     this.loadingService.increment();
     this.apiHandler.checkAdminPartyRights(this.partyId).subscribe((isAdmin: boolean) => {
       this.isAdmin = isAdmin;

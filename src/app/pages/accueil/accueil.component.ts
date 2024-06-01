@@ -6,6 +6,9 @@ import { ApiHandlerService } from '../../services/api-handler.service';
 import { TopicThumbnailComponent } from '../../thumbnails/topic-thumbnail/topic-thumbnail.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LoadingService } from '../../services/loading.service';
+import { ToasterService } from '../../services/toaster.service';
+import { VisitorService } from '../../services/visitor.service';
 
 @Component({
   selector: 'app-accueil',
@@ -19,13 +22,29 @@ export class AccueilComponent {
   topics: Topic[] = [];
 
   constructor(
-    private apiHandler: ApiHandlerService
+    private apiHandler: ApiHandlerService,
+    private loadingService: LoadingService,
+    private toastService: ToasterService,
+    private visitorService: VisitorService
     ) {
   }
 
   ngOnInit() {
-    this.apiHandler.getTopics().subscribe((response: any) => {
-      this.topics = response.slice(0, 10);
+    this.loadingService.increment();
+    this.apiHandler.getTopics().subscribe({
+      next: (response: any) => {
+        this.loadingService.decrement();
+        this.topics = response.slice(0, 10);
+      },
+      error: (error: any) => {
+        this.loadingService.decrement();
+        this.toastService.error('Erreur lors de la récupération des topics');
+        console.error(error);
+      }
     });
+  }
+
+  get isVisitor() {
+    return this.visitorService.isVisitor;
   }
 }
