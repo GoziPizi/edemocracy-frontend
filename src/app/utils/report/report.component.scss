@@ -1,0 +1,34 @@
+@import '../../../colors.scss';
+
+#container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+i {
+    cursor: pointer;
+    color: gray;
+
+    &:hover {
+        color: $debate-red;
+    }
+}
+
+#tooltip-text {
+    display: none;
+}
+
+#container:hover #tooltip-text {
+    display: block;
+    position: absolute;
+    top: 0%;
+    left: 0; // Ajustez cette valeur pour la position horizontale
+    transform: translateX(-100%) translateY(-100%);
+    background-color: #fff; // Ajoutez un fond si nécessaire
+    border: 1px solid #ccc; // Ajoutez une bordure si nécessaire
+    border-radius: 10px; // Ajoutez un rayon de bordure si nécessaire
+    padding: 5px; // Ajoutez du padding si nécessaire
+    z-index: 1000; // Assurez-vous que le tooltip soit au-dessus de l'icône
+}

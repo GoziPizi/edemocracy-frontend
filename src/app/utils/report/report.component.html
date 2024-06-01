@@ -1,0 +1,4 @@
+<div id="container" *ngIf="!isVisitor">
+    <i class="fa-solid fa-triangle-exclamation" [ngClass]="{'fa-xl' : size === 'large'}" (click)="report($event)" ></i>
+    <p id="tooltip-text" >Signaler</p>
+</div>

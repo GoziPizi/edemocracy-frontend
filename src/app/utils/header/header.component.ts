@@ -28,7 +28,6 @@ export class HeaderComponent {
   }
 
   fetchUser() {
-    if(this.isVisitor) return;
     this.apiHandler.getUser().subscribe(user => {
       this.user = user;
     });
