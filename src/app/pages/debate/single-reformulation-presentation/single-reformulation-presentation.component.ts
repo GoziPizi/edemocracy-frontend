@@ -4,11 +4,13 @@ import { ApiHandlerService } from '../../../services/api-handler.service';
 import { ToasterService } from '../../../services/toaster.service';
 import { CommonModule } from '@angular/common';
 import { VisitorService } from '../../../services/visitor.service';
+import { ReportComponent } from '../../../utils/report/report.component';
+import { ReportType } from '../../../models/report';
 
 @Component({
   selector: 'app-single-reformulation-presentation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReportComponent],
   templateUrl: './single-reformulation-presentation.component.html',
   styleUrl: './single-reformulation-presentation.component.scss'
 })
@@ -17,6 +19,7 @@ export class SingleReformulationPresentationComponent {
   @Input() reformulation!: DebateDescriptionReformulation;
 
   actualVote: DebateReformulationVote | null = null;
+  reportType = ReportType.REFORMULATION;
 
   constructor(
     private apiHandler: ApiHandlerService,

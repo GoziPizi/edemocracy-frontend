@@ -15,6 +15,18 @@
     cursor: pointer;
 }
 
+#report {
+    display: none;
+    position: absolute;
+    top: 40%;
+    right: 20px;
+    cursor: pointer;
+}
+
+#container:hover #report {
+    display: block;
+}
+
 #content {
     direction: ltr;
 }

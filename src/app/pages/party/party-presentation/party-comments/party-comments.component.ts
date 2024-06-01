@@ -5,11 +5,13 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoadingService } from '../../../../services/loading.service';
 import { VisitorService } from '../../../../services/visitor.service';
+import { ReportComponent } from '../../../../utils/report/report.component';
+import { ReportType } from '../../../../models/report';
 
 @Component({
   selector: 'app-party-comments',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ReportComponent],
   templateUrl: './party-comments.component.html',
   styleUrl: './party-comments.component.scss'
 })
@@ -22,7 +24,7 @@ export class PartyCommentsComponent {
   })
 
   comments: PartyCommentWithName[] = [];
-
+  reportType = ReportType.COMMENT;
   isAdmin: boolean = false;
   userId: string = '';
 

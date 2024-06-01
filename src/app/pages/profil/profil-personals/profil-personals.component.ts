@@ -40,17 +40,21 @@ export class ProfilPersonalsComponent {
 
   fetchUser(){
     this.loadingService.increment();
-    this.apiHandler.getUser().subscribe((data: User) => {
-      this.user = data;
-      this.loadingService.decrement();
-      this.updateInformationsForm.patchValue({
-        telephone: this.user.telephone,
-        address: this.user.address,
-        profession: this.user.profession,
-        description: this.user.description
-      })
-      if(this.user.profilePicture){
-        this.imageInput.setImage(this.user.profilePicture);
+    this.apiHandler.getUser().subscribe({
+      next: (data: User) => {
+        this.user = data;
+        this.loadingService.decrement();
+        this.updateInformationsForm.patchValue({
+          telephone: this.user.telephone,
+          address: this.user.address,
+          profession: this.user.profession,
+          description: this.user.description
+        })
+        if(this.user.profilePicture){
+          this.imageInput.setImage(this.user.profilePicture);
+        }
+      }, error: () => {
+        this.loadingService.decrement();
       }
     });
   }

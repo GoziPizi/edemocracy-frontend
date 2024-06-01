@@ -19,10 +19,14 @@
             <i class="fas fa-chevron-down" *ngIf="!cotisation" (click)="toggleCotisation()"></i>
             <i class="fas fa-chevron-up" *ngIf="cotisation" (click)="toggleCotisation()"></i>
         </div>
-        <div>
+        <div *ngIf="cotisation">
+            <p>La cotisation est un moyen de participer au bon fonctionnement et au développement du site. La cotisation nous permet entre autres de payer l'hebergement du site Internet, de financer les nouveaux développements, et de rémunérer les modérateurs.</p>
             <p *ngIf="userProfil.contribution">Vous avez cotisé</p>
             <p *ngIf="!userProfil.contribution">Vous n'avez pas cotisé</p>
             <button *ngIf="!userProfil.contribution" class="validate-button" (click)="onContribute()" >Cotiser</button>
+            <br *ngIf="!userProfil.contribution">
+            <button *ngIf="!userProfil.contribution" class="validate-button" (click)="onContribute()" [disabled]="true" style="margin-top: 10px">Cotisation Premium</button>
+            <p *ngIf="!userProfil.contribution">La cotisation premium permet à l'équipe de Digital-Democracy de représenter vos voix auprès du Sénat.</p>
         </div>
     </div>
 

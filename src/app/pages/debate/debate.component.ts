@@ -18,6 +18,8 @@ import { ArgumentDebatePresentationComponent } from './argument-debate-presentat
 import { SingleReformulationPresentationComponent } from './single-reformulation-presentation/single-reformulation-presentation.component';
 import { ToasterService } from '../../services/toaster.service';
 import { VisitorService } from '../../services/visitor.service';
+import { ReportComponent } from '../../utils/report/report.component';
+import { ReportType } from '../../models/report';
 
 @Component({
   selector: 'app-debate',
@@ -30,7 +32,8 @@ import { VisitorService } from '../../services/visitor.service';
     SingleArgumentPresentationComponent, 
     ArgumentsDisplayerComponent,
     ArgumentDebatePresentationComponent,
-    SingleReformulationPresentationComponent
+    SingleReformulationPresentationComponent,
+    ReportComponent
   ],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss',
@@ -69,6 +72,7 @@ export class DebateComponent {
   routeSubscription: any;
 
   mapperEnumToString = debateVoteEnumToString;
+  reportType = ReportType;
 
   isPopUpOpen: boolean = false;
   reformulationPopUp: boolean = false;
@@ -306,6 +310,18 @@ export class DebateComponent {
     return 'grey';
   }
 
+  share(event: any){
+
+    event.stopPropagation();
+    event.preventDefault();
+
+    navigator.clipboard.writeText('https://edemocracy.com/debate/' + this.debate.id).then(() => {
+      this.toasterService.success('Lien copié dans le presse-papier');
+    }).catch(err => {
+      this.toasterService.error('Erreur lors de la copie du texte');
+    });
+  }
+
   get numberOfVotants(): number {
     const result = 
       this.debate.debateResult.nbReallyFor +
@@ -342,7 +358,6 @@ export class DebateComponent {
   }
 
   get isVisitor() {
-    console.log('Is visitor ?',this.visitorService.isVisitor);
     return this.visitorService.isVisitor;
   }
 

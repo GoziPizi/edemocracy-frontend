@@ -5,11 +5,13 @@ import { Router, RouterModule } from '@angular/router';
 import { VisitorService } from '../../../services/visitor.service';
 import { User } from '../../../models/users';
 import { ApiHandlerService } from '../../../services/api-handler.service';
+import { ReportComponent } from '../../../utils/report/report.component';
+import { ReportType } from '../../../models/report';
 
 @Component({
   selector: 'app-single-argument-presentation',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ReportComponent],
   templateUrl: './single-argument-presentation.component.html',
   styleUrl: './single-argument-presentation.component.scss'
 })
@@ -18,6 +20,8 @@ export class SingleArgumentPresentationComponent {
   @Input() argument!: Argument;
   @Input() $voteSubject!: any;
   user: User = new User();
+
+  reportType = ReportType.ARGUMENT;
 
   constructor(
     private router: Router,
@@ -88,11 +92,11 @@ export class SingleArgumentPresentationComponent {
   }
 
   get redColor() {
-    return this.argument.hasVote === false ? '#D72631' : 'gray';
+    return '#D72631';
   }
 
   get greenColor() {
-    return this.argument.hasVote === true ? '#2E8B57' : 'gray';
+    return '#2E8B57';
   }
 
   get stringWidth() {

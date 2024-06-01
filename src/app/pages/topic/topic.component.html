@@ -15,6 +15,7 @@
         <h4>Autres sujets:</h4>
         <app-children-topic [childrenTopicId]="topic.id" #childrenTopics></app-children-topic>
     </div>
-    <p id="create-topic" [routerLink]="['/publish-topic']" [queryParams]="{topicId: topic.id}" *ngIf="!isVisitor" >Créer un sujet</p>
-    <p id="modify-topic" [routerLink]="['/modify-topic', topic.id]" *ngIf="topic.userId === userId" >Modifier un sujet</p>
+    <button id="create-topic" class="validate-button"[routerLink]="['/publish-topic']" [queryParams]="{topicId: topic.id}" *ngIf="!isVisitor" >Créer un sujet</button>
+    <button id="modify-topic" class="validate-button" [routerLink]="['/modify-topic', topic.id]" *ngIf="topic.userId === userId" >Modifier un sujet</button>
+    <app-report [id]="topic.id" [type]="reportType.TOPIC" id="report-topic" ></app-report>
 </div>

@@ -54,6 +54,13 @@ export class ProfilComponent {
       this.router.navigate(['/accueil']);
       this.loadingService.reset();
     }
+    this.apiHandler.getUser().subscribe({
+      next: (data: User) => {
+      },
+      error: (error) => {
+        this.toasterService.error('Une erreur est survenue lors de la récupération de votre profil.');
+      }
+    });
     this.fetchUserProfil();
     this.fetchUserPartis();
     this.fetchUserPersonality();
@@ -61,17 +68,29 @@ export class ProfilComponent {
 
   fetchUserProfil(){
     this.loadingService.increment();
-    this.apiHandler.getUser().subscribe((data: User) => {
-      this.userProfil = data;
-      this.loadingService.decrement();
+    this.apiHandler.getUser().subscribe({
+      next: (data: User) => {
+        this.userProfil = data;
+        this.loadingService.decrement();
+      },
+      error: (error) => {
+        this.toasterService.error('Une erreur est survenue lors de la récupération de votre profil.');
+        this.loadingService.decrement();
+      }
     });
   }
 
   fetchUserPartis(){
     this.loadingService.increment();
-    this.apiHandler.getUserPartis().subscribe((data: Party[]) => {
-      this.userPartis = data;
-      this.loadingService.decrement();
+    this.apiHandler.getUserPartis().subscribe({
+      next: (data: Party[]) => {
+        this.userPartis = data;
+        this.loadingService.decrement();
+      },
+      error: (error) => {
+        this.toasterService.error('Une erreur est survenue lors de la récupération de vos partis.');
+        this.loadingService.decrement();
+      }
     });
   }
 
@@ -81,9 +100,14 @@ export class ProfilComponent {
 
   fetchUserPersonality(){
     this.loadingService.increment();
-    this.apiHandler.getUserPersonality().subscribe((data: Personality) => {
-      this.userPersonality = data;
-      this.loadingService.decrement();
+    this.apiHandler.getUserPersonality().subscribe({
+      next: (data: Personality) => {
+        this.userPersonality = data;
+        this.loadingService.decrement();
+      },error: (error) => {
+        this.toasterService.error('Une erreur est survenue lors de la récupération de votre profil de personnalité.');
+        this.loadingService.decrement();
+      }
     });
   }
 

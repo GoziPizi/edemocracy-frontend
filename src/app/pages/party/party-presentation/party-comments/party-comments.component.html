@@ -11,6 +11,7 @@
         </div>
         <div class="single-comment" *ngFor="let comment of comments">
             <i class="fas fa-times" *ngIf="comment.userId === userId" (click)="deleteComment(comment.id)"></i>
+            <app-report id="report" [type]="reportType" [id]="comment.id" [size]="'small'" ></app-report>
             <div class="comment-header">
                 <p>{{comment.user.firstName}} {{comment.user.name}}</p>
                 <p>{{comment.createdAt | date:'dd/MM/yyyy, HH\'h\'mm'}}</p>

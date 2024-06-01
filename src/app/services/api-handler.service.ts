@@ -17,6 +17,7 @@ import { SearchResult } from '../models/searchResult';
 import { NotificationEdemoc } from '../models/notifications';
 import { VisitorService } from './visitor.service';
 import { Router } from '@angular/router';
+import { ReportType } from '../models/report';
 
 @Injectable({
   providedIn: 'root',
@@ -765,6 +766,26 @@ export class ApiHandlerService {
   getCheckoutSession() {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.baseUrl}/api/contribution/checkout-session`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  //Moderation related methods
+
+  getReports() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/moderation/reports`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  report(entityId: string, entityType: ReportType){
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/moderation/report`, {entityId, entityType}, {
       headers: {
         Authorization: `${token}`,
       },
