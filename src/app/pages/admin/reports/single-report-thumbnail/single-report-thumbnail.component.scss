@@ -1,0 +1,8 @@
+@import '../../../../../styles.scss';
+
+#container {
+    background-color: darken($color: white, $amount: 10%);
+    padding: 20px;
+    width: max-content;
+    border-radius: 10px;
+}

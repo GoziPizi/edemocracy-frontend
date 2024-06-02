@@ -1,0 +1,21 @@
+<div id="container">
+    <div *ngIf="isDisplayed(reportTypes.ARGUMENT)">
+        <app-single-argument-report-thumbnail [argumentId]="report.entityId" ></app-single-argument-report-thumbnail>
+    </div>
+    <div *ngIf="isDisplayed(reportTypes.COMMENT)">
+        <app-single-comment-report-thumbnail [commentId]="report.entityId" ></app-single-comment-report-thumbnail>
+    </div>
+    <div *ngIf="isDisplayed(reportTypes.REFORMULATION)">
+        <app-single-reformulation-report-thumbnail [reformulationId]="report.entityId" ></app-single-reformulation-report-thumbnail>
+    </div>
+    <div *ngIf="isDisplayed(reportTypes.DEBATE)">
+        Débat signalé
+        <button class="validate-button" [routerLink]="['/debate', report.entityId]">Voir le débat</button>
+    </div>
+    <div *ngIf="isDisplayed(reportTypes.TOPIC)">
+        Sujet signalé
+        <button class="validate-button" [routerLink]="['/topic', report.entityId]" >Voir le sujet</button>
+    </div>
+    <button class="validate-button" (click)="deleteEntity()">Supprimer le contenu</button>
+    <button class="validate-button" (click)="ignoreReport()">Ignorer le signalement</button>
+</div>
