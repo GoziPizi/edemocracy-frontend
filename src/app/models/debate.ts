@@ -11,6 +11,14 @@ export class Debate {
     hasVote: DebateVote | null = null;
 }
 
+export class DebateVoteFromUser {
+    id: string = '';
+    value: DebateVote = DebateVote.NEUTRAL;
+    userId: string = '';
+    isFromContributor: boolean = false;
+    debateId: string = '';
+}
+
 export class DebateResult {
     id: string = '';
     nbReallyFor: number = 0;

@@ -52,6 +52,8 @@ export class ApiHandlerService {
       },
       error: (error) => {
         this.isLogged.next(false);
+        this.visitorService.setIsVisitor(true);
+        localStorage.removeItem('token');
       },
     });
   }
@@ -78,6 +80,7 @@ export class ApiHandlerService {
       error: (error) => {
         this.isLogged.next(false);
         localStorage.removeItem('token');
+        this.visitorService.setIsVisitor(true);
       },
     });
   }
@@ -126,6 +129,9 @@ export class ApiHandlerService {
 
   getUser() { 
     const token = localStorage.getItem('token');
+    if (!token) {
+      return
+    }
     return this.http.get<User>(`${this.baseUrl}/api/users`, {
       headers: {
         Authorization: `${token}`,
@@ -367,6 +373,15 @@ export class ApiHandlerService {
   voteForDebate(id: string, value: DebateVote){
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/debates/${id}/vote`, {value: debateVoteEnumToStrictString(value)}, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getDebateVote(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<DebateVote>(`${this.baseUrl}/api/debates/${id}/vote`, {
       headers: {
         Authorization: `${token}`,
       },

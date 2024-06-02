@@ -54,7 +54,7 @@ export class ProfilComponent {
       this.router.navigate(['/accueil']);
       this.loadingService.reset();
     }
-    this.apiHandler.getUser().subscribe({
+    this.apiHandler.getUser()!.subscribe({
       next: (data: User) => {
       },
       error: (error) => {
@@ -68,7 +68,7 @@ export class ProfilComponent {
 
   fetchUserProfil(){
     this.loadingService.increment();
-    this.apiHandler.getUser().subscribe({
+    this.apiHandler.getUser()!.subscribe({
       next: (data: User) => {
         this.userProfil = data;
         this.loadingService.decrement();

@@ -40,7 +40,7 @@ export class ProfilPersonalsComponent {
 
   fetchUser(){
     this.loadingService.increment();
-    this.apiHandler.getUser().subscribe({
+    this.apiHandler.getUser()!.subscribe({
       next: (data: User) => {
         this.user = data;
         this.loadingService.decrement();

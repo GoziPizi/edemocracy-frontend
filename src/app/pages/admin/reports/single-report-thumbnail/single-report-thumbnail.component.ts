@@ -38,7 +38,6 @@ export class SingleReportThumbnailComponent {
   deleteEntity() {
     this.apiService.deleteEntity(this.report.id).subscribe({
       next: () => {
-        console.log('Suppression réussie');
         this.reloadPage();
       },
       error: (error) => {
@@ -50,7 +49,6 @@ export class SingleReportThumbnailComponent {
   ignoreReport() {
     this.apiService.ignoreReport(this.report.id).subscribe({
       next: () => {
-        console.log('Signalement ignoré');
         this.reloadPage();
       },
       error: (error) => {

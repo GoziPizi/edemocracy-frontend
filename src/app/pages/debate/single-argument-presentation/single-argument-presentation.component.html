@@ -1,4 +1,4 @@
-<div id="container" [ngStyle]="{ 'background-color': getColorByValue() }" (click)="navigateToDebate()" >
+<div id="container" [ngStyle]="{ 'background-color': getColorByValue() , 'border-color' : getBorderColor() }" (click)="navigateToDebate()" >
     <p id="content">{{argument.content}}</p>
     <p id="author">Proposé par: {{displayName}}</p>
     <app-report id="report" [type]="reportType" [id]="argument.id" [size]="'small'" ></app-report>

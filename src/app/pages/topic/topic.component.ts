@@ -25,7 +25,7 @@ export class TopicComponent {
   topicId: string = 'topicId';
   topic: Topic = new Topic();
 
-  userId: string = 'userId';
+  userId: string = this.apiHandler.getUserId();
 
   reportType = ReportType;
 
@@ -96,6 +96,12 @@ export class TopicComponent {
 
   get isVisitor() {
     return this.visitorService.isVisitor;
+  }
+
+  get modifyButtonDisplayed() {
+    if(!this.userId) return false;
+    if(!this.topic.userId) return false;
+    return this.userId === this.topic.userId;
   }
 
 }

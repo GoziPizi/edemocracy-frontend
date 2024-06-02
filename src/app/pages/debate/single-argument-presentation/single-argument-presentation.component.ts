@@ -7,6 +7,8 @@ import { User } from '../../../models/users';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { ReportComponent } from '../../../utils/report/report.component';
 import { ReportType } from '../../../models/report';
+import { Debate, DebateVoteFromUser } from '../../../models/debate';
+import { DebateVote } from '../../../enums/voteDebate';
 
 @Component({
   selector: 'app-single-argument-presentation',
@@ -21,6 +23,8 @@ export class SingleArgumentPresentationComponent {
   @Input() $voteSubject!: any;
   user: User = new User();
 
+  userVoteForSubDebate: DebateVoteFromUser | null = null;
+
   reportType = ReportType.ARGUMENT;
 
   constructor(
@@ -31,12 +35,24 @@ export class SingleArgumentPresentationComponent {
 
   ngOnInit() {
     this.fetchUser();
+    this.fetchActualVoteForSubDebate();
   }
 
   fetchUser() {
     this.apiService.getUserById(this.argument.userId).subscribe({
       next: (user: any) => {
         this.user = user;
+      }
+    })
+  }
+
+  fetchActualVoteForSubDebate() {
+    if(this.visitorService.isVisitor) return;
+    if(!this.argument.childDebateId) return;
+    this.apiService.getDebateVote(this.argument.childDebateId).subscribe({
+      next: (vote: any) => {
+        console.log('actual vote', vote)
+        this.userVoteForSubDebate = vote;
       }
     })
   }
@@ -76,6 +92,22 @@ export class SingleArgumentPresentationComponent {
       default:
         return 'transparent'; // Couleur par défaut ou aucune couleur
     }
+  }
+
+  getBorderColor() {
+    if(this.userVoteForSubDebate === null) {
+      return 'transparent';
+    }
+    let vote = this.userVoteForSubDebate.value;
+    console.log('vote', vote)
+    console.log(DebateVote[2])
+    if(vote as any == DebateVote[2] || vote as any === DebateVote[1]) {
+      return this.greenColor;
+    } 
+    if(vote as any == DebateVote[-2] || vote as any === DebateVote[-1]) {
+      return this.redColor;
+    }
+    return 'transparent';
   }
 
   onViewDebate() {

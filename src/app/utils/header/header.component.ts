@@ -28,7 +28,7 @@ export class HeaderComponent {
   }
 
   fetchUser() {
-    this.apiHandler.getUser().subscribe(user => {
+    this.apiHandler.getUser()?.subscribe(user => {
       this.user = user;
     });
   }

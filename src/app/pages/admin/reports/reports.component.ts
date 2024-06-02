@@ -20,10 +20,8 @@ export class ReportsComponent {
   ) { }
 
   ngOnInit() {
-    console.log('ReportsComponent');
     this.apiService.getReports().subscribe({
       next: (reports: any) => {
-        console.log(reports);
         this.reports = reports;
       },
       error: (error) => {
