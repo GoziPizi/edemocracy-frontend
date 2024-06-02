@@ -1,0 +1,6 @@
+<div id="container">
+    <h2>Signalements</h2>
+    <div style="display: flex; flex-direction: column; margin-left: 10px">
+        <app-single-report-thumbnail *ngFor="let report of reports" [report]="report" class="single-report" ></app-single-report-thumbnail>
+    </div>
+</div>

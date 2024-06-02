@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BanWord } from '../../models/banword';
 import { User } from '../../models/users';
+import { ReportsComponent } from './reports/reports.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReportsComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })

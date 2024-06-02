@@ -640,6 +640,15 @@ export class ApiHandlerService {
     });
   }
 
+  getSinglePartyComment(commentId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/parties/comments/${commentId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Admin related methods
 
   getBanWords() {
@@ -786,6 +795,24 @@ export class ApiHandlerService {
   report(entityId: string, entityType: ReportType){
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/moderation/report`, {entityId, entityType}, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  ignoreReport(reportId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.delete(`${this.baseUrl}/api/moderation/reports/${reportId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  deleteEntity(reportId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.delete(`${this.baseUrl}/api/moderation/reports/${reportId}/delete-entity`, {
       headers: {
         Authorization: `${token}`,
       },
