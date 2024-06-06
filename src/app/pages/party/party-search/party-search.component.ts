@@ -25,7 +25,8 @@ export class PartySearchComponent {
   constructor(
     private apiHandler: ApiHandlerService,
     private loadingService: LoadingService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private visitorService: VisitorService
   ) {
   }
 
@@ -43,6 +44,10 @@ export class PartySearchComponent {
         console.error(error);
       }
     });
+  }
+
+  get isVisitor() {
+    return this.visitorService.isVisitor;
   }
 
 }

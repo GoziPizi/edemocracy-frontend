@@ -7,7 +7,8 @@ export enum ArgumentType {
 export class Argument {
     id: string = '';
     content: string = 'Contenu par défaut';
-    userId: string = '';
+    userId?: string = '';
+    anonymous: boolean = false;
     debateId: string = '';
     type: ArgumentType = ArgumentType.FOR;
     nbGood: number = 0;

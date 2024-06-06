@@ -1,0 +1,4 @@
+<div id="container">
+    <button class="validate-button" (click)="follow($event)" *ngIf="!isFollowed">Suivre</button>
+    <button class="validate-button" (click)="follow($event)" *ngIf="isFollowed">Suivi</button>
+</div>

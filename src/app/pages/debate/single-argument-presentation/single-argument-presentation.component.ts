@@ -39,6 +39,7 @@ export class SingleArgumentPresentationComponent {
   }
 
   fetchUser() {
+    if(!this.argument.userId) return;
     this.apiService.getUserById(this.argument.userId).subscribe({
       next: (user: any) => {
         this.user = user;
@@ -51,7 +52,6 @@ export class SingleArgumentPresentationComponent {
     if(!this.argument.childDebateId) return;
     this.apiService.getDebateVote(this.argument.childDebateId).subscribe({
       next: (vote: any) => {
-        console.log('actual vote', vote)
         this.userVoteForSubDebate = vote;
       }
     })
@@ -99,8 +99,6 @@ export class SingleArgumentPresentationComponent {
       return 'transparent';
     }
     let vote = this.userVoteForSubDebate.value;
-    console.log('vote', vote)
-    console.log(DebateVote[2])
     if(vote as any == DebateVote[2] || vote as any === DebateVote[1]) {
       return this.greenColor;
     } 
@@ -150,7 +148,9 @@ export class SingleArgumentPresentationComponent {
   }
 
   get displayName() {
+    if(this.argument.anonymous) {
+      return 'Anonyme';
+    }
     return this.user.firstName;
   }
-
 }

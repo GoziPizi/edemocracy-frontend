@@ -7,6 +7,7 @@
             <h3>{{personality.user.firstName}} {{personality.user.name}}</h3>
             <h4>{{politicSide}}</h4>
             <p>{{personality.description}}</p>
+            <app-follow-button [entityId]="personality.id" [entityType]="'personality'"></app-follow-button>
         </div>
     </div>
 </a>

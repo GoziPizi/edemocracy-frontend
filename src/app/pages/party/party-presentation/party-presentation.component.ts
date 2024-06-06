@@ -11,11 +11,12 @@ import { LoadingService } from '../../../services/loading.service';
 import { PartyCommentsComponent } from './party-comments/party-comments.component';
 import { ToasterService } from '../../../services/toaster.service';
 import { VisitorService } from '../../../services/visitor.service';
+import { FollowButtonComponent } from '../../../utils/follow-button/follow-button.component';
 
 @Component({
   selector: 'app-party-presentation',
   standalone: true,
-  imports: [RouterModule, CommonModule, SmallTopicThumbnailComponent, PartyHistoricComponent, PartyOpinionsComponent, PartyCommentsComponent],
+  imports: [RouterModule, CommonModule, SmallTopicThumbnailComponent, PartyHistoricComponent, PartyOpinionsComponent, PartyCommentsComponent, FollowButtonComponent],
   templateUrl: './party-presentation.component.html',
   styleUrl: './party-presentation.component.scss'
 })
@@ -59,6 +60,10 @@ export class PartyPresentationComponent {
 
   get partyLogo() {
     return (this.party.logo && this.party.logo != '') ? this.party.logo : '../../../../assets/default-profil.webp';
+  }
+
+  get isVisitor() {
+    return this.visitorService.isVisitor;
   }
 
 }

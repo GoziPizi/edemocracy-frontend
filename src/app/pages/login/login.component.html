@@ -9,4 +9,5 @@
         <button type="submit" [disabled]="!loginForm.valid" (click)="login()" class="validate-button" >Connexion</button>
     </form>
     <p *ngIf="invalidLogin" id="error-id">Identifiants non corrects</p>
+    <a [routerLink]="['/reset-password']" id="reset-password">Mot de passe oublié ?</a>
 </div>

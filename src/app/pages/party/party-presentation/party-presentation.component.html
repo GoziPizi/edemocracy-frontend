@@ -12,6 +12,7 @@
                 <div id="textual-presentation">
                     <h2>{{party.name}}</h2>
                     <h4>{{mapperEnumToString(party.politicSide)}}</h4>
+                    <app-follow-button *ngIf="!isVisitor && partyId && partyId != ''" [entityId]="partyId" [entityType]="'party'"></app-follow-button>  
                 </div>
                 <img [src]="partyLogo" >
             </div>

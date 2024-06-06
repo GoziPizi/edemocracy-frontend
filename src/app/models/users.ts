@@ -14,7 +14,6 @@ export class User {
     profilePicture?: string = '';
     politicSide: PoliticSides = PoliticSides.CENTER;
     role: string = '';
-    follows: string[] = [];
     createdAt: Date = new Date();
     updatedAt: Date = new Date();
 }

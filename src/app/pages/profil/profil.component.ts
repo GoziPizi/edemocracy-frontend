@@ -12,11 +12,12 @@ import { FormsModule } from '@angular/forms';
 import { ToasterService } from '../../services/toaster.service';
 import { ProfilSettingsComponent } from './profil-settings/profil-settings.component';
 import { VisitorService } from '../../services/visitor.service';
+import { FollowsComponent } from './follows/follows.component';
 
 @Component({
   selector: 'app-profil',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProfilOpinionsComponent, ProfilPersonalsComponent, FormsModule, ProfilSettingsComponent],
+  imports: [CommonModule, RouterModule, ProfilOpinionsComponent, ProfilPersonalsComponent, FormsModule, ProfilSettingsComponent, FollowsComponent],
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss'
 })
@@ -29,8 +30,6 @@ export class ProfilComponent {
   userPersonality: Personality | null = null;
 
   isPersonalityModified: boolean = false;
-
-  follows: string[] = [];
 
   opinions: boolean = false; 
   personals: boolean = false;

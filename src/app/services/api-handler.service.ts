@@ -796,6 +796,35 @@ export class ApiHandlerService {
     });
   }
 
+  //Follow related methods
+
+  getAllFollows() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/users/follows`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getFollowStatus(entityId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/users/follows/${entityId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  follow(entityId: string, entityType: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/users/follows`, { entityId, entityType }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Moderation related methods
 
   getReports() {
