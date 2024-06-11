@@ -36,6 +36,7 @@ export class SingleArgumentPresentationComponent {
 
   ngOnInit() {
     this.fetchActualVoteForSubDebate();
+    console.log(this.argument);
   }
 
   fetchActualVoteForSubDebate() {
