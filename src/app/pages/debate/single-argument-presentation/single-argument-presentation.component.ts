@@ -9,6 +9,7 @@ import { ReportComponent } from '../../../utils/report/report.component';
 import { ReportType } from '../../../models/report';
 import { Debate, DebateVoteFromUser } from '../../../models/debate';
 import { DebateVote } from '../../../enums/voteDebate';
+import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
 
 @Component({
   selector: 'app-single-argument-presentation',
@@ -21,7 +22,6 @@ export class SingleArgumentPresentationComponent {
 
   @Input() argument!: Argument;
   @Input() $voteSubject!: any;
-  user: User = new User();
 
   userVoteForSubDebate: DebateVoteFromUser | null = null;
 
@@ -31,20 +31,11 @@ export class SingleArgumentPresentationComponent {
     private router: Router,
     private visitorService: VisitorService,
     private apiService: ApiHandlerService
-  ) { }
-
-  ngOnInit() {
-    this.fetchUser();
-    this.fetchActualVoteForSubDebate();
+  ) {
   }
 
-  fetchUser() {
-    if(!this.argument.userId) return;
-    this.apiService.getUserById(this.argument.userId).subscribe({
-      next: (user: any) => {
-        this.user = user;
-      }
-    })
+  ngOnInit() {
+    this.fetchActualVoteForSubDebate();
   }
 
   fetchActualVoteForSubDebate() {
@@ -147,10 +138,24 @@ export class SingleArgumentPresentationComponent {
     return this.visitorService.isVisitor;
   }
 
-  get displayName() {
-    if(this.argument.anonymous) {
-      return 'Anonyme';
+  get name() {
+    if(this.argument?.userName) {
+      return this.argument.userName;
     }
-    return this.user.firstName;
+    return 'Anonyme';
+  }
+
+  get work () {
+    if(this.argument?.userWork) {
+      return ', ' + this.argument.userWork;
+    }
+    return '';
+  }
+
+  get politicSide() {
+    if(this.argument?.userPoliticSide) {
+      return ', ' + politicSideMapperEnumToUser(this.argument.userPoliticSide);
+    }
+    return '';
   }
 }

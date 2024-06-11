@@ -1,5 +1,9 @@
 <div id="container">
     <app-report id="report" [type]="reportType" [id]="reformulation.id" [size]="'small'" ></app-report>
+    <div id="user-informations">
+        <p id="name">{{name}}{{work}}{{politicSide}}</p>
+    </div>
+    <h4>{{reformulation.title}}</h4>
     <p id="content">{{reformulation.content}}</p>
     <div id="votes">
         <p>{{reformulation.score}}</p>

@@ -1,3 +1,5 @@
+import { PoliticSides } from "../enums/politicSides";
+
 export enum ArgumentType {
     FOR = 'FOR',
     AGAINST = 'AGAINST',
@@ -6,6 +8,7 @@ export enum ArgumentType {
 
 export class Argument {
     id: string = '';
+    title: string = 'Titre par défaut';
     content: string = 'Contenu par défaut';
     userId?: string = '';
     anonymous: boolean = false;
@@ -17,4 +20,7 @@ export class Argument {
     hasVote: boolean | null = null;
     createdAt: string = '';
     updatedAt: string = '';
+    userName?: string;
+    userPoliticSide?: PoliticSides;
+    userWork?: string; 
 }

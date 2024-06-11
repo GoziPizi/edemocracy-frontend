@@ -2,8 +2,8 @@
     <form [formGroup]="createDebateForm" id="create-debate-form">
         <label for="title">Titre</label>
         <input type="text" formControlName="title" id="title" name="title" class="input" required>
-        <label for="description">Description</label>
-        <textarea class="input" rows="4" formControlName="description" id="description" name="description" required></textarea>
+        <label for="content">Description</label>
+        <textarea class="input" rows="4" formControlName="content" id="content" name="content" required></textarea>
         <div id="topic-presentation" *ngIf="createDebateForm.value.topicId">
             <label for="topicId">Sujet du débat :</label>
             <app-small-topic-thumbnail [topicId]="createDebateForm.value.topicId"></app-small-topic-thumbnail>

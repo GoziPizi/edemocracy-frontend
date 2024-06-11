@@ -406,9 +406,9 @@ export class ApiHandlerService {
     });
   }
 
-  postReformulation(debateId: string, content: string) {
+  postReformulation(data: any) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/debates/${debateId}/reformulations`, { content }, {
+    return this.http.post(`${this.baseUrl}/api/debates/${data.debateId}/reformulations`, data, {
       headers: {
         Authorization: `${token}`,
       },
@@ -453,9 +453,9 @@ export class ApiHandlerService {
 
   //Argument related methods
 
-  postArgument(content: string, argumentType: ArgumentType, debateId: string) {
+  postArgument(data: any) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/arguments`, { content, argumentType, debateId }, {
+    return this.http.post(`${this.baseUrl}/api/arguments`, data, {
       headers: {
         Authorization: `${token}`,
       },

@@ -9,7 +9,7 @@ import { ForAgainstDebateComponent } from './for-against-debate/for-against-deba
 import { DebateVote } from '../../enums/voteDebate';
 import { debateVoteEnumToString } from '../../mappers/vote-mapper';
 import { Topic } from '../../models/topics';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoadingService } from '../../services/loading.service';
 import { SingleArgumentPresentationComponent } from './single-argument-presentation/single-argument-presentation.component';
 import { Subject } from 'rxjs';
@@ -28,7 +28,8 @@ import { ReportType } from '../../models/report';
     ArgumentForDebateThumbnailComponent, 
     ForAgainstDebateComponent, 
     CommonModule,
-    FormsModule, 
+    FormsModule,
+    ReactiveFormsModule,
     SingleArgumentPresentationComponent, 
     ArgumentsDisplayerComponent,
     ArgumentDebatePresentationComponent,
@@ -72,13 +73,33 @@ export class DebateComponent {
   routeSubscription: any;
 
   mapperEnumToString = debateVoteEnumToString;
+
   reportType = ReportType;
 
-  isPopUpOpen: boolean = false;
   reformulationPopUp: boolean = false;
-  argumentTitle: string = '';
-  argumentType: ArgumentType = ArgumentType.FOR;
-  reformulationProposition: string = '';
+  newReformulationForm = new FormGroup({
+    title: new FormControl(''),
+    content: new FormControl(''),
+    isNameDisplayed: new FormControl(false),
+    isWorkDisplayed: new FormControl(false),
+    isPoliticSideDisplayed: new FormControl(false)
+  });
+
+  argumentTypes = [
+    ArgumentType.FOR,
+    ArgumentType.AGAINST,
+    ArgumentType.SOLUTION
+  ]
+
+  argumentPopUp: boolean = false;
+  newArgumentForm = new FormGroup({
+    title: new FormControl('', Validators.required),
+    content: new FormControl('', Validators.required),
+    type: new FormControl(ArgumentType.FOR, Validators.required),
+    isNameDisplayed: new FormControl(false),
+    isWorkDisplayed: new FormControl(false),
+    isPoliticSideDisplayed: new FormControl(false)
+  });
 
   constructor(
     private apiHandler: ApiHandlerService,
@@ -247,7 +268,12 @@ export class DebateComponent {
 
   onValidate() {
     this.loadingService.increment();
-    this.apiHandler.postArgument(this.argumentTitle, this.argumentType,this.debateId).subscribe({
+    let data: any = this.newArgumentForm.value;
+    data = {
+      ...data,
+      debateId: this.debateId
+    }
+    this.apiHandler.postArgument(data).subscribe({
       next: () => {
         this.loadingService.decrement();
         this.toasterService.success('Argument enregistré');
@@ -263,7 +289,12 @@ export class DebateComponent {
 
   onValidateReformulation() {
     this.loadingService.increment();
-    this.apiHandler.postReformulation(this.debateId, this.reformulationProposition).subscribe({
+    let data: any = this.newReformulationForm.value;
+    data = {
+      ...data,
+      debateId: this.debateId
+    }
+    this.apiHandler.postReformulation(data).subscribe({
       next: () => {
         this.loadingService.decrement();
         this.toasterService.success('Reformulation enregistrée');
@@ -277,8 +308,8 @@ export class DebateComponent {
     });
   }
 
-  togglePopUp() {
-    this.isPopUpOpen = !this.isPopUpOpen;
+  toggleArgumentPopUp() {
+    this.argumentPopUp = !this.argumentPopUp;
   }
 
   toggleReformulationPopUp() {
@@ -347,7 +378,7 @@ export class DebateComponent {
   }
   
   get recentReformulations(): DebateDescriptionReformulation[] {
-    return this.reformulations.slice(0, 3);
+    return this.reformulations.slice(0, 3).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
 
   get isDebateFromArgument(): boolean {
@@ -359,6 +390,43 @@ export class DebateComponent {
 
   get isVisitor() {
     return this.visitorService.isVisitor;
+  }
+
+  get redColor() {
+    return '#D72631';
+  }
+
+  get greenColor() {
+    return '#2E8B57';
+  }
+
+  get lineWidth() {
+    const sumFor = this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
+    const sumAgainst = this.debate.debateResult.nbReallyAgainst + this.debate.debateResult.nbAgainst;
+    const sum = sumFor + sumAgainst;
+    if(sum === 0) {
+      return '50%';
+    }
+    return `${sumFor / sum * 100}%`;
+  }
+
+  get oppositelineWidth() {
+    const sumFor = this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
+    const sumAgainst = this.debate.debateResult.nbReallyAgainst + this.debate.debateResult.nbAgainst;
+    const sum = sumFor + sumAgainst;
+    if(sum === 0) {
+      return '50%';
+    }
+    return `${sumAgainst / sum * 100}%`;
+  }
+
+  get numberForPourcentage() {
+    const sumFor = this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
+    const sum = this.numberOfVotants;
+    if(sum === 0) {
+      return '0%';
+    }
+    return `${sumFor / sum * 100}%`;
   }
 
 }

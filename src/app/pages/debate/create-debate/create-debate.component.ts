@@ -43,7 +43,7 @@ export class CreateDebateComponent {
 
   createDebateForm = new FormGroup({
     title: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
+    content: new FormControl('', Validators.required),
     topicId: new FormControl(''),
     argumentId: new FormControl('')
   })
@@ -58,7 +58,7 @@ export class CreateDebateComponent {
     this.apiHandler.getArgument(this.createDebateForm.value.argumentId).subscribe({
       next: (response: any) => {
         this.argumentValue = response.content
-        this.createDebateForm.patchValue({description: 'Réponse concernant l\'argument: \"' +response.content + '\"'})
+        this.createDebateForm.patchValue({content: 'Réponse concernant l\'argument: \"' +response.content + '\"'})
         this.loadingService.decrement()
       },
       error: (error) => {
@@ -68,6 +68,7 @@ export class CreateDebateComponent {
   }
 
   onSubmit() {
+    console.log(this.createDebateForm.value)
     this.loadingService.increment()
     this.apiHandler.postDebate(this.createDebateForm.value).subscribe({
       next: (response: any) => {

@@ -1,9 +1,10 @@
+import { PoliticSides } from "../enums/politicSides";
 import { DebateVote } from "../enums/voteDebate";
 
 export class Debate {
     id: string = '';
     title: string = '';
-    description: string = '';
+    content: string = '';
     topicId?: string = '';
     argumentId?: string = '';
     debateResult: DebateResult = new DebateResult();
@@ -32,8 +33,12 @@ export class DebateDescriptionReformulation {
     id: string = '';
     debateId: string = '';
     content: string = '';
+    title: string = '';
     score: number = 0;
     createdAt: string = '';
+    userName?: string;
+    userPoliticSide?: PoliticSides;
+    userWork?: string; 
 }
 
 export class DebateReformulationVote {

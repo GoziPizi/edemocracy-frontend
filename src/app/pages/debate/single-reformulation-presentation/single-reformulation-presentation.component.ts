@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { VisitorService } from '../../../services/visitor.service';
 import { ReportComponent } from '../../../utils/report/report.component';
 import { ReportType } from '../../../models/report';
+import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
 
 @Component({
   selector: 'app-single-reformulation-presentation',
@@ -100,5 +101,26 @@ export class SingleReformulationPresentationComponent {
 
   get isVisitor() {
     return this.visitorService.isVisitor;
+  }
+
+  get name() {
+    if(this.reformulation?.userName) {
+      return this.reformulation.userName;
+    }
+    return 'Anonyme';
+  }
+
+  get work () {
+    if(this.reformulation?.userWork) {
+      return ', ' + this.reformulation.userWork;
+    }
+    return '';
+  }
+
+  get politicSide() {
+    if(this.reformulation?.userPoliticSide) {
+      return ', ' + politicSideMapperEnumToUser(this.reformulation.userPoliticSide);
+    }
+    return '';
   }
 }

@@ -4,10 +4,15 @@
     <h1 style="margin-bottom: 0" >Débat</h1>
 
     <div id="presentation">
-        <div id="debate-presentation">
-            <h3>{{debate.title}}</h3>
-            <p>Contexte: <br> <br> {{debate.description}}</p>
+        <h3>{{debate.title}}</h3>
+        <p>{{debate.content}}</p>
+        <div id="color-bar">
+            <div id="for" [ngStyle]="{'width' : lineWidth, 'background-color': greenColor}" >
+            </div>
+            <div id="against" [ngStyle]="{'width' : oppositelineWidth, 'background-color': redColor}">
+            </div>
         </div>
+        <p>{{numberForPourcentage}} pour</p>
     </div>
 
     <div class="separation-line"></div>
@@ -68,7 +73,7 @@
     </div>
 
     <div id=add-argument>
-        <button (click)="togglePopUp()" [disabled]="isVisitor"><i class="fa-regular fa-comment-dots"></i>Ajouter un argument</button>
+        <button (click)="toggleArgumentPopUp()" [disabled]="isVisitor"><i class="fa-regular fa-comment-dots"></i>Ajouter un argument</button>
     </div>
 
     <div class="separation-line"></div>
@@ -95,27 +100,61 @@
 
 </div>
 
-<div id="argument-pop-up" *ngIf="isPopUpOpen">
+<div id="argument-pop-up" *ngIf="argumentPopUp">
     <div class="pop-up-content">
-        <i class="fas fa-times" (click)="togglePopUp()"></i>
+        <i class="fas fa-times" (click)="toggleArgumentPopUp()"></i>
         <h3>Ajouter un argument</h3>
-        <input type="text" placeholder="Titre de l'argument" [(ngModel)]="argumentTitle">
-        <div id="type-container">
-            <label for="for">Pour</label>
-            <input type="radio" id="for" name="argumentType" value="FOR" [(ngModel)]="argumentType">
-            <label for="against">Contre</label>
-            <input type="radio" id="against" name="argumentType" value="AGAINST" [(ngModel)]="argumentType">
-            <label for="solution">Solution</label>
-            <input type="radio" id="solution" name="argumentType" value="SOLUTION" [(ngModel)]="argumentType">
-        </div>
-        <p class="validate-button" (click)="onValidate()" >Valider</p>
+        <form [formGroup]="newArgumentForm" class="post-form">
+            <label for="title">Titre:</label>
+            <input type="text" formControlName="title" id="title" class="input" name="title" required>
+            <label for="content">Contexte:</label>
+            <textarea formControlName="content" id="content" class="input" name="content" required></textarea>
+            <label for="type">Type:</label>
+            <select formControlName="type" id="type" class="input" name="type" required>
+                <option value="FOR">Pour</option>
+                <option value="AGAINST">Contre</option>
+                <option value="SOLUTION">Solution</option>
+            </select>
+            <label for="anonymous">Informations personnelles:</label>
+            <div>
+                <label for="isNameDisplayed">Afficher mon nom:</label>
+                <input type="checkbox" formControlName="isNameDisplayed" id="isNameDisplayed" name="isNameDisplayed">
+            </div>
+            <div>
+                <label for="isWorkDisplayed">Afficher mon travail:</label>
+                <input type="checkbox" formControlName="isWorkDisplayed" id="isWorkDisplayed" name="isWorkDisplayed"> 
+            </div>
+            <div>
+                <label for="isPoliticSideDisplayed">Afficher mon orientation politique:</label>
+                <input type="checkbox" formControlName="isPoliticSideDisplayed" id="isPoliticSideDisplayed" name="isPoliticSideDisplayed">
+            </div>
+        </form>
+        <button class="validate-button" [disabled]="newArgumentForm.invalid" (click)="onValidate()" >Valider</button>
     </div>
 </div>
 <div id="reformulation-pop-up" *ngIf="reformulationPopUp">
     <div class="pop-up-content">
         <i class="fas fa-times" (click)="toggleReformulationPopUp()"></i>
         <h3>Proposer une reformulation</h3>
-        <input type="textarea" placeholder="Reformulation" [(ngModel)]="reformulationProposition">
+        <form [formGroup]="newReformulationForm" class="post-form">
+            <label for="title">Titre:</label>
+            <input type="text" formControlName="title" id="title" class="input" name="title" required>
+            <label for="content">Contexte:</label>
+            <textarea formControlName="content" id="content" class="input" name="content" required></textarea>
+            <label for="anonymous">Informations personnelles:</label>
+            <div>
+                <label for="isNameDisplayed">Afficher mon nom:</label>
+                <input type="checkbox" formControlName="isNameDisplayed" id="isNameDisplayed" name="isNameDisplayed">
+            </div>
+            <div>
+                <label for="isWorkDisplayed">Afficher mon travail:</label>
+                <input type="checkbox" formControlName="isWorkDisplayed" id="isWorkDisplayed" name="isWorkDisplayed"> 
+            </div>
+            <div>
+                <label for="isPoliticSideDisplayed">Afficher mon orientation politique:</label>
+                <input type="checkbox" formControlName="isPoliticSideDisplayed" id="isPoliticSideDisplayed" name="isPoliticSideDisplayed">
+            </div>
+        </form>
         <p class="validate-button" (click)="onValidateReformulation()" >Valider</p>
     </div>
 </div>

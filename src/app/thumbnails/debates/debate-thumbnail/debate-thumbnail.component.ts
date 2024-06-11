@@ -22,7 +22,7 @@ export class DebateThumbnailComponent {
 
   get debateDescription() {
     if(this.debate) {
-      return this.debate.description;
+      return this.debate.content;
     }
     return '';
   }
