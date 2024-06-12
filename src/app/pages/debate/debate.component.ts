@@ -140,6 +140,7 @@ export class DebateComponent {
         this.forAgainstContributorsDebate.setDebateResult(this.debate.debateContributorsResult);
         this.getTopic();
         this.argumentDebatePresentation.setArgumentId(this.debate.argumentId);
+        this.patchReformulationForm();
       },
       error: (err) => {
         this.loadingService.decrement();
@@ -176,6 +177,14 @@ export class DebateComponent {
         this.loadingService.decrement();
         this.toasterService.error('Erreur lors de la récupération des reformulations');
       }
+    });
+  }
+
+  patchReformulationForm() {
+    if(this.reformulations.length === 0) return;
+    this.newReformulationForm.patchValue({
+      title: this.debate.title,
+      content: this.debate.content
     });
   }
 
@@ -346,7 +355,7 @@ export class DebateComponent {
     event.stopPropagation();
     event.preventDefault();
 
-    navigator.clipboard.writeText('https://edemocracy.com/debate/' + this.debate.id).then(() => {
+    navigator.clipboard.writeText('https://digital-democracy.eu/debate/' + this.debate.id).then(() => {
       this.toasterService.success('Lien copié dans le presse-papier');
     }).catch(err => {
       this.toasterService.error('Erreur lors de la copie du texte');
