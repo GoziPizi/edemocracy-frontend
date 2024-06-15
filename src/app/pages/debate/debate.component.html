@@ -23,8 +23,10 @@
 
     <h1>Reformulations récentes et populaires</h1>
 
-    <div id=add-reformulation>
+    <div id=add-reformulation style="display:flex; flex-direction: column; align-items: center">
         <button (click)="toggleReformulationPopUp()" [disabled]="isVisitor" ><i class="fa-regular fa-comment-dots"></i>Proposer une reformulation</button>
+        <p>Cette section vous permet de créer une reformulation de l'argument ou commmentaire faisant actuellement l'objet du débat dans le but d'apporter des précisions, corrections ou simplifications afin d'obtenir un débat le plus clair et compréhensible possible.</p>
+        <p>Assurez-vous de ne pas changer le sens global de l'argument ou du commentaire original qui a fait l'objet du débat pour lequel des gens ont voté. L'utilisation de cette fonction dans le but de saboter le débat sera punie par des sanctions prévues dans les conditions générales d'utilisations.</p>
     </div>
 
     <div id="arguments-container">
@@ -72,8 +74,9 @@
         <app-arguments-displayer #argumentsSolution [voteSubject$]="voteSubject$"></app-arguments-displayer>
     </div>
 
-    <div id=add-argument>
+    <div id=add-argument style="display:flex; flex-direction: column; align-items: center" >
         <button (click)="toggleArgumentPopUp()" [disabled]="isVisitor"><i class="fa-regular fa-comment-dots"></i>Ajouter un argument</button>
+        <p>Veuillez vous assurer de ne poster qu'un argument par onglet afin que les gens puissent répondre point par point à chaque argument ou commentaire, permettant ainsi un débat organisé.</p>
     </div>
 
     <div class="separation-line"></div>
