@@ -24,6 +24,7 @@
             <p *ngIf="userProfil.contribution">Vous avez cotisé</p>
             <p *ngIf="!userProfil.contribution">Vous n'avez pas cotisé</p>
             <button *ngIf="!userProfil.contribution" class="validate-button" (click)="onContribute()" >Cotiser</button>
+            <p>Attention, le site est actuellement en version Beta, certains aspects ou fonctionnalités sont suceptibles d'évoluer.</p>
             <br *ngIf="!userProfil.contribution">
             <button *ngIf="!userProfil.contribution" class="validate-button" (click)="onContribute()" [disabled]="true" style="margin-top: 10px">Cotisation Premium</button>
             <p *ngIf="!userProfil.contribution">La cotisation premium permet à l'équipe de Digital-Democracy de représenter vos voix auprès du Sénat.</p>

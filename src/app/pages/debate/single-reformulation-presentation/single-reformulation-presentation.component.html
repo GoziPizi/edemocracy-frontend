@@ -13,11 +13,5 @@
             class="fa fa-thumbs-up" 
             aria-hidden="true"
             [ngClass]="{'selected' : hasVoteUp}"></i>
-        <i
-            *ngIf="!isVisitor"
-            (click)="onDislike()"
-            class="fa fa-thumbs-down"
-            aria-hidden="true"
-            [ngClass]="{'selected' : hasVoteDown}"></i>
     </div>
 </div>

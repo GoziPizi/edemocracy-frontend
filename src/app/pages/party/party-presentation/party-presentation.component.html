@@ -17,7 +17,10 @@
                 <img [src]="partyLogo" >
             </div>
             <button class="validate-button" [routerLink]="['/partis', party.id,'membres']" >Voir les membres</button>
+            <h4>Présentation: </h4>
             <p>{{party.description}}</p>
+            <h4>Raison: </h4>
+            <p>{{party.reason}}</p>
         </div>
         <div class="line"></div>
         <div id="history">

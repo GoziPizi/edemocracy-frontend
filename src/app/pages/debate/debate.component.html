@@ -42,7 +42,7 @@
                 navigation="true" 
                 dir="rtl"
                 >
-                <swiper-slide *ngFor="let reformulation of recentReformulations">
+                <swiper-slide *ngFor="let reformulation of recentReformulations" dir="ltr">
                     <app-single-reformulation-presentation 
                         class="single-argument-presentation" 
                         [reformulation]="reformulation"></app-single-reformulation-presentation>

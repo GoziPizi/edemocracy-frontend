@@ -18,7 +18,7 @@ import { PoliticSideDropdownItem } from '../../../../models/politicSides';
 })
 export class PartySearchFormComponent {
 
-  politicSide: PoliticSides = PoliticSides.CENTER;
+  politicSide?: PoliticSides;
   politicSideOptions: PoliticSideDropdownItem[] = [];
 
   for: string[] = [];
@@ -53,7 +53,9 @@ export class PartySearchFormComponent {
 
   public getCriterias(): PartySearchCriteria {
     let criteria: PartySearchCriteria = new PartySearchCriteria();
-    criteria.politicSide = this.politicSide;
+    if(this.politicSide){
+      criteria.politicSide = this.politicSide;
+    }
     if (this.for.length > 0) {
       criteria = {...criteria, for: this.for}
     }

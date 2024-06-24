@@ -389,7 +389,7 @@ export class DebateComponent {
   }
   
   get recentReformulations(): DebateDescriptionReformulation[] {
-    return this.reformulations.slice(0, 3).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return this.reformulations.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 3);
   }
 
   get isDebateFromArgument(): boolean {

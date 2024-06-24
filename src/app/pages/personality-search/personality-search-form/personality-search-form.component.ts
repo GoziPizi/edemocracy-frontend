@@ -18,7 +18,7 @@ import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper
 })
 export class PersonalitySearchFormComponent {
 
-  politicSide: PoliticSides = PoliticSides.CENTER;
+  politicSide?: PoliticSides;
   politicSideOptions: PoliticSideDropdownItem[] = [];
 
   for: string[] = [];
@@ -53,7 +53,9 @@ export class PersonalitySearchFormComponent {
 
   public getCriterias(): PersonalitySearchCriteria {
     let criteria: PersonalitySearchCriteria = new PersonalitySearchCriteria();
-    criteria.politicSide = this.politicSide;
+    if(this.politicSide){
+      criteria.politicSide = this.politicSide;
+    }
     if (this.for.length > 0) {
       criteria = {...criteria, for: this.for}
     }

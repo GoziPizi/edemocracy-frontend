@@ -7,10 +7,12 @@
         <form [formGroup]="partyUpdateForm" id="updateForm">
             <label for="name">Nom du parti</label>
         <input type="text" formControlName="name" id="name" name="name" required>
-        <label for="description">Description du parti</label>
+        <label style="margin: 10px auto 0 0; font-weight: bold" for="description">Description du parti:</label>
+        <p style="margin: 0">Court texte pour décrire le parti.</p>
         <input type="text" formControlName="description" id="description" name="description" required>
-        <label for="reason">Raison de l'existence du parti</label>
-        <input type="text" formControlName="reason" id="reason" name="reason" required>
+        <label style="margin: 10px auto 0 0; font-weight: bold" for="reason">Raison de l'existence du parti:</label>
+        <p style="margin: 0" >Plus long texte pour expliquer en profondeur les raisons de l'existence du parti.</p>
+        <textarea style="resize:vertical" class="input" type="text" formControlName="reason" id="reason" name="reason" required></textarea>
         <label for="politicSide">Bord politique du parti</label>
         <select formControlName="politicSide" id="politicSide" name="politicSide" required>
             <option *ngFor="let side of politicSides" [value]="side" >
