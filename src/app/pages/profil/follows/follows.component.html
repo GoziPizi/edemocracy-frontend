@@ -1,5 +1,5 @@
 <div id="container">
     <div *ngFor="let follow of follows">
-        <p>{{follow.userId}}</p>
+        <app-single-follow-display [follow]="follow"></app-single-follow-display>
     </div>
 </div>

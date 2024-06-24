@@ -20,6 +20,7 @@ import { ToasterService } from '../../services/toaster.service';
 import { VisitorService } from '../../services/visitor.service';
 import { ReportComponent } from '../../utils/report/report.component';
 import { ReportType } from '../../models/report';
+import { FollowButtonComponent } from '../../utils/follow-button/follow-button.component';
 
 @Component({
   selector: 'app-debate',
@@ -34,7 +35,8 @@ import { ReportType } from '../../models/report';
     ArgumentsDisplayerComponent,
     ArgumentDebatePresentationComponent,
     SingleReformulationPresentationComponent,
-    ReportComponent
+    ReportComponent,
+    FollowButtonComponent
   ],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss',

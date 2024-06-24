@@ -17,6 +17,10 @@ export class PartyResultThumbnailComponent {
 
   mapperEnumToString = politicSideMapperEnumToUser;
 
+  onError(event: any) {
+    event.target.src = '../assets/default-profil.webp';
+  }
+
   get partyLogo(): string {
     if(this.party.logo !== '') {
       return this.party.logo;

@@ -1,5 +1,6 @@
 <div id="container">
     <h3>{{topicTitle}}</h3>
+    <app-follow-button [entityId]="topicId" [entityType]="'topic'" *ngIf="!isVisitor" id="follow-button"></app-follow-button>
     <p>{{topic.description}}</p>
     <div id="medias-display" *ngIf="mediaType!=='none'" >
         <h3>Médias associé:</h3>

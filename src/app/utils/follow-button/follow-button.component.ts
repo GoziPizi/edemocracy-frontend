@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { CommonModule } from '@angular/common';
 import { ToasterService } from '../../services/toaster.service';
+import { VisitorService } from '../../services/visitor.service';
 
 @Component({
   selector: 'app-follow-button',
@@ -19,11 +20,15 @@ export class FollowButtonComponent {
 
   constructor(
     private apiHandlerService: ApiHandlerService,
-    private toastr: ToasterService
+    private toastr: ToasterService,
+    private visitorService: VisitorService
   ) {
   }
 
   ngOnInit() {
+    if(this.isVisitor){
+      return;
+    }
     this.fetchFollowStatus();
   }
 
@@ -55,4 +60,7 @@ export class FollowButtonComponent {
     return this.isFollowing;
   }
 
+  get isVisitor() {
+    return this.visitorService.getIsVisitor();
+  }
 }

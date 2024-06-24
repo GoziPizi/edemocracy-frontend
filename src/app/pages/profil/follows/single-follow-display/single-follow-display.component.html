@@ -1,0 +1,4 @@
+<app-party-result-thumbnail [party]="followEntity" *ngIf="followEntity && follow.entityType === 'party'"></app-party-result-thumbnail>
+<app-personality-result-thumbnail [personality]="followEntity" *ngIf="followEntity && follow.entityType === 'personality'"></app-personality-result-thumbnail>
+<app-debate-thumbnail [debate]="followEntity" *ngIf="followEntity && follow.entityType === 'debate'"></app-debate-thumbnail>
+<app-topic-thumbnail [topic]="followEntity" *ngIf="followEntity && follow.entityType === 'topic'"></app-topic-thumbnail>

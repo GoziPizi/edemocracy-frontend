@@ -1,6 +1,11 @@
 <div id="page-container">
     <i class="fa-solid fa-share fa-2x" id="share" (click)="share($event)" ></i>
     <app-report id="report" [id]="debateId" [type]="reportType.DEBATE" [size]="'small'" *ngIf="debateId != '1'"></app-report>
+    <app-follow-button 
+        *ngIf="debateId !== '1' && !isVisitor" 
+        [entityId]="debateId" 
+        [entityType]="'debate'"
+        id="follow-button"></app-follow-button>
     <h1 style="margin-bottom: 0" >Débat</h1>
 
     <div id="presentation">

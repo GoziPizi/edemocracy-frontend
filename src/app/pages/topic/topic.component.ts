@@ -9,11 +9,12 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 import { VisitorService } from '../../services/visitor.service';
 import { ReportComponent } from '../../utils/report/report.component';
 import { ReportType } from '../../models/report';
+import { FollowButtonComponent } from '../../utils/follow-button/follow-button.component';
 
 @Component({
   selector: 'app-topic',
   standalone: true,
-  imports: [ChildrenTopicComponent, AssociatedDebatesComponent, CommonModule, YouTubePlayerModule, RouterModule, ReportComponent],
+  imports: [ChildrenTopicComponent, AssociatedDebatesComponent, CommonModule, YouTubePlayerModule, RouterModule, ReportComponent, FollowButtonComponent],
   templateUrl: './topic.component.html',
   styleUrl: './topic.component.scss'
 })

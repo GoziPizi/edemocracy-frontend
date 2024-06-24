@@ -27,7 +27,7 @@ export class TopicThumbnailComponent {
     event.stopPropagation();
     event.preventDefault();
 
-    navigator.clipboard.writeText('https://edemocracy.com/topic/' + this.topic.id).then(() => {
+    navigator.clipboard.writeText('https://digital-democracy.eu/topic/' + this.topic.id).then(() => {
       this.toasterService.success('Lien copié dans le presse-papier');
     }).catch(err => {
       this.toasterService.error('Erreur lors de la copie du texte');

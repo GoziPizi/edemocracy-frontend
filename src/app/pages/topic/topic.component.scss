@@ -5,6 +5,12 @@
     position: relative;
 }
 
+#follow-button {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+
 #medias-display {
     background: darken(white, 10%);
     padding: 0 0 20px 0;
