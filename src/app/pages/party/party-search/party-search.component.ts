@@ -18,7 +18,7 @@ import { VisitorService } from '../../../services/visitor.service';
 })
 export class PartySearchComponent {
 
-  @ViewChild('searchForm') partySearchForm!: PartySearchFormComponent;
+  @ViewChild('searchForm') partySearchForm: PartySearchFormComponent | undefined
 
   partyList: Party[] = [];
 
@@ -30,8 +30,12 @@ export class PartySearchComponent {
   ) {
   }
 
+  ngOnInit() {
+    this.onSubmit()
+  }
+
   onSubmit() {
-    const criteria = this.partySearchForm.getCriterias();
+    const criteria = this.partySearchForm ? this.partySearchForm.getCriterias() : {}
     this.loadingService.increment();
     this.apiHandler.searchParties(criteria).subscribe({
       next: (response: any) => {

@@ -17,7 +17,7 @@ import { ToasterService } from '../../services/toaster.service';
 })
 export class PersonalitySearchComponent {
 
-  @ViewChild('searchForm') personalitySearchForm!: PersonalitySearchFormComponent;
+  @ViewChild('searchForm') personalitySearchForm: PersonalitySearchFormComponent | undefined
 
   personalityList: PersonalityWithUser[] = [];
 
@@ -30,11 +30,12 @@ export class PersonalitySearchComponent {
   ) { }
 
   ngOnInit() {
+    this.onSubmit()
   }
 
   onSubmit() {
     this.hasResearched = true;
-    const criteria = this.personalitySearchForm.getCriterias();
+    const criteria = this.personalitySearchForm ? this.personalitySearchForm.getCriterias() : {}
     this.loadingService.increment();
     this.apiHandlerService.searchPersonalities(criteria).subscribe({
       next: (response: any) => {

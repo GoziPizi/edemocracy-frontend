@@ -1,4 +1,4 @@
-<div id="container" [ngStyle]="{ 'background-color': getColorByValue() , 'border-color' : getBorderColor() }" (click)="navigateToDebate()" >
+<div id="container" [ngStyle]="{ 'background-color': getColorByValue() , 'border-color' : getBorderColor(), 'border-width': '3px' }" (click)="navigateToDebate()" >
     <div id="user-informations">
         <p id="name">{{name}}{{work}}{{politicSide}}</p>
     </div>
