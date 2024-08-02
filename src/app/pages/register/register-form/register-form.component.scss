@@ -1,4 +1,4 @@
-@import '../../../styles.scss';
+@import '../../../../styles.scss';
 
 #back-arrow {
     position: absolute;
@@ -8,21 +8,9 @@
     cursor: pointer;
 }
 
-#page {
+#register-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-}
-
-#thumbnails-container {
-    width: 60%;
-    display: flex;
-    flex-direction: row;
-    padding-bottom: 50px;
-}
-
-.thumbnail {
-    margin: 20px;
 }
