@@ -146,7 +146,6 @@ export class RegisterFormComponent {
       if(!this.idInput?.isFilled) return true;
     }
 
-
     return false;
   }
 }
