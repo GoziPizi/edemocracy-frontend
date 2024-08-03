@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { professions } from '../professions';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -25,26 +25,37 @@ enum RegisterFormType {
 })
 export class RegisterFormComponent {
 
+  @ViewChild('idInput') idInput?: IdInputComponent;
+
   type: RegisterFormType = RegisterFormType.Free;
 
   registerForm = new FormGroup({
     //required fields
-    firstName: new FormControl('', Validators.required),
-    name: new FormControl('', Validators.required),
+    firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    name: new FormControl('', [Validators.required, Validators.minLength(2)]),
     politicSide: new FormControl('', [Validators.required]),
-    address: new FormControl('', Validators.required),
-    telephone: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
+    address: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    telephone: new FormControl('', [Validators.required, Validators.minLength(10)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
 
     //optional fields
-    profession: new FormControl(''),
-    formationName: new FormControl(''),
-    formationDuration: new FormControl(''),
-    birthSex: new FormControl(''),
-    actualSex: new FormControl(''),
-    sexOrientation: new FormControl(''),
-    religion: new FormControl(''),
+    profession: new FormControl('', Validators.nullValidator),
+    formationName: new FormControl('', Validators.nullValidator),
+    formationDuration: new FormControl('', Validators.nullValidator),
+    birthSex: new FormControl('', Validators.nullValidator),
+    actualSex: new FormControl('', Validators.nullValidator),
+    sexOrientation: new FormControl('', Validators.nullValidator),
+    religion: new FormControl('', Validators.nullValidator),
   });
+
+  optionalValidator(validator: ValidatorFn): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      if (!control.value) {
+        return null;
+      }
+      return validator(control);
+    };
+  }
 
   areInformationsCorrect = false;
   isCGUChecked = false;
@@ -86,6 +97,22 @@ export class RegisterFormComponent {
     this.manuallyAddProfession = !this.manuallyAddProfession;
   }
 
+  onSubmit() {
+    
+  }
+
+  toggleCGU() {
+    this.isCGUChecked = !this.isCGUChecked;
+  }
+
+  toggleCGP() {
+    this.isCGPChecked = !this.isCGPChecked;
+  }
+
+  toggleInformationsCorrect() {
+    this.areInformationsCorrect = !this.areInformationsCorrect;
+  }
+
   get inscriptionName() {
     if(this.type === RegisterFormType.Standard) {
       return 'Inscription standard';
@@ -96,8 +123,31 @@ export class RegisterFormComponent {
     return 'Inscription gratuite';
   }
 
+  get isPremium() {
+    return this.type === RegisterFormType.Premium;
+  }
+
   get notFree() {
     return this.type !== RegisterFormType.Free;
+  }
+
+  get disabled() {
+    if(!this.isCGUChecked) return true;
+    if(!this.areInformationsCorrect) return true;
+    if(this.type === RegisterFormType.Premium && !this.isCGPChecked) return true;
+    if(!this.registerForm.value.name) return true;
+    if(!this.registerForm.value.firstName) return true;
+    if(!this.registerForm.value.politicSide) return true;
+    if(!this.registerForm.value.address) return true;
+    if(!this.registerForm.value.telephone) return true;
+    if(!this.registerForm.value.email) return true;
+
+    if(this.type !== RegisterFormType.Free) {
+      if(!this.idInput?.isFilled) return true;
+    }
+
+
+    return false;
   }
 }
 

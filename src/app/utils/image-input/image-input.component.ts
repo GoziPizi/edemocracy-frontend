@@ -104,6 +104,7 @@ export class ImageInputComponent {
   }
 
   get isImageValid(): boolean {
+    console.log(this.isThereAnImage(), this.isRatioCorrect());
     return this.isThereAnImage() && this.isRatioCorrect();
   }
 

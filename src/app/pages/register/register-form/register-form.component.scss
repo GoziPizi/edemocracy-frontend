@@ -33,7 +33,7 @@
 
 #register-form label {
     margin-top: 10px;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 
 #register-form input {
@@ -51,14 +51,21 @@
 
     transition: all 0.3s ease;
 
+}
+
+.pay-button {
     &:hover {
         background-color: $hope-green;
-        color: white;
+        
+        &:disabled {
+            background-color: darken(white, 50%);
+        }
     }
 }
 
 .ng-select.custom .ng-select-container {
     height: 80px;
+    background-color: darken(white, 15%);
 }
 
 @import "@ng-select/ng-select/themes/default.theme.css";
