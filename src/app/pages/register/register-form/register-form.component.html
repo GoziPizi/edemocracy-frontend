@@ -1,17 +1,79 @@
-<i id="back-arrow" [routerLink]="['/register']" class="fa-solid fa-arrow-left"></i>
-<form [formGroup]="registerForm" id="register-form">
-    <label for="firstName">Prénom :</label>
-    <input type="text" formControlName="firstName" id="firstName" name="firstName" required>
+<div id="page">
+    <i id="back-arrow" [routerLink]="['/register']" class="fa-solid fa-arrow-left"></i>
+    <img src="../../../assets/E-Democracy-no-white.png" alt="image" class="main-image" height="233px" width="600px">
+    <h1>Bienvenue</h1>
+    <p>{{inscriptionName}}</p>
+    <form [formGroup]="registerForm" id="register-form">
+        <label for="firstName">Prénom :</label>
+        <input class="input" type="text" formControlName="firstName" id="firstName" name="firstName" required>
 
-    <label for="lastName">Nom :</label>
-    <input type="text" formControlName="name" id="name" name="name" required>
+        <label for="lastName">Nom :</label>
+        <input class="input" type="text" formControlName="name" id="name" name="name" required>
 
-    <label for="email">E-mail :</label>
-    <input type="text" formControlName="email" id="email" name="email" required>
+        <label for="address">Orientation  politique :</label>
+        <ng-select 
+            class="custom" 
+            formControlName="politicSide" 
+            [items]="politicSideOptions" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir une orientation politique" 
+            [multiple]="false"
+            required></ng-select>
 
-    <label for="telephone">Téléphone :</label>
-    <input type="text" formControlName="telephone" id="telephone" name="telephone" required>
+        <label for="email">E-mail :</label>
+        <input class="input" type="text" formControlName="email" id="email" name="email" required>
 
-    <label for="address">Adresse :</label>
-    <input type="text" formControlName="address" id="address" name="address" required>
-</form>
+        <label for="telephone">Téléphone :</label>
+        <input class="input" type="text" formControlName="telephone" id="telephone" name="telephone" required>
+
+        <label for="address">Adresse :</label>
+        <input class="input" type="text" formControlName="address" id="address" name="address" required>
+
+        <h2 *ngIf="notFree">Carte d'identité :</h2>
+        <app-id-input *ngIf="notFree"></app-id-input>
+
+        <h2>Informations optionnelles :</h2>
+
+        <label for="profession">Profession :</label>
+        <ng-select 
+            *ngIf="!manuallyAddProfession"
+            class="custom" 
+            formControlName="profession" 
+            [items]="professions" 
+            bindLabel="name" 
+            bindValue="name" 
+            placeholder="Choisir une profession" 
+            [multiple]="false"
+            required></ng-select>
+
+        <input type="text" formControlName="profession" id="profession" name="profession" *ngIf="manuallyAddProfession" required>
+
+        <div style="display: flex; flex-direction: row; align-items:center; margin-top: 10px">
+            <p style="margin:0">Je préfère renseigner ma profession manuellement :</p>
+            <input type="checkbox" style="margin:0 0 0 5px" (click)="toggleManuallyAddProfession()" >
+        </div>
+        
+
+        <label for="formationName">Nom de la formation :</label>
+        <input class="input" type="text" formControlName="formationName" id="formationName" name="formationName" required>
+
+        <label for="formationDuration">Durée de la formation :</label>
+        <input class="input" type="text" formControlName="formationDuration" id="formationDuration" name="formationDuration" required>
+
+        <label for="birthSex">Sexe de naissance:</label>
+        <input class="input" type="text" formControlName="birthSex" id="birthSex" name="birthSex" required>
+
+        <label for="actualSex">Sexe actuel :</label>
+        <input class="input" type="text" formControlName="actualSex" id="actualSex" name="actualSex" required>
+
+        <label for="sexOrientation">Orientation sexuelle :</label>
+        <input class="input" type="text" formControlName="sexOrientation" id="sexOrientation" name="sexOrientation" required>
+
+        <label for="religion">Religion :</label>
+        <input class="input" type="text" formControlName="religion" id="religion" name="religion" required>
+
+        <button *ngIf="!notFree" class="validate-button">Valider mon inscription</button>
+        <button *ngIf="notFree" class="validate-button">Procéder au paiement</button>
+    </form>
+</div>

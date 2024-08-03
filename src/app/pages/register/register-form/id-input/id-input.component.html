@@ -1,0 +1,20 @@
+<div id="first-id">
+    <div style="display:flex; flex-direction:row">
+        <app-image-input #firstRecto text="Recto" style="width:50%"></app-image-input>
+        <app-image-input #firstVerso text="Verso" style="width:50%"></app-image-input>
+    </div>
+    <label for="idNumber1">Numéro de carte d'identité :</label>
+    <input type="text" formControlName="idNumber1" id="idNumber1" name="idNumber1" required>
+</div>
+<div style="display:flex; flex-direction:row; margin-top: 10px;">
+    <p style="margin: 0">Je souhaite fournir une deuxième carte d'identité :</p>
+    <input style="margin: 0 0 0 5px" type="checkbox" (click)="toggleSecondId()">
+</div>
+<div id="second-id" *ngIf="secondId">
+    <div style="display:flex; flex-direction:row">
+        <app-image-input #secondRecto text="Recto" style="width:50%"></app-image-input>
+        <app-image-input #secondVerso text="Verso" style="width:50%"></app-image-input>
+    </div>
+    <label for="idNumber2">Numéro de carte d'identité :</label>
+    <input type="text" formControlName="idNumber2" id="idNumber2" name="idNumber2   " required>
+</div>

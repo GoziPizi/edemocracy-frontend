@@ -1,6 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { professions } from '../professions';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CommonModule } from '@angular/common';
+import { PoliticSideDropdownItem } from '../../../models/politicSides';
+import { PoliticSides } from '../../../enums/politicSides';
+import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
+import { IdInputComponent } from './id-input/id-input.component';
 
 enum RegisterFormType {
   Free = 'free',
@@ -11,9 +18,10 @@ enum RegisterFormType {
 @Component({
   selector: 'app-register-form',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, RouterModule],
+  imports: [FormsModule, ReactiveFormsModule, RouterModule, NgSelectModule, CommonModule, IdInputComponent],
   templateUrl: './register-form.component.html',
-  styleUrl: './register-form.component.scss'
+  styleUrl: './register-form.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class RegisterFormComponent {
 
@@ -23,6 +31,7 @@ export class RegisterFormComponent {
     //required fields
     firstName: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
+    politicSide: new FormControl('', [Validators.required]),
     address: new FormControl('', Validators.required),
     telephone: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
@@ -41,10 +50,22 @@ export class RegisterFormComponent {
   isCGUChecked = false;
   isCGPChecked = false; //for party
 
+  professions = professions;
+  politicSideOptions: PoliticSideDropdownItem[] = [];
+
+  //formOptions
+  manuallyAddProfession = false;
+
   constructor(
     private route: ActivatedRoute
   ) {
-    
+    const politicSides = Object.values(PoliticSides);
+    this.politicSideOptions = politicSides.map((side: PoliticSides) => {
+      return {
+        value: side,
+        label: politicSideMapperEnumToUser(side)
+      }
+    });
   }
 
   ngOnInit() {
@@ -59,6 +80,24 @@ export class RegisterFormComponent {
         this.type = RegisterFormType.Free;
       }
     });
+  }
+
+  toggleManuallyAddProfession() {
+    this.manuallyAddProfession = !this.manuallyAddProfession;
+  }
+
+  get inscriptionName() {
+    if(this.type === RegisterFormType.Standard) {
+      return 'Inscription standard';
+    }
+    if(this.type === RegisterFormType.Premium) {
+      return 'Inscription premium';
+    }
+    return 'Inscription gratuite';
+  }
+
+  get notFree() {
+    return this.type !== RegisterFormType.Free;
   }
 }
 
