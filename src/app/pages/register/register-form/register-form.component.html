@@ -73,6 +73,13 @@
         <label for="religion">Religion :</label>
         <input class="input" type="text" formControlName="religion" id="religion" name="religion" required>
 
+        <h2>Mot de passe :</h2>
+        <label for="password">Mot de passe :</label>
+        <input class="input" type="password" formControlName="password" id="password" name="password" required>
+
+        <label for="password">Confirmer le mot de passe :</label>
+        <input class="input" type="password" formControlName="passwordConfirm" id="passwordConfirm" name="passwordConfirm" required>
+
         <div style="display:flex; margin-top: 10px">
             <input style="margin:0" type="checkbox" class="input" (click)="toggleCGU()">
             <p style="margin:0 0 0 5px">J'accepte les <a routerLink="/terms-of-service">conditions générales d'utilisation</a> du site.</p>

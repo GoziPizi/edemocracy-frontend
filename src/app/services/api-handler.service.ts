@@ -4,9 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { PartySearchCriteria, PersonalitySearchCriteria } from '../models/criterias';
 import { TopicSearchItem } from '../models/topics';
 import { Debate } from '../models/debate';
-import { Argument, ArgumentType } from '../models/argument';
+import { Argument } from '../models/argument';
 import { DebateVote } from '../enums/voteDebate';
-import { PoliticSides } from '../enums/politicSides';
 import { Party } from '../models/party';
 import { User } from '../models/users';
 import { Personality } from '../models/personality';
@@ -39,6 +38,12 @@ export class ApiHandlerService {
 
   deleteToken() {
     localStorage.removeItem('token');
+  }
+
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+    this.isLogged.next(true);
+    this.visitorService.setIsVisitor(false);
   }
 
   login(email: string, password: string) {
@@ -106,6 +111,10 @@ export class ApiHandlerService {
 
   register(form: any) {
     return this.http.post(`${this.baseUrl}/api/login/register`, form);
+  }
+
+  registerFree(form: any) {
+    return this.http.post(`${this.baseUrl}/api/login/register-free`, form);
   }
 
   deleteUser() {

@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { professions } from '../professions';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,8 @@ import { PoliticSideDropdownItem } from '../../../models/politicSides';
 import { PoliticSides } from '../../../enums/politicSides';
 import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
 import { IdInputComponent } from './id-input/id-input.component';
+import { ApiHandlerService } from '../../../services/api-handler.service';
+import { ToasterService } from '../../../services/toaster.service';
 
 enum RegisterFormType {
   Free = 'free',
@@ -37,6 +39,8 @@ export class RegisterFormComponent {
     address: new FormControl('', [Validators.required, Validators.minLength(4)]),
     telephone: new FormControl('', [Validators.required, Validators.minLength(10)]),
     email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    passwordConfirm: new FormControl('', [Validators.required, Validators.minLength(8)]),
 
     //optional fields
     profession: new FormControl('', Validators.nullValidator),
@@ -68,7 +72,10 @@ export class RegisterFormComponent {
   manuallyAddProfession = false;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private api: ApiHandlerService,
+    private router: Router,
+    private toastr: ToasterService
   ) {
     const politicSides = Object.values(PoliticSides);
     this.politicSideOptions = politicSides.map((side: PoliticSides) => {
@@ -98,7 +105,60 @@ export class RegisterFormComponent {
   }
 
   onSubmit() {
-    
+    if (this.type === RegisterFormType.Free) {
+      this.freeSubmit();
+    }
+  }
+
+  freeSubmit() {
+    let data : any= {
+      firstName: this.registerForm.value.firstName,
+      name: this.registerForm.value.name,
+      politicSide: this.registerForm.value.politicSide,
+      address: this.registerForm.value.address,
+      telephone: this.registerForm.value.telephone,
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password,
+    };
+
+    if (this.registerForm.value.profession) {
+      data = { ...data, profession: this.registerForm.value.profession };
+    }
+
+    if (this.registerForm.value.formationName) {
+      data = { ...data, formationName: this.registerForm.value.formationName };
+    }
+
+    if (this.registerForm.value.formationDuration) {
+      data = { ...data, formationDuration: this.registerForm.value.formationDuration };
+    }
+
+    if (this.registerForm.value.birthSex) {
+      data = { ...data, birthSex: this.registerForm.value.birthSex };
+    }
+
+    if (this.registerForm.value.actualSex) {
+      data = { ...data, actualSex: this.registerForm.value.actualSex };
+    }
+
+    if (this.registerForm.value.sexOrientation) {
+      data = { ...data, sexOrientation: this.registerForm.value.sexOrientation };
+    }
+
+    if (this.registerForm.value.religion) {
+      data = { ...data, religion: this.registerForm.value.religion };
+    }
+
+    this.api.registerFree(data).subscribe({
+      next: (data: any) => {
+        const token = data.key;
+        this.api.setToken(token);
+        this.router.navigate(['/accueil']);
+      },
+      error: (error: any) => {
+        this.toastr.error('Erreur lors de l\'inscription');
+      }
+    });
   }
 
   toggleCGU() {
@@ -141,6 +201,9 @@ export class RegisterFormComponent {
     if(!this.registerForm.value.address) return true;
     if(!this.registerForm.value.telephone) return true;
     if(!this.registerForm.value.email) return true;
+    if(!this.registerForm.value.password) return true;
+    if(!this.registerForm.value.passwordConfirm) return true;
+    if(this.registerForm.value.password !== this.registerForm.value.passwordConfirm) return true;
 
     if(this.type !== RegisterFormType.Free) {
       if(!this.idInput?.isFilled) return true;
