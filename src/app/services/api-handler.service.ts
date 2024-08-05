@@ -38,6 +38,8 @@ export class ApiHandlerService {
 
   deleteToken() {
     localStorage.removeItem('token');
+    this.visitorService.setIsVisitor(true);
+    this.isLogged.next(false);
   }
 
   setToken(token: string) {
@@ -56,8 +58,6 @@ export class ApiHandlerService {
         }
       },
       error: (error) => {
-        this.isLogged.next(false);
-        this.visitorService.setIsVisitor(true);
         localStorage.removeItem('token');
       },
     });
@@ -65,7 +65,6 @@ export class ApiHandlerService {
 
   logout() {
     localStorage.removeItem('token');
-    this.isLogged.next(false);
     this.visitorService.setIsVisitor(true); 
     this.router.navigate(['/landing']);
   }
@@ -83,9 +82,7 @@ export class ApiHandlerService {
         this.visitorService.setIsVisitor(false);
       },
       error: (error) => {
-        this.isLogged.next(false);
         localStorage.removeItem('token');
-        this.visitorService.setIsVisitor(true);
       },
     });
   }
@@ -147,7 +144,8 @@ export class ApiHandlerService {
   getUser() { 
     const token = localStorage.getItem('token');
     if (!token) {
-      return
+      this.isLogged.next(false);
+      this.visitorService.setIsVisitor(true);
     }
     return this.http.get<User>(`${this.baseUrl}/api/users`, {
       headers: {

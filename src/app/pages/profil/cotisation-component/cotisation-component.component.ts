@@ -51,7 +51,14 @@ export class CotisationComponentComponent {
   }
 
   get isFreeUser(): boolean {
-    return this.contributionStatus as unknown as string === MembershipStatus[MembershipStatus.NONE] as unknown as string;
+    if(this.contributionStatus as unknown as string === MembershipStatus[MembershipStatus.NONE] as unknown as string) {
+      return true;
+    }
+
+    if(!this.contributionStatus) {
+      return true;
+    }
+    return  false;
   }
 
   get isStandardUser(): boolean {
