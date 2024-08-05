@@ -1,0 +1,13 @@
+@import '../../../../styles.scss';
+
+.red-button {
+    &:hover {
+        background-color: $debate-red;
+    }
+}
+
+.green-button {
+    &:hover {
+        background-color: $hope-green;
+    }
+}

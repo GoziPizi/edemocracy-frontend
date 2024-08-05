@@ -10,6 +10,7 @@ import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper
 import { IdInputComponent } from './id-input/id-input.component';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { ToasterService } from '../../../services/toaster.service';
+import { LoadingService } from '../../../services/loading.service';
 
 enum RegisterFormType {
   Free = 'free',
@@ -75,7 +76,8 @@ export class RegisterFormComponent {
     private route: ActivatedRoute,
     private api: ApiHandlerService,
     private router: Router,
-    private toastr: ToasterService
+    private toastr: ToasterService,
+    private loading: LoadingService
   ) {
     const politicSides = Object.values(PoliticSides);
     this.politicSideOptions = politicSides.map((side: PoliticSides) => {
@@ -107,10 +109,15 @@ export class RegisterFormComponent {
   onSubmit() {
     if (this.type === RegisterFormType.Free) {
       this.freeSubmit();
+    } else {
+      this.paidSubmit();
     }
   }
 
   freeSubmit() {
+
+    this.loading.increment();
+
     let data : any= {
       firstName: this.registerForm.value.firstName,
       name: this.registerForm.value.name,
@@ -151,14 +158,91 @@ export class RegisterFormComponent {
 
     this.api.registerFree(data).subscribe({
       next: (data: any) => {
+        this.loading.decrement();
         const token = data.key;
         this.api.setToken(token);
         this.router.navigate(['/accueil']);
       },
       error: (error: any) => {
+        this.loading.decrement();
         this.toastr.error('Erreur lors de l\'inscription');
       }
     });
+  }
+
+  paidSubmit() {
+
+    this.loading.increment();
+
+    let formData = new FormData();
+
+    formData.append('firstName', this.registerForm.value.firstName as string);
+    formData.append('name', this.registerForm.value.name as string);
+    formData.append('politicSide', this.registerForm.value.politicSide as string);
+    formData.append('address', this.registerForm.value.address as string);
+    formData.append('telephone', this.registerForm.value.telephone as string);
+    formData.append('email', this.registerForm.value.email as string);
+    formData.append('password', this.registerForm.value.password as string);
+
+    if(this.registerForm.value.profession) {
+      formData.append('profession', this.registerForm.value.profession as string);
+    }
+    if(this.registerForm.value.formationName) {
+      formData.append('formationName', this.registerForm.value.formationName as string);
+    }
+    if(this.registerForm.value.formationDuration) {
+      formData.append('formationDuration', this.registerForm.value.formationDuration as string);
+    }
+    if(this.registerForm.value.birthSex) {
+      formData.append('birthSex', this.registerForm.value.birthSex as string);
+    }
+    if(this.registerForm.value.actualSex) {
+      formData.append('actualSex', this.registerForm.value.actualSex as string);
+    }
+    if(this.registerForm.value.sexOrientation) {
+      formData.append('sexOrientation', this.registerForm.value.sexOrientation as string);
+    }
+    if(this.registerForm.value.religion) {
+      formData.append('religion', this.registerForm.value.religion as string);
+    }
+
+    formData.append('recto1', this.idInput?.firstRecto.getImageFile() as File);
+    formData.append('verso1', this.idInput?.firstVerso.getImageFile() as File);
+    formData.append('idNumber1', this.idInput?.firstIdNumber as string);
+
+    if(this.idInput?.isSecondId) {
+      formData.append('recto2', this.idInput?.secondRecto?.getImageFile() as File);
+      formData.append('verso2', this.idInput?.secondVerso?.getImageFile() as File);
+      formData.append('idNumber2', this.idInput?.secondIdNumber as string);
+    }
+
+    if(this.type === RegisterFormType.Standard) {
+      this.api.registerStandard(formData).subscribe({
+        next: (data: any) => {
+          this.loading.decrement();
+          const {checkoutUrl} = data;
+          window.location.href = checkoutUrl;
+        },
+        error: (error: any) => {
+          this.loading.decrement();
+          this.toastr.error('Erreur lors de l\'inscription');
+        }
+      });
+    }
+
+    if(this.type === RegisterFormType.Premium) {
+      this.api.registerPremium(formData).subscribe({
+        next: (data: any) => {
+          this.loading.decrement();
+          const checkoutUrl = data;
+          window.location.href = checkoutUrl;
+        },
+        error: (error: any) => {
+          this.loading.decrement();
+          this.toastr.error('Erreur lors de l\'inscription');
+        }
+      });
+    }
   }
 
   toggleCGU() {

@@ -1,5 +1,11 @@
 import { PoliticSides } from "../enums/politicSides";
 
+export enum MembershipStatus {
+    NONE,
+    STANDARD,
+    PREMIUM
+}
+
 export class User {
     id: string = '';
     firstName: string = '';
@@ -10,7 +16,7 @@ export class User {
     profession: string = '';
     telephone: string = '';
     language: string = '';
-    contribution: boolean = false;
+    contributionStatus: MembershipStatus = MembershipStatus.NONE;
     profilePicture?: string = '';
     politicSide: PoliticSides = PoliticSides.CENTER;
     role: string = '';

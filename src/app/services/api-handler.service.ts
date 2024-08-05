@@ -117,6 +117,14 @@ export class ApiHandlerService {
     return this.http.post(`${this.baseUrl}/api/login/register-free`, form);
   }
 
+  registerStandard(form: any) {
+    return this.http.post(`${this.baseUrl}/api/login/register-standard`, form);
+  }
+
+  registerPremium(form: any) {
+    return this.http.post(`${this.baseUrl}/api/login/register-premium`, form);
+  }
+
   deleteUser() {
     const token = localStorage.getItem('token');
     return this.http.delete(`${this.baseUrl}/api/users`, {
@@ -796,9 +804,18 @@ export class ApiHandlerService {
   }
 
   //Contributions related methods
-  getCheckoutSession() {
+  becomeStandard() {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/contribution/checkout-session`, {
+    return this.http.get(`${this.baseUrl}/api/contribution/standard`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  becomePremium() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/contribution/premium`, {
       headers: {
         Authorization: `${token}`,
       },
