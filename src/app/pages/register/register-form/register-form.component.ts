@@ -137,7 +137,7 @@ export class RegisterFormComponent {
     }
 
     if (this.registerForm.value.formationObtention) {
-      data = { ...data, formationDuration: this.registerForm.value.formationObtention };
+      data = { ...data, formationObtention: this.registerForm.value.formationObtention };
     }
 
     if (this.registerForm.value.birthSex) {
@@ -191,7 +191,7 @@ export class RegisterFormComponent {
       formData.append('formationName', this.registerForm.value.formationName as string);
     }
     if(this.registerForm.value.formationObtention) {
-      formData.append('formationDuration', this.registerForm.value.formationObtention as string);
+      formData.append('formationObtention', this.registerForm.value.formationObtention as string);
     }
     if(this.registerForm.value.birthSex) {
       formData.append('birthSex', this.registerForm.value.birthSex as string);
