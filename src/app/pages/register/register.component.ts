@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { RegisterThumbnailComponent } from './register-thumbnail/register-thumbnail.component';
 import { RouterModule } from '@angular/router';
+import { ApiHandlerService } from '../../services/api-handler.service';
 
 @Component({
   selector: 'app-register',
@@ -11,5 +12,13 @@ import { RouterModule } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class RegisterComponent { 
+
+  constructor(
+    private apiService: ApiHandlerService
+  ) { }
+
+  ngOnInit() {
+    this.apiService.deleteToken();
+  }
 
 }

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-change-password',
@@ -23,7 +24,8 @@ export class ChangePasswordComponent {
   constructor(
     private apiHandler: ApiHandlerService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToasterService
   ) {
     this.route.queryParams.subscribe(params => {
       this.changePasswordForm.patchValue({
@@ -31,6 +33,10 @@ export class ChangePasswordComponent {
         token: params['token']
       });
     });
+  }
+
+  ngOnInit() {
+    this.apiHandler.deleteToken();
   }
 
   onSubmit() {
@@ -41,7 +47,8 @@ export class ChangePasswordComponent {
       this.apiHandler.changePassword(email, token, newPassword).subscribe(
         {
           next: (response) => {
-            this.router.navigate(['/login']);
+            this.toastr.success('Mot de passe modifié avec succès');
+            this.router.navigate(['/connexion']);
           },
           error: (error) => {
           }

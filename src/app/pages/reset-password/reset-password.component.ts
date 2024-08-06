@@ -3,6 +3,7 @@ import { ApiHandlerService } from '../../services/api-handler.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToasterService } from '../../services/toaster.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -24,6 +25,7 @@ export class ResetPasswordComponent {
   onSubmit() {
     this.apiHandler.resetPassword(this.email).subscribe(
       (response) => {
+        this.popup = true;
       },
       (error) => {
       }
@@ -31,7 +33,7 @@ export class ResetPasswordComponent {
   }
 
   onClose() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/connexion']);
   }
 
 }

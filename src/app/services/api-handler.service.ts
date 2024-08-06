@@ -66,6 +66,7 @@ export class ApiHandlerService {
   logout() {
     localStorage.removeItem('token');
     this.visitorService.setIsVisitor(true); 
+    this.isLogged.next(false);
     this.router.navigate(['/landing']);
   }
 
