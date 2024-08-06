@@ -46,7 +46,7 @@ export class RegisterFormComponent {
     //optional fields
     profession: new FormControl('', Validators.nullValidator),
     formationName: new FormControl('', Validators.nullValidator),
-    formationDuration: new FormControl('', Validators.nullValidator),
+    formationObtention: new FormControl('', Validators.nullValidator),
     birthSex: new FormControl('', Validators.nullValidator),
     actualSex: new FormControl('', Validators.nullValidator),
     sexOrientation: new FormControl('', Validators.nullValidator),
@@ -136,8 +136,8 @@ export class RegisterFormComponent {
       data = { ...data, formationName: this.registerForm.value.formationName };
     }
 
-    if (this.registerForm.value.formationDuration) {
-      data = { ...data, formationDuration: this.registerForm.value.formationDuration };
+    if (this.registerForm.value.formationObtention) {
+      data = { ...data, formationDuration: this.registerForm.value.formationObtention };
     }
 
     if (this.registerForm.value.birthSex) {
@@ -190,8 +190,8 @@ export class RegisterFormComponent {
     if(this.registerForm.value.formationName) {
       formData.append('formationName', this.registerForm.value.formationName as string);
     }
-    if(this.registerForm.value.formationDuration) {
-      formData.append('formationDuration', this.registerForm.value.formationDuration as string);
+    if(this.registerForm.value.formationObtention) {
+      formData.append('formationDuration', this.registerForm.value.formationObtention as string);
     }
     if(this.registerForm.value.birthSex) {
       formData.append('birthSex', this.registerForm.value.birthSex as string);

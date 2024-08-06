@@ -47,7 +47,7 @@
             [multiple]="false"
             required></ng-select>
 
-        <input type="text" formControlName="profession" id="profession" name="profession" *ngIf="manuallyAddProfession" required>
+        <input type="text" formControlName="profession" class="input" id="profession" name="profession" *ngIf="manuallyAddProfession" required>
 
         <div style="display: flex; flex-direction: row; align-items:center; margin-top: 10px">
             <p style="margin:0">Je préfère renseigner ma profession manuellement :</p>
@@ -55,17 +55,37 @@
         </div>
         
 
-        <label for="formationName">Nom de la formation :</label>
+        <label for="formationName">Nom du diplôme :</label>
         <input class="input" type="text" formControlName="formationName" id="formationName" name="formationName" required>
 
-        <label for="formationDuration">Durée de la formation :</label>
+        <label for="formationDuration">Année d'obtention :</label>
         <input class="input" type="text" formControlName="formationDuration" id="formationDuration" name="formationDuration" required>
 
         <label for="birthSex">Sexe de naissance:</label>
-        <input class="input" type="text" formControlName="birthSex" id="birthSex" name="birthSex" required>
+        <ng-select
+            class="custom"
+            formControlName="birthSex">
+            <ng-option>Femme</ng-option>
+            <ng-option>Homme</ng-option>
+            <ng-option>Autre</ng-option>
+        </ng-select>
 
-        <label for="actualSex">Sexe actuel :</label>
-        <input class="input" type="text" formControlName="actualSex" id="actualSex" name="actualSex" required>
+        <label for="actualSex">Identité de genre :</label>
+        <ng-select
+            class="custom"
+            formControlName="actualSex">
+            <ng-option>Cisgenre</ng-option>
+            <ng-option>Transgenre</ng-option>
+            <ng-option>Non-binaire</ng-option>
+            <ng-option>Genderqueer</ng-option>
+            <ng-option>Pangender</ng-option>
+            <ng-option>Genderfluid</ng-option>
+            <ng-option>Agender</ng-option>
+            <ng-option>Bigender</ng-option>
+            <ng-option>Third-gender</ng-option>
+            <ng-option>Two-spirit</ng-option>
+            <ng-option>Asexual</ng-option>
+        </ng-select>
 
         <label for="sexOrientation">Orientation sexuelle :</label>
         <input class="input" type="text" formControlName="sexOrientation" id="sexOrientation" name="sexOrientation" required>
