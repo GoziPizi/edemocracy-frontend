@@ -35,6 +35,10 @@
 
         <h2>Informations optionnelles :</h2>
 
+        <p> Le renseignement des informations personnelles est entièrement facultatif et le respect de la vie privée ainsi que la confidentialité de ces données sont primordiaux. 
+            Les informations personnelles peuvent être utilisées pour appuyer un argument lors d'un débat, mais cela se fait uniquement avec le consentement explicite de la personne concernée lors de la rédaction de l'argument. Merci de ne divulguer ces informations que si elles sont pertinentes et utiles au débat.</p>
+        <p>Il est important de noter que pour afficher le travail ou le diplôme de quelqu'un, il est nécessaire de mentionner son nom.</p>
+
         <label for="profession">Profession :</label>
         <ng-select 
             *ngIf="!manuallyAddProfession"
@@ -88,7 +92,16 @@
         </ng-select>
 
         <label for="sexOrientation">Orientation sexuelle :</label>
-        <input class="input" type="text" formControlName="sexOrientation" id="sexOrientation" name="sexOrientation" required>
+        <ng-select
+            class="custom"
+            formControlName="sexOrientation">
+            <ng-option>Hétérosexuel</ng-option>
+            <ng-option>Homosexuel</ng-option>
+            <ng-option>Bisexuel</ng-option>
+            <ng-option>Asexuel</ng-option>
+            <ng-option>Pansexuel</ng-option>
+            <ng-option>Autre</ng-option>
+        </ng-select>
 
         <label for="religion">Religion :</label>
         <input class="input" type="text" formControlName="religion" id="religion" name="religion" required>
