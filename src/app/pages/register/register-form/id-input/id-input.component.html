@@ -1,10 +1,23 @@
 <div id="first-id">
+
     <div style="display:flex; flex-direction:row">
         <app-image-input #firstRecto text="Recto" style="width:50%" [tolerance]='2'></app-image-input>
         <app-image-input #firstVerso text="Verso" style="width:50%" [tolerance]='2'></app-image-input>
     </div>
     <label for="idNumber1">Numéro de carte d'identité :</label>
     <input class="input" type="text" [(ngModel)]="firstIdNumber" placeholder="Numéro de la carte" id="idNumber1" name="idNumber1" required>
+    <div style="display:flex; flex-direction:column; margin-top:10px;">
+        <label for="nationality1">Nationalité :</label>
+        <ng-select
+            class="custom"
+            [items]="nationalities"
+            bindLabel="nationalite"
+            bindValue="id"
+            placeholder="Choisir une nationalité"
+            [multiple]="false"
+            [(ngModel)]="firstNationalityId"
+            required></ng-select>
+    </div>
 </div>
 <div style="display:flex; flex-direction:row; margin-top: 10px;">
     <p style="margin: 0">Je souhaite fournir une deuxième carte d'identité :</p>
@@ -17,4 +30,40 @@
     </div>
     <label for="idNumber2">Numéro de carte d'identité :</label>
     <input class="input" type="text" [(ngModel)]="secondIdNumber" placeholder="Numéro de la carte" id="idNumber2" name="idNumber2" required>
+    <div style="display:flex; flex-direction:column; margin-top:10px;">
+        <label for="nationality1">Nationalité :</label>
+        <ng-select
+            class="custom"
+            [items]="nationalities"
+            bindLabel="nationalite"
+            bindValue="id"
+            placeholder="Choisir une nationalité"
+            [multiple]="false"
+            [(ngModel)]="secondNationalityId"
+            required></ng-select>
+    </div>
+    <div style="display:flex; flex-direction:row; margin-top: 10px;">
+        <p style="margin: 0">Je souhaite fournir une troisième carte d'identité :</p>
+        <input style="margin: 0 0 0 5px" type="checkbox" (click)="toggleThirdId()">
+    </div>
+</div>
+<div id="third-id" *ngIf="thirdId">
+    <div style="display:flex; flex-direction:row">
+        <app-image-input #thirdRecto text="Recto" style="width:50%" [tolerance]='2'></app-image-input>
+        <app-image-input #thirdVerso text="Verso" style="width:50%" [tolerance]='2'></app-image-input>
+    </div>
+    <label for="idNumber2">Numéro de carte d'identité :</label>
+    <input class="input" type="text" [(ngModel)]="thirdIdNumber" placeholder="Numéro de la carte" id="idNumber3" name="idNumber3" required>
+    <div style="display:flex; flex-direction:column; margin-top:10px;">
+        <label for="nationality1">Nationalité :</label>
+        <ng-select
+            class="custom"
+            [items]="nationalities"
+            bindLabel="nationalite"
+            bindValue="id"
+            placeholder="Choisir une nationalité"
+            [multiple]="false"
+            [(ngModel)]="thirdNationalityId"
+            required></ng-select>
+    </div>
 </div>

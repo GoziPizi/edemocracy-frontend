@@ -30,6 +30,12 @@
         <label for="address">Adresse :</label>
         <input class="input" type="text" formControlName="address" id="address" name="address" required>
 
+        <label for="address">Code postal :</label>
+        <input class="input" type="text" formControlName="postalCode" id="postalCode" name="postalCode" required>
+
+        <label for="address">Ville :</label>
+        <input class="input" type="text" formControlName="city" id="city" name="city" required>
+
         <h2 *ngIf="notFree">Carte d'identité :</h2>
         <app-id-input #idInput *ngIf="notFree"></app-id-input>
 
@@ -57,14 +63,19 @@
             <p style="margin:0">Je préfère renseigner ma profession manuellement :</p>
             <input type="checkbox" class="input" style="margin:0 0 0 5px" (click)="toggleManuallyAddProfession()" >
         </div>
+
+        <label for="yearsOfExperience">Années d'expérience :</label>
+        <input class="input" type="number" formControlName="yearsOfExperience" id="yearsOfExperience" name="yearsOfExperience" required>
+        <div 
+            style="margin-top:10px"
+            *ngIf="registerForm.get('yearsOfExperience')?.invalid && registerForm.get('yearsOfExperience')?.touched">
+            Entrez un nombre valide.
+        </div>
         
+        <div class="line"></div>
 
-        <label for="formationName">Nom du diplôme :</label>
-        <input class="input" type="text" formControlName="formationName" id="formationName" name="formationName" required>
-
-        <label for="formationObtention">Année d'obtention :</label>
-        <input class="input" type="text" formControlName="formationObtention" id="formationObtention" name="formationObtention" required>
-
+        <app-diploma-input #diplomaInput ></app-diploma-input>
+        
         <label for="birthSex">Sexe de naissance:</label>
         <ng-select
             class="custom"
@@ -103,8 +114,12 @@
             <ng-option>Autre</ng-option>
         </ng-select>
 
+        <div class="line"></div>
+
         <label for="religion">Religion :</label>
         <input class="input" type="text" formControlName="religion" id="religion" name="religion" required>
+
+        <div class="line"></div>
 
         <h2>Mot de passe :</h2>
         <label for="password">Mot de passe :</label>
@@ -124,6 +139,10 @@
         <div style="display:flex;margin-top: 10px">
             <input style="margin:0" type="checkbox" class="input" (click)="toggleInformationsCorrect()">
             <p style="margin:0 0 0 5px">Je certifie que les informations renseignées sont correctes.</p>
+        </div>
+        <div style="display:flex;margin-top: 10px">
+            <input style="margin:0" type="checkbox" class="input" (click)="toggleAge()">
+            <p style="margin:0 0 0 5px">Je certifie avoir plus de 18 ans.</p>
         </div>
 
         <button *ngIf="!notFree" class="validate-button" (click)="onSubmit()" [disabled]="disabled">Valider mon inscription</button>

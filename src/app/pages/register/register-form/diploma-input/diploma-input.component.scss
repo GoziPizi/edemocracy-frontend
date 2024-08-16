@@ -1,0 +1,7 @@
+@import '../../../../../colors.scss';
+
+#delete{
+    &:hover {
+        background-color: $debate-red;
+    }
+}

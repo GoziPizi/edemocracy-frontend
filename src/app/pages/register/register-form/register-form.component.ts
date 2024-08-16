@@ -11,6 +11,7 @@ import { IdInputComponent } from './id-input/id-input.component';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { ToasterService } from '../../../services/toaster.service';
 import { LoadingService } from '../../../services/loading.service';
+import { DiplomaInputComponent } from './diploma-input/diploma-input.component';
 
 enum RegisterFormType {
   Free = 'free',
@@ -21,7 +22,7 @@ enum RegisterFormType {
 @Component({
   selector: 'app-register-form',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, RouterModule, NgSelectModule, CommonModule, IdInputComponent],
+  imports: [FormsModule, ReactiveFormsModule, RouterModule, NgSelectModule, CommonModule, IdInputComponent, DiplomaInputComponent],
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.scss',
   encapsulation: ViewEncapsulation.None
@@ -29,6 +30,7 @@ enum RegisterFormType {
 export class RegisterFormComponent {
 
   @ViewChild('idInput') idInput?: IdInputComponent;
+  @ViewChild('diplomaInput') diplomaInput!: DiplomaInputComponent
 
   type: RegisterFormType = RegisterFormType.Free;
 
@@ -38,6 +40,8 @@ export class RegisterFormComponent {
     name: new FormControl('', [Validators.required, Validators.minLength(2)]),
     politicSide: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    postalCode: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    city: new FormControl('', [Validators.required, Validators.minLength(2)]),
     telephone: new FormControl('', [Validators.required, Validators.minLength(10)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -45,8 +49,7 @@ export class RegisterFormComponent {
 
     //optional fields
     profession: new FormControl('', Validators.nullValidator),
-    formationName: new FormControl('', Validators.nullValidator),
-    formationObtention: new FormControl('', Validators.nullValidator),
+    yearsOfExperience: new FormControl('', Validators.nullValidator),
     birthSex: new FormControl('', Validators.nullValidator),
     actualSex: new FormControl('', Validators.nullValidator),
     sexOrientation: new FormControl('', Validators.nullValidator),
@@ -64,6 +67,7 @@ export class RegisterFormComponent {
 
   areInformationsCorrect = false;
   isCGUChecked = false;
+  isAgeChecked = false;
   isCGPChecked = false; //for party
 
   professions = professions;
@@ -132,14 +136,6 @@ export class RegisterFormComponent {
       data = { ...data, profession: this.registerForm.value.profession };
     }
 
-    if (this.registerForm.value.formationName) {
-      data = { ...data, formationName: this.registerForm.value.formationName };
-    }
-
-    if (this.registerForm.value.formationObtention) {
-      data = { ...data, formationObtention: this.registerForm.value.formationObtention };
-    }
-
     if (this.registerForm.value.birthSex) {
       data = { ...data, birthSex: this.registerForm.value.birthSex };
     }
@@ -155,6 +151,12 @@ export class RegisterFormComponent {
     if (this.registerForm.value.religion) {
       data = { ...data, religion: this.registerForm.value.religion };
     }
+
+    const diplomas = this.diplomaInput.getDiplomas()
+    
+    data = { ...data, diplomas}
+
+    console.log(data)
 
     this.api.registerFree(data).subscribe({
       next: (data: any) => {
@@ -187,11 +189,8 @@ export class RegisterFormComponent {
     if(this.registerForm.value.profession) {
       formData.append('profession', this.registerForm.value.profession as string);
     }
-    if(this.registerForm.value.formationName) {
-      formData.append('formationName', this.registerForm.value.formationName as string);
-    }
-    if(this.registerForm.value.formationObtention) {
-      formData.append('formationObtention', this.registerForm.value.formationObtention as string);
+    if(this.registerForm.value.yearsOfExperience) {
+      formData.append('yearsOfExperience', this.registerForm.value.yearsOfExperience as string);
     }
     if(this.registerForm.value.birthSex) {
       formData.append('birthSex', this.registerForm.value.birthSex as string);
@@ -209,12 +208,27 @@ export class RegisterFormComponent {
     formData.append('recto1', this.idInput?.firstRecto.getImageFile() as File);
     formData.append('verso1', this.idInput?.firstVerso.getImageFile() as File);
     formData.append('idNumber1', this.idInput?.firstIdNumber as string);
+    formData.append('idNationality1', this.idInput?.firstNationalityId.toString() as string);
 
     if(this.idInput?.isSecondId) {
       formData.append('recto2', this.idInput?.secondRecto?.getImageFile() as File);
       formData.append('verso2', this.idInput?.secondVerso?.getImageFile() as File);
       formData.append('idNumber2', this.idInput?.secondIdNumber as string);
+      formData.append('idNationality2', this.idInput?.secondNationalityId.toString() as string);
     }
+
+    if(this.idInput?.isThirdId) {
+      formData.append('recto3', this.idInput?.thirdRecto?.getImageFile() as File);
+      formData.append('verso3', this.idInput?.thirdVerso?.getImageFile() as File);
+      formData.append('idNumber3', this.idInput?.thirdIdNumber as string);
+      formData.append('idNationality3', this.idInput?.thirdNationalityId.toString() as string);
+    }
+
+    const diplomas : {name: string ; obtention: number}[] = this.diplomaInput.getDiplomas()
+    
+    formData.append('diplomas', JSON.stringify(diplomas))
+
+    console.log(formData)
 
     if(this.type === RegisterFormType.Standard) {
       this.api.registerStandard(formData).subscribe({
@@ -255,6 +269,10 @@ export class RegisterFormComponent {
 
   toggleInformationsCorrect() {
     this.areInformationsCorrect = !this.areInformationsCorrect;
+  }
+
+  toggleAge() {
+    this.isAgeChecked = !this.isAgeChecked;
   }
 
   get inscriptionName() {
