@@ -12,6 +12,7 @@ import { ApiHandlerService } from '../../../services/api-handler.service';
 import { ToasterService } from '../../../services/toaster.service';
 import { LoadingService } from '../../../services/loading.service';
 import { DiplomaInputComponent } from './diploma-input/diploma-input.component';
+import { religions } from './religions';
 
 enum RegisterFormType {
   Free = 'free',
@@ -64,6 +65,8 @@ export class RegisterFormComponent {
       return validator(control);
     };
   }
+
+  religions = religions;
 
   areInformationsCorrect = false;
   isCGUChecked = false;

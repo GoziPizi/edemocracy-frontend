@@ -117,7 +117,15 @@
         <div class="line"></div>
 
         <label for="religion">Religion :</label>
-        <input class="input" type="text" formControlName="religion" id="religion" name="religion" required>
+        <ng-select 
+            class="custom" 
+            formControlName="religion" 
+            [items]="religions" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'importance de la religion" 
+            [multiple]="false"
+            required></ng-select>
 
         <div class="line"></div>
 
