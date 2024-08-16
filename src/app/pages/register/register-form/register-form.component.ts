@@ -127,6 +127,8 @@ export class RegisterFormComponent {
       name: this.registerForm.value.name,
       politicSide: this.registerForm.value.politicSide,
       address: this.registerForm.value.address,
+      postalCode: this.registerForm.value.postalCode,
+      city: this.registerForm.value.city,
       telephone: this.registerForm.value.telephone,
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
@@ -152,11 +154,9 @@ export class RegisterFormComponent {
       data = { ...data, religion: this.registerForm.value.religion };
     }
 
-    const diplomas = this.diplomaInput.getDiplomas()
-    
+    const diplomas = JSON.stringify(this.diplomaInput.getDiplomas())
+  
     data = { ...data, diplomas}
-
-    console.log(data)
 
     this.api.registerFree(data).subscribe({
       next: (data: any) => {
@@ -182,6 +182,8 @@ export class RegisterFormComponent {
     formData.append('name', this.registerForm.value.name as string);
     formData.append('politicSide', this.registerForm.value.politicSide as string);
     formData.append('address', this.registerForm.value.address as string);
+    formData.append('postalCode', this.registerForm.value.postalCode as string);
+    formData.append('city', this.registerForm.value.city as string);
     formData.append('telephone', this.registerForm.value.telephone as string);
     formData.append('email', this.registerForm.value.email as string);
     formData.append('password', this.registerForm.value.password as string);
@@ -227,8 +229,6 @@ export class RegisterFormComponent {
     const diplomas : {name: string ; obtention: number}[] = this.diplomaInput.getDiplomas()
     
     formData.append('diplomas', JSON.stringify(diplomas))
-
-    console.log(formData)
 
     if(this.type === RegisterFormType.Standard) {
       this.api.registerStandard(formData).subscribe({
@@ -296,6 +296,7 @@ export class RegisterFormComponent {
   get disabled() {
     if(!this.isCGUChecked) return true;
     if(!this.areInformationsCorrect) return true;
+    if(!this.isAgeChecked) return true;
     if(this.type === RegisterFormType.Premium && !this.isCGPChecked) return true;
     if(!this.registerForm.value.name) return true;
     if(!this.registerForm.value.firstName) return true;

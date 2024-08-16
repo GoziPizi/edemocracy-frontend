@@ -28,8 +28,4 @@ export class SingleDiplomaComponent {
     }
   }
 
-  change() {
-    console.log(this);
-  }
-
 }
