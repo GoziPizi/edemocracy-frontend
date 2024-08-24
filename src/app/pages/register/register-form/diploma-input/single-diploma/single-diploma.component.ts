@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { stringDiplomas } from '../diplomas';
+import { diplomas } from './diplomas';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -20,12 +20,18 @@ export class SingleDiplomaComponent {
   currentYear: number = new Date().getFullYear();
 
   @Input() selectedDiploma: string = '';
-  diplomas: string[] = stringDiplomas;
+  diplomas: string[] = [];
+
+  rawDiplomas = diplomas;
 
   constructor() {
     for (let i = this.currentYear; i >= this.startYear; i--) {
       this.years.push(i);
     }
+
+    this.rawDiplomas.forEach(diploma => {
+      this.diplomas.push(diploma.intitule_de_la_specialite_du_diplome_et_options + ' - ' + diploma.niveau_du_diplome.replace('Niveau ', 'BAC + '));
+    });
   }
 
 }
