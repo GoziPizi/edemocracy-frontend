@@ -68,7 +68,6 @@ export class CreateDebateComponent {
   }
 
   onSubmit() {
-    console.log(this.createDebateForm.value)
     this.loadingService.increment()
     this.apiHandler.postDebate(this.createDebateForm.value).subscribe({
       next: (response: any) => {

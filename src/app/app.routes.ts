@@ -4,7 +4,9 @@ export const routes: Routes = [
     { path: '', redirectTo: 'accueil', pathMatch: 'full' },
     { path: 'landing', loadComponent: () => import('./pages/landing/landing.component').then(m => m.LandingComponent) },
     { path: 'connexion', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent) },
-    { path: 'inscription', loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent) },
+    { path: 'register', loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent) },
+    { path: 'register-form', loadComponent: () => import('./pages/register/register-form/register-form.component').then(m => m.RegisterFormComponent) },
+    { path: 'register-thanks', loadComponent: () => import('./pages/register-thank/register-thank.component').then(m => m.RegisterThankComponent) },
     { path: 'reset-password', loadComponent: () => import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent) },
     { path: 'change-password', loadComponent: () => import('./pages/change-password/change-password.component').then(m => m.ChangePasswordComponent) },
 

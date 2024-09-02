@@ -1,0 +1,79 @@
+@import '../../../../styles.scss';
+
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#back-arrow {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+#page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#register-form {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+
+    padding: 20px;
+    border-radius: 20px;
+    background-color: darken(white, 5%);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.input {
+    width:auto;
+}
+
+#register-form label {
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+#register-form input {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    font-size: 1.5em;
+}
+
+.validate-button {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 30px;
+
+    transition: all 0.3s ease;
+
+}
+
+.pay-button {
+    &:hover {
+        background-color: $hope-green;
+        
+        &:disabled {
+            background-color: darken(white, 50%);
+        }
+    }
+}
+
+.ng-select.custom .ng-select-container {
+    height: 80px;
+    background-color: darken(white, 15%);
+}
+
+@import "@ng-select/ng-select/themes/default.theme.css";

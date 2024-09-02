@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ApiHandlerService } from '../../services/api-handler.service';
-import { User } from '../../models/users';
+import { MembershipStatus, User } from '../../models/users';
 import { Party } from '../../models/party';
 import { Personality } from '../../models/personality';
 import { LoadingService } from '../../services/loading.service';
@@ -13,11 +13,12 @@ import { ToasterService } from '../../services/toaster.service';
 import { ProfilSettingsComponent } from './profil-settings/profil-settings.component';
 import { VisitorService } from '../../services/visitor.service';
 import { FollowsComponent } from './follows/follows.component';
+import { CotisationComponentComponent } from './cotisation-component/cotisation-component.component';
 
 @Component({
   selector: 'app-profil',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProfilOpinionsComponent, ProfilPersonalsComponent, FormsModule, ProfilSettingsComponent, FollowsComponent],
+  imports: [CommonModule, RouterModule, ProfilOpinionsComponent, ProfilPersonalsComponent, FormsModule, ProfilSettingsComponent, FollowsComponent, CotisationComponentComponent],
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss'
 })
@@ -119,20 +120,6 @@ export class ProfilComponent {
       this.isPersonalityModified = false;
     });
   }
-  
-  onContribute() {
-    this.loadingService.increment();
-    this.apiHandler.getCheckoutSession().subscribe({
-      next: (session: any) => {
-        const session_url = session.url;
-        window.location.href = session_url
-      },
-      error: (error) => {
-        this.toasterService.error('Une erreur est survenue lors de la création de la session de paiement.');
-        this.loadingService.decrement();
-      }
-    });
-  }
 
   createPersonality(){
     this.loadingService.increment();
@@ -173,5 +160,9 @@ export class ProfilComponent {
 
   toggleFollows() {
     this.followsOpen = !this.followsOpen;
+  }
+
+  get contributionStatus(): MembershipStatus {
+    return this.userProfil.contributionStatus;
   }
 }

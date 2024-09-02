@@ -4,7 +4,7 @@
     width: 50%;
     height: 50%;
     position:absolute;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -30,4 +30,10 @@
 
     font-size: 1.5em;
     font-weight: bold;
+
+    transition: all 0.3s ease;
+
+    &:hover {
+        color: white;
+    }
 }

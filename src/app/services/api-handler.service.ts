@@ -4,9 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { PartySearchCriteria, PersonalitySearchCriteria } from '../models/criterias';
 import { TopicSearchItem } from '../models/topics';
 import { Debate } from '../models/debate';
-import { Argument, ArgumentType } from '../models/argument';
+import { Argument } from '../models/argument';
 import { DebateVote } from '../enums/voteDebate';
-import { PoliticSides } from '../enums/politicSides';
 import { Party } from '../models/party';
 import { User } from '../models/users';
 import { Personality } from '../models/personality';
@@ -39,6 +38,14 @@ export class ApiHandlerService {
 
   deleteToken() {
     localStorage.removeItem('token');
+    this.visitorService.setIsVisitor(true);
+    this.isLogged.next(false);
+  }
+
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+    this.isLogged.next(true);
+    this.visitorService.setIsVisitor(false);
   }
 
   login(email: string, password: string) {
@@ -51,8 +58,6 @@ export class ApiHandlerService {
         }
       },
       error: (error) => {
-        this.isLogged.next(false);
-        this.visitorService.setIsVisitor(true);
         localStorage.removeItem('token');
       },
     });
@@ -60,8 +65,8 @@ export class ApiHandlerService {
 
   logout() {
     localStorage.removeItem('token');
-    this.isLogged.next(false);
     this.visitorService.setIsVisitor(true); 
+    this.isLogged.next(false);
     this.router.navigate(['/landing']);
   }
 
@@ -78,9 +83,7 @@ export class ApiHandlerService {
         this.visitorService.setIsVisitor(false);
       },
       error: (error) => {
-        this.isLogged.next(false);
         localStorage.removeItem('token');
-        this.visitorService.setIsVisitor(true);
       },
     });
   }
@@ -108,6 +111,18 @@ export class ApiHandlerService {
     return this.http.post(`${this.baseUrl}/api/login/register`, form);
   }
 
+  registerFree(form: any) {
+    return this.http.post(`${this.baseUrl}/api/login/register-free`, form);
+  }
+
+  registerStandard(form: any) {
+    return this.http.post(`${this.baseUrl}/api/login/register-standard`, form);
+  }
+
+  registerPremium(form: any) {
+    return this.http.post(`${this.baseUrl}/api/login/register-premium`, form);
+  }
+
   deleteUser() {
     const token = localStorage.getItem('token');
     return this.http.delete(`${this.baseUrl}/api/users`, {
@@ -130,7 +145,8 @@ export class ApiHandlerService {
   getUser() { 
     const token = localStorage.getItem('token');
     if (!token) {
-      return
+      this.isLogged.next(false);
+      this.visitorService.setIsVisitor(true);
     }
     return this.http.get<User>(`${this.baseUrl}/api/users`, {
       headers: {
@@ -787,9 +803,18 @@ export class ApiHandlerService {
   }
 
   //Contributions related methods
-  getCheckoutSession() {
+  becomeStandard() {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/contribution/checkout-session`, {
+    return this.http.get(`${this.baseUrl}/api/contribution/standard`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  becomePremium() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/contribution/premium`, {
       headers: {
         Authorization: `${token}`,
       },

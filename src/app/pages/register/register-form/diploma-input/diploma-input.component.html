@@ -1,0 +1,3 @@
+<button (click)="addDiploma()" class="validate-button">Ajouter un diplôme</button>
+<app-single-diploma *ngFor="let diploma of diplomas"></app-single-diploma>
+<button (click)="removeDiploma()" *ngIf="diplomas.length > 0" class="validate-button" id="delete" >Supprimer un diplôme</button>

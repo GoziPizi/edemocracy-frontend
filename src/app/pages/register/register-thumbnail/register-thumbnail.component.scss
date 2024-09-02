@@ -1,0 +1,52 @@
+@import '../../../../colors.scss';
+
+a {
+    text-decoration: none;
+}
+
+#container {
+    height: 100%;
+    background-color: darken(white, 20%);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    color:black;
+
+    padding: 20px;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: darken(white, 5%);
+    }
+}
+
+#container:hover #price {
+    background-color: #4f7abd;
+    color: white;
+}
+
+#title {
+    margin-top: 0
+}
+
+#price {
+    background-color: $democracy-blue;
+    color: darken(white,20%);
+
+    transition: all 0.3s ease;
+
+    width: max-content;
+    padding: 2px 10px;
+    margin-left: -30px
+    
+}
+
+#description {
+    margin-top: auto;
+    margin-bottom: 0px;
+}

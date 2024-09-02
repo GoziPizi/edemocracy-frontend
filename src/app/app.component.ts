@@ -17,7 +17,6 @@ import { ToasterComponent } from './utils/toaster/toaster.component';
 export class AppComponent {
 
   title = 'E-democracy';
-  isFooterVisible = true;
   navigationChangeSubscription: any;
 
   constructor(
@@ -27,11 +26,25 @@ export class AppComponent {
 
   }
 
-  get isHeaderVisible() {
-    if (this.router.url === '/connexion' || this.router.url === '/inscription' || this.router.url === '/landing') {
+  isFooterOrHeaderVisible(url: string) {
+    if (
+      url.includes('/connexion')
+      || url.includes('/register')
+      || url.includes('/landing')
+      || url.includes('/reset-password')
+      || url.includes('/register-from')
+    ) {
       return false;
     }
     return true;
+  }
+
+  get isHeaderVisible() {
+    return this.isFooterOrHeaderVisible(this.router.url);
+  }
+
+  get isFooterVisible() {
+    return this.isFooterOrHeaderVisible(this.router.url);
   }
 
 }

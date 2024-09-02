@@ -8,39 +8,21 @@
     cursor: pointer;
 }
 
-#container {
+#page {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
-#register-form {
-    margin: auto;
+#thumbnails-container {
+    width: 60%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    padding-bottom: 50px;
 }
 
-#register-form label {
-    margin-top: 10px;
-    font-size: 1.5em;
+.thumbnail {
+    margin: 20px;
 }
-
-#register-form input {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #000;
-    font-size: 1.5em;
-}
-
-.validate-button {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 30px;
-}
-
-.ng-select.custom .ng-select-container {
-    height: 80px;
-}
-
-@import "@ng-select/ng-select/themes/default.theme.css";

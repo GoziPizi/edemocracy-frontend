@@ -1,0 +1,159 @@
+<div id="page">
+    <i id="back-arrow" [routerLink]="['/register']" class="fa-solid fa-arrow-left"></i>
+    <img src="../../../assets/E-Democracy-no-white.png" alt="image" class="main-image" height="233px" width="600px">
+    <h1>Bienvenue</h1>
+    <p>{{inscriptionName}}</p>
+    <form [formGroup]="registerForm" id="register-form">
+        <label for="firstName">Prénom :</label>
+        <input class="input" type="text" formControlName="firstName" id="firstName" name="firstName" required>
+
+        <label for="lastName">Nom :</label>
+        <input class="input" type="text" formControlName="name" id="name" name="name" required>
+
+        <label for="address">Orientation  politique :</label>
+        <ng-select 
+            class="custom" 
+            formControlName="politicSide" 
+            [items]="politicSideOptions" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir une orientation politique" 
+            [multiple]="false"
+            required></ng-select>
+
+        <label for="email">E-mail :</label>
+        <input class="input" type="text" formControlName="email" id="email" name="email" required>
+
+        <label for="telephone">Téléphone :</label>
+        <input class="input" type="text" formControlName="telephone" id="telephone" name="telephone" required>
+
+        <label for="address">Adresse :</label>
+        <input class="input" type="text" formControlName="address" id="address" name="address" required>
+
+        <label for="address">Code postal :</label>
+        <input class="input" type="text" formControlName="postalCode" id="postalCode" name="postalCode" required>
+
+        <label for="address">Ville :</label>
+        <input class="input" type="text" formControlName="city" id="city" name="city" required>
+
+        <h2 *ngIf="notFree">Carte d'identité :</h2>
+        <app-id-input #idInput *ngIf="notFree"></app-id-input>
+
+        <h2>Informations optionnelles :</h2>
+
+        <p> Le renseignement des informations personnelles est entièrement facultatif et le respect de la vie privée ainsi que la confidentialité de ces données sont primordiaux. 
+            Les informations personnelles peuvent être utilisées pour appuyer un argument lors d'un débat, mais cela se fait uniquement avec le consentement explicite de la personne concernée lors de la rédaction de l'argument. Merci de ne divulguer ces informations que si elles sont pertinentes et utiles au débat.</p>
+        <p>Il est important de noter que pour afficher le travail ou le diplôme de quelqu'un, il est nécessaire de mentionner son nom.</p>
+
+        <label for="profession">Profession :</label>
+        <ng-select 
+            *ngIf="!manuallyAddProfession"
+            class="custom" 
+            formControlName="profession" 
+            [items]="professions" 
+            bindLabel="name" 
+            bindValue="name" 
+            placeholder="Choisir une profession" 
+            [multiple]="false"
+            required></ng-select>
+
+        <input type="text" formControlName="profession" class="input" id="profession" name="profession" *ngIf="manuallyAddProfession" required>
+
+        <div style="display: flex; flex-direction: row; align-items:center; margin-top: 10px">
+            <p style="margin:0">Je préfère renseigner ma profession manuellement :</p>
+            <input type="checkbox" class="input" style="margin:0 0 0 5px" (click)="toggleManuallyAddProfession()" >
+        </div>
+
+        <label for="yearsOfExperience">Années d'expérience :</label>
+        <input class="input" type="number" formControlName="yearsOfExperience" id="yearsOfExperience" name="yearsOfExperience" required>
+        <div 
+            style="margin-top:10px"
+            *ngIf="registerForm.get('yearsOfExperience')?.invalid && registerForm.get('yearsOfExperience')?.touched">
+            Entrez un nombre valide.
+        </div>
+        
+        <div class="line"></div>
+
+        <app-diploma-input #diplomaInput ></app-diploma-input>
+        
+        <label for="birthSex">Sexe de naissance:</label>
+        <ng-select
+            class="custom"
+            formControlName="birthSex">
+            <ng-option>Femme</ng-option>
+            <ng-option>Homme</ng-option>
+            <ng-option>Autre</ng-option>
+        </ng-select>
+
+        <label for="actualSex">Identité de genre :</label>
+        <ng-select
+            class="custom"
+            formControlName="actualSex">
+            <ng-option>Cisgenre</ng-option>
+            <ng-option>Transgenre</ng-option>
+            <ng-option>Non-binaire</ng-option>
+            <ng-option>Genderqueer</ng-option>
+            <ng-option>Pangender</ng-option>
+            <ng-option>Genderfluid</ng-option>
+            <ng-option>Agender</ng-option>
+            <ng-option>Bigender</ng-option>
+            <ng-option>Third-gender</ng-option>
+            <ng-option>Two-spirit</ng-option>
+            <ng-option>Asexual</ng-option>
+        </ng-select>
+
+        <label for="sexOrientation">Orientation sexuelle :</label>
+        <ng-select
+            class="custom"
+            formControlName="sexOrientation">
+            <ng-option>Hétérosexuel</ng-option>
+            <ng-option>Homosexuel</ng-option>
+            <ng-option>Bisexuel</ng-option>
+            <ng-option>Asexuel</ng-option>
+            <ng-option>Pansexuel</ng-option>
+            <ng-option>Autre</ng-option>
+        </ng-select>
+
+        <div class="line"></div>
+
+        <label for="religion">Religion :</label>
+        <ng-select 
+            class="custom" 
+            formControlName="religion" 
+            [items]="religions" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'importance de la religion" 
+            [multiple]="false"
+            required></ng-select>
+
+        <div class="line"></div>
+
+        <h2>Mot de passe :</h2>
+        <label for="password">Mot de passe :</label>
+        <input class="input" type="password" formControlName="password" id="password" name="password" required>
+
+        <label for="password">Confirmer le mot de passe :</label>
+        <input class="input" type="password" formControlName="passwordConfirm" id="passwordConfirm" name="passwordConfirm" required>
+
+        <div style="display:flex; margin-top: 10px">
+            <input style="margin:0" type="checkbox" class="input" (click)="toggleCGU()">
+            <p style="margin:0 0 0 5px">J'accepte les <a routerLink="/terms-of-service">conditions générales d'utilisation</a> du site.</p>
+        </div>
+        <div style="display:flex; margin-top: 10px" *ngIf="isPremium">
+            <input style="margin:0" type="checkbox" class="input" (click)="toggleCGP()">
+            <p style="margin:0 0 0 5px">J'accepte les <a routerLink="/terms-of-service" >conditions générales du parti politique « Mouvement des Citoyens Actifs » (MCA).</a></p>
+        </div>
+        <div style="display:flex;margin-top: 10px">
+            <input style="margin:0" type="checkbox" class="input" (click)="toggleInformationsCorrect()">
+            <p style="margin:0 0 0 5px">Je certifie que les informations renseignées sont correctes.</p>
+        </div>
+        <div style="display:flex;margin-top: 10px">
+            <input style="margin:0" type="checkbox" class="input" (click)="toggleAge()">
+            <p style="margin:0 0 0 5px">Je certifie avoir plus de 18 ans.</p>
+        </div>
+
+        <button *ngIf="!notFree" class="validate-button" (click)="onSubmit()" [disabled]="disabled">Valider mon inscription</button>
+        <button *ngIf="notFree" class="validate-button pay-button" (click)="onSubmit()" [disabled]="disabled">Procéder au paiement</button>
+    </form>
+</div>

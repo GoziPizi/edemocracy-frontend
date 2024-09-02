@@ -1,56 +1,28 @@
-<div id="container">
+<div id="page">
     <i id="back-arrow" [routerLink]="['/landing']" class="fa-solid fa-arrow-left"></i>
-    <form [formGroup]="registerForm" id="register-form" >
-        <img src="../../../assets/E-Democracy..png" height="300px" width="600px">
-        <label for="firstName">Prénom :</label>
-        <input type="text" formControlName="firstName" id="firstName" name="firstName" required>
-
-        <label for="lastName">Nom :</label>
-        <input type="text" formControlName="name" id="name" name="name" required>
-
-        <label for="email">E-mail :</label>
-        <input type="text" formControlName="email" id="email" name="email" required>
-
-        <label for="telephone">Téléphone :</label>
-        <input type="text" formControlName="telephone" id="telephone" name="telephone" required>
-
-        <label for="profession">Profession :</label>
-        <ng-select 
-            class="custom" 
-            formControlName="profession" 
-            [items]="professions" 
-            bindLabel="name" 
-            bindValue="name" 
-            placeholder="Choisir une profession" 
-            [multiple]="false"
-            required></ng-select>
-
-        <label for="address">Orientation  politique :</label>
-        <ng-select 
-            class="custom" 
-            formControlName="politicSide" 
-            [items]="politicSideOptions" 
-            bindLabel="label" 
-            bindValue="value" 
-            placeholder="Choisir une orientation politique" 
-            [multiple]="false"
-            required></ng-select>
-
-        <label for="password">Mot de Passe :</label>
-        <input type="password" formControlName="password" id="password" name="password" required>
-
-        <label for="passwordConfirmation">Confirmation du mot de passe :</label>
-        <input type="password" formControlName="passwordConfirmation" id="passwordConfirmation" name="passwordConfirmation" required>
-
-        <p>Carte d'identité: </p>
-        <app-image-input #rectoInput [text]="'Recto'" [ratio]="1" [tolerance]="10"></app-image-input>
-        <app-image-input #versoInput [text]="'Verso'" [ratio]="1" [tolerance]="10"></app-image-input>
-
-        <label>
-            <input type="checkbox" formControlName="termsAccepted" required>
-            J'accepte les <a [routerLink]="['/terms-of-service']" target="_blank" >conditions générales d'utilisation</a>.
-        </label>
-
-        <button type="submit" [disabled]="!registerForm.valid" (click)="register()" class="validate-button">Inscription</button>
-    </form> 
+    <img src="../../../assets/E-Democracy-no-white.png" alt="image" class="main-image" height="233px" width="600px">
+    <h1>Inscription</h1>
+    <div id="thumbnails-container">
+        <app-register-thumbnail
+            class="thumbnail"
+            title="Gratuit"
+            price="Gratuit"
+            [features]="['Prix : 0€', 'Accès au site', 'Sondages non vérifiés']"
+            description="Idéal pour : Ceux qui veulent se faire une idée de la démocratie participative."
+            redirect="free"></app-register-thumbnail>
+        <app-register-thumbnail
+            class="thumbnail"
+            title="Standard"
+            price="4.99€"
+            [features]="['Prix : 4.99€', 'Accès complet au site', 'Sondages vérifiés']"
+            description="Idéal pour : Ceux qui souhaitent que leurs votes soient pris en compte pour un résultat fiable."
+            redirect="standard"></app-register-thumbnail>
+        <app-register-thumbnail
+            class="thumbnail"
+            title="Premium"
+            price="14.99€/ an"
+            [features]="['Prix : 14.99€/ an', 'Accès complet au site', 'Sondages vérifiés', 'Souscription au parti « Mouvement des Citoyens Actifs (MCA) »']"
+            description="Idéal pour : Membre engagé voulant influencer activement les décisions politiques ."
+            redirect="premium"></app-register-thumbnail>
+    </div>
 </div>
