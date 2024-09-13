@@ -24,6 +24,11 @@ export class SingleDiplomaComponent {
 
   rawDiplomas = diplomas;
 
+  manualInput: boolean = false;
+  toggleManualInput() {
+    this.manualInput = !this.manualInput;
+  }
+
   constructor() {
     for (let i = this.currentYear; i >= this.startYear; i--) {
       this.years.push(i);

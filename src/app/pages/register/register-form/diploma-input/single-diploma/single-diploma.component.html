@@ -1,11 +1,16 @@
 <div id="container">
-    <div style="display:flex; flex-direction:row; width:100%">
+    <div style="display:flex; flex-direction:row; width:100%; align-items:center">
         <p>Nom du diplôme :</p>
-        <ng-select [(ngModel)]="selectedDiploma" class="custom" style="width:100%">
+        <ng-select [(ngModel)]="selectedDiploma" class="custom" style="width:100%" *ngIf="!manualInput">
             <ng-option *ngFor="let diploma of diplomas" [value]="diploma">{{diploma}}</ng-option>
         </ng-select>
-    </div> 
-    <div style="display:flex; flex-direction:row; width:100%">
+        <input [(ngModel)]="selectedDiploma" class="input" *ngIf="manualInput" style="width:100%">
+    </div>
+    <div style="display: flex; align-items:center">
+        <p style="margin:0; width:max-content">Je préfère renseigner mon diplôme manuellement :</p>
+        <input type="checkbox" style="margin:0 0 0 5px" (click)="toggleManualInput()" >
+    </div>
+    <div style="display:flex; flex-direction:row; width:100%; align-items:center">
         <p style>Année d'obtention :</p>
         <ng-select [(ngModel)]="selectedYear" class="custom" style="width:100%">
             <ng-option *ngFor="let year of years" [value]="year">{{year}}</ng-option>
