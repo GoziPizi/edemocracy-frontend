@@ -55,6 +55,7 @@ export class RegisterFormComponent {
     actualSex: new FormControl('', Validators.nullValidator),
     sexOrientation: new FormControl('', Validators.nullValidator),
     religion: new FormControl('', Validators.nullValidator),
+    sponsorshipCode: new FormControl('', Validators.nullValidator),
   });
 
   optionalValidator(validator: ValidatorFn): ValidatorFn {
@@ -78,6 +79,9 @@ export class RegisterFormComponent {
 
   //formOptions
   manuallyAddProfession = false;
+
+  //sponsorshipCode
+  isCodeVerified = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -106,6 +110,14 @@ export class RegisterFormComponent {
       } else {
         this.type = RegisterFormType.Free;
       }
+
+      let sponsorshipCode = params.get('sponsorshipCode');
+      if (sponsorshipCode) {
+        this.registerForm.patchValue({ sponsorshipCode });
+        //set sponsorshipCode value touched
+        this.registerForm.get('sponsorshipCode')?.markAsTouched();
+        this.checkSponsorshipCode();
+      }
     });
   }
 
@@ -120,6 +132,20 @@ export class RegisterFormComponent {
       this.paidSubmit();
     }
   }
+
+  checkSponsorshipCode() {
+    if(this.registerForm.value.sponsorshipCode) {
+      this.api.checkSponsorshipCode(this.registerForm.value.sponsorshipCode).subscribe({
+        next: (data: any) => {
+          this.isCodeVerified = true;
+        },
+        error: (error: any) => {
+          this.toastr.error('Code de parrainage invalide');
+        }
+      });
+    }
+  }
+
 
   freeSubmit() {
 
@@ -155,6 +181,10 @@ export class RegisterFormComponent {
 
     if (this.registerForm.value.religion) {
       data = { ...data, religion: this.registerForm.value.religion };
+    }
+
+    if (this.registerForm.value.sponsorshipCode) {
+      data = { ...data, sponsorshipCode: this.registerForm.value.sponsorshipCode };
     }
 
     const diplomas = JSON.stringify(this.diplomaInput.getDiplomas())
@@ -208,6 +238,10 @@ export class RegisterFormComponent {
     }
     if(this.registerForm.value.religion) {
       formData.append('religion', this.registerForm.value.religion as string);
+    }
+
+    if(this.registerForm.value.sponsorshipCode) {
+      formData.append('sponsorshipCode', this.registerForm.value.sponsorshipCode as string);
     }
 
     formData.append('recto1', this.idInput?.firstRecto.getImageFile() as File);

@@ -123,6 +123,46 @@ export class ApiHandlerService {
     return this.http.post(`${this.baseUrl}/api/login/register-premium`, form);
   }
 
+  generateSponsorshipCode() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/sponsorship/generate-sponsorship-code`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  checkSponsorshipCode(code: string) {
+    return this.http.post(`${this.baseUrl}/api/sponsorship/check-sponsorship-code`, { code });
+  }
+
+  getPersonalJackpot() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/sponsorship/personal-jackpot`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  setJackpotIBAN(IBAN: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/sponsorship/personal-jackpot-IBAN`, { IBAN }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  withdrawPersonalJackpot() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/sponsorship/personal-jackpot-withdraw`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   deleteUser() {
     const token = localStorage.getItem('token');
     return this.http.delete(`${this.baseUrl}/api/users`, {

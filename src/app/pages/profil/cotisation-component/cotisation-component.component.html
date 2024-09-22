@@ -12,3 +12,37 @@
     Vous êtes un utilisateur premium.
     <button onclick="location.href='mailto:support@digital-democracy.eu?subject=Demande%20de%20résiliation'" style="margin-left: 10px" class="validate-button red-button">Résilier mon abonnement</button>
 </div>
+<div id="sponsorship-code" style="margin-top: 10px">
+    <div *ngIf="sponsorshipCode">
+        Votre code de parrainage est: {{sponsorshipCode}}
+        <button class="validate-button green-button" (click)="createSponsorshipLink()">
+            Créer un lien de parrainage
+            <i class="fa-solid fa-copy"></i>
+        </button>
+    </div>
+    <div *ngIf="!sponsorshipCode">
+        Vous n'avez pas de code de parrainage
+        <button class="validate-button green-button" (click)="generateSponsorshipCode()">Générer un code de parrainage</button>
+    </div>
+</div>
+<div id="personal-jackpot" *ngIf="personalJackpot">
+    Votre cagnotte personnelle est de {{personalJackpot}}€
+    <div *ngIf="personalJackpot.IBAN">
+        Le virement sera effectué sur le compte {{personalJackpot.IBAN}}
+        <button class="validate-button green-button" (click)="openIBANPopUp()">Changer l'IBAN</button>
+        <button class="validate-button green-button" (click)="withdrawPersonalJackpot()">Retirer</button>
+    </div>
+    <div *ngIf="!personalJackpot.IBAN">
+        Avant de pouvoir retirer votre cagnotte, veuillez ajouter un IBAN.
+        <button class="validate-button green-button" (click)="openIBANPopUp()">Ajouter un IBAN</button>
+    </div>
+</div>
+
+<div id="iban-popup">
+    <div class="popup-content">
+        <h2>Ajouter un IBAN :</h2>
+        <p>Nous ne conserverons l'IBAN que le temps de versement.</p>
+        <input type="text" [(ngModel)]="newIBAN" placeholder="IBAN">
+        <button class="validate-button green-button" (click)="setJackpotIBAN()">Valider</button>
+    </div>
+</div>

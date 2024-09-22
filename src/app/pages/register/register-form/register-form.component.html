@@ -153,6 +153,14 @@
             <p style="margin:0 0 0 5px">Je certifie avoir plus de 18 ans.</p>
         </div>
 
+        <h2>Code de parrainage :</h2>
+        <div style="display:flex; flex-direction: row; align-items:center">
+            <input class="input" type="text" formControlName="sponsorshipCode" id="sponsorshipCode" name="sponsorshipCode">
+            <button class="validate-button" id="check-code" (click)="checkSponsorshipCode()" style="margin-left: 10px">Vérifier mon code</button>
+        </div>
+        <p *ngIf="isCodeVerified" id="code-valid">Votre code de parrainage est valide.</p>
+        <p *ngIf="!isCodeVerified && registerForm.get('sponsorshipCode')?.touched" id="code-invalid">Votre code de parrainage n'est pas valide.</p>
+
         <button *ngIf="!notFree" class="validate-button" (click)="onSubmit()" [disabled]="disabled">Valider mon inscription</button>
         <button *ngIf="notFree" class="validate-button pay-button" (click)="onSubmit()" [disabled]="disabled">Procéder au paiement</button>
     </form>

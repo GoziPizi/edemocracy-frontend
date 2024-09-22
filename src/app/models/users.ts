@@ -32,6 +32,7 @@ export class User {
     role: string = '';
     createdAt: Date = new Date();
     updatedAt: Date = new Date();
+    sponsorshipCode: string | null = null;
 }
 
 export class PublicUser {

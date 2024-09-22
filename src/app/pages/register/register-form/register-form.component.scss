@@ -53,6 +53,19 @@
 
 }
 
+#check-code {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#code-valid {
+    color: $hope-green;
+}
+
+#code-invalid {
+    color: $debate-red;
+}
+
 .pay-button {
     &:hover {
         background-color: $hope-green;
