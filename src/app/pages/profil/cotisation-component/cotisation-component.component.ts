@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { LoadingService } from '../../../services/loading.service';
 import { ToasterService } from '../../../services/toaster.service';
-import { personalJackpot } from '../../../models/jackpot';
+import { JackpotStatus, personalJackpot } from '../../../models/jackpot';
 import { FormsModule } from '@angular/forms';
+import { SingleJackpotViewComponent } from '../../admin/sponsorship-dashboard/single-jackpot-view/single-jackpot-view.component';
 
 @Component({
   selector: 'app-cotisation-component',
@@ -27,10 +28,18 @@ export class CotisationComponentComponent {
     private apiHandler: ApiHandlerService,
     private loadingService: LoadingService,
     private toasterService: ToasterService
-  ) { }
+  ) {
+    this.personalJackpot = {
+      jackpotAmount: 2,
+      status: JackpotStatus.REQUESTED,
+      IBAN: 'IBAN_EXAMPLE'
+    }
+  }
 
   ngOnInit() {
     this.getPersonalJackpot();
+
+    this.sponsorshipCode = 'SPONSORSHIP_CODE';
   }
 
   becomeStandard() {
@@ -91,14 +100,14 @@ export class CotisationComponentComponent {
   }
 
   getPersonalJackpot() {
-    this.apiHandler.getPersonalJackpot().subscribe({
-      next: (data: any) => {
-        this.personalJackpot = data;
-      },
-      error: (error: any) => {
-        this.personalJackpot = null;
-      }
-    })
+    // this.apiHandler.getPersonalJackpot().subscribe({
+    //   next: (data: any) => {
+    //     this.personalJackpot = data;
+    //   },
+    //   error: (error: any) => {
+    //     this.personalJackpot = null;
+    //   }
+    // })
   }
 
   openIBANPopUp() {
@@ -166,6 +175,10 @@ export class CotisationComponentComponent {
 
   get isPremiumUser(): boolean {
     return this.contributionStatus as unknown as string === MembershipStatus[MembershipStatus.PREMIUM] as unknown as string;
+  }
+
+  get waiting(): boolean {
+    return this.personalJackpot?.status === JackpotStatus.PENDING;
   }
 
 }

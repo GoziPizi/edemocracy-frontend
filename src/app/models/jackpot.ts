@@ -8,3 +8,7 @@ export class personalJackpot {
     status: JackpotStatus = JackpotStatus.PENDING;
     IBAN: string | null = null;
 }
+
+export class adminViewPersonalJackpot extends personalJackpot {
+    userId: string = '';
+}

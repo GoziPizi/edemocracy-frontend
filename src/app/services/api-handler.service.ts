@@ -17,6 +17,7 @@ import { NotificationEdemoc } from '../models/notifications';
 import { VisitorService } from './visitor.service';
 import { Router } from '@angular/router';
 import { ReportType } from '../models/report';
+import { adminViewPersonalJackpot } from '../models/jackpot';
 
 @Injectable({
   providedIn: 'root',
@@ -788,6 +789,15 @@ export class ApiHandlerService {
   verifyRequest(id: string, verified: boolean) {
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/admin/verifications-request/${id}`, {verified}, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getNonEmptyJackpots() {
+    const token = localStorage.getItem('token');
+    return this.http.get<adminViewPersonalJackpot[]>(`${this.baseUrl}/api/admin/non-empty-jackpots`, {
       headers: {
         Authorization: `${token}`,
       },

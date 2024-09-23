@@ -14,7 +14,7 @@
 </div>
 <div id="sponsorship-code" style="margin-top: 10px">
     <div *ngIf="sponsorshipCode">
-        Votre code de parrainage est: {{sponsorshipCode}}
+        Votre code de parrainage est: <b>{{sponsorshipCode}}</b> .
         <button class="validate-button green-button" (click)="createSponsorshipLink()">
             Créer un lien de parrainage
             <i class="fa-solid fa-copy"></i>
@@ -25,12 +25,12 @@
         <button class="validate-button green-button" (click)="generateSponsorshipCode()">Générer un code de parrainage</button>
     </div>
 </div>
-<div id="personal-jackpot" *ngIf="personalJackpot">
-    Votre cagnotte personnelle est de {{personalJackpot}}€
+<div id="personal-jackpot" *ngIf="personalJackpot && waiting">
+    <p>Votre cagnotte personnelle est de <b>{{personalJackpot.jackpotAmount}}€</b>.</p>
     <div *ngIf="personalJackpot.IBAN">
-        Le virement sera effectué sur le compte {{personalJackpot.IBAN}}
-        <button class="validate-button green-button" (click)="openIBANPopUp()">Changer l'IBAN</button>
-        <button class="validate-button green-button" (click)="withdrawPersonalJackpot()">Retirer</button>
+        Le virement sera effectué sur le compte <b>{{personalJackpot.IBAN}}</b>
+        <button class="validate-button green-button" style="margin-left:10px" (click)="openIBANPopUp()">Changer l'IBAN</button>
+        <button class="validate-button green-button" style="margin-left:10px" (click)="withdrawPersonalJackpot()">Retirer</button>
     </div>
     <div *ngIf="!personalJackpot.IBAN">
         Avant de pouvoir retirer votre cagnotte, veuillez ajouter un IBAN.
@@ -38,7 +38,12 @@
     </div>
 </div>
 
-<div id="iban-popup">
+<div id="personal-jackpot" *ngIf="personalJackpot && !waiting">
+    <p>Votre demande de retrait a bien été prise en compte.</p>
+    <p>Un versement de {{personalJackpot.jackpotAmount}}€ sera effectué sur votre compte.</p>
+</div>
+
+<div id="iban-popup" *ngIf="IBANPopUpOpened">
     <div class="popup-content">
         <h2>Ajouter un IBAN :</h2>
         <p>Nous ne conserverons l'IBAN que le temps de versement.</p>

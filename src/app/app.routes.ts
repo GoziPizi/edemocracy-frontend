@@ -38,6 +38,7 @@ export const routes: Routes = [
     { path: 'profil', loadComponent: () => import('./pages/profil/profil.component').then(m => m.ProfilComponent) },
 
     { path: 'admin', loadComponent: () => import('./pages/admin/admin.component').then(m => m.AdminComponent)},
+    { path: 'admin/sponsorship-dashboard', loadComponent: () => import('./pages/admin/sponsorship-dashboard/sponsorship-dashboard.component').then(m => m.SponsorshipDashboardComponent) },
 
     //legal-notice
     { path: 'legal-notice', loadComponent: () => import('./pages/legal-notice/legal-notice/legal-notice.component').then(m => m.LegalNoticeComponent) },

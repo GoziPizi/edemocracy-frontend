@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BanWord } from '../../models/banword';
 import { User } from '../../models/users';
 import { ReportsComponent } from './reports/reports.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -24,7 +25,8 @@ export class AdminComponent {
   newBanWord: string = '';
 
   constructor(
-    private apiHandler: ApiHandlerService
+    private apiHandler: ApiHandlerService,
+    private router: Router
   ) {
 
   }
@@ -33,6 +35,10 @@ export class AdminComponent {
     this.fetchBanWords();
     this.fetchAdmins();
     this.fetchVerificationRequests();
+  }
+
+  navigateToSponsorship() {
+    this.router.navigate(['admin/sponsorship-dashboard']);
   }
 
   fetchBanWords() {

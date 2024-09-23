@@ -1,0 +1,13 @@
+<h2>Dashboard cotisation</h2>
+<div id="jackpots-container">
+    <div id="header">
+        <p style="width:20%">Utilisateur</p>
+        <p style="width:20%">Montant</p>
+        <p style="width:20%">En attente</p>
+        <p style="width:20%">IBAN</p>
+        <p style="width:20%">Actions</p>
+    </div>
+    <app-single-jackpot-view *ngFor="let jackpot of jackpots" [jackpot]="jackpot"></app-single-jackpot-view>
+</div>
+
+<p>Total : {{totalJackpot}}€</p>

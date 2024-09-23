@@ -1,0 +1,10 @@
+@import '../../../../../styles.scss';
+
+#single-jackpot {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+
+    border-bottom: 1px solid darken(white, 20%);
+}
