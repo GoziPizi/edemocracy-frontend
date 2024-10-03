@@ -4,9 +4,9 @@ export enum JackpotStatus {
 }
 
 export class personalJackpot {
-    jackpotAmount: number = 0;
+    amount: number = 0;
     status: JackpotStatus = JackpotStatus.PENDING;
-    IBAN: string | null = null;
+    iban: string | null = null;
 }
 
 export class adminViewPersonalJackpot extends personalJackpot {

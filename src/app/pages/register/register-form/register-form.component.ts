@@ -53,7 +53,7 @@ export class RegisterFormComponent {
     yearsOfExperience: new FormControl('', Validators.nullValidator),
     birthSex: new FormControl('', Validators.nullValidator),
     actualSex: new FormControl('', Validators.nullValidator),
-    sexOrientation: new FormControl('', Validators.nullValidator),
+    sexualOrientation: new FormControl('', Validators.nullValidator),
     religion: new FormControl('', Validators.nullValidator),
     sponsorshipCode: new FormControl('', Validators.nullValidator),
   });
@@ -140,6 +140,7 @@ export class RegisterFormComponent {
           this.isCodeVerified = true;
         },
         error: (error: any) => {
+          this.isCodeVerified = false;
           this.toastr.error('Code de parrainage invalide');
         }
       });
@@ -175,8 +176,8 @@ export class RegisterFormComponent {
       data = { ...data, actualSex: this.registerForm.value.actualSex };
     }
 
-    if (this.registerForm.value.sexOrientation) {
-      data = { ...data, sexOrientation: this.registerForm.value.sexOrientation };
+    if (this.registerForm.value.sexualOrientation) {
+      data = { ...data, sexualOrientation: this.registerForm.value.sexualOrientation };
     }
 
     if (this.registerForm.value.religion) {
@@ -233,8 +234,8 @@ export class RegisterFormComponent {
     if(this.registerForm.value.actualSex) {
       formData.append('actualSex', this.registerForm.value.actualSex as string);
     }
-    if(this.registerForm.value.sexOrientation) {
-      formData.append('sexOrientation', this.registerForm.value.sexOrientation as string);
+    if(this.registerForm.value.sexualOrientation) {
+      formData.append('sexualOrientation', this.registerForm.value.sexualOrientation as string);
     }
     if(this.registerForm.value.religion) {
       formData.append('religion', this.registerForm.value.religion as string);

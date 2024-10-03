@@ -41,7 +41,6 @@ export class SingleDiplomaComponent {
 
   accurateReplace(str: string) {
 
-    console.log('str', str);
     let result = str;
 
     /*

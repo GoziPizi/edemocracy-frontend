@@ -1,0 +1,2 @@
+ng build --configuration development
+scp -r -i '~/.ssh/edemocracy/developer-ssh.pem' ./dist/nom-du-projet/browser ubuntu@ec2-15-188-117-38.eu-west-3.compute.amazonaws.com:~

@@ -6,7 +6,6 @@ import { LoadingService } from '../../../services/loading.service';
 import { ToasterService } from '../../../services/toaster.service';
 import { JackpotStatus, personalJackpot } from '../../../models/jackpot';
 import { FormsModule } from '@angular/forms';
-import { SingleJackpotViewComponent } from '../../admin/sponsorship-dashboard/single-jackpot-view/single-jackpot-view.component';
 
 @Component({
   selector: 'app-cotisation-component',
@@ -28,18 +27,10 @@ export class CotisationComponentComponent {
     private apiHandler: ApiHandlerService,
     private loadingService: LoadingService,
     private toasterService: ToasterService
-  ) {
-    this.personalJackpot = {
-      jackpotAmount: 2,
-      status: JackpotStatus.REQUESTED,
-      IBAN: 'IBAN_EXAMPLE'
-    }
-  }
+  ) { }
 
   ngOnInit() {
     this.getPersonalJackpot();
-
-    this.sponsorshipCode = 'SPONSORSHIP_CODE';
   }
 
   becomeStandard() {
@@ -76,7 +67,7 @@ export class CotisationComponentComponent {
       next: (data: any) => {
         this.loadingService.decrement();
         this.toasterService.success('Code de parrainage généré');
-        this.sponsorshipCode = data;
+        this.sponsorshipCode = data.code;
       },
       error: (error: any) => {
         this.toasterService.error('Impossible de générer un code de parrainage');
@@ -100,14 +91,14 @@ export class CotisationComponentComponent {
   }
 
   getPersonalJackpot() {
-    // this.apiHandler.getPersonalJackpot().subscribe({
-    //   next: (data: any) => {
-    //     this.personalJackpot = data;
-    //   },
-    //   error: (error: any) => {
-    //     this.personalJackpot = null;
-    //   }
-    // })
+    this.apiHandler.getPersonalJackpot().subscribe({
+      next: (data: any) => {
+        this.personalJackpot = data;
+      },
+      error: (error: any) => {
+        this.personalJackpot = null;
+      }
+    })
   }
 
   openIBANPopUp() {

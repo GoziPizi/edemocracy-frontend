@@ -146,9 +146,9 @@ export class ApiHandlerService {
     });
   }
 
-  setJackpotIBAN(IBAN: string) {
+  setJackpotIBAN(iban: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/sponsorship/personal-jackpot-IBAN`, { IBAN }, {
+    return this.http.post(`${this.baseUrl}/api/sponsorship/personal-jackpot-IBAN`, { iban }, {
       headers: {
         Authorization: `${token}`,
       },
@@ -798,6 +798,15 @@ export class ApiHandlerService {
   getNonEmptyJackpots() {
     const token = localStorage.getItem('token');
     return this.http.get<adminViewPersonalJackpot[]>(`${this.baseUrl}/api/admin/non-empty-jackpots`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  confirmPaymentUsersJackpot(userId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/admin/confirm-payment`, {userId}, {
       headers: {
         Authorization: `${token}`,
       },

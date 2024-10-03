@@ -26,13 +26,13 @@
     </div>
 </div>
 <div id="personal-jackpot" *ngIf="personalJackpot && waiting">
-    <p>Votre cagnotte personnelle est de <b>{{personalJackpot.jackpotAmount}}€</b>.</p>
-    <div *ngIf="personalJackpot.IBAN">
-        Le virement sera effectué sur le compte <b>{{personalJackpot.IBAN}}</b>
+    <p>Votre cagnotte personnelle est de <b>{{personalJackpot.amount}}€</b>.</p>
+    <div *ngIf="personalJackpot.iban">
+        Le virement sera effectué sur le compte <b>{{personalJackpot.iban}}</b>
         <button class="validate-button green-button" style="margin-left:10px" (click)="openIBANPopUp()">Changer l'IBAN</button>
         <button class="validate-button green-button" style="margin-left:10px" (click)="withdrawPersonalJackpot()">Retirer</button>
     </div>
-    <div *ngIf="!personalJackpot.IBAN">
+    <div *ngIf="!personalJackpot.iban">
         Avant de pouvoir retirer votre cagnotte, veuillez ajouter un IBAN.
         <button class="validate-button green-button" (click)="openIBANPopUp()">Ajouter un IBAN</button>
     </div>
@@ -40,7 +40,7 @@
 
 <div id="personal-jackpot" *ngIf="personalJackpot && !waiting">
     <p>Votre demande de retrait a bien été prise en compte.</p>
-    <p>Un versement de {{personalJackpot.jackpotAmount}}€ sera effectué sur votre compte.</p>
+    <p>Un versement de {{personalJackpot.amount}}€ sera effectué sur votre compte.</p>
 </div>
 
 <div id="iban-popup" *ngIf="IBANPopUpOpened">
