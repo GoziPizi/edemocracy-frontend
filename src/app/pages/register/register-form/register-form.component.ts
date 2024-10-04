@@ -286,7 +286,7 @@ export class RegisterFormComponent {
       this.api.registerPremium(formData).subscribe({
         next: (data: any) => {
           this.loading.decrement();
-          const checkoutUrl = data;
+          const {checkoutUrl} = data;
           window.location.href = checkoutUrl;
         },
         error: (error: any) => {
