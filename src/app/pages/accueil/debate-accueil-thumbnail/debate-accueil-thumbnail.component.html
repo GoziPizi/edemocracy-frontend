@@ -1,0 +1,18 @@
+<a [routerLink]="['/debate', debate.id]" >
+    <div id="thumbnail" >
+        <!--Handle video case-->
+        <img id="debate-media" [src]="debate.media" alt="debate image" style="height: 250px;">
+        <h2 id="title" style="margin:0 0 0 5px;" >{{debate.title}}</h2>
+        <p id="content" style="margin: 0 5px" >{{debate.content}}</p>
+        <div id="bottom-container">
+            <p id="nb-votants" >{{nbVotants}} votants</p>
+            <div id="color-bar">
+                <div id="really-for" class="vote-line" [ngStyle]="{'width' : deepGreenWidth}"></div>
+                <div id="for" class="vote-line" [ngStyle]="{'width' : lightGreenWidth}"></div>
+                <div id="neutral" class="vote-line" [ngStyle]="{'width' : grayWidth}"></div>
+                <div id="against" class="vote-line" [ngStyle]="{'width' : lightRedWidth}"></div>
+                <div id="really-against" class="vote-line" [ngStyle]="{'width' : deepRedWidth}"></div>
+            </div>
+        </div>
+    </div>
+</a>

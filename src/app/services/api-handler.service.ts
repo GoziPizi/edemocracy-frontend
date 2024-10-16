@@ -18,6 +18,7 @@ import { VisitorService } from './visitor.service';
 import { Router } from '@angular/router';
 import { ReportType } from '../models/report';
 import { adminViewPersonalJackpot } from '../models/jackpot';
+import { MediaDebateThumbnail } from '../pages/accueil/accueil.component';
 
 @Injectable({
   providedIn: 'root',
@@ -88,6 +89,7 @@ export class ApiHandlerService {
       },
     });
   }
+
 
   parseJwt(token:string) {
     var base64Url = token.split('.')[1];
@@ -179,6 +181,25 @@ export class ApiHandlerService {
 
   changePassword(email: string, token: string, password: string) {
     return this.http.post(`${this.baseUrl}/api/login/change-password`, { email, token, password });
+  }
+
+  //Presentatio related methods
+
+  getMainPresentation() {
+    return this.http.get(`${this.baseUrl}/api/presentation/main-presentation`);
+  }
+
+  getFounder() {
+    return this.http.get(`${this.baseUrl}/api/presentation/founder`);
+  }
+
+  updateMainPresentation(presentation: string, founder: string) {
+    const token = localStorage.getItem('token');
+    return this.http.put(`${this.baseUrl}/api/presentation/`, { presentation, founder }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
   }
 
   //Users related methods
@@ -399,6 +420,16 @@ export class ApiHandlerService {
   }
 
   //Debate related methods
+
+  //returns the debates that are trending, with their associated media.
+  getTrendingDebatesThumbnails(page: number) {
+    const token = localStorage.getItem('token');
+    return this.http.get<MediaDebateThumbnail[]>(`${this.baseUrl}/api/debates/trending/${page}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
 
   getDebatesByTime() {
     const token = localStorage.getItem('token');
@@ -945,5 +976,11 @@ export class ApiHandlerService {
         Authorization: `${token}`,
       },
     });
+  }
+
+  //donation related methods
+
+  getDonationLink(email:string, amount: number, isRecurring: boolean) {
+    return this.http.post(`${this.baseUrl}/api/donation/get-checkout-session`, {email, amount, isRecurring});
   }
 }

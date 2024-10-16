@@ -1,0 +1,16 @@
+@import '../../../styles.scss';
+
+#page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+textarea {
+    resize:vertical;
+}
+
+.preserve-whitespace {
+    white-space: pre-line;
+}

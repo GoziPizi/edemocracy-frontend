@@ -7,10 +7,6 @@
         <app-home-topics></app-home-topics>
     </div>
     <div id="main-content">
-        <h2>Les dernières actualités</h2>
-        <div *ngFor="let topic of topics" class="topic-container">
-            <app-topic-thumbnail class="topic-component" [topic]="topic" *ngIf="topic" ></app-topic-thumbnail>
-            <div class="line"></div>
-        </div>
+        <app-debate-accueil-thumbnail class="thumbnail" #thumbnail *ngFor="let debate of debates" [debate]="debate"></app-debate-accueil-thumbnail>
     </div>
 </div>

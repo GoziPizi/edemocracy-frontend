@@ -24,7 +24,7 @@
                 <option [value]="'none'">Aucun</option>
             </select>
         </form>
-        <app-image-input *ngIf="mediaType==='image'" style="margin-top: 10px;" [ratio]="16/9" [text]="'Image du sujet'" ></app-image-input>
+        <app-image-input *ngIf="mediaType==='image'" style="margin-top: 10px;" [ratio]="16/9" [text]="'Image du sujet'" [tolerance]="1" ></app-image-input>
         <input type="text" *ngIf="mediaType==='video'" [(ngModel)]="videoUrl" id="videoUrl" name="videoUrl" placeholder="URL de la vidéo">
         <button class="validate-button" (click)="onSubmit()" [disabled]="!isSubmitable">Créer</button>
     </div>

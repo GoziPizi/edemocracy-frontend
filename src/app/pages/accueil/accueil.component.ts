@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChildren } from '@angular/core';
 import { HomeNewsComponent } from './home-news/home-news.component';
 import { HomeTopicsComponent } from './home-topics/home-topics.component';
 import { Topic } from '../../models/topics';
@@ -6,40 +6,63 @@ import { ApiHandlerService } from '../../services/api-handler.service';
 import { TopicThumbnailComponent } from '../../thumbnails/topic-thumbnail/topic-thumbnail.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LoadingService } from '../../services/loading.service';
 import { ToasterService } from '../../services/toaster.service';
 import { VisitorService } from '../../services/visitor.service';
+import { Debate } from '../../models/debate';
+import { DebateAccueilThumbnailComponent } from "./debate-accueil-thumbnail/debate-accueil-thumbnail.component";
+
+export class MediaDebateThumbnail extends Debate {
+  media: string = '';
+}
 
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [CommonModule, RouterModule, HomeNewsComponent, HomeTopicsComponent, TopicThumbnailComponent],
+  imports: [CommonModule, RouterModule, HomeNewsComponent, HomeTopicsComponent, TopicThumbnailComponent, DebateAccueilThumbnailComponent],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.scss'
 })
 export class AccueilComponent {
   
-  topics: Topic[] = [];
+  pageNumberLoaded: number = 0;
+  isLoading: boolean = false;
+
+  debates: MediaDebateThumbnail[] = [];
+  debatesToLoad: MediaDebateThumbnail[] = [];
+
+  @ViewChildren('row', { read: ElementRef }) rowElements!: AccueilComponent[];
 
   constructor(
     private apiHandler: ApiHandlerService,
-    private loadingService: LoadingService,
     private toastService: ToasterService,
     private visitorService: VisitorService
     ) {
   }
 
   ngOnInit() {
-    this.loadingService.increment();
-    this.apiHandler.getTopics().subscribe({
+    this.fetchNextPage();
+  }
+
+  fetchNextPage() {
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
+    this.apiHandler.getTrendingDebatesThumbnails(this.pageNumberLoaded + 1).subscribe({
       next: (response: any) => {
-        this.loadingService.decrement();
-        this.topics = response.slice(0, 10);
+        response.forEach((debate: any) => {
+          if(debate.media == null) {
+            debate.media = 'assets/default-debate.jpg';
+          }
+          this.debates.push(debate);
+        });
+
+        this.pageNumberLoaded++;
+        this.isLoading = false;
       },
-      error: (error: any) => {
-        this.loadingService.decrement();
-        this.toastService.error('Erreur lors de la récupération des topics');
-        console.error(error);
+      error: (error) => {
+        this.toastService.error('Erreur lors du chargement des débats');
+        this.isLoading = false;
       }
     });
   }

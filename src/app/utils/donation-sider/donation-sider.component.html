@@ -1,0 +1,65 @@
+<div id="content">
+    <i id="close-button" (click)="onClose()" class="fa-solid fa-xmark"></i>
+    <h4 style="margin: 0">Rejoignez-nous</h4>
+    <p style="margin:5px 0 0 0">
+        Vous croyez en une politique plus transparente et accessible à tous ?
+        Vous souhaitez vous impliquer dans un projet innovant et porteur de changement ?
+        Rejoignez l'aventure de Digital Démocracy : contribuez bénévolement à faire grandir
+        une plateforme citoyenne et militante, avec des opportunités futures de postes
+        rémunérés et un impact réel sur la politique de demain !
+    </p>
+    <p>Adresse mail</p>
+    <h4 style="margin: 5px 0 0 0">Soutenez-nous</h4>
+    <p style="margin: 5px 0 0 0">
+        Votre don nous aide à faire vivre la démocratie.
+    </p>
+    <div id="quick-donate">
+        <button 
+            class="validate-button"
+            [disabled]="!isEmailCorrect"
+            (click)="onQuickDonate(5)">
+            5€
+        </button>
+        <button 
+            class="validate-button"
+            [disabled]="!isEmailCorrect"
+            (click)="onQuickDonate(10)">
+            10€
+        </button>
+        <button 
+            class="validate-button"
+            [disabled]="!isEmailCorrect"
+            (click)="onQuickDonate(20)">
+            20€
+        </button>
+    </div>
+    <!--Recurring-->
+    <div style="display:flex; flex-direction:row; align-items:center; margin-top: 5px">
+        <input class="input" style="margin:0 5px 3px 0" type="checkbox" [(ngModel)]="isRecurring"/>
+        <p style="margin:0">Don mensuel</p>
+    </div>
+
+    <!--Input mail-->
+    <input style="margin-top:5px"type="email" placeholder="Votre email (optionnel)" [(ngModel)]="email" class="input"/>
+
+    <!-- Custom selection-->
+    <div style="display:flex; flex-direction:row; align-items:center; margin-top: 5px">
+        <input style="margin:0 5px 3px 0" type="checkbox" [(ngModel)]="customAmount"/>
+        <p style="margin:0">Somme personnalisée</p>
+    </div>
+
+    <!--Input amount-->
+    <div *ngIf="customAmount" id="custom-amount">
+        <input 
+            type="number" 
+            placeholder="Montant de votre don" 
+            [(ngModel)]="amount" 
+            class="input">
+
+        <button 
+        id="donate-button"
+        class="validate-button"
+        [disabled]="!isEmailCorrect || !isAmountValid"
+        (click)="onDonate()">Donner</button>
+    </div>
+</div>

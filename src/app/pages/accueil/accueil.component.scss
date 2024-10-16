@@ -43,28 +43,12 @@
     width: 90%;
     padding: 20px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction:row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: stretch;
 }
 
-.topic {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 80%;
-}
-
-.topic-container {
-    width : 100%;
-}
-
-.topic-component {
-    display: block;
-    width: 80%;
-}
-
-.line {
-    margin: 10px 0;
-    width: 80%;
-    height: 1px;
-    background-color: darken(white, 15%);
+.thumbnail {
+    margin:5px;
 }

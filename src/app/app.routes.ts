@@ -11,6 +11,7 @@ export const routes: Routes = [
     { path: 'change-password', loadComponent: () => import('./pages/change-password/change-password.component').then(m => m.ChangePasswordComponent) },
 
     { path: 'accueil', loadComponent: () => import('./pages/accueil/accueil.component').then(m => m.AccueilComponent) },
+    { path: 'presentation', loadComponent: () => import('./pages/presentation/presentation.component').then(m => m.PresentationComponent) },
 
     { path: 'personalites', loadComponent: () => import('./pages/personality-search/personality-search.component').then(m => m.PersonalitySearchComponent) },
     { path: 'personalites/:id', loadComponent: () => import('./pages/personality/personality.component').then(m => m.PersonalityComponent) },
@@ -36,6 +37,8 @@ export const routes: Routes = [
     { path: 'modify-topic/:id', loadComponent: () => import('./pages/topic/modify-topic/modify-topic.component').then(m => m.ModifyTopicComponent) },
 
     { path: 'profil', loadComponent: () => import('./pages/profil/profil.component').then(m => m.ProfilComponent) },
+
+    { path: 'donation-thanks', loadComponent: () => import('./pages/donation-thanks/donation-thanks.component').then(m => m.DonationThanksComponent) },
 
     { path: 'admin', loadComponent: () => import('./pages/admin/admin.component').then(m => m.AdminComponent)},
     { path: 'admin/sponsorship-dashboard', loadComponent: () => import('./pages/admin/sponsorship-dashboard/sponsorship-dashboard.component').then(m => m.SponsorshipDashboardComponent) },

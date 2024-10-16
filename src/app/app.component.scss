@@ -9,3 +9,12 @@
     display: flex;
     flex-direction: column;
 }
+
+#donation-sider {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+
+    width: 20vw;
+}

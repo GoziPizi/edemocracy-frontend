@@ -1,0 +1,17 @@
+<div id="page">
+    <h1>Qui sommes-nous ?</h1>
+    <img src="../../../assets/logo-horizontal.png" style="width:70%">
+    <p *ngIf="!isEditing" style="width:50%" class="preserve-whitespace">{{presentation}}</p>
+    <textarea class="input" style="width:50%; min-height: 200px" *ngIf="isEditing" [(ngModel)]="presentation"></textarea>
+    <h1>Fondateur</h1>
+    <div style="width:50%; display:flex; flex-direction:row" >
+        <div style="width:30%; display:flex; flex-direction:column; align-items:center">
+            <img src="../../../assets/montigny.jpg" style="width:100%; border-radius: 10px">
+            <h3>Christophe Montigny</h3>
+        </div>
+        <p *ngIf="!isEditing" style="width:70%; padding-left: 20px" class="preserve-whitespace">{{fondateur}}</p>
+        <textarea class="input" *ngIf="isEditing" [(ngModel)]="fondateur"></textarea>
+    </div>
+    <button class="validate-button" style="position:absolute; top:80px; right:10px" *ngIf="isAdmin && !isEditing" (click)="setEditingMode()" >Modifier</button>
+    <button class="validate-button" style="position:absolute; top:80px; right:10px" *ngIf="isAdmin && isEditing"(click)="onValidate()" >Valider</button>
+</div>

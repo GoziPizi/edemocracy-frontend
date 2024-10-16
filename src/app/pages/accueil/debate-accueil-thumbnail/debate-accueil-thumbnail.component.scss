@@ -1,0 +1,89 @@
+@import '../../../../styles.scss';
+
+a {
+    text-decoration: none;
+}
+
+#thumbnail {
+    color:black;
+    background-color: darken(white, 10%);
+    border-radius: 10px;
+    width:min-content;
+    overflow: hidden;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: darken(white, 20%);
+        transform: scale(1.02);
+    }
+}
+
+#title {
+    word-break:break-word;
+    display: -webkit-box;        /* Utilisé pour le multi-ligne */
+    -webkit-line-clamp: 2;       /* Limite à 2 lignes */
+    line-clamp: 2;               /* Standard property for compatibility */
+    -webkit-box-orient: vertical;
+    overflow: hidden;            /* Cache le texte qui dépasse */
+    text-overflow: ellipsis;     /* Affiche des ellipses (...) */
+    margin:0 0 0 5px;
+}
+
+#content {
+    word-break:break-word;
+    display: -webkit-box;        /* Utilisé pour le multi-ligne */
+    -webkit-line-clamp: 2;       /* Limite à 2 lignes */
+    line-clamp: 2;               /* Standard property for compatibility */
+    -webkit-box-orient: vertical;
+    overflow: hidden;            /* Cache le texte qui dépasse */
+    text-overflow: ellipsis;     /* Affiche des ellipses (...) */
+    margin: 0 5px;
+}
+
+#debate-media {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px
+}
+
+#bottom-container {
+    margin-top: auto;
+}
+
+#nb-votants {
+    margin: auto 0 5px 5px;
+    font-size:small;
+    color:#404040
+}
+
+#color-bar {
+    width:100%;
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+}
+
+#really-for {
+    background-color: $hope-green
+}
+
+#for {
+    background-color: transparentize($color: $hope-green, $amount: 0.4)
+}
+
+#really-against {
+    background-color: $debate-red
+}
+
+#against {
+    background-color: transparentize($color: $debate-red, $amount: 0.4)
+}
+
+#neutral {
+    background-color: gray;
+}
