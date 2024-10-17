@@ -10,3 +10,9 @@
         <app-debate-accueil-thumbnail class="thumbnail" #thumbnail *ngFor="let debate of debates" [debate]="debate"></app-debate-accueil-thumbnail>
     </div>
 </div>
+<div id="loading" *ngIf="isLoading">
+    <div class="spinner"></div>
+</div>
+<div id="end" *ngIf="hasReachedEnd">
+    <p style="text-align:center" >Il n'y a plus de débats à charger.</p>
+</div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChildren } from '@angular/core';
 import { HomeNewsComponent } from './home-news/home-news.component';
 import { HomeTopicsComponent } from './home-topics/home-topics.component';
 import { Topic } from '../../models/topics';
@@ -26,11 +26,10 @@ export class AccueilComponent {
   
   pageNumberLoaded: number = 0;
   isLoading: boolean = false;
+  hasReachedEnd: boolean = false;
 
   debates: MediaDebateThumbnail[] = [];
   debatesToLoad: MediaDebateThumbnail[] = [];
-
-  @ViewChildren('row', { read: ElementRef }) rowElements!: AccueilComponent[];
 
   constructor(
     private apiHandler: ApiHandlerService,
@@ -43,13 +42,30 @@ export class AccueilComponent {
     this.fetchNextPage();
   }
 
+  @HostListener ('window:scroll', [])
+  onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+      // L'utilisateur a presque atteint le bas de la page
+      this.fetchNextPage();
+    }
+  }
+
   fetchNextPage() {
     if (this.isLoading) {
       return;
     }
+    if (this.hasReachedEnd) {
+      return;
+    }
     this.isLoading = true;
+
     this.apiHandler.getTrendingDebatesThumbnails(this.pageNumberLoaded + 1).subscribe({
       next: (response: any) => {
+        if (response.length == 0) {
+          this.hasReachedEnd = true;
+          this.isLoading = false;
+          return;
+        }
         response.forEach((debate: any) => {
           if(debate.media == null) {
             debate.media = 'assets/default-debate.jpg';

@@ -52,3 +52,31 @@
 .thumbnail {
     margin:5px;
 }
+
+#loading {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    border: 8px solid rgba(255, 255, 255, 0.3);   /* Couleur grise claire du cercle */
+    border-radius: 50%;                           /* Cercle parfait */
+    border-top: 8px solid #000;                   /* Couleur du secteur supérieur du cercle */
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;           /* Animation pour faire tourner le spinner */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#end {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
