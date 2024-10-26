@@ -1,5 +1,10 @@
 @import '../../../colors.scss';
 
+:host {
+    background-attachment: fixed;
+    background-size: cover;
+}
+
 #container {
     position: relative;
     display: flex;
@@ -32,16 +37,22 @@
 #left-container {
     width: 10%;
     min-width: 300px;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
 
-    border-right: darken(white, 15%) solid 1px;
 }
 
 #main-content {
     width: 90%;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#thumbnail-container {
     display: flex;
     flex-direction:row;
     justify-content: space-between;

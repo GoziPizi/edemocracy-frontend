@@ -980,7 +980,8 @@ export class ApiHandlerService {
 
   //donation related methods
 
-  getDonationLink(email:string, amount: number, isRecurring: boolean) {
-    return this.http.post(`${this.baseUrl}/api/donation/get-checkout-session`, {email, amount, isRecurring});
+  getDonationLink(email:string, amount: number, interval: string | null) {
+    console.log(interval)
+    return this.http.post(`${this.baseUrl}/api/donation/get-checkout-session`, {email, amount, interval});
   }
 }

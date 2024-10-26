@@ -16,5 +16,8 @@
     transform: translateY(-50%);
     right: 20px;
 
-    width: 20vw;
+    max-height: 80vh;
+    width: min-content;
+
+    overflow-y: auto;
 }

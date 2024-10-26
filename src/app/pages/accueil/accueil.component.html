@@ -7,7 +7,10 @@
         <app-home-topics></app-home-topics>
     </div>
     <div id="main-content">
-        <app-debate-accueil-thumbnail class="thumbnail" #thumbnail *ngFor="let debate of debates" [debate]="debate"></app-debate-accueil-thumbnail>
+        <img src="assets/logo-horizontal.png" style="width:60%">
+        <div id="thumbnail-container">
+            <app-debate-accueil-thumbnail class="thumbnail" #thumbnail *ngFor="let debate of debates" [debate]="debate"></app-debate-accueil-thumbnail>
+        </div>
     </div>
 </div>
 <div id="loading" *ngIf="isLoading">

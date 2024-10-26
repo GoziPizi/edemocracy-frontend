@@ -6,7 +6,6 @@ a {
 
 #thumbnail {
     color:black;
-    background-color: darken(white, 10%);
     border-radius: 10px;
     width:min-content;
     overflow: hidden;
@@ -16,8 +15,7 @@ a {
     transition: all 0.2s ease-in-out;
 
     &:hover {
-        background-color: darken(white, 20%);
-        transform: scale(1.02);
+        background-color: white;
     }
 }
 
@@ -29,7 +27,9 @@ a {
     -webkit-box-orient: vertical;
     overflow: hidden;            /* Cache le texte qui dépasse */
     text-overflow: ellipsis;     /* Affiche des ellipses (...) */
-    margin:0 0 0 5px;
+    margin:10px 0 0 10px;
+    font-size: large;
+    font-weight: 600;
 }
 
 #content {
@@ -40,7 +40,7 @@ a {
     -webkit-box-orient: vertical;
     overflow: hidden;            /* Cache le texte qui dépasse */
     text-overflow: ellipsis;     /* Affiche des ellipses (...) */
-    margin: 0 5px;
+    margin: 10px 5px;
 }
 
 #debate-media {

@@ -60,14 +60,11 @@ export class PresentationComponent {
   }
 
   fetchUserProfil(){
-    this.loadingService.increment();
     this.apiHandlerService.getUser()!.subscribe({
       next: (data: User) => {
         this.userProfil = data;
-        this.loadingService.decrement();
       },
       error: (error) => {
-        this.loadingService.decrement();
       }
     });
   }

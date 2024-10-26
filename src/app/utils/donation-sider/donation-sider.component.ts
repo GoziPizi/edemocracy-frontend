@@ -18,7 +18,9 @@ export class DonationSiderComponent {
 
   customAmount: boolean = false;
   amount: number = 10;
-  isRecurring: boolean = false;
+  isPonctual: boolean = false;
+  isMonthly: boolean = true;
+  isYearly: boolean = false;
 
   constructor(
     private apiHandler: ApiHandlerService,
@@ -32,7 +34,8 @@ export class DonationSiderComponent {
 
   onQuickDonate(amount: number) {
     this.loadingService.increment();
-    this.apiHandler.getDonationLink(this.email, amount, this.isRecurring).subscribe({
+    const interval = this.isMonthly ? 'month' : this.isYearly ? 'year' : null;
+    this.apiHandler.getDonationLink(this.email, amount, interval).subscribe({
       next: (response: any) => {
         this.loadingService.decrement();
         window.location.href = response.url;
@@ -46,7 +49,8 @@ export class DonationSiderComponent {
 
   onDonate() {
     this.loadingService.increment();
-    this.apiHandler.getDonationLink(this.email, this.amount, this.isRecurring).subscribe({
+    const interval = this.isMonthly ? 'month' : this.isYearly ? 'year' : null;
+    this.apiHandler.getDonationLink(this.email, this.amount, interval).subscribe({
       next: (response: any) => {
         this.loadingService.decrement();
         window.location.href = response.url;
@@ -56,6 +60,24 @@ export class DonationSiderComponent {
         console.error(error);
       }
     });
+  }
+
+  onPonctual() {
+    this.isPonctual = true;
+    this.isMonthly = false;
+    this.isYearly = false;
+  }
+
+  onMonthly() {
+    this.isPonctual = false;
+    this.isMonthly = true;
+    this.isYearly = false;
+  }
+
+  onYearly() {
+    this.isPonctual = false;
+    this.isMonthly = false;
+    this.isYearly = true;
   }
 
   get isEmailValid() {
