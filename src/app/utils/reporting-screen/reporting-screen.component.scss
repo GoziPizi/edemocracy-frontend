@@ -1,0 +1,41 @@
+@import '../../../styles.scss';
+
+#report-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(128, 128, 128, 0.5); /* couleur grise semi-transparente */
+    display: flex;
+    justify-content: center; /* Centrage horizontal */
+    align-items: center;     /* Centrage vertical */
+    z-index: 1000;           /* S'assurer qu'il est au-dessus de tout le reste */
+}
+
+#report {
+    position: fixed;
+    width: 30vw;
+    height: 70vh;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%,-50%);
+
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#description-input {
+    margin-top: 10px;
+    resize: none;
+    width: auto
+}
+
+#submit-button {
+    margin-top: 10px;
+    width: 100%;
+}

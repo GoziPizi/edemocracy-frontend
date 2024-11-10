@@ -951,9 +951,9 @@ export class ApiHandlerService {
     });
   }
 
-  report(entityId: string, entityType: ReportType){
+  report(data:any){
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/moderation/report`, {entityId, entityType}, {
+    return this.http.post(`${this.baseUrl}/api/moderation/report`, data, {
       headers: {
         Authorization: `${token}`,
       },
@@ -981,7 +981,6 @@ export class ApiHandlerService {
   //donation related methods
 
   getDonationLink(email:string, amount: number, interval: string | null) {
-    console.log(interval)
     return this.http.post(`${this.baseUrl}/api/donation/get-checkout-session`, {email, amount, interval});
   }
 }

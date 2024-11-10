@@ -8,11 +8,12 @@ import { LoadingScreenComponent } from './utils/loading-screen/loading-screen.co
 import { ToasterComponent } from './utils/toaster/toaster.component';
 import { DonationSiderComponent } from "./utils/donation-sider/donation-sider.component";
 import { DonationSiderService } from './services/donation-sider.service';
+import { ReportingScreenComponent } from "./utils/reporting-screen/reporting-screen.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent, LoadingScreenComponent, ToasterComponent, DonationSiderComponent],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent, LoadingScreenComponent, ToasterComponent, DonationSiderComponent, ReportingScreenComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

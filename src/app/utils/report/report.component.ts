@@ -4,6 +4,7 @@ import { ToasterService } from '../../services/toaster.service';
 import { VisitorService } from '../../services/visitor.service';
 import { CommonModule } from '@angular/common';
 import { ReportType } from '../../models/report';
+import { ReportingService } from '../../services/reporting.service';
 
 @Component({
   selector: 'app-report',
@@ -19,17 +20,14 @@ export class ReportComponent {
   @Input() size: string = 'large';
 
   constructor(
-    private apiService: ApiHandlerService,
     private toaster: ToasterService,
-    private visitorService: VisitorService
+    private visitorService: VisitorService,
+    private reportingService: ReportingService
   ) { }
 
   report(event: any) {
     event.stopPropagation();
-    this.apiService.report(this.id, this.type).subscribe({
-      next: () => this.toaster.success('Signalement résussi'),
-      error: () => this.toaster.error('Erreur lors du signalement')
-    });
+    this.reportingService.openReport(this.id, this.type)
   }
 
   get isVisitor(): boolean {

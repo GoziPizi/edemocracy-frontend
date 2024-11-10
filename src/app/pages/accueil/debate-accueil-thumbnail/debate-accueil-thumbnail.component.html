@@ -1,7 +1,7 @@
 <a [routerLink]="['/debate', debate.id]" >
     <div id="thumbnail" >
-        <!--Handle video case-->
-        <img id="debate-media" [src]="debate.media" alt="debate image" style="height: 250px;">
+        <img *ngIf="!isVideo" id="debate-media" [src]="imageUrl" alt="debate image" style="height: 250px;">
+        <youtube-player *ngIf="isVideo" id="debate-media" [videoId]="videoId" [height]="250" ></youtube-player>
         <p id="title" >{{debate.title}}</p>
         <p id="content">{{debate.content}}</p>
         <div id="bottom-container">

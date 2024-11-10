@@ -1,0 +1,12 @@
+<div id="report-overlay" *ngIf="reportingService.reportingOpen">
+    <div id="report">
+        <h2 style="margin-top: 0">Signaler un contenu</h2>
+        <p>Selectionnez une raison pour votre signalement:</p>
+        <label *ngFor="let option of options">
+            <input type="radio" name="reason" [(ngModel)]="reason" [value]="option">{{option}}
+        </label>
+        <p style="margin-top: auto; margin-bottom: 0" >Donnez-nous une description detaillée:</p>
+        <textarea class="input" id="description-input" rows="10" [(ngModel)]="description"></textarea>
+        <button class="validate-button" id="submit-button" (click)="sendReport()">Envoyer</button>
+    </div>
+</div>
