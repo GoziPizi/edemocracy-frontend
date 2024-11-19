@@ -4,13 +4,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BanWord } from '../../models/banword';
 import { User } from '../../models/users';
-import { ReportsComponent } from './reports/reports.component';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReportsComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
@@ -39,6 +38,10 @@ export class AdminComponent {
 
   navigateToSponsorship() {
     this.router.navigate(['admin/sponsorship-dashboard']);
+  }
+
+  navigateToModeration() {
+    this.router.navigate(['admin/moderation-dashboard']);
   }
 
   fetchBanWords() {

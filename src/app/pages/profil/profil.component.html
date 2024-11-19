@@ -4,6 +4,7 @@
         <h3>Vous êtes administrateur</h3>
         <a [routerLink]="['/admin']">Accéder à l'administration</a>
     </div>
+    <!--TODO Faire un lien pour les modos-->
     <div id="settings" class="open-menu">
         <div class="open-menu-header">
             <h3>Paramètres</h3>
@@ -80,5 +81,13 @@
             <i class="fas fa-chevron-up" *ngIf="personals" (click)="togglePersonals()"></i>
         </div>
         <app-profil-personals *ngIf="personals"></app-profil-personals>
+    </div>
+    <div id="signalements">
+        <div class="open-menu-header">
+            <h3>Signalements</h3>
+            <i class="fas fa-chevron-down" *ngIf="!signalements" (click)="toggleSignalements()"></i>
+            <i class="fas fa-chevron-up" *ngIf="signalements" (click)="toggleSignalements()"></i>
+        </div>
+        <app-signalements *ngIf="signalements"></app-signalements>
     </div>
 </div>

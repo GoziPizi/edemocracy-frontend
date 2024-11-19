@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { PartySearchCriteria, PersonalitySearchCriteria } from '../models/criterias';
 import { TopicSearchItem } from '../models/topics';
 import { Debate } from '../models/debate';
@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { ReportType } from '../models/report';
 import { adminViewPersonalJackpot } from '../models/jackpot';
 import { MediaDebateThumbnail } from '../pages/accueil/accueil.component';
+import { personalReport, report } from '../models/moderation/reports';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,14 @@ export class ApiHandlerService {
   private baseUrl: string;
 
   isLogged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  user : User | null = null;
+
+  get role() {
+    if (!this.user) {
+      return null;
+    }
+    return this.user.role;
+  }
 
   constructor(
     private http: HttpClient,
@@ -214,7 +223,11 @@ export class ApiHandlerService {
       headers: {
         Authorization: `${token}`,
       },
-    });
+    }).pipe(
+      tap((response: User) => {
+        this.user = response;
+      })
+    );
   }
 
   getUserById(id: string) {
@@ -942,9 +955,27 @@ export class ApiHandlerService {
 
   //Moderation related methods
 
-  getReports() {
+  getRecentReports() {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.baseUrl}/api/moderation/reports`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getModeration2Reports() {
+    const token = localStorage.getItem('token');
+    return this.http.get<report[]>(`${this.baseUrl}/api/moderation/moderation-2-reports`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getReportDetails(reportId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/moderation/reports/${reportId}`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -972,6 +1003,26 @@ export class ApiHandlerService {
   deleteEntity(reportId: string) {
     const token = localStorage.getItem('token');
     return this.http.delete(`${this.baseUrl}/api/moderation/reports/${reportId}/delete-entity`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  postSanction(reportId: string, sanctionType: string, reason: string, sanctionDuration?: number) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/moderation/sanction`, { reportId, sanctionType, sanctionDuration, reason }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  //as a user
+
+  getPersonalReports() {
+    const token = localStorage.getItem('token');
+    return this.http.get<personalReport[]>(`${this.baseUrl}/api/moderation/personal-reports`, {
       headers: {
         Authorization: `${token}`,
       },

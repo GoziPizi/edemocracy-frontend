@@ -1,4 +1,7 @@
-<button class="validate-button" style="margin-top:20px" (click)="navigateToSponsorship()" >Accéder au dashboard cotisant</button>
+<div id="admin-header">
+    <button class="validate-button header-button" (click)="navigateToSponsorship()" >Accéder au dashboard cotisant</button>
+    <button class="validate-button header-button"  (click)="navigateToModeration()" >Accéder à la modération</button>
+</div>
 <div id="container">
     <div id="ban-words">
         <h2>Liste des mots bannis</h2>
@@ -32,4 +35,3 @@
         <button (click)="rejectVerificationRequest(request.id)">Refuser</button>
     </div>
 </div>
-<app-reports></app-reports>

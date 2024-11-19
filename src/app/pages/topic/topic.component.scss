@@ -1,5 +1,9 @@
 @import "../../../styles.scss";
 
+.preserve-whitespace {
+    white-space: pre-line;
+}
+
 #container {
     padding: 20px;
     position: relative;

@@ -3,6 +3,16 @@
     flex-direction: row;
 }
 
+#admin-header {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.header-button {
+    margin-left: 10px;
+}
+
 #container > div {
     width: 50%;
     padding: 10px;

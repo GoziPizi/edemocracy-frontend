@@ -1,0 +1,9 @@
+<div id="moderation-header">
+    <button class="validate-button header-button" (click)="navigateToAdmin()" >Retourner à l'accueil admin</button>
+    <button *ngIf="role === 'ADMIN' || role === 'MODERATOR2'" class="validate-button header-button" (click)="navigateToModeration2Panel()">Accéder à la modération niveau 2</button>
+    <button *ngIf="role === 'ADMIN'" class="validate-button header-button" (click)="navigateToModeratorStaff()">Gérer les modérateurs</button>
+</div>
+<h1 style="margin-left: 10px">Signalements récents</h1>
+<div id="reports-container">
+    <app-single-report-overview *ngFor="let report of reports" [report]="report" class="single-report"></app-single-report-overview>
+</div>

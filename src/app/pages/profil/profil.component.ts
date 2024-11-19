@@ -14,11 +14,12 @@ import { ProfilSettingsComponent } from './profil-settings/profil-settings.compo
 import { VisitorService } from '../../services/visitor.service';
 import { FollowsComponent } from './follows/follows.component';
 import { CotisationComponentComponent } from './cotisation-component/cotisation-component.component';
+import { SignalementsComponent } from "./signalements/signalements.component";
 
 @Component({
   selector: 'app-profil',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProfilOpinionsComponent, ProfilPersonalsComponent, FormsModule, ProfilSettingsComponent, FollowsComponent, CotisationComponentComponent],
+  imports: [CommonModule, RouterModule, ProfilOpinionsComponent, ProfilPersonalsComponent, FormsModule, ProfilSettingsComponent, FollowsComponent, CotisationComponentComponent, SignalementsComponent],
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss'
 })
@@ -39,6 +40,7 @@ export class ProfilComponent {
   partis: boolean = false;
   personality: boolean = false;
   followsOpen: boolean = false;
+  signalements: boolean = false;
 
   constructor(
     private apiHandler: ApiHandlerService,
@@ -160,6 +162,10 @@ export class ProfilComponent {
 
   toggleFollows() {
     this.followsOpen = !this.followsOpen;
+  }
+
+  toggleSignalements() {
+    this.signalements = !this.signalements;
   }
 
   get contributionStatus(): MembershipStatus {

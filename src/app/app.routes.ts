@@ -42,6 +42,10 @@ export const routes: Routes = [
 
     { path: 'admin', loadComponent: () => import('./pages/admin/admin.component').then(m => m.AdminComponent)},
     { path: 'admin/sponsorship-dashboard', loadComponent: () => import('./pages/admin/sponsorship-dashboard/sponsorship-dashboard.component').then(m => m.SponsorshipDashboardComponent) },
+    { path: 'admin/moderation-dashboard', loadComponent: () => import('./pages/admin/moderation/moderation-dashboard/moderation-dashboard.component').then(m => m.ModerationDashboardComponent) },
+    { path: 'admin/moderation-dashboard/reports/:id', loadComponent: () => import('./pages/admin/report/report.component').then(m => m.ReportComponent) },
+    { path: 'admin/moderation2-panel', loadComponent: () => import('./pages/admin/moderation2-panel/moderation2-panel.component').then(m => m.Moderation2PanelComponent) },
+    { path: 'admin/moderation/staff', loadComponent: () => import('./pages/admin/moderation-staff/moderation-staff.component').then(m => m.ModerationStaffComponent) },
 
     //legal-notice
     { path: 'legal-notice', loadComponent: () => import('./pages/legal-notice/legal-notice/legal-notice.component').then(m => m.LegalNoticeComponent) },

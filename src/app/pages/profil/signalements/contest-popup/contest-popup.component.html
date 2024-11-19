@@ -1,0 +1,8 @@
+<div id="popup">
+    <div id="content">
+        <button id="close" (click)="closePopup()"><i class="fa-solid fa-xmark"></i></button>
+        <h2>Contester le signalement</h2>
+        <textarea [(ngModel)]="contestReason" placeholder="Raison de la contestation"></textarea>
+        <button class="validate-button" (click)="sendContest()">Envoyer</button>
+    </div>
+</div>

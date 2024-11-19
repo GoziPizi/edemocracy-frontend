@@ -1,0 +1,11 @@
+<h1>Modération de niveau 2</h1>
+<div id="moderation-header">
+    <button class="validate-button header-button" >Retourner à l'accueil modération</button>
+    <button class="validate-button header-button" >Voir l'historique des actions</button>
+</div>
+
+
+<h2>Liste des signalements de niveaux 2</h2>
+<div id="reports-container">
+    <app-single-report-overview *ngFor="let report of reports" [report]="report" class="single-report"></app-single-report-overview>
+</div>
