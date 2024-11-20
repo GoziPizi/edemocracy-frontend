@@ -18,7 +18,7 @@ export class ContestPopupComponent {
   }
 
   sendContest() {
-    console.log(this.contestReason);
+    //TODO envoyer la contestation
     this.closePopup();
   }
 

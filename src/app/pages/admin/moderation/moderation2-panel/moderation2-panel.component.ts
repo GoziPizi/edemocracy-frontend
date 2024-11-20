@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { report } from '../../../models/moderation/reports';
-import { ApiHandlerService } from '../../../services/api-handler.service';
-import { ToasterService } from '../../../services/toaster.service';
+import { report } from '../../../../models/moderation/reports';
+import { ApiHandlerService } from '../../../../services/api-handler.service';
+import { ToasterService } from '../../../../services/toaster.service';
 import { SingleReportOverviewComponent } from '../single-report-overview/single-report-overview.component';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-moderation2-panel',
@@ -18,7 +19,8 @@ export class Moderation2PanelComponent {
 
   constructor(
     private apiHandler: ApiHandlerService,
-    private toastr: ToasterService
+    private toastr: ToasterService,
+    private router: Router
   ) {
 
   }
@@ -31,7 +33,6 @@ export class Moderation2PanelComponent {
     this.apiHandler.getModeration2Reports().subscribe({
       next: (reports: report[]) => {
         this.reports = reports
-        console.log(reports)
       },
       error: (error: any) => {
         this.toastr.error('Impossible de récupérer les signalements de niveau 2')
@@ -40,8 +41,12 @@ export class Moderation2PanelComponent {
     })
   }
 
+  navigateToModeration() {
+    this.router.navigate(['admin', 'moderation'])
+  }
+
   navigateToHistory() {
-    //TODO implement
+    this.router.navigate(['admin', 'moderation', 'history'])
   }
 
 }

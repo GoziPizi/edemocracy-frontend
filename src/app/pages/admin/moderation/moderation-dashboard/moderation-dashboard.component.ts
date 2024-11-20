@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { report } from '../../../../models/moderation/reports';
 import { ApiHandlerService } from '../../../../services/api-handler.service';
 import { CommonModule } from '@angular/common';
-import { SingleReportOverviewComponent } from '../../single-report-overview/single-report-overview.component';
+import { SingleReportOverviewComponent } from '../single-report-overview/single-report-overview.component';
 
 @Component({
   selector: 'app-moderation-dashboard',
@@ -30,7 +30,7 @@ export class ModerationDashboardComponent {
   }
 
   navigateToModeration2Panel() {
-    this.router.navigate(['admin/moderation2-panel']);
+    this.router.navigate(['admin', 'moderation', 'moderation2']);
   }
 
   navigateToModeratorStaff() {

@@ -1,8 +1,6 @@
 <div *ngFor = "let report of signalements">
-    <p>Signalement numéro {{report.report.id}}</p>
-    <p>Sanction: {{report.sanction.type}}</p>
-    <p *ngIf="report.sanction.duration">Durée {{report.sanction.duration}} </p>
-    <p>Raison: {{report.sanction.reason}}</p>
+    <app-single-personal-report [report]="report"></app-single-personal-report>
     <button class="validate-button" (click)="contest(report.sanction.id)">Contester</button>
-    <app-contest-popup *ngIf="contestPopup" (closePopupEmitter)="closePopup()"></app-contest-popup>
+    <div class="line"></div>
 </div>
+<app-contest-popup *ngIf="contestPopup" (closePopupEmitter)="handlePopUpClose()"></app-contest-popup>

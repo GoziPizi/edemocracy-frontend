@@ -3,11 +3,12 @@ import { personalReport } from '../../../models/moderation/reports';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { CommonModule } from '@angular/common';
 import { ContestPopupComponent } from "./contest-popup/contest-popup.component";
+import { SinglePersonalReportComponent } from "./single-personal-report/single-personal-report.component";
 
 @Component({
   selector: 'app-signalements',
   standalone: true,
-  imports: [CommonModule, ContestPopupComponent],
+  imports: [CommonModule, ContestPopupComponent, SinglePersonalReportComponent],
   templateUrl: './signalements.component.html',
   styleUrl: './signalements.component.scss'
 })
@@ -30,7 +31,6 @@ export class SignalementsComponent {
     this.apiHandler.getPersonalReports().subscribe({
       next: (reports:personalReport[]) => {
         this.signalements = reports;
-        console.log(reports);
       },
       error: (error:any) => {
         console.error(error);
@@ -39,12 +39,16 @@ export class SignalementsComponent {
   }
 
   contest(sanctionId: string) {
-    //TODO
+    //TODO : passer l'id
     this.contestPopup = true;
   }
 
+  handlePopUpClose() {
+    this.closePopup();
+    this.fetchSignalements();
+  }
+
   closePopup() {
-    //TODO
     this.contestPopup = false;
   }
 

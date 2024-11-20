@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { report } from '../../../models/moderation/reports';
+import { report } from '../../../../models/moderation/reports';
 import { Router } from '@angular/router';
 
 @Component({
@@ -42,7 +42,7 @@ export class SingleReportOverviewComponent {
   }
 
   goToDetails()  {
-    this.router.navigate(['admin', 'moderation-dashboard', 'reports', this.report.id]);
+    this.router.navigate(['admin', 'moderation', 'reports', this.report.id]);
   }
 
 }

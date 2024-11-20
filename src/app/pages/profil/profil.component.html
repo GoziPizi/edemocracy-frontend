@@ -4,7 +4,10 @@
         <h3>Vous êtes administrateur</h3>
         <a [routerLink]="['/admin']">Accéder à l'administration</a>
     </div>
-    <!--TODO Faire un lien pour les modos-->
+    <div id="admin-content" *ngIf="userProfil.role === 'MODERATOR1' || userProfil.role ==='MODERATOR2'">
+        <h3>Vous êtes modérateur</h3>
+        <a [routerLink]="['admin', 'moderation']">Accéder à la modération</a>
+    </div>
     <div id="settings" class="open-menu">
         <div class="open-menu-header">
             <h3>Paramètres</h3>

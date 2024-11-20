@@ -1,0 +1,24 @@
+
+<div id="moderation-header">
+    <button class="validate-button header-button" (click)="navigateToReports()" >Retourner aux signalements</button>
+</div>
+<h1>Détails du signalement</h1>
+<div id="entity-content">
+    <h2>{{entityType}}</h2>
+    <p>{{entityContent}}</p>
+</div>
+<div id="action-toolbar">
+    <button class="validate-button action-button" (click)="navigateToEntityPage()" [disabled]="!entity">Voir la page</button>
+    <button class="validate-button action-button" (click)="deleteEntity()">Supprimer le contenu</button>
+    <button class="validate-button action-button" (click)="warnUser()">Avertir l'utilisateur</button>
+    <button class="validate-button action-button" (click)="escalateToModeration2()" [disabled]="report?.isModeration2Required" >Envoyer à la modération niveau 2</button>
+    <button class="validate-button action-button" (click)="banUser()">Bloquer l'utilisateur</button>
+    <button class="validate-button action-button" (click)="ignoreReport()">Ignorer</button>    
+</div>
+<div id="events">
+    <div *ngFor="let event of reportEvents" class="single-event">
+        <h2>{{getEventType(event)}}</h2>
+        <p>{{event.createdAt}}</p>
+        <p>{{event.reason}}</p>
+    </div>
+</div>

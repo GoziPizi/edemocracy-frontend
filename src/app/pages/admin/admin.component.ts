@@ -41,7 +41,7 @@ export class AdminComponent {
   }
 
   navigateToModeration() {
-    this.router.navigate(['admin/moderation-dashboard']);
+    this.router.navigate(['admin/moderation']);
   }
 
   fetchBanWords() {

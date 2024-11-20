@@ -3,6 +3,9 @@ export type report = {
     entityId: string;
     entityType: string;
     userId: string;
+    isModerated: boolean;
+    isModeration2Required: boolean;
+    isModerated2: boolean;
     createdAt: string;
     updatedAt: string;
 }

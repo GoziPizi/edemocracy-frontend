@@ -1000,6 +1000,15 @@ export class ApiHandlerService {
     });
   }
 
+  getReportEntity(reportId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/moderation/reports/${reportId}/entity`, {
+      headers: {
+        Authorization: `${token}`,
+      }
+    });
+  }
+
   deleteEntity(reportId: string) {
     const token = localStorage.getItem('token');
     return this.http.delete(`${this.baseUrl}/api/moderation/reports/${reportId}/delete-entity`, {
@@ -1009,9 +1018,38 @@ export class ApiHandlerService {
     });
   }
 
+  escalateToModeration2(reportId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/moderation/reports/${reportId}/escalate-to-moderation-2`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   postSanction(reportId: string, sanctionType: string, reason: string, sanctionDuration?: number) {
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/moderation/sanction`, { reportId, sanctionType, sanctionDuration, reason }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  //moderation staff
+
+  getModerators() {
+    const token = localStorage.getItem('token');
+    return this.http.get<User[]>(`${this.baseUrl}/api/moderation/staff`, {
+      headers: {
+        Authorization: `${token}`
+      },
+    });
+  }
+
+  setRole(email: string, role: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/moderation/role`, { email, role }, {
       headers: {
         Authorization: `${token}`,
       },

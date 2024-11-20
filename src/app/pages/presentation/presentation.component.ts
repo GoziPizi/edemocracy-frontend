@@ -41,7 +41,6 @@ export class PresentationComponent {
       },
       error: (error) => {
         this.loadingService.decrement();
-        console.log(error);
       },
     })
     //foudnder
@@ -54,7 +53,6 @@ export class PresentationComponent {
       },
       error: (error) => {
         this.loadingService.decrement();
-        console.log(error);
       },
     })
   }
@@ -82,7 +80,6 @@ export class PresentationComponent {
       },
       error: (error) => {
         this.loadingService.decrement();
-        console.log(error);
       },
     })
   }
