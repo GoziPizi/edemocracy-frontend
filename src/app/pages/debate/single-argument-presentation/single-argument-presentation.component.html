@@ -2,20 +2,19 @@
     <div id="user-informations">
         <p id="name">{{name}}{{work}}{{politicSide}}</p>
     </div>
-    <h4 id="title">{{argument.title}}</h4>
-    <p id="content">{{argument.content}}</p>
+    <h4 *ngIf="argument.isFlaged">Ce commentaire est en attente de modération <span id="force-see" (click)="forceSee($event)" >voir quand même</span>.</h4>
+    <h4 id="title" *ngIf="!argument.isFlaged || isForcedShown">{{argument.title}}</h4>
+    <p id="content" *ngIf="!argument.isFlaged || isForcedShown">{{argument.content}}</p>
     <app-report id="report" [type]="reportType" [id]="argument.id" [size]="'small'" ></app-report>
     <div id="votes">
         <p>{{argument.nbGood}}</p>
         <i 
-            *ngIf="!isVisitor"
             class="fa fa-thumbs-up" 
             aria-hidden="true" 
             [ngClass]="{'green' : argument.hasVote}"
             (click)="onVoteUp($event)"></i>
         <p>{{argument.nbBad}}</p>
         <i 
-            *ngIf="!isVisitor"
             class="fa fa-thumbs-down"
             aria-hidden="true" 
             [ngClass]="{'red' : argument.hasVote == false}"

@@ -76,6 +76,11 @@ export class CreateDebateComponent {
         this.router.navigate(['/debate', response.id])
       },
       error: (error) => {
+        if(error.error.errorName === 'ContentWithBanWordsException') {
+          this.loadingService.decrement()
+          this.toasterService.error('Le contenu contient des mots interdits')
+          return;
+        }
         this.loadingService.decrement()
         this.toasterService.error('Erreur lors de la création du débat')
       }

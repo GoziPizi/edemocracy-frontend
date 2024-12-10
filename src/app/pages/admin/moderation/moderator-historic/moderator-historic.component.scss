@@ -1,0 +1,12 @@
+@import "@ng-select/ng-select/themes/default.theme.css";
+
+#moderation-header {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+ng-select {
+    width: 200px;
+    margin-left: 10px;
+}

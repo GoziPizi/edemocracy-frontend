@@ -45,8 +45,8 @@ export class Moderation2PanelComponent {
     this.router.navigate(['admin', 'moderation'])
   }
 
-  navigateToHistory() {
-    this.router.navigate(['admin', 'moderation', 'history'])
+  navigateToHistoric() {
+    this.router.navigate(['admin', 'moderation', 'historic'])
   }
 
 }

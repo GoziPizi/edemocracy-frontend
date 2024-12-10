@@ -3,6 +3,7 @@ export class PartyComment {
     partyId: string = '';
     userId: string = '';
     content: string = '';
+    isFlaged: boolean = false;
     createdAt: string = '';
     updatedAt: string = '';
 }

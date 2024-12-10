@@ -1027,9 +1027,36 @@ export class ApiHandlerService {
     });
   }
 
+  warnUser(userId: string, reason:string, reportId?: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/moderation/user/${userId}/warn`, { userId, reason, reportId }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   postSanction(reportId: string, sanctionType: string, reason: string, sanctionDuration?: number) {
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/moderation/sanction`, { reportId, sanctionType, sanctionDuration, reason }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getHistoric() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/moderation/historic`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getModeratorHistoric(moderatorId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/moderation/historic/${moderatorId}`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -1040,7 +1067,7 @@ export class ApiHandlerService {
 
   getModerators() {
     const token = localStorage.getItem('token');
-    return this.http.get<User[]>(`${this.baseUrl}/api/moderation/staff`, {
+    return this.http.get<User[]>(`${this.baseUrl}/api/moderation/moderators`, {
       headers: {
         Authorization: `${token}`
       },
@@ -1061,6 +1088,15 @@ export class ApiHandlerService {
   getPersonalReports() {
     const token = localStorage.getItem('token');
     return this.http.get<personalReport[]>(`${this.baseUrl}/api/moderation/personal-reports`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  contestSanction(reportId: string, reason: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/moderation/reports/${reportId}/contest`, { reason }, {
       headers: {
         Authorization: `${token}`,
       },

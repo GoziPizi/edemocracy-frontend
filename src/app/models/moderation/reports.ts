@@ -13,7 +13,7 @@ export type report = {
 export type reportEvent = {
     id: string;
     userId: string;
-    reportId: string;
+    reportingId: string;
     type: string;
     duration?: number;
     reason: string;

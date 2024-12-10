@@ -26,12 +26,10 @@ import { FollowButtonComponent } from '../../utils/follow-button/follow-button.c
   selector: 'app-debate',
   standalone: true,
   imports: [
-    ArgumentForDebateThumbnailComponent, 
     ForAgainstDebateComponent, 
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SingleArgumentPresentationComponent, 
     ArgumentsDisplayerComponent,
     ArgumentDebatePresentationComponent,
     SingleReformulationPresentationComponent,
@@ -291,6 +289,11 @@ export class DebateComponent {
         this.refreshPage();
       }, 
       error: (err) => {
+        if(err.error.errorName === 'ContentWithBanWordsException') {
+          this.toasterService.error('Le contenu contient des mots bannis');
+          this.loadingService.decrement();
+          return;
+        }
         this.loadingService.decrement();
         this.toasterService.error('Erreur lors de l\'enregistrement de l\'argument');
         this.refreshPage();
@@ -312,6 +315,11 @@ export class DebateComponent {
         this.refreshPage();
       },
       error: (err) => {
+        if(err.error.errorName === 'ContentWithBanWordsException') {
+          this.toasterService.error('Le contenu contient des mots bannis');
+          this.loadingService.decrement();
+          return;
+        }
         this.loadingService.decrement();
         this.toasterService.error('Erreur lors de l\'enregistrement de la reformulation');
         this.refreshPage();

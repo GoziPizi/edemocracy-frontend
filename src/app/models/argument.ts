@@ -10,6 +10,7 @@ export class Argument {
     id: string = '';
     title: string = 'Titre par défaut';
     content: string = 'Contenu par défaut';
+    isFlaged: boolean = false;
     userId?: string = '';
     anonymous: boolean = false;
     debateId: string = '';

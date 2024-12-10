@@ -3,13 +3,14 @@ import { Argument, ArgumentType } from '../../../models/argument';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { VisitorService } from '../../../services/visitor.service';
-import { User } from '../../../models/users';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { ReportComponent } from '../../../utils/report/report.component';
 import { ReportType } from '../../../models/report';
-import { Debate, DebateVoteFromUser } from '../../../models/debate';
+import { DebateVoteFromUser } from '../../../models/debate';
 import { DebateVote } from '../../../enums/voteDebate';
 import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
+import { ToasterComponent } from '../../../utils/toaster/toaster.component';
+import { ToasterService } from '../../../services/toaster.service';
 
 @Component({
   selector: 'app-single-argument-presentation',
@@ -23,6 +24,8 @@ export class SingleArgumentPresentationComponent {
   @Input() argument!: Argument;
   @Input() $voteSubject!: any;
 
+  isForcedShown = false;
+
   userVoteForSubDebate: DebateVoteFromUser | null = null;
 
   reportType = ReportType.ARGUMENT;
@@ -30,7 +33,8 @@ export class SingleArgumentPresentationComponent {
   constructor(
     private router: Router,
     private visitorService: VisitorService,
-    private apiService: ApiHandlerService
+    private apiService: ApiHandlerService,
+    private toaster: ToasterService
   ) {
   }
 
@@ -50,6 +54,11 @@ export class SingleArgumentPresentationComponent {
 
   onVoteUp(event: any) {
     event.stopPropagation();
+    event.preventDefault();
+    if(this.visitorService.isVisitor) {
+      this.toaster.success('Vous devez être connecté pour voter');
+      return;
+    }
     if(this.argument.hasVote){
       this.$voteSubject.next({argumentId: this.argument.id, vote: null});
       return;
@@ -59,6 +68,11 @@ export class SingleArgumentPresentationComponent {
   
   onVoteDown(event: any) {
     event.stopPropagation();
+    event.preventDefault();
+    if(this.visitorService.isVisitor) {
+      this.toaster.success('Vous devez être connecté pour voter');
+      return;
+    }
     if(this.argument.hasVote === false){
       this.$voteSubject.next({argumentId: this.argument.id, vote: null});
       return;
@@ -110,6 +124,12 @@ export class SingleArgumentPresentationComponent {
       queryParams: {argumentId: this.argument.id},
       queryParamsHandling: 'merge'
     })
+  }
+
+  forceSee(event: any) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.isForcedShown = true;
   }
 
   get redColor() {

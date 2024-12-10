@@ -2,4 +2,13 @@
 <div id="moderation-header">
     <button class="validate-button header-button" (click)="navigateToModeration()">Retourner à l'accueil modération</button>
     <button class="validate-button header-button" (click)="navigateToModeration2()">Retourner à la modération 2</button>
+    <button class="validate-button header-button" (click)="navigatToMederatorHistoric()">Voir l'historique d'un modérateur</button>
+</div>
+<div id="events">
+    <div *ngFor="let event of reportEvents" class="single-event">
+        <h2>{{getEventType(event)}}</h2>
+        <p>{{event.createdAt}}</p>
+        <p>{{event.reason}}</p>
+        <button (click)="navigateToReport(event.reportingId)" >Voir le rapport complet</button>
+    </div>
 </div>

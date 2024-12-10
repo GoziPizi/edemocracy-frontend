@@ -5,6 +5,7 @@ export class Debate {
     id: string = '';
     title: string = '';
     content: string = '';
+    isFlaged: boolean = false;
     topicId?: string = '';
     argumentId?: string = '';
     debateResult: DebateResult = new DebateResult();
@@ -35,6 +36,7 @@ export class DebateDescriptionReformulation {
     content: string = '';
     title: string = '';
     score: number = 0;
+    isFlaged: boolean = false;
     createdAt: string = '';
     userName?: string;
     userPoliticSide?: PoliticSides;

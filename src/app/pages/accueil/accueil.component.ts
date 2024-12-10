@@ -75,6 +75,7 @@ export class AccueilComponent {
 
         this.pageNumberLoaded++;
         this.isLoading = false;
+        console.log(this.debates);
       },
       error: (error) => {
         this.toastService.error('Erreur lors du chargement des débats');

@@ -2,22 +2,23 @@ import { Component } from '@angular/core';
 import { personalReport } from '../../../models/moderation/reports';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { CommonModule } from '@angular/common';
-import { ContestPopupComponent } from "./contest-popup/contest-popup.component";
 import { SinglePersonalReportComponent } from "./single-personal-report/single-personal-report.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signalements',
   standalone: true,
-  imports: [CommonModule, ContestPopupComponent, SinglePersonalReportComponent],
+  imports: [CommonModule, SinglePersonalReportComponent, FormsModule],
   templateUrl: './signalements.component.html',
   styleUrl: './signalements.component.scss'
 })
 export class SignalementsComponent {
 
-  //TODO faire en sorte que l'on ne puisse pas spammer les contestations
-
   signalements: personalReport[] = [];
   contestPopup: Boolean = false;
+
+  contestReason: string = '';
+  contestReportingId: string = '';
 
   constructor(
     private apiHandler: ApiHandlerService
@@ -38,8 +39,8 @@ export class SignalementsComponent {
     })
   }
 
-  contest(sanctionId: string) {
-    //TODO : passer l'id
+  contest(reportingId: string) {
+    this.contestReportingId = reportingId;
     this.contestPopup = true;
   }
 
@@ -50,6 +51,24 @@ export class SignalementsComponent {
 
   closePopup() {
     this.contestPopup = false;
+  }
+
+  sendContest() {
+    this.apiHandler.contestSanction(this.contestReportingId, this.contestReason).subscribe({
+      next: (response:any) => {
+        this.handlePopUpClose();
+      },
+      error: (error:any) => {
+        console.error(error);
+      }
+    })
+  }
+
+  isDisabled(report: personalReport) {
+    if(report.report.isModeration2Required || report.report.isModerated2) {
+      return true;
+    }
+    return false
   }
 
 }

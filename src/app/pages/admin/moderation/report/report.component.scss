@@ -21,3 +21,38 @@
 .action-button {
     margin: 10px;
 }
+
+#warnUser, #banUser {
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    position: fixed;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#warnUserContent, #banUserContent {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#warnUserTextarea, #banUserTextarea {
+    resize: none;
+    width: 300px
+}
+
+#close-button {
+    top: 10px;
+    right: 10px;
+    position: absolute;
+}

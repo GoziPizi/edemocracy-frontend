@@ -45,9 +45,14 @@ export class ReportingScreenComponent {
         this.toaster.success('Votre signalement a été pris en compte.')
         this.reportingService.closeReportWindow();
       },
-      error: () => {
+      error: (error: any) => {
+        console.log(error)
+        if(error.error.errorName === 'EntityAlreadyReportedByUserException') {
+          this.toaster.error('Vous avez déjà signalé ce contenu')
+          this.reportingService.closeReportWindow();
+          return;
+        }
         this.toaster.error('Erreur lors du signalement, veuillez réessayer')
-        this.description = ""
       }
     })
     

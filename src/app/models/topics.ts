@@ -3,6 +3,7 @@ export class Topic {
     userId: string = 'userId';
     title: string = 'Titre du Sujet';
     description: string = 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet ';
+    isFlaged: boolean = false;
     parentTopicId: string = '';
     childrenId: string[] = [];
     medias: string[] = [];

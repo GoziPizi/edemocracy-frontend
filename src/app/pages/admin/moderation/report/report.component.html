@@ -22,3 +22,19 @@
         <p>{{event.reason}}</p>
     </div>
 </div>
+<div id="warnUser" *ngIf="isWarningOpen">
+    <div id="warnUserContent">
+        <i id="close-button" class="fas fa-times" (click)="closeWarning()"></i>
+        <h2>Avertissement</h2>
+        <textarea [(ngModel)]="warningMessage" placeholder="Message d'avertissement" id="warnUserTextarea"></textarea>
+        <button class="validate-button action-button" (click)="sendWarning()">Envoyer</button>
+    </div>
+</div>
+<div id="banUser" *ngIf="isBanOpen">
+    <div id="banUserContent">
+        <i id="close-button" class="fas fa-times" (click)="closeBan()"></i>
+        <h2>Bannissement</h2>
+        <textarea [(ngModel)]="banReason" placeholder="Message de bannissement" id="banUserTextarea"></textarea>
+        <button class="validate-button action-button" (click)="sendBanSanction()">Envoyer</button>
+    </div>
+</div>

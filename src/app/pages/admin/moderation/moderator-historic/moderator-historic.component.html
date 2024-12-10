@@ -1,0 +1,21 @@
+<h1>Historique d'un modérateur</h1>
+<div id="moderation-header">
+    <button class="validate-button header-button" (click)="navigateToHistoric()">Retourner à l'historique</button>
+    <ng-select 
+        class="custom"
+        [items]="moderators"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Choisir un modérateur"
+        [(ngModel)]="selectedId"
+        (change)="onSelectModerator(selectedId)">
+    </ng-select>
+</div>
+<div id="events">
+    <div *ngFor="let event of reportEvents" class="single-event">
+        <h2>{{getEventType(event)}}</h2>
+        <p>{{event.createdAt}}</p>
+        <p>{{event.reason}}</p>
+        <button (click)="navigateToReport(event.reportingId)" >Voir le rapport complet</button>
+    </div>
+</div>

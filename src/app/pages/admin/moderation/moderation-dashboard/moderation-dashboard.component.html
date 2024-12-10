@@ -1,3 +1,4 @@
+<h1>Modération</h1>
 <div id="moderation-header">
     <button class="validate-button header-button" (click)="navigateToAdmin()" >Retourner à l'accueil admin</button>
     <button *ngIf="role === 'ADMIN' || role === 'MODERATOR2'" class="validate-button header-button" (click)="navigateToModeration2Panel()">Accéder à la modération niveau 2</button>

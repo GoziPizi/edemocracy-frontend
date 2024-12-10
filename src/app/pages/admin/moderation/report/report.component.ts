@@ -4,11 +4,12 @@ import { ApiHandlerService } from '../../../../services/api-handler.service'
 import { report, reportEvent } from '../../../../models/moderation/reports';
 import { CommonModule } from '@angular/common';
 import { ToasterService } from '../../../../services/toaster.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-report',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './report.component.html',
   styleUrl: './report.component.scss'
 })
@@ -18,6 +19,16 @@ export class ReportComponent {
   report: report | null = null;
   reportEvents: reportEvent[] = [];
   entity: any = null;
+
+  currentModeratorStatus = this.apiHandler.role;
+
+  warningMessage: string = "";
+  userIdToWarn: string = "";
+  isWarningOpen: boolean = false;
+
+  isBanOpen: boolean = false;
+  banReason: string = "";
+  banDuration?: number = undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -94,9 +105,28 @@ export class ReportComponent {
     })
   }
 
-  warnUser() { }
+  warnUser() {
+    this.userIdToWarn = this.report?.userId || "";
+    this.isWarningOpen = true;
+  }
 
   warnReporter() { }
+
+  closeWarning() {
+    this.isWarningOpen = false;
+  }
+
+  sendWarning() {
+    this.apiHandler.warnUser(this.userIdToWarn, this.warningMessage, this.report?.id).subscribe({
+      next: (data) => {
+        this.isWarningOpen = false;
+        this.fetchReportDetails();
+      },
+      error: (error) => {
+        this.toaster.error("Erreur lors de l'envoi du message")
+      }
+    })
+  }
 
   escalateToModeration2() {
     this.apiHandler.escalateToModeration2(this.id).subscribe({
@@ -111,8 +141,17 @@ export class ReportComponent {
   }
 
   banUser() {
-    this.apiHandler.postSanction(this.id, 'ban', "Parce que c'est comme ça").subscribe({
+    this.isBanOpen = true;
+  }
+
+  closeBan() {
+    this.isBanOpen = false;
+  }
+
+  sendBanSanction() {
+    this.apiHandler.postSanction(this.id, 'ban', this.banReason, this.banDuration).subscribe({
       next: (data) => {
+        this.isBanOpen = false;
         this.navigateToReports();
       },
       error: (error) => {
@@ -163,5 +202,22 @@ export class ReportComponent {
       default:
         return "Entité"
     }
+  }
+
+  get isModerated() {
+    return this.report?.isModerated || false;
+  }
+
+  get isDisabled() {
+    if(!this.report) {
+      return true;
+    }
+    if(this.report.isModerated && this.currentModeratorStatus === 'MODERATOR1') {
+      return true;
+    }
+    if(this.report.isModerated && this.currentModeratorStatus === 'MODERATOR2' && !this.report.isModeration2Required ) {
+      return true;
+    }
+    return false;
   }
 }
