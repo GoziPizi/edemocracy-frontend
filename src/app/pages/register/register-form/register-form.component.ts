@@ -82,6 +82,7 @@ export class RegisterFormComponent {
 
   //sponsorshipCode
   isCodeVerified = false;
+  isSponsored = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -118,6 +119,13 @@ export class RegisterFormComponent {
         this.registerForm.get('sponsorshipCode')?.markAsTouched();
         this.checkSponsorshipCode();
       }
+      //If there is no code in the url, check for the local storage
+      const localStorageCode = localStorage.getItem('sponsorshipCode');
+      if(localStorageCode) {
+        this.registerForm.patchValue({ sponsorshipCode: localStorageCode });
+        this.registerForm.get('sponsorshipCode')?.markAsTouched();
+        this.checkSponsorshipCode();
+      }
     });
   }
 
@@ -138,6 +146,7 @@ export class RegisterFormComponent {
       this.api.checkSponsorshipCode(this.registerForm.value.sponsorshipCode).subscribe({
         next: (data: any) => {
           this.isCodeVerified = true;
+          this.isSponsored = true;
         },
         error: (error: any) => {
           this.isCodeVerified = false;
@@ -295,6 +304,14 @@ export class RegisterFormComponent {
         }
       });
     }
+  }
+
+  visit() {
+    //Save sponsorCode in local storage
+    if(this.registerForm.value.sponsorshipCode) {
+      localStorage.setItem('sponsorshipCode', this.registerForm.value.sponsorshipCode);
+    }
+    this.router.navigate(['/accueil']);
   }
 
   toggleCGU() {

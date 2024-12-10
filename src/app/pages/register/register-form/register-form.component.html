@@ -2,6 +2,10 @@
     <i id="back-arrow" [routerLink]="['/register']" class="fa-solid fa-arrow-left"></i>
     <img src="../../../assets/E-Democracy-no-white.png" alt="image" class="main-image" height="233px" width="600px">
     <h1>Bienvenue</h1>
+    <div id="sponsorship-visit" *ngIf="isSponsored">
+        <p>Vous avez été invité par un parrain, souhaitez-vous visiter le site avant votre inscription ? Votre code restera utilisable.</p>
+        <button class="validate-button" (click)="visit()">Je visite le site</button>
+    </div>
     <p>{{inscriptionName}}</p>
     <form [formGroup]="registerForm" id="register-form">
         <label for="firstName">Prénom :</label>
