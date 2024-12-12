@@ -131,6 +131,17 @@
             [multiple]="false"
             required></ng-select>
 
+        <label for="origin">Origine :</label>
+        <ng-select 
+            class="custom" 
+            formControlName="origin" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
+
         <div class="line"></div>
 
         <h2>Mot de passe :</h2>

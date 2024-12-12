@@ -13,6 +13,7 @@ import { ToasterService } from '../../../services/toaster.service';
 import { LoadingService } from '../../../services/loading.service';
 import { DiplomaInputComponent } from './diploma-input/diploma-input.component';
 import { religions } from './religions';
+import { origins } from './origins';
 
 enum RegisterFormType {
   Free = 'free',
@@ -55,6 +56,7 @@ export class RegisterFormComponent {
     actualSex: new FormControl('', Validators.nullValidator),
     sexualOrientation: new FormControl('', Validators.nullValidator),
     religion: new FormControl('', Validators.nullValidator),
+    origin: new FormControl('', Validators.nullValidator),
     sponsorshipCode: new FormControl('', Validators.nullValidator),
   });
 
@@ -68,6 +70,7 @@ export class RegisterFormComponent {
   }
 
   religions = religions;
+  origins = origins;
 
   areInformationsCorrect = false;
   isCGUChecked = false;
@@ -193,6 +196,10 @@ export class RegisterFormComponent {
       data = { ...data, religion: this.registerForm.value.religion };
     }
 
+    if (this.registerForm.value.origin) {
+      data = { ...data, origin: this.registerForm.value.origin };
+    }
+
     if (this.registerForm.value.sponsorshipCode) {
       data = { ...data, sponsorshipCode: this.registerForm.value.sponsorshipCode };
     }
@@ -248,6 +255,10 @@ export class RegisterFormComponent {
     }
     if(this.registerForm.value.religion) {
       formData.append('religion', this.registerForm.value.religion as string);
+    }
+
+    if(this.registerForm.value.origin) {
+      formData.append('origin', this.registerForm.value.origin as string);
     }
 
     if(this.registerForm.value.sponsorshipCode) {
