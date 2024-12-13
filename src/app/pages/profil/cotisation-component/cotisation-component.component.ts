@@ -83,7 +83,7 @@ export class CotisationComponentComponent {
       return;
     }
 
-    navigator.clipboard.writeText(`https://digital-democracy.eu/register?sponsorshipCode=${this.sponsorshipCode}`).then(() => {
+    navigator.clipboard.writeText(`https://digital-democracy.com/register?sponsorshipCode=${this.sponsorshipCode}`).then(() => {
       this.toasterService.success('Lien copié dans le presse-papier');
     }).catch(err => {
       this.toasterService.error('Erreur lors de la copie du texte');

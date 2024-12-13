@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    api_url: "https://digital-democracy.eu:8080"
+    api_url: "https://digital-democracy.com:8080"
   };
