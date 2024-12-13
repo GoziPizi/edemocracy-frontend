@@ -28,6 +28,7 @@ export class ReportComponent {
 
   isBanOpen: boolean = false;
   banReason: string = "";
+  isBanPermanent: boolean = false;
   banDuration?: number = undefined;
 
   constructor(
@@ -144,11 +145,18 @@ export class ReportComponent {
     this.isBanOpen = true;
   }
 
+  togglePermanentBan() {
+    this.isBanPermanent = !this.isBanPermanent;
+  }
+
   closeBan() {
     this.isBanOpen = false;
   }
 
   sendBanSanction() {
+    if(this.isBanPermanent) {
+      this.banDuration = undefined;
+    }
     this.apiHandler.postSanction(this.id, 'ban', this.banReason, this.banDuration).subscribe({
       next: (data) => {
         this.isBanOpen = false;

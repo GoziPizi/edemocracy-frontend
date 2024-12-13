@@ -35,6 +35,15 @@
         <i id="close-button" class="fas fa-times" (click)="closeBan()"></i>
         <h2>Bannissement</h2>
         <textarea [(ngModel)]="banReason" placeholder="Message de bannissement" id="banUserTextarea"></textarea>
+        <h3>Durée</h3>
+        <div id="permanent-selector">
+            Permanent
+            <input type="checkbox" id="permanent-checkbox" [(ngModel)]="isBanPermanent">
+        </div>
+        <div id="duration-input" *ngIf="!isBanPermanent">
+            Durée: (en heures)
+            <input type="number" [(ngModel)]="banDuration" id="duration-input" min="1" max="365">
+        </div>
         <button class="validate-button action-button" (click)="sendBanSanction()">Envoyer</button>
     </div>
 </div>
