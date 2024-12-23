@@ -1,5 +1,4 @@
 export const environment = {
     production: false,
-    //api_url: "https://dev.digital-democracy.com:8080"
     api_url: "http://localhost:8080"
   };

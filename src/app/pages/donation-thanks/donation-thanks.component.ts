@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { RouterModule } from '@angular/router';
+import { DonationSiderService } from '../../services/donation-sider.service';
 
 
 @Component({
@@ -28,6 +29,12 @@ import { RouterModule } from '@angular/router';
 export class DonationThanksComponent {
 
   state = 'hidden';
+
+  constructor(
+    private DonationSiderService: DonationSiderService
+  ) {
+    this.DonationSiderService.setDonationDateToNow();
+  }
 
   ngOnInit() {
     setTimeout(() => {

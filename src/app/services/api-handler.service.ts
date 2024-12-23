@@ -43,6 +43,7 @@ export class ApiHandlerService {
     private visitorService: VisitorService,
     private router: Router
   ) {
+    console.log(environment.api_url);
     this.baseUrl = environment.api_url;
     this.checkLogin();
   }
@@ -1036,9 +1037,9 @@ export class ApiHandlerService {
     });
   }
 
-  postSanction(reportId: string, sanctionType: string, reason: string, sanctionDuration?: number) {
+  postSanction(reportingId: string, sanctionType: string, reason: string, sanctionDuration?: number) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/moderation/sanction`, { reportId, sanctionType, sanctionDuration, reason }, {
+    return this.http.post(`${this.baseUrl}/api/moderation/sanction`, { reportingId, sanctionType, sanctionDuration, reason }, {
       headers: {
         Authorization: `${token}`,
       },

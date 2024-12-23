@@ -65,7 +65,7 @@ export class SignalementsComponent {
   }
 
   isDisabled(report: personalReport) {
-    if(report.report.isModeration2Required || report.report.isModerated2) {
+    if(report.report.isModeration2Required && !report.report.isModerated2) {
       return true;
     }
     return false
