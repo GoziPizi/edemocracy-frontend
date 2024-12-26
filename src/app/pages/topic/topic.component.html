@@ -3,7 +3,8 @@
     <app-follow-button [entityId]="topicId" [entityType]="'topic'" *ngIf="!isVisitor" id="follow-button"></app-follow-button>
     <p class="preserve-whitespace" >{{topic.description}}</p>
     <div id="medias-display" *ngIf="mediaType!=='none'" >
-        <h3>Médias associé:</h3>
+        <h3 *ngIf="mediaType==='image'">Image:</h3>
+        <h3 *ngIf="mediaType==='video'">Vidéo:</h3>
         <img *ngIf="mediaType==='image'" [src]="image" alt="{{topic.title}}">
         <youtube-player id="video-player" *ngIf="mediaType==='video'"
             [videoId]="videoId">
