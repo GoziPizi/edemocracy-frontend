@@ -4,6 +4,10 @@
     <p *ngIf="isDisabled(report)">Vous avez deja contesté cette sanction</p>
     <div class="line"></div>
 </div>
+<div>
+    <p>Vous avez été banni. Vous pouvez toujours voter, mais vous ne pouvez plus poster de commentaires, messages, arguments ou débats.</p>
+
+</div>
 <div id="popup" *ngIf="contestPopup">
     <div id="content">
         <button id="close" (click)="closePopup()"><i class="fa-solid fa-xmark"></i></button>

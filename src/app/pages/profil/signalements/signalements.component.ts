@@ -71,4 +71,8 @@ export class SignalementsComponent {
     return false
   }
 
+  get isBanned() {
+    return this.signalements.filter((report) => report.sanction.type === 'ban').length > 0;
+  }
+
 }
