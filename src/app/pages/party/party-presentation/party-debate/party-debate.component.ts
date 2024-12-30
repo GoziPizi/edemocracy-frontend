@@ -28,7 +28,7 @@ export class PartyDebateComponent {
 
   fetchDebateThumbnails() {
     this.apiHandler.getPartyDebates(this.partyId).subscribe((debates: Debate[]) => {
-      this.debateThumbnails = debates;
+      this.debateThumbnails = debates.slice(0, 5);
     });
   }
 
