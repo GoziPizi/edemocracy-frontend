@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { Party } from '../../../models/party';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,7 +17,14 @@ import { ToasterService } from '../../../services/toaster.service';
 @Component({
   selector: 'app-modify-party',
   standalone: true,
-  imports: [VerticalTopicSelectorComponent, FormsModule, ReactiveFormsModule, CommonModule, HistoricEventComponent, ImageInputComponent],
+  imports: [
+    VerticalTopicSelectorComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    HistoricEventComponent,
+    ImageInputComponent,
+    RouterModule],
   templateUrl: './modify-party.component.html',
   styleUrl: './modify-party.component.scss'
 })
@@ -184,5 +191,12 @@ export class ModifyPartyComponent {
         }
       });
     }
+  }
+
+  createDebate() {
+    this.router.navigate(['/debate/create'], {
+      queryParams: { creatorParty: this.partyId },
+      queryParamsHandling: 'merge'
+    });
   }
 }

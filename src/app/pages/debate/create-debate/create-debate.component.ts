@@ -17,6 +17,8 @@ import { ToasterService } from '../../../services/toaster.service';
 })
 export class CreateDebateComponent {
 
+  creatorParty: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private apiHandler: ApiHandlerService,
@@ -36,6 +38,10 @@ export class CreateDebateComponent {
         if (argumentId) {
           this.createDebateForm.patchValue({argumentId: argumentId})
         }
+        const creatorParty: string | null = params['creatorParty']
+        if (creatorParty) {
+          this.creatorParty = creatorParty
+        }
         this.fetchArgument()
       }
     })
@@ -45,7 +51,8 @@ export class CreateDebateComponent {
     title: new FormControl('', Validators.required),
     content: new FormControl('', Validators.required),
     topicId: new FormControl(''),
-    argumentId: new FormControl('')
+    argumentId: new FormControl(''),
+    creatorParty: new FormControl('')
   })
 
   argumentValue: string = ''
@@ -69,6 +76,9 @@ export class CreateDebateComponent {
 
   onSubmit() {
     this.loadingService.increment()
+    if(this.creatorParty) {
+      this.createDebateForm.patchValue({creatorParty: this.creatorParty})
+    }
     this.apiHandler.postDebate(this.createDebateForm.value).subscribe({
       next: (response: any) => {
         this.loadingService.decrement()
