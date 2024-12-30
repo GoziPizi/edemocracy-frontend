@@ -12,11 +12,12 @@ import { PartyCommentsComponent } from './party-comments/party-comments.componen
 import { ToasterService } from '../../../services/toaster.service';
 import { VisitorService } from '../../../services/visitor.service';
 import { FollowButtonComponent } from '../../../utils/follow-button/follow-button.component';
+import { PartyDebateComponent } from "./party-debate/party-debate.component";
 
 @Component({
   selector: 'app-party-presentation',
   standalone: true,
-  imports: [RouterModule, CommonModule, SmallTopicThumbnailComponent, PartyHistoricComponent, PartyOpinionsComponent, PartyCommentsComponent, FollowButtonComponent],
+  imports: [RouterModule, CommonModule, SmallTopicThumbnailComponent, PartyHistoricComponent, PartyOpinionsComponent, PartyCommentsComponent, FollowButtonComponent, PartyDebateComponent],
   templateUrl: './party-presentation.component.html',
   styleUrl: './party-presentation.component.scss'
 })

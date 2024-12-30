@@ -8,6 +8,8 @@ export class Debate {
     isFlaged: boolean = false;
     topicId?: string = '';
     argumentId?: string = '';
+    partyId?: string = '';
+    personnalityId?: string = '';
     debateResult: DebateResult = new DebateResult();
     debateContributorsResult: DebateResult = new DebateResult();
     hasVote: DebateVote | null = null;

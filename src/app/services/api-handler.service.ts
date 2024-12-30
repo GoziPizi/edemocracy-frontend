@@ -472,6 +472,15 @@ export class ApiHandlerService {
     });
   }
 
+  getDebateResult(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/debates/${id}/result`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   voteForDebate(id: string, value: DebateVote){
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/debates/${id}/vote`, {value: debateVoteEnumToStrictString(value)}, {
@@ -760,6 +769,15 @@ export class ApiHandlerService {
   getSinglePartyComment(commentId: string) {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.baseUrl}/api/parties/comments/${commentId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getPartyDebates(partyId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<Debate[]>(`${this.baseUrl}/api/parties/${partyId}/debates`, {
       headers: {
         Authorization: `${token}`,
       },
