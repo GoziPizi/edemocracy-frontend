@@ -23,6 +23,10 @@
             <p class="preserve-whitespace">{{party.reason}}</p>
         </div>
         <div class="line"></div>
+        <div id="personal-debates">
+            <app-party-personal-debates [partyId]="partyId" ></app-party-personal-debates>
+        </div>
+        <div class="line"></div>
         <div id="debates">
             <app-party-debate [partyId]="partyId" ></app-party-debate>
         </div>
