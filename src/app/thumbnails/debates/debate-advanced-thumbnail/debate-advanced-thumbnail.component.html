@@ -1,5 +1,5 @@
 <div id="container" (click)="navigateToDebate($event)">
     <h3>{{debate.title}} - {{nbVotants}} votes</h3>
-    <p>{{debate.content}}</p>
+    <p class="preserve-whitespace" >{{debate.content}}</p>
     <app-for-against-debate #result ></app-for-against-debate>
 </div>
