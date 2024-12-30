@@ -43,7 +43,6 @@ export class ApiHandlerService {
     private visitorService: VisitorService,
     private router: Router
   ) {
-    console.log(environment.api_url);
     this.baseUrl = environment.api_url;
     this.checkLogin();
   }

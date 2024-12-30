@@ -46,7 +46,6 @@ export class ReportingScreenComponent {
         this.reportingService.closeReportWindow();
       },
       error: (error: any) => {
-        console.log(error)
         if(error.error.errorName === 'EntityAlreadyReportedByUserException') {
           this.toaster.error('Vous avez déjà signalé ce contenu')
           this.reportingService.closeReportWindow();

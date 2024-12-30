@@ -18,7 +18,7 @@ export class MediaDebateThumbnail extends Debate {
 @Component({
   selector: 'app-accueil',
   standalone: true,
-  imports: [CommonModule, RouterModule, HomeNewsComponent, HomeTopicsComponent, TopicThumbnailComponent, DebateAccueilThumbnailComponent],
+  imports: [CommonModule, RouterModule, HomeNewsComponent, HomeTopicsComponent, DebateAccueilThumbnailComponent],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.scss'
 })
@@ -75,7 +75,6 @@ export class AccueilComponent {
 
         this.pageNumberLoaded++;
         this.isLoading = false;
-        console.log(this.debates);
       },
       error: (error) => {
         this.toastService.error('Erreur lors du chargement des débats');

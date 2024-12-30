@@ -19,8 +19,6 @@ export class DonationSiderService {
   // Fonction pour vérifier dans le cookie si le sider a été fermé dans les 2 derniers jours
   checkSiderStatus(): void {
 
-    console.log('Current time - 59 days', new Date().getTime() - 60 * 24 * 60 * 60 * 1000);
-
     // Vérifie si l'utilisateur est connecté
     if(!this.apiHandler.isLogged.value) {
       this.visible = false;  // Cache le sider si l'utilisateur n'est pas connecté
