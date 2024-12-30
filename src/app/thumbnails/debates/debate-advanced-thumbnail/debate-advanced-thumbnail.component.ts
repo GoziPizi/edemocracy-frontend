@@ -18,12 +18,15 @@ export class DebateAdvancedThumbnailComponent {
   @ViewChild('result') forAgainstDebateComponent!: ForAgainstDebateComponent;
 
   constructor(
-    private ApiHandlerService: ApiHandlerService,
+    private apiHandlerService: ApiHandlerService,
     private Router: Router
   ) { }
 
   ngOnInit() {
-    this.forAgainstDebateComponent.setDebateResult(this.debate.debateResult);
+    this.apiHandlerService.getDebate(this.debate.id).subscribe(debate => {
+      this.debate = debate;
+      this.forAgainstDebateComponent.setDebateResult(debate.debateResult);
+    });
   }
 
   navigateToDebate(event: any) {
@@ -32,6 +35,15 @@ export class DebateAdvancedThumbnailComponent {
     this.Router.navigate(['/debate', this.debate.id]);
   }
 
-
+  get nbVotants(): number {
+    if(this.debate.debateResult == null) {
+      return 0;
+    }
+    return this.debate.debateResult.nbAgainst 
+    + this.debate.debateResult.nbFor 
+    + this.debate.debateResult.nbReallyAgainst 
+    + this.debate.debateResult.nbReallyFor 
+    + this.debate.debateResult.nbNeutral;
+  }
 
 }
