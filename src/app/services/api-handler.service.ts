@@ -784,6 +784,15 @@ export class ApiHandlerService {
     });
   }
 
+  getPersonalDebateOfParty(partyId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<Debate[]>(`${this.baseUrl}/api/parties/${partyId}/personal-debates`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Admin related methods
 
   getBanWords() {
