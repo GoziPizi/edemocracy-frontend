@@ -1,0 +1,17 @@
+@import '../../../../styles.scss';
+
+
+
+#container {
+    background-color: darken(white, 5%);
+
+    border-radius: 1rem;
+    padding: 1rem;
+
+    cursor: pointer;
+
+    &:hover {
+        background-color: darken(white, 10%);
+    }
+}
+
