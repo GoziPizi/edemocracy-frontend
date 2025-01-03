@@ -1,5 +1,13 @@
 <div id="container" (click)="navigateToDebate($event)">
     <h3>{{debate.title}} - {{nbVotants}} votes</h3>
     <p class="preserve-whitespace" >{{debate.content}}</p>
+    <div id="quick-vote">
+        Voter :
+        <button class="validate-button" (click)="voteForDebate($event, debateVote.REALLY_FOR)">Vraiment pour</button>
+        <button class="validate-button" (click)="voteForDebate($event, debateVote.FOR)">Pour</button>
+        <button class="validate-button" (click)="voteForDebate($event, debateVote.NEUTRAL)">Neutre</button>
+        <button class="validate-button" (click)="voteForDebate($event, debateVote.AGAINST)">Contre</button>
+        <button class="validate-button" (click)="voteForDebate($event, debateVote.REALLY_AGAINST)">Vraiment contre</button>
+    </div>
     <app-for-against-debate #result ></app-for-against-debate>
 </div>

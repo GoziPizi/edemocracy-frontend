@@ -1,6 +1,6 @@
 <div id="container">
     <form [formGroup]="createDebateForm" id="create-debate-form">
-        <p *ngIf="creatorParty">Vous allez créer un débat pour votre parti.</p>
+        <p *ngIf="partyCreatorId">Vous allez créer un débat pour votre parti.</p>
         <label for="title">Titre</label>
         <input type="text" formControlName="title" id="title" name="title" class="input" required>
         <label for="content">Description</label>

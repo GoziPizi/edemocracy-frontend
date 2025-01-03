@@ -195,7 +195,7 @@ export class ModifyPartyComponent {
 
   createDebate() {
     this.router.navigate(['/debate/create'], {
-      queryParams: { creatorParty: this.partyId },
+      queryParams: { partyCreatorId: this.partyId },
       queryParamsHandling: 'merge'
     });
   }
