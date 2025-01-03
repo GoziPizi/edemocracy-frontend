@@ -28,7 +28,7 @@ export class PublishTopicComponent {
     parentTopicId: new FormControl(''),
   })
 
-  mediaType = 'image'
+  mediaType = 'none'
   videoUrl = ''
   constructor(
     private apiHandler: ApiHandlerService,
