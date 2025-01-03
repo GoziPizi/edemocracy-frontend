@@ -72,7 +72,20 @@ export class SignalementsComponent {
   }
 
   get isBanned() {
-    return this.signalements.filter((report) => report.sanction.type === 'ban').length > 0;
+    const bans = this.signalements.filter((report) => report.sanction.type === 'ban');
+    //Check the date of the ban
+    for (const ban of bans) {
+      if(!ban.sanction.duration) {
+        return true;
+      }
+
+      const duration = new Date(ban.sanction.duration * 60 * 60 * 1000);
+
+      if(new Date(ban.sanction.createdAt).getTime() + duration.getTime() > Date.now()) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
