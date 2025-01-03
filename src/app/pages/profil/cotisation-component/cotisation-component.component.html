@@ -24,6 +24,8 @@
         Vous n'avez pas de code de parrainage
         <button class="validate-button green-button" (click)="generateSponsorshipCode()">Générer un code de parrainage</button>
     </div>
+    <h4>Important: Déclaration de revenus</h4>
+    <p>Si vous avez perçu des revenus supérieurs à 100 €, pensez à les déclarer aux impôts dans la section "Divers". Cela garantit votre conformité aux obligations fiscales en vigueur. Pour plus d'informations, consultez votre centre des impôts.</p>
 </div>
 <div id="personal-jackpot" *ngIf="personalJackpot && waiting">
     <p>Votre cagnotte personnelle est de <b>{{personalJackpot.amount}}€</b>.</p>

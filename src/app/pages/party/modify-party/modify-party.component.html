@@ -33,10 +33,10 @@
 </div>
 <div id="personal-debates">
     <h2>Débats du parti</h2>
-    <button (click)="createDebate()" >Ajouter un débat</button>
+    <button class="validate-button" (click)="createDebate()" >Ajouter un débat</button>
     <div *ngFor="let debate of debates">
         <app-debate-thumbnail [debate]="debate" ></app-debate-thumbnail>
-        <button (click)="makeDebateFirst(debate.id)" >Faire de ce débat le premier débat affiché.</button>
+        <button class="validate-button" (click)="makeDebateFirst(debate.id)" >Faire de ce débat le premier débat affiché.</button>
     </div>
     
 </div>
