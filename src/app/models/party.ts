@@ -10,6 +10,7 @@ export class Party {
     politicSide: PoliticSides = PoliticSides.CENTER;
     for: string[] = [];
     against: string[] = [];
+    firstDebateDisplay?: String;
     createdAt: Date = new Date();
     updatedAt: Date = new Date();
 }

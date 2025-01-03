@@ -13,6 +13,8 @@ import { HistoricEventParty } from '../../../models/historicEventParty';
 import { sortEventsByDateDesc } from '../../../utils/sortingFunctions';
 import { ImageInputComponent } from '../../../utils/image-input/image-input.component';
 import { ToasterService } from '../../../services/toaster.service';
+import { Debate } from '../../../models/debate';
+import { DebateThumbnailComponent } from "../../../thumbnails/debates/debate-thumbnail/debate-thumbnail.component";
 
 @Component({
   selector: 'app-modify-party',
@@ -24,7 +26,9 @@ import { ToasterService } from '../../../services/toaster.service';
     CommonModule,
     HistoricEventComponent,
     ImageInputComponent,
-    RouterModule],
+    RouterModule,
+    DebateThumbnailComponent
+],
   templateUrl: './modify-party.component.html',
   styleUrl: './modify-party.component.scss'
 })
@@ -34,6 +38,7 @@ export class ModifyPartyComponent {
   originalParty: Party = new Party();
 
   events: HistoricEventParty[] = [];
+  debates: Debate[] = [];
 
   @ViewChild("imageInput") imageInput!: ImageInputComponent;
   @ViewChild("forSelector") forSelector!: VerticalTopicSelectorComponent;
@@ -65,9 +70,14 @@ export class ModifyPartyComponent {
     private toasterService: ToasterService
   ) {
     this.partyId = this.route.snapshot.params['id'];
+  }
+
+  ngOnInit() {
     this.getParty();
     this.fetchEvents();
+    this.fetchDebates();
   }
+
 
   getParty() {
     this.loadingService.increment();
@@ -90,6 +100,23 @@ export class ModifyPartyComponent {
   fetchEvents() {
     this.apiHandler.getAllHistoricEvents(this.partyId).subscribe((events: any) => {
       this.events = sortEventsByDateDesc(events);
+    });
+  }
+
+  fetchDebates() {
+    this.apiHandler.getPersonalDebateOfParty(this.partyId).subscribe((debates: any) => {
+      this.debates = debates;
+    });
+  }
+
+  makeDebateFirst(debateId: string) {
+    this.apiHandler.setFirstDebateDisplay(this.partyId, debateId).subscribe({
+      next: () => {
+        this.toasterService.success('Débat mis en avant');
+      },
+      error: () => {
+        this.toasterService.error('Erreur lors de la mise en avant du débat');
+      }
     });
   }
 

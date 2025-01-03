@@ -792,6 +792,15 @@ export class ApiHandlerService {
     });
   }
 
+  setFirstDebateDisplay(partyId: string, debateId: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/parties/${partyId}/first-debate-display`, { debateId }, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Admin related methods
 
   getBanWords() {
