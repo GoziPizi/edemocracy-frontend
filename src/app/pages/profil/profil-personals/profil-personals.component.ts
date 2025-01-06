@@ -1,28 +1,44 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { LoadingService } from '../../../services/loading.service';
 import { User } from '../../../models/users';
 import { ImageInputComponent } from '../../../utils/image-input/image-input.component';
 import { CommonModule } from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { religions } from '../../register/register-form/religions';
+import { origins } from '../../register/register-form/origins';
+import { professions } from '../../register/professions';
+import { ToasterService } from '../../../services/toaster.service';
 
 @Component({
   selector: 'app-profil-personals',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, ImageInputComponent, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, ImageInputComponent, CommonModule, NgSelectModule],
   templateUrl: './profil-personals.component.html',
-  styleUrl: './profil-personals.component.scss'
+  styleUrl: './profil-personals.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class ProfilPersonalsComponent {
 
   @ViewChild('imageInput') imageInput!: ImageInputComponent;
 
   updateInformationsForm = new FormGroup({
-    telephone: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
+    telephone: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(15)]),
     address: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    profession: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    description: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    postalCode: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    city: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    profession: new FormControl('', [Validators.nullValidator]),
+    yearsOfExperience: new FormControl<number | null>(null, [Validators.nullValidator]),
+    origin: new FormControl('', [Validators.nullValidator]),
+    religion: new FormControl('', [Validators.nullValidator]),    
+    actualSex: new FormControl('', [Validators.nullValidator]),
+    sexualOrientation: new FormControl('', [Validators.nullValidator]),
   })
+
+  religions = religions;
+  origins = origins;
+  professions = professions
 
   user: User = new User();
 
@@ -30,7 +46,8 @@ export class ProfilPersonalsComponent {
 
   constructor(
     private apiHandler: ApiHandlerService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private toaster: ToasterService
   ) {
   }
 
@@ -44,12 +61,7 @@ export class ProfilPersonalsComponent {
       next: (data: User) => {
         this.user = data;
         this.loadingService.decrement();
-        this.updateInformationsForm.patchValue({
-          telephone: this.user.telephone,
-          address: this.user.address,
-          profession: this.user.profession,
-          description: this.user.description
-        })
+        this.prefillFormWithUser();
         if(this.user.profilePicture){
           this.imageInput.setImage(this.user.profilePicture);
         }
@@ -59,13 +71,79 @@ export class ProfilPersonalsComponent {
     });
   }
 
+  prefillFormWithUser() {
+    this.updateInformationsForm.patchValue({
+      telephone: this.user.telephone,
+      address: this.user.address,
+      postalCode: this.user.postalCode,
+      city: this.user.city,
+      profession: this.user.profession,
+      yearsOfExperience: this.user.yearsOfExperience,
+      origin: this.user.origin,
+      religion: this.user.religion,
+      actualSex: this.user.actualSex,
+      sexualOrientation: this.user.sexualOrientation
+    });
+  }
+
   onSubmit(){
-    if(this.updateInformationsForm.valid){
-      this.loadingService.increment();
-      this.apiHandler.updateUser(this.updateInformationsForm.value).subscribe(() => {
-        this.loadingService.decrement();
-      });
+    this.loadingService.increment();
+    let formValue = {};
+    if(this.updateInformationsForm.value.telephone) {
+      formValue = {...formValue, telephone: this.updateInformationsForm.value.telephone};
     }
+    if(this.updateInformationsForm.value.address) {
+      formValue = {...formValue, address: this.updateInformationsForm.value.address};
+    }
+    if(this.updateInformationsForm.value.postalCode) {
+      formValue = {...formValue, postalCode: this.updateInformationsForm.value.postalCode};
+    }
+    if(this.updateInformationsForm.value.city) {
+      formValue = {...formValue, city: this.updateInformationsForm.value.city};
+    }
+    if(this.updateInformationsForm.value.profession) {
+      formValue = {...formValue, profession: this.updateInformationsForm.value.profession as string};
+    } else {
+      formValue = {...formValue, profession: null};
+    }
+    if(this.updateInformationsForm.value.yearsOfExperience) {
+      formValue = {...formValue, yearsOfExperience: this.updateInformationsForm.value.yearsOfExperience as number};
+    } else {
+      formValue = {...formValue, yearsOfExperience: null};
+    }
+    if(this.updateInformationsForm.value.origin) {
+      formValue = {...formValue, origin: this.updateInformationsForm.value.origin as string};
+    } else {
+      formValue = {...formValue, origin: null};
+    }
+    if(this.updateInformationsForm.value.religion) {
+      formValue = {...formValue, religion: this.updateInformationsForm.value.religion as string};
+    } else {
+      formValue = {...formValue, religion: null};
+    }
+    if(this.updateInformationsForm.value.actualSex) {
+      formValue = {...formValue, actualSex: this.updateInformationsForm.value.actualSex as string};
+    } else {
+      formValue = {...formValue, actualSex: null};
+    }
+    if(this.updateInformationsForm.value.sexualOrientation) {
+      formValue = {...formValue, sexualOrientation: this.updateInformationsForm.value.sexualOrientation as string};
+    } else {
+      formValue = {...formValue, sexualOrientation: null};
+    }
+
+    console.log(formValue); 
+
+    this.apiHandler.updateUser(formValue).subscribe({
+      next: () => {
+        this.loadingService.decrement();
+        this.toaster.success('Vos informations ont bien été mises à jour');
+      },
+      error: () => {
+        this.loadingService.decrement();
+        this.toaster.error('Une erreur est survenue lors de la mise à jour de vos informations');
+      }
+    });
   }
 
   onSubmitImage(){

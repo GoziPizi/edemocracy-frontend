@@ -1,6 +1,6 @@
 <div id="header">
     <h3>Débats associés au parti</h3>
-    <button class="validate-button">Ajouter un débat</button>
+    <button (click)="createDebate()" class="validate-button">Ajouter un débat</button>
 </div>
 <div id="debate-container" [ngClass]="{'limited-height':!expanded}">
     <div *ngFor="let debate of debateThumbnails">

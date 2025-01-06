@@ -36,4 +36,8 @@ export class PartyDebateComponent {
     this.expanded = !this.expanded;
   }
 
+  createDebate() {
+    //TODO
+  }
+
 } 

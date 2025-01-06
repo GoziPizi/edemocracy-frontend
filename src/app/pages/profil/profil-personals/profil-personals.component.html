@@ -1,14 +1,76 @@
-<div id="container">
+<div id="container-update">
     <form [formGroup]="updateInformationsForm" id="updateForm" >
         <!--phone, adress, profession, description-->
         <label for="telephone">Téléphone</label>
-        <input type="text" formControlName="telephone" id="telephone" name="telephone">
+        <input type="text" formControlName="telephone" id="telephone" name="telephone" class="input">
         <label for="adress">Adresse</label>
-        <input type="text" formControlName="address" id="address" name="address">
+        <input type="text" formControlName="address" id="address" name="address" class="input">
+        <label for="postalCode">Code postal</label>
+        <input type="text" formControlName="postalCode" id="postalCode" name="postalCode" class="input">
+        <label for="city">Ville</label>
+        <input type="text" formControlName="city" id="city" name="city" class="input">
         <label for="profession">Profession</label>
-        <input type="text" formControlName="profession" id="profession" name="profession">
-        <label for="description">Description</label>
-        <textarea formControlName="description" id="description" name="description"></textarea>
+        <ng-select 
+            class="custom" 
+            formControlName="profession" 
+            [items]="professions" 
+            bindLabel="name" 
+            bindValue="name" 
+            placeholder="Choisir une profession" 
+            [multiple]="false"
+            required></ng-select>
+        <label for="tearsOfExperience">Années d'expérience</label>
+        <input type="number" formControlName="yearsOfExperience" id="yearsOfExperience" name="yearsOfExperience" class="input">
+        <label for="actualSex">Identité de genre :</label>
+        <ng-select
+            class="custom"
+            formControlName="actualSex">
+            <ng-option [value]="'Cisgenre'">Cisgenre</ng-option>
+            <ng-option [value]="'Transgenre'">Transgenre</ng-option>
+            <ng-option [value]="'Non-binaire'">Non-binaire</ng-option>
+            <ng-option [value]="'Genderqueer'">Genderqueer</ng-option>
+            <ng-option [value]="'Pangender'">Pangender</ng-option>
+            <ng-option [value]="'Genderfluid'">Genderfluid</ng-option>
+            <ng-option [value]="'Agender'">Agender</ng-option>
+            <ng-option [value]="'Bigender'">Bigender</ng-option>
+            <ng-option [value]="'Third-gender'">Third-gender</ng-option>
+            <ng-option [value]="'Two-spirit'">Two-spirit</ng-option>
+            <ng-option [value]="'Asexual'">Asexual</ng-option>
+        </ng-select>
+
+        <label for="sexualOrientation">Orientation sexuelle :</label>
+        <ng-select
+            class="custom"
+            formControlName="sexualOrientation">
+            <ng-option [value]="'Hétérosexuel'">Hétérosexuel</ng-option>
+            <ng-option [value]="'Homosexuel'">Homosexuel</ng-option>
+            <ng-option [value]="'Bisexuel'">Bisexuel</ng-option>
+            <ng-option [value]="'Asexuel'">Asexuel</ng-option>
+            <ng-option [value]="'Pansexuel'">Pansexuel</ng-option>
+            <ng-option [value]="'Autre'">Autre</ng-option>
+        </ng-select>
+
+        <label for="religion">Religion :</label>
+        <ng-select 
+            class="custom" 
+            formControlName="religion" 
+            [items]="religions" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'importance de la religion" 
+            [multiple]="false"
+            required></ng-select>
+
+        <label for="origin">Origine :</label>
+        <ng-select 
+            class="custom" 
+            formControlName="origin" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
     </form>
     <p id="validate-button" (click)="onSubmit()" >Valider</p>
 </div>

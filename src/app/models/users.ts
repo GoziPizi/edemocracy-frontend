@@ -24,6 +24,7 @@ export class User {
     actualSex: string = '';
     sexualOrientation: string = '';
     religion: string = '';
+    origin: string = '';
     telephone: string = '';
     language: string = '';
     contributionStatus: MembershipStatus = MembershipStatus.NONE;
