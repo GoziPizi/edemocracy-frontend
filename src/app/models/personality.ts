@@ -7,6 +7,7 @@ export class Personality {
   for: string[] = ['id-for'];
   against: string[] = ['id-against'];
   description: string = 'description';
+  firstDebateDisplay?: string;
 }
 
 export class PersonalityWithUser extends Personality {

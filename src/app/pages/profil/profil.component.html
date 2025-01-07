@@ -67,6 +67,14 @@
                 <textarea #personalityDescription id="personality-description" (input)="onPersonalityDescriptionChange()" >{{userPersonality.description}}</textarea>
                 <button (click)="updatePersonality()" *ngIf="isPersonalityModified" id="modify-personality-button">Mettre à jour</button>
             </div>
+            <div id="personnalityDebates" *ngIf="userPersonality">
+                <h2>Débats de votre personnalité:</h2>
+                <button class="validate-button" (click)="createDebate()" >Ajouter un débat</button>
+                <div *ngFor="let debate of debates">
+                    <app-debate-thumbnail [debate]="debate" ></app-debate-thumbnail>
+                    <button class="validate-button" (click)="makeDebateFirst(debate.id)" >Faire de ce débat le premier débat affiché.</button>
+                </div>
+            </div>
         </div>
     </div>
     <div id="opinions" class="open-menu">

@@ -9,7 +9,9 @@ export class Debate {
     topicId?: string = '';
     argumentId?: string = '';
     partyId?: string = '';
+    partyCreatorId?: string = '';
     personnalityId?: string = '';
+    personnalityCreatorId?: string = '';
     debateResult: DebateResult = new DebateResult();
     debateContributorsResult: DebateResult = new DebateResult();
     hasVote: DebateVote | null = null;

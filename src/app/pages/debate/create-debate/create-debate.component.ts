@@ -20,6 +20,19 @@ export class CreateDebateComponent {
 
   partyCreatorId: string | null = null;
   partyId: string | null = null;
+  personalityCreatorId: string | null = null;
+  personalityId: string | null = null;
+
+  createDebateForm = new FormGroup({
+    title: new FormControl('', Validators.required),
+    content: new FormControl('', Validators.required),
+    topicId: new FormControl(''),
+    argumentId: new FormControl(''),
+    partyCreatorId: new FormControl(''),
+    partyId: new FormControl(''),
+    personalityCreatorId: new FormControl(''),
+    personalityId: new FormControl('')
+  })
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +61,14 @@ export class CreateDebateComponent {
         if (partyId) {
           this.partyId = partyId
         }
+        const personalityId: string | null = params['personalityId']
+        if (personalityId) {
+          this.personalityId = personalityId
+        }
+        const personalityCreatorId: string | null = params['personalityCreatorId']
+        if (personalityCreatorId) {
+          this.personalityCreatorId = personalityCreatorId
+        }
         this.fetchArgument()
       }
     })
@@ -58,15 +79,6 @@ export class CreateDebateComponent {
       this.topicSelectorComponent.forceSelectTopic(this.createDebateForm.value.topicId)
     }
   }
-
-  createDebateForm = new FormGroup({
-    title: new FormControl('', Validators.required),
-    content: new FormControl('', Validators.required),
-    topicId: new FormControl(''),
-    argumentId: new FormControl(''),
-    partyCreatorId: new FormControl(''),
-    partyId: new FormControl('')
-  })
 
   argumentValue: string = ''
 
@@ -94,6 +106,12 @@ export class CreateDebateComponent {
     }
     if(this.partyId) {
       this.createDebateForm.patchValue({partyId: this.partyId})
+    }
+    if(this.personalityCreatorId) {
+      this.createDebateForm.patchValue({personalityCreatorId: this.personalityCreatorId})
+    }
+    if(this.personalityId) {
+      this.createDebateForm.patchValue({personalityId: this.personalityId})
     }
     this.createDebateForm.patchValue({topicId: this.topicSelectorComponent.topicId})
     this.apiHandler.postDebate(this.createDebateForm.value).subscribe({

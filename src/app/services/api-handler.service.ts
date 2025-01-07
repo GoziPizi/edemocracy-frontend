@@ -389,7 +389,7 @@ export class ApiHandlerService {
 
   getPersonality(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/personality/${id}`, {
+    return this.http.get<Personality>(`${this.baseUrl}/api/personality/${id}`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -426,6 +426,33 @@ export class ApiHandlerService {
   getPersonalityOpinions(id: string) {
     const token = localStorage.getItem('token');
     return this.http.get<OpinionWithTopicName[]>(`${this.baseUrl}/api/personality/${id}/opinions`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getPersonalityDebates(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<Debate[]>(`${this.baseUrl}/api/personality/${id}/debates`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getPersonalityPersonalDebates(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.get<Debate[]>(`${this.baseUrl}/api/personality/${id}/personal-debates`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  setFirstDebateDisplayForPersonality(id: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${this.baseUrl}/api/personality/${id}/first-debate-display`, {}, {
       headers: {
         Authorization: `${token}`,
       },

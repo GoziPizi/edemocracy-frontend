@@ -15,11 +15,13 @@ import { VisitorService } from '../../services/visitor.service';
 import { FollowsComponent } from './follows/follows.component';
 import { CotisationComponentComponent } from './cotisation-component/cotisation-component.component';
 import { SignalementsComponent } from "./signalements/signalements.component";
+import { DebateThumbnailComponent } from "../../thumbnails/debates/debate-thumbnail/debate-thumbnail.component";
+import { Debate } from '../../models/debate';
 
 @Component({
   selector: 'app-profil',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProfilOpinionsComponent, ProfilPersonalsComponent, FormsModule, ProfilSettingsComponent, FollowsComponent, CotisationComponentComponent, SignalementsComponent],
+  imports: [CommonModule, RouterModule, ProfilOpinionsComponent, ProfilPersonalsComponent, FormsModule, ProfilSettingsComponent, FollowsComponent, CotisationComponentComponent, SignalementsComponent, DebateThumbnailComponent],
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss'
 })
@@ -41,6 +43,8 @@ export class ProfilComponent {
   personality: boolean = false;
   followsOpen: boolean = false;
   signalements: boolean = false;
+
+  debates: Debate[] = [];
 
   constructor(
     private apiHandler: ApiHandlerService,
@@ -106,6 +110,7 @@ export class ProfilComponent {
       next: (data: Personality) => {
         this.userPersonality = data;
         this.loadingService.decrement();
+        this.fetchDebates();
       },error: (error) => {
         this.toasterService.error('Une erreur est survenue lors de la récupération de votre profil de personnalité.');
         this.loadingService.decrement();
@@ -130,6 +135,30 @@ export class ProfilComponent {
       this.fetchUserPersonality();
       this.loadingService.decrement();
     }); 
+  }
+
+  createDebate() {
+    this.router.navigate(['/debate/create'], {
+      queryParams: { personalityCreatorId: this.userPersonality!.id },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  fetchDebates() {
+    this.apiHandler.getPersonalityPersonalDebates(this.userPersonality!.id).subscribe((debates: any) => {
+      this.debates = debates;
+    });
+  }
+
+  makeDebateFirst(debateId: string) {
+    this.apiHandler.setFirstDebateDisplayForPersonality(this.userPersonality!.id).subscribe({
+      next: () => {
+        this.toasterService.success('Débat mis en avant');
+      },
+      error: () => {
+        this.toasterService.error('Erreur lors de la mise en avant du débat');
+      }
+    });
   }
 
   logout(){
