@@ -7,11 +7,13 @@ import { OpinionsComponent } from './opinions/opinions.component';
 import { CareerComponent } from './career/career.component';
 import { SmallTopicThumbnailComponent } from '../../thumbnails/topic-thumbnail/small-topic-thumbnail/small-topic-thumbnail.component';
 import { CommonModule } from '@angular/common';
+import { PersonalityDebateComponent } from "./personality-debate/personality-debate.component";
+import { PersonalityPersonalDebateComponent } from "./personality-personal-debate/personality-personal-debate.component";
 
 @Component({
   selector: 'app-personality',
   standalone: true,
-  imports: [OpinionsComponent, CareerComponent, SmallTopicThumbnailComponent, CommonModule],
+  imports: [OpinionsComponent, CommonModule, PersonalityDebateComponent, PersonalityPersonalDebateComponent],
   templateUrl: './personality.component.html',
   styleUrl: './personality.component.scss'
 })

@@ -1,0 +1,17 @@
+<div id="header">
+    <h3>Débats de la personnalité:</h3>
+</div>
+<div id="debate-container" [ngClass]="{'limited-height':!expanded}" *ngIf="debateThumbnails.length > 0">
+    <div *ngFor="let debate of debateThumbnails">
+        <app-debate-advanced-thumbnail class="debate-thumbnail" [debate]="debate"></app-debate-advanced-thumbnail>
+    </div>
+    <div *ngIf="!expanded" class="fade-overlay">
+        <i class="fa-solid fa-chevron-down toggle-button" (click)="toggleExpanded()"></i>
+    </div>
+    <div *ngIf="expanded && !fullList" >
+        <button (click)="toggleFullView()" class="validate-button">Afficher tout</button>
+    </div>
+</div>
+<div id="no-debates" *ngIf="debateThumbnails.length === 0">
+    <p>Aucun débat n'a été trouvé.</p>
+</div>

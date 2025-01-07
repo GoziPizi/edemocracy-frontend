@@ -1,0 +1,57 @@
+#header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.validate-button {
+    margin-left: 20px;
+    height: min-content;
+}
+
+#debate-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.debate-thumbnail {
+    margin-top: 10px;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.limited-height {
+    height: 250px;
+    overflow-y: hidden;
+}
+
+.fade-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px; /* Ajustez la hauteur du dégradé */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.toggle-button {
+    color: gray;
+    font-size: 1.5rem;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.7); /* Optionnel pour un fond blanc semi-transparent */
+    border-radius: 50%;
+    padding: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.toggle-button:hover {
+    transform: scale(1.1); /* Zoom léger au survol */
+}

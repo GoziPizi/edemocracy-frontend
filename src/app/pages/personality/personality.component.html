@@ -6,6 +6,14 @@
         <img src="{{personality.user.profilePicture || defaultImage}}" alt="Photo de {{personality.user.firstName}} {{personality.user.name}}">
     </div>
     <div class="line"></div>
+    <div id="personal-debates">
+        <app-personality-personal-debate [personalityId]="personalityId" ></app-personality-personal-debate>
+    </div>
+    <div class="line"></div>
+    <div id="debates">
+        <app-personality-debate [personalityId]="personalityId" ></app-personality-debate>
+    </div>
+    <div class="line"></div>
     <div id="opinions">
         <app-opinions #opinionsDisplayer></app-opinions>
     </div>
