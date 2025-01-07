@@ -84,38 +84,38 @@
         <ng-select
             class="custom"
             formControlName="birthSex">
-            <ng-option>Femme</ng-option>
-            <ng-option>Homme</ng-option>
-            <ng-option>Autre</ng-option>
+            <ng-option [value]="'Femme'" >Femme</ng-option>
+            <ng-option [value]="'Homme'">Homme</ng-option>
+            <ng-option [value]="'Autre'">Autre</ng-option>
         </ng-select>
 
         <label for="actualSex">Identité de genre :</label>
         <ng-select
             class="custom"
             formControlName="actualSex">
-            <ng-option>Cisgenre</ng-option>
-            <ng-option>Transgenre</ng-option>
-            <ng-option>Non-binaire</ng-option>
-            <ng-option>Genderqueer</ng-option>
-            <ng-option>Pangender</ng-option>
-            <ng-option>Genderfluid</ng-option>
-            <ng-option>Agender</ng-option>
-            <ng-option>Bigender</ng-option>
-            <ng-option>Third-gender</ng-option>
-            <ng-option>Two-spirit</ng-option>
-            <ng-option>Asexual</ng-option>
+            <ng-option [value]="'Cisgenre'">Cisgenre</ng-option>
+            <ng-option [value]="'Transgenre'">Transgenre</ng-option>
+            <ng-option [value]="'Non-binaire'">Non-binaire</ng-option>
+            <ng-option [value]="'Genderqueer'">Genderqueer</ng-option>
+            <ng-option [value]="'Pangender'">Pangender</ng-option>
+            <ng-option [value]="'Genderfluid'">Genderfluid</ng-option>
+            <ng-option [value]="'Agender'">Agender</ng-option>
+            <ng-option [value]="'Bigender'">Bigender</ng-option>
+            <ng-option [value]="'Third-gender'">Third-gender</ng-option>
+            <ng-option [value]="'Two-spirit'">Two-spirit</ng-option>
+            <ng-option [value]="'Asexual'">Asexual</ng-option>
         </ng-select>
 
         <label for="sexualOrientation">Orientation sexuelle :</label>
         <ng-select
             class="custom"
             formControlName="sexualOrientation">
-            <ng-option>Hétérosexuel</ng-option>
-            <ng-option>Homosexuel</ng-option>
-            <ng-option>Bisexuel</ng-option>
-            <ng-option>Asexuel</ng-option>
-            <ng-option>Pansexuel</ng-option>
-            <ng-option>Autre</ng-option>
+            <ng-option [value]="'Hétérosexuel'">Hétérosexuel</ng-option>
+            <ng-option [value]="'Homosexuel'">Homosexuel</ng-option>
+            <ng-option [value]="'Bisexuel'">Bisexuel</ng-option>
+            <ng-option [value]="'Asexuel'">Asexuel</ng-option>
+            <ng-option [value]="'Pansexuel'">Pansexuel</ng-option>
+            <ng-option [value]="'Autre'">Autre</ng-option>
         </ng-select>
 
         <div class="line"></div>
