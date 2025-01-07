@@ -1,5 +1,5 @@
 <div id="container">
-    <div [routerLink]="['/publish-topic']" id="publish-button" *ngIf="!isVisitor" >
+    <div [routerLink]="['/publish-topic']" id="publish-button" *ngIf="isAdmin" >
         <i class="fas fa-plus fa-3x"></i>
     </div>
     <div id="left-container">

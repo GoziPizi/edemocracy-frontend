@@ -78,4 +78,13 @@ export class TopicSelectorComponent {
     this.searchTerm = '';
   }
 
+  forceSelectTopic(topicId: string) {
+    this.apiHandler.getTopicById(topicId).subscribe({
+      next: (res: any) => {
+        this.selectedTopic = res;
+        this.topicId = topicId;
+      }
+    });
+  }
+
 }

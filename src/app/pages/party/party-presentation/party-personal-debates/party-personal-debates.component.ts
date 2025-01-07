@@ -16,9 +16,11 @@ export class PartyPersonalDebatesComponent {
 
   @Input() partyId!: string;
   debateThumbnails: Debate[] = [];
+  fetchedDebates: Debate[] = [];
   party: Party = new Party();
 
   expanded: boolean = false;
+  fullList: boolean = false;
 
   constructor(
     private apiHandler: ApiHandlerService
@@ -31,7 +33,8 @@ export class PartyPersonalDebatesComponent {
 
   fetchPersonalDebates() {
     this.apiHandler.getPersonalDebateOfParty(this.partyId).subscribe((debates: Debate[]) => {
-      this.debateThumbnails = debates;
+      this.fetchedDebates = debates;
+      this.debateThumbnails = debates.slice(0, 5);
       this.updateDebatesOrder();
     });
   }
@@ -57,6 +60,11 @@ export class PartyPersonalDebatesComponent {
 
   toggleExpanded() {
     this.expanded = !this.expanded;
+  }
+
+  toggleFullView() {
+    this.fullList = !this.fullList;
+    this.debateThumbnails = this.fetchedDebates;
   }
 
 }

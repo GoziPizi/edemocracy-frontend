@@ -8,6 +8,9 @@
     <div *ngIf="!expanded" class="fade-overlay">
         <i class="fa-solid fa-chevron-down toggle-button" (click)="toggleExpanded()"></i>
     </div>
+    <div *ngIf="expanded && !fullList" >
+        <button (click)="toggleFullView()" class="validate-button">Afficher tout</button>
+    </div>
 </div>
 <div id="no-debates" *ngIf="debateThumbnails.length === 0">
     <p>Aucun débat n'a été trouvé.</p>

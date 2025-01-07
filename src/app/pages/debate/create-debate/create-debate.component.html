@@ -1,14 +1,13 @@
 <div id="container">
     <form [formGroup]="createDebateForm" id="create-debate-form">
         <p *ngIf="partyCreatorId">Vous allez créer un débat pour votre parti.</p>
+        <p *ngIf="partyId">Vous allez créer un débat concernant le parti.</p>
         <label for="title">Titre</label>
         <input type="text" formControlName="title" id="title" name="title" class="input" required>
         <label for="content">Description</label>
         <textarea class="input" rows="4" formControlName="content" id="description" name="content" required></textarea>
-        <div id="topic-presentation" *ngIf="createDebateForm.value.topicId">
-            <label for="topicId">Sujet du débat :</label>
-            <app-small-topic-thumbnail [topicId]="createDebateForm.value.topicId"></app-small-topic-thumbnail>
-        </div>
+        <h2>Choisissez un sujet (optionnel)</h2>
+        <app-topic-selector #topicSelector ></app-topic-selector>
         <div id="argument-presentation" *ngIf="createDebateForm.value.argumentId">
             <label for="argumentId">Argument du débat :</label>
             <p>{{argumentValue}}</p>

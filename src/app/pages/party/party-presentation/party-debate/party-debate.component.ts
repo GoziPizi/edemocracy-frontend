@@ -3,6 +3,7 @@ import { ApiHandlerService } from '../../../../services/api-handler.service';
 import { Debate } from '../../../../models/debate';
 import { CommonModule } from '@angular/common';
 import { DebateAdvancedThumbnailComponent } from "../../../../thumbnails/debates/debate-advanced-thumbnail/debate-advanced-thumbnail.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-party-debate',
@@ -14,12 +15,15 @@ import { DebateAdvancedThumbnailComponent } from "../../../../thumbnails/debates
 export class PartyDebateComponent {
 
   @Input() partyId!: string;
+  fetchedDebates: Debate[] = [];
   debateThumbnails: Debate[] = [];
 
   expanded: boolean = false;
+  fullList: boolean = false;
 
   constructor(
-    private apiHandler: ApiHandlerService
+    private apiHandler: ApiHandlerService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -28,6 +32,7 @@ export class PartyDebateComponent {
 
   fetchDebateThumbnails() {
     this.apiHandler.getPartyDebates(this.partyId).subscribe((debates: Debate[]) => {
+      this.fetchedDebates = debates;
       this.debateThumbnails = debates.slice(0, 5);
     });
   }
@@ -37,7 +42,15 @@ export class PartyDebateComponent {
   }
 
   createDebate() {
-    //TODO
+    this.router.navigate(['/debate/create'], {
+      queryParams: { partyId: this.partyId },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  toggleFullView() {
+    this.fullList = !this.fullList;
+    this.debateThumbnails = this.fetchedDebates;
   }
 
 } 

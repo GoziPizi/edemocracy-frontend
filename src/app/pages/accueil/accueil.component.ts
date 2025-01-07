@@ -86,4 +86,11 @@ export class AccueilComponent {
   get isVisitor() {
     return this.visitorService.isVisitor;
   }
+
+  get isAdmin() {
+    const role = this.apiHandler.role
+    if(!role) return false;
+    if(role !== 'ADMIN') return false;
+    return true
+  }
 }

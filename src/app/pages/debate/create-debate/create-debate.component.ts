@@ -1,23 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHandlerService } from '../../../services/api-handler.service';
 import { LoadingService } from '../../../services/loading.service';
-import { Topic } from '../../../models/topics';
-import { SmallTopicThumbnailComponent } from '../../../thumbnails/topic-thumbnail/small-topic-thumbnail/small-topic-thumbnail.component';
 import { CommonModule } from '@angular/common';
 import { ToasterService } from '../../../services/toaster.service';
+import { TopicSelectorComponent } from "../../publish-topic/topic-selector/topic-selector.component";
 
 @Component({
   selector: 'app-create-debate',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, SmallTopicThumbnailComponent, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, TopicSelectorComponent],
   templateUrl: './create-debate.component.html',
   styleUrl: './create-debate.component.scss'
 })
 export class CreateDebateComponent {
 
+  @ViewChild(TopicSelectorComponent) topicSelectorComponent!: TopicSelectorComponent;
+
   partyCreatorId: string | null = null;
+  partyId: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,9 +44,19 @@ export class CreateDebateComponent {
         if (partyCreatorId) {
           this.partyCreatorId = partyCreatorId
         }
+        const partyId: string | null = params['partyId']
+        if (partyId) {
+          this.partyId = partyId
+        }
         this.fetchArgument()
       }
     })
+  }
+
+  ngAfterViewInit() {
+    if(this.createDebateForm.value.topicId) {
+      this.topicSelectorComponent.forceSelectTopic(this.createDebateForm.value.topicId)
+    }
   }
 
   createDebateForm = new FormGroup({
@@ -52,7 +64,8 @@ export class CreateDebateComponent {
     content: new FormControl('', Validators.required),
     topicId: new FormControl(''),
     argumentId: new FormControl(''),
-    partyCreatorId: new FormControl('')
+    partyCreatorId: new FormControl(''),
+    partyId: new FormControl('')
   })
 
   argumentValue: string = ''
@@ -79,6 +92,10 @@ export class CreateDebateComponent {
     if(this.partyCreatorId) {
       this.createDebateForm.patchValue({partyCreatorId: this.partyCreatorId})
     }
+    if(this.partyId) {
+      this.createDebateForm.patchValue({partyId: this.partyId})
+    }
+    this.createDebateForm.patchValue({topicId: this.topicSelectorComponent.topicId})
     this.apiHandler.postDebate(this.createDebateForm.value).subscribe({
       next: (response: any) => {
         this.loadingService.decrement()
