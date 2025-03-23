@@ -6,6 +6,14 @@
     <h4 id="title" *ngIf="!argument.isFlaged || isForcedShown">{{argument.title}}</h4>
     <p id="content" *ngIf="!argument.isFlaged || isForcedShown">{{argument.content}}</p>
     <app-report id="report" [type]="reportType" [id]="argument.id" [size]="'small'" ></app-report>
+    <div id="moderation-toolbar" *ngIf="isModerator">
+        <button (click)="copy($event)" title="Copier le débat" *ngIf="moderationService.copyStatus">
+            <i class="fa-regular fa-copy fa-xl"></i>
+        </button>
+        <button (click)="fusion($event)" title="Fusionner le débat" *ngIf="moderationService.fusionStatus" >
+            <i class="fa-solid fa-code-merge fa-xl"></i>
+        </button>
+    </div>
     <div id="votes">
         <p>{{argument.nbGood}}</p>
         <i 

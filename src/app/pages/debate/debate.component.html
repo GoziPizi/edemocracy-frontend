@@ -1,4 +1,5 @@
 <div id="page-container">
+    <app-moderation-toolbar id="moderation-toolbar" [copyType]="'debate'" ></app-moderation-toolbar>
     <i class="fa-solid fa-share fa-2x" id="share" (click)="share($event)" ></i>
     <app-report id="report" [id]="debateId" [type]="reportType.DEBATE" [size]="'small'" *ngIf="debateId != '1'"></app-report>
     <app-follow-button 

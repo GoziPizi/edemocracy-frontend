@@ -1,4 +1,5 @@
 export const environment = {
-    production: true,
-    api_url: "https://digital-democracy.com:8080"
-  };
+  production: true,
+  api_url: 'https://democracy-online.com:8080',
+  site_url: 'https://democracy-online.com',
+};

@@ -1,6 +1,6 @@
 <div id="page">
     <i id="back-arrow" [routerLink]="['/register']" class="fa-solid fa-arrow-left"></i>
-    <img src="../../../assets/E-Democracy-no-white.png" alt="image" class="main-image" height="233px" width="600px">
+    <img src="../../../../assets/Democracy_Online_BigLogo.png" alt="image" class="main-image" height="233px" width="600px">
     <h1>Bienvenue</h1>
     <div id="sponsorship-visit" *ngIf="isSponsored">
         <p>Vous avez été invité par un parrain, souhaitez-vous visiter le site avant votre inscription ? Votre code restera utilisable.</p>
@@ -131,16 +131,54 @@
             [multiple]="false"
             required></ng-select>
 
-        <label for="origin">Origine :</label>
+        <label>Origine : (4 maximum)</label>
         <ng-select 
-            class="custom" 
-            formControlName="origin" 
+            class="custom"
+            formControlName="origin1" 
             [items]="origins" 
             bindLabel="label" 
             bindValue="value" 
             placeholder="Choisir l'origine" 
             [multiple]="false"
             required></ng-select>
+
+        <ng-select 
+            *ngIf="registerForm.value.origin1"
+            style="margin-top: 10px"
+            class="custom" 
+            formControlName="origin2" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
+
+        <ng-select 
+            *ngIf="registerForm.value.origin2"
+            style="margin-top: 10px"
+            class="custom" 
+            formControlName="origin3" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
+
+        <ng-select 
+            *ngIf="registerForm.value.origin3"
+            style="margin-top: 10px"
+            class="custom" 
+            formControlName="origin4" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
+
+        
 
         <div class="line"></div>
 

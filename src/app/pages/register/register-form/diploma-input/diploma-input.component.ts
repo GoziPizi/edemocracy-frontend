@@ -8,16 +8,16 @@ import { Subject } from 'rxjs';
   standalone: true,
   imports: [SingleDiplomaComponent, SingleDiplomaComponent, CommonModule],
   templateUrl: './diploma-input.component.html',
-  styleUrl: './diploma-input.component.scss'
+  styleUrl: './diploma-input.component.scss',
 })
 export class DiplomaInputComponent {
+  @ViewChildren(SingleDiplomaComponent)
+  diplomaComponents!: QueryList<SingleDiplomaComponent>;
 
-  @ViewChildren(SingleDiplomaComponent) diplomaComponents!: QueryList <SingleDiplomaComponent>;
-
-  diplomas : {name: string, obtention: string}[] = [];
+  diplomas: { name: string; obtention: number }[] = [];
 
   addDiploma() {
-    this.diplomas.push({name: '', obtention: ''});
+    this.diplomas.push({ name: '', obtention: 2020 });
   }
 
   removeDiploma() {
@@ -25,17 +25,21 @@ export class DiplomaInputComponent {
   }
 
   getDiplomas() {
-    let diplomas: {name: string, obtention: number}[] = [];
+    let diplomas: { name: string; obtention: number }[] = [];
 
-    this.diplomaComponents.forEach(diplomaComponent => {
+    this.diplomaComponents.forEach((diplomaComponent) => {
       diplomas.push({
         name: diplomaComponent.selectedDiploma,
-        obtention: diplomaComponent.selectedYear
+        obtention: diplomaComponent.selectedYear,
       });
     });
 
     return diplomas;
-
   }
 
+  setDiplomas(diplomas: { name: string; obtention: number }[]) {
+    for (let diploma of diplomas) {
+      this.diplomas.push(diploma);
+    }
+  }
 }

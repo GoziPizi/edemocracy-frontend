@@ -9,12 +9,11 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [NgSelectModule, CommonModule, FormsModule],
   templateUrl: './single-diploma.component.html',
-  styleUrl: './single-diploma.component.scss'
+  styleUrl: './single-diploma.component.scss',
 })
 export class SingleDiplomaComponent {
-
   @Input() selectedYear: number = 2020;
-  years : number[] = [];
+  years: number[] = [];
 
   startYear: number = 1950;
   currentYear: number = new Date().getFullYear();
@@ -34,22 +33,17 @@ export class SingleDiplomaComponent {
       this.years.push(i);
     }
 
-    this.rawDiplomas.forEach(diploma => {
-      this.diplomas.push(diploma.intitule_de_la_specialite_du_diplome_et_options + ' - ' + this.accurateReplace(diploma.niveau_du_diplome));
+    this.rawDiplomas.forEach((diploma) => {
+      this.diplomas.push(
+        diploma.intitule_de_la_specialite_du_diplome_et_options +
+          ' - ' +
+          this.accurateReplace(diploma.niveau_du_diplome)
+      );
     });
   }
 
   accurateReplace(str: string) {
-
     let result = str;
-
-    /*
-    'Niveau 1' 'Master/Doctorat'
-    'Niveau 2' 'License'
-    'Niveau 3' 'BAC + 2'
-    'Niveau 4' 'BAC'
-    'Niveau 5' 'BEP/CAP'
-    */
 
     if (str === 'Niveau 1') {
       result = 'Master/Doctorat';
@@ -64,5 +58,4 @@ export class SingleDiplomaComponent {
     }
     return result;
   }
-
 }

@@ -64,7 +64,34 @@
         <label for="origin">Origine :</label>
         <ng-select 
             class="custom" 
-            formControlName="origin" 
+            formControlName="origin1" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
+        <ng-select 
+            class="custom" 
+            formControlName="origin2" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
+        <ng-select 
+            class="custom" 
+            formControlName="origin3" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
+        <ng-select 
+            class="custom" 
+            formControlName="origin4" 
             [items]="origins" 
             bindLabel="label" 
             bindValue="value" 
@@ -73,6 +100,10 @@
             required></ng-select>
     </form>
     <p id="validate-button" (click)="onSubmit()" >Valider</p>
+</div>
+<div id="update-diplomas">
+    <app-diploma-input #diplomaInput ></app-diploma-input>
+    <p id="validate-button" (click)="onSubmitDiplomas()" >Valider</p>
 </div>
 <div id="new-image">
     <h3>Changer votre image de profil</h3>

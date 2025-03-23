@@ -1,4 +1,10 @@
-import { Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation, ElementRef } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ViewEncapsulation,
+  ElementRef,
+} from '@angular/core';
 import { Debate, DebateDescriptionReformulation } from '../../models/debate';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { Argument, ArgumentType } from '../../models/argument';
@@ -9,7 +15,13 @@ import { ForAgainstDebateComponent } from './for-against-debate/for-against-deba
 import { DebateVote } from '../../enums/voteDebate';
 import { debateVoteEnumToString } from '../../mappers/vote-mapper';
 import { Topic } from '../../models/topics';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { LoadingService } from '../../services/loading.service';
 import { SingleArgumentPresentationComponent } from './single-argument-presentation/single-argument-presentation.component';
 import { Subject } from 'rxjs';
@@ -21,12 +33,14 @@ import { VisitorService } from '../../services/visitor.service';
 import { ReportComponent } from '../../utils/report/report.component';
 import { ReportType } from '../../models/report';
 import { FollowButtonComponent } from '../../utils/follow-button/follow-button.component';
+import { ModerationToolbarComponent } from '../../utils/moderation-toolbar/moderation-toolbar.component';
+import { SharingService } from '../../services/sharing.service';
 
 @Component({
   selector: 'app-debate',
   standalone: true,
   imports: [
-    ForAgainstDebateComponent, 
+    ForAgainstDebateComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -34,25 +48,30 @@ import { FollowButtonComponent } from '../../utils/follow-button/follow-button.c
     ArgumentDebatePresentationComponent,
     SingleReformulationPresentationComponent,
     ReportComponent,
-    FollowButtonComponent
+    FollowButtonComponent,
+    ModerationToolbarComponent,
   ],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DebateComponent {
-
   @ViewChild('debateResult') forAgainstDebate!: ForAgainstDebateComponent;
-  @ViewChild('debateContributorsResult') forAgainstContributorsDebate!: ForAgainstDebateComponent;
+  @ViewChild('debateContributorsResult')
+  forAgainstContributorsDebate!: ForAgainstDebateComponent;
   @ViewChild('swiperContainer', { static: false }) swiper!: ElementRef;
 
-  @ViewChild('argumentsFor') argumentsForDisplayer!: ArgumentsDisplayerComponent;
-  @ViewChild('argumentsAgainst') argumentsAgainstDisplayer!: ArgumentsDisplayerComponent;
-  @ViewChild('argumentsSolution') argumentsSolutionDisplayer!: ArgumentsDisplayerComponent;
+  @ViewChild('argumentsFor')
+  argumentsForDisplayer!: ArgumentsDisplayerComponent;
+  @ViewChild('argumentsAgainst')
+  argumentsAgainstDisplayer!: ArgumentsDisplayerComponent;
+  @ViewChild('argumentsSolution')
+  argumentsSolutionDisplayer!: ArgumentsDisplayerComponent;
 
-  @ViewChild('argumentDebatePresentation') argumentDebatePresentation!: ArgumentDebatePresentationComponent;
+  @ViewChild('argumentDebatePresentation')
+  argumentDebatePresentation!: ArgumentDebatePresentationComponent;
 
-  voteSubject$ = new Subject<{argumentId: string, vote: boolean}>
+  voteSubject$ = new Subject<{ argumentId: string; vote: boolean }>();
   voteSubjectSubscription: any;
 
   debateId: string = '1';
@@ -67,8 +86,8 @@ export class DebateComponent {
     DebateVote.FOR,
     DebateVote.NEUTRAL,
     DebateVote.AGAINST,
-    DebateVote.REALLY_AGAINST
-  ]
+    DebateVote.REALLY_AGAINST,
+  ];
 
   routeSubscription: any;
 
@@ -82,14 +101,14 @@ export class DebateComponent {
     content: new FormControl(''),
     isNameDisplayed: new FormControl(false),
     isWorkDisplayed: new FormControl(false),
-    isPoliticSideDisplayed: new FormControl(false)
+    isPoliticSideDisplayed: new FormControl(false),
   });
 
   argumentTypes = [
     ArgumentType.FOR,
     ArgumentType.AGAINST,
-    ArgumentType.SOLUTION
-  ]
+    ArgumentType.SOLUTION,
+  ];
 
   argumentPopUp: boolean = false;
   newArgumentForm = new FormGroup({
@@ -98,7 +117,7 @@ export class DebateComponent {
     type: new FormControl(ArgumentType.FOR, Validators.required),
     isNameDisplayed: new FormControl(false),
     isWorkDisplayed: new FormControl(false),
-    isPoliticSideDisplayed: new FormControl(false)
+    isPoliticSideDisplayed: new FormControl(false),
   });
 
   constructor(
@@ -107,17 +126,18 @@ export class DebateComponent {
     private router: Router,
     private loadingService: LoadingService,
     private toasterService: ToasterService,
-    private visitorService: VisitorService
+    private visitorService: VisitorService,
+    private sharingService: SharingService
   ) {
     this.voteSubjectSubscription = this.voteSubject$.subscribe({
       next: (data) => {
         this.voteForArgument(data.argumentId, data.vote);
-      }
+      },
     });
   }
 
   ngOnInit() {
-    this.routeSubscription = this.route.params.subscribe(params => {
+    this.routeSubscription = this.route.params.subscribe((params) => {
       this.debateId = params['id'];
       this.getDebate();
       this.getDebateArguments();
@@ -137,7 +157,9 @@ export class DebateComponent {
         this.loadingService.decrement();
         this.debate = debate;
         this.forAgainstDebate.setDebateResult(this.debate.debateResult);
-        this.forAgainstContributorsDebate.setDebateResult(this.debate.debateContributorsResult);
+        this.forAgainstContributorsDebate.setDebateResult(
+          this.debate.debateContributorsResult
+        );
         this.getTopic();
         this.argumentDebatePresentation.setArgumentId(this.debate.argumentId);
         this.patchReformulationForm();
@@ -145,25 +167,25 @@ export class DebateComponent {
       error: (err) => {
         this.loadingService.decrement();
         this.toasterService.error('Erreur lors de la récupération du débat');
-      } 
+      },
     });
   }
 
   getDebateArguments() {
     this.loadingService.increment();
-    this.apiHandler.getDebateArguments(this.debateId).subscribe(
-      {
-        next: (args: Argument[]) => {
-          this.loadingService.decrement();
-          this.arguments = args;
-          this.updateArguments();
-        },
-        error: (err) => {
-          this.loadingService.decrement();
-          this.toasterService.error('Erreur lors de la récupération des arguments');
-        }
-      }
-    );
+    this.apiHandler.getDebateArguments(this.debateId).subscribe({
+      next: (args: Argument[]) => {
+        this.loadingService.decrement();
+        this.arguments = args;
+        this.updateArguments();
+      },
+      error: (err) => {
+        this.loadingService.decrement();
+        this.toasterService.error(
+          'Erreur lors de la récupération des arguments'
+        );
+      },
+    });
   }
 
   getDebateReformulations() {
@@ -175,26 +197,28 @@ export class DebateComponent {
       },
       error: (err) => {
         this.loadingService.decrement();
-        this.toasterService.error('Erreur lors de la récupération des reformulations');
-      }
+        this.toasterService.error(
+          'Erreur lors de la récupération des reformulations'
+        );
+      },
     });
   }
 
   patchReformulationForm() {
-    if(this.reformulations.length === 0) return;
+    if (this.reformulations.length === 0) return;
     this.newReformulationForm.patchValue({
       title: this.debate.title,
-      content: this.debate.content
+      content: this.debate.content,
     });
   }
 
   getTopic() {
-    if(!this.debate.topicId) return;
-    this.apiHandler.getTopicById(this.debate.topicId).subscribe(
-      (topic: any) => {
+    if (!this.debate.topicId) return;
+    this.apiHandler
+      .getTopicById(this.debate.topicId)
+      .subscribe((topic: any) => {
         this.debateTopic = topic;
-      }
-    );
+      });
   }
 
   voteForDebate(vote: DebateVote) {
@@ -208,13 +232,13 @@ export class DebateComponent {
       error: (err) => {
         this.loadingService.decrement();
         this.toasterService.error('Erreur lors du vote');
-      }
-    })
+      },
+    });
   }
 
   voteForArgument(argumentId: string, vote: boolean | null) {
     this.loadingService.increment();
-    if(vote === null) {
+    if (vote === null) {
       this.loadingService.increment();
       this.apiHandler.deleteVote(argumentId).subscribe({
         next: () => {
@@ -226,11 +250,11 @@ export class DebateComponent {
           this.loadingService.decrement();
           this.toasterService.error('Erreur lors de la suppression du vote');
           this.refreshPage();
-        }
+        },
       });
       return;
     }
-    if(vote) {
+    if (vote) {
       this.loadingService.increment();
       this.apiHandler.voteUp(argumentId).subscribe({
         next: () => {
@@ -242,35 +266,41 @@ export class DebateComponent {
           this.loadingService.decrement();
           this.toasterService.error('Erreur lors du vote');
           this.refreshPage();
-        }
+        },
       });
       return;
-    }
-    else {
+    } else {
       this.loadingService.increment();
       this.apiHandler.voteDown(argumentId).subscribe({
         next: () => {
           this.loadingService.decrement();
           this.toasterService.success('Vote enregistré');
           this.refreshPage();
-        },error: (err) => {
+        },
+        error: (err) => {
           this.loadingService.decrement();
           this.toasterService.error('Erreur lors du vote');
           this.refreshPage();
-        }
+        },
       });
     }
   }
 
   updateArguments() {
-    this.argumentsForDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.FOR));
-    this.argumentsAgainstDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.AGAINST));
-    this.argumentsSolutionDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.SOLUTION));
+    this.argumentsForDisplayer.setArgumentsList(
+      this.arguments.filter((arg) => arg.type === ArgumentType.FOR)
+    );
+    this.argumentsAgainstDisplayer.setArgumentsList(
+      this.arguments.filter((arg) => arg.type === ArgumentType.AGAINST)
+    );
+    this.argumentsSolutionDisplayer.setArgumentsList(
+      this.arguments.filter((arg) => arg.type === ArgumentType.SOLUTION)
+    );
   }
 
-  isCurrentValue(value: number):boolean {
-    let value2 = DebateVote[value] as unknown
-    let vote = this.debate.hasVote as unknown
+  isCurrentValue(value: number): boolean {
+    let value2 = DebateVote[value] as unknown;
+    let vote = this.debate.hasVote as unknown;
 
     return value2 === vote;
   }
@@ -280,24 +310,26 @@ export class DebateComponent {
     let data: any = this.newArgumentForm.value;
     data = {
       ...data,
-      debateId: this.debateId
-    }
+      debateId: this.debateId,
+    };
     this.apiHandler.postArgument(data).subscribe({
       next: () => {
         this.loadingService.decrement();
         this.toasterService.success('Argument enregistré');
         this.refreshPage();
-      }, 
+      },
       error: (err) => {
-        if(err.error.errorName === 'ContentWithBanWordsException') {
+        if (err.error.errorName === 'ContentWithBanWordsException') {
           this.toasterService.error('Le contenu contient des mots bannis');
           this.loadingService.decrement();
           return;
         }
         this.loadingService.decrement();
-        this.toasterService.error('Erreur lors de l\'enregistrement de l\'argument');
+        this.toasterService.error(
+          "Erreur lors de l'enregistrement de l'argument"
+        );
         this.refreshPage();
-      }
+      },
     });
   }
 
@@ -306,8 +338,8 @@ export class DebateComponent {
     let data: any = this.newReformulationForm.value;
     data = {
       ...data,
-      debateId: this.debateId
-    }
+      debateId: this.debateId,
+    };
     this.apiHandler.postReformulation(data).subscribe({
       next: () => {
         this.loadingService.decrement();
@@ -315,15 +347,17 @@ export class DebateComponent {
         this.refreshPage();
       },
       error: (err) => {
-        if(err.error.errorName === 'ContentWithBanWordsException') {
+        if (err.error.errorName === 'ContentWithBanWordsException') {
           this.toasterService.error('Le contenu contient des mots bannis');
           this.loadingService.decrement();
           return;
         }
         this.loadingService.decrement();
-        this.toasterService.error('Erreur lors de l\'enregistrement de la reformulation');
+        this.toasterService.error(
+          "Erreur lors de l'enregistrement de la reformulation"
+        );
         this.refreshPage();
-      }
+      },
     });
   }
 
@@ -340,12 +374,13 @@ export class DebateComponent {
   }
 
   isNegative(value: number): boolean {
-    const result = value === DebateVote.REALLY_AGAINST || value === DebateVote.AGAINST;
-    return result
+    const result =
+      value === DebateVote.REALLY_AGAINST || value === DebateVote.AGAINST;
+    return result;
   }
 
   getClass(value: number): string {
-    switch(value) {
+    switch (value) {
       case -2:
         return 'red';
       case -1:
@@ -360,20 +395,15 @@ export class DebateComponent {
     return 'grey';
   }
 
-  share(event: any){
-
+  share(event: any) {
     event.stopPropagation();
     event.preventDefault();
 
-    navigator.clipboard.writeText('https://digital-democracy.com/debate/' + this.debate.id).then(() => {
-      this.toasterService.success('Lien copié dans le presse-papier');
-    }).catch(err => {
-      this.toasterService.error('Erreur lors de la copie du texte');
-    });
+    this.sharingService.shareDebate(this.debateId);
   }
 
   get numberOfVotants(): number {
-    const result = 
+    const result =
       this.debate.debateResult.nbReallyFor +
       this.debate.debateResult.nbFor +
       this.debate.debateResult.nbNeutral +
@@ -383,7 +413,7 @@ export class DebateComponent {
   }
 
   get numberOfContributors(): number {
-    const result = 
+    const result =
       this.debate.debateContributorsResult.nbReallyFor +
       this.debate.debateContributorsResult.nbFor +
       this.debate.debateContributorsResult.nbNeutral +
@@ -395,13 +425,22 @@ export class DebateComponent {
   get popularReformulations(): DebateDescriptionReformulation[] {
     return this.reformulations.sort((a, b) => b.score - a.score).slice(0, 3);
   }
-  
+
   get recentReformulations(): DebateDescriptionReformulation[] {
-    return this.reformulations.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 3);
+    return this.reformulations
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
+      .slice(0, 3);
   }
 
   get isDebateFromArgument(): boolean {
-    if(this.debate.argumentId === null || this.debate.argumentId === undefined || this.debate.argumentId === '') {
+    if (
+      this.debate.argumentId === null ||
+      this.debate.argumentId === undefined ||
+      this.debate.argumentId === ''
+    ) {
       return false;
     }
     return true;
@@ -420,32 +459,38 @@ export class DebateComponent {
   }
 
   get lineWidth() {
-    const sumFor = this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
-    const sumAgainst = this.debate.debateResult.nbReallyAgainst + this.debate.debateResult.nbAgainst;
+    const sumFor =
+      this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
+    const sumAgainst =
+      this.debate.debateResult.nbReallyAgainst +
+      this.debate.debateResult.nbAgainst;
     const sum = sumFor + sumAgainst;
-    if(sum === 0) {
+    if (sum === 0) {
       return '50%';
     }
-    return `${sumFor / sum * 100}%`;
+    return `${(sumFor / sum) * 100}%`;
   }
 
   get oppositelineWidth() {
-    const sumFor = this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
-    const sumAgainst = this.debate.debateResult.nbReallyAgainst + this.debate.debateResult.nbAgainst;
+    const sumFor =
+      this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
+    const sumAgainst =
+      this.debate.debateResult.nbReallyAgainst +
+      this.debate.debateResult.nbAgainst;
     const sum = sumFor + sumAgainst;
-    if(sum === 0) {
+    if (sum === 0) {
       return '50%';
     }
-    return `${sumAgainst / sum * 100}%`;
+    return `${(sumAgainst / sum) * 100}%`;
   }
 
   get numberForPourcentage() {
-    const sumFor = this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
+    const sumFor =
+      this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
     const sum = this.numberOfVotants;
-    if(sum === 0) {
+    if (sum === 0) {
       return '0%';
     }
-    return `${sumFor / sum * 100}%`;
+    return `${(sumFor / sum) * 100}%`;
   }
-
 }

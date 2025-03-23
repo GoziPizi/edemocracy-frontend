@@ -41,7 +41,6 @@ export class ArgumentDebatePresentationComponent {
     this.router.navigate(['/debate', this.argument.debateId], {
       queryParamsHandling: 'merge'
     })
-
   }
 
 }

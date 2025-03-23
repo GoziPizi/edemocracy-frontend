@@ -14,28 +14,36 @@ import { ProfilSettingsComponent } from './profil-settings/profil-settings.compo
 import { VisitorService } from '../../services/visitor.service';
 import { FollowsComponent } from './follows/follows.component';
 import { CotisationComponentComponent } from './cotisation-component/cotisation-component.component';
-import { SignalementsComponent } from "./signalements/signalements.component";
-import { DebateThumbnailComponent } from "../../thumbnails/debates/debate-thumbnail/debate-thumbnail.component";
+import { SignalementsComponent } from './signalements/signalements.component';
 import { Debate } from '../../models/debate';
+import { ProfilPersonnalityComponent } from './profil-personnality/profil-personnality.component';
 
 @Component({
   selector: 'app-profil',
   standalone: true,
-  imports: [CommonModule, RouterModule, ProfilOpinionsComponent, ProfilPersonalsComponent, FormsModule, ProfilSettingsComponent, FollowsComponent, CotisationComponentComponent, SignalementsComponent, DebateThumbnailComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ProfilOpinionsComponent,
+    ProfilPersonalsComponent,
+    FormsModule,
+    ProfilSettingsComponent,
+    FollowsComponent,
+    CotisationComponentComponent,
+    SignalementsComponent,
+    ProfilPersonnalityComponent,
+  ],
   templateUrl: './profil.component.html',
-  styleUrl: './profil.component.scss'
+  styleUrl: './profil.component.scss',
 })
 export class ProfilComponent {
-
-  @ViewChild('personalityDescription') personalityDescription: any;
-
   userProfil: User = new User();
   userPartis: Party[] = [];
   userPersonality: Personality | null = null;
 
   isPersonalityModified: boolean = false;
 
-  opinions: boolean = false; 
+  opinions: boolean = false;
   personals: boolean = false;
   settings: boolean = false;
   cotisation: boolean = false;
@@ -48,31 +56,30 @@ export class ProfilComponent {
 
   constructor(
     private apiHandler: ApiHandlerService,
-    private loadingService: LoadingService, 
+    private loadingService: LoadingService,
     private toasterService: ToasterService,
     private visitorService: VisitorService,
     private router: Router
-  ) {
-  }
+  ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     if (this.visitorService.isVisitor) {
       this.router.navigate(['/accueil']);
       this.loadingService.reset();
     }
     this.apiHandler.getUser()!.subscribe({
-      next: (data: User) => {
-      },
+      next: (data: User) => {},
       error: (error) => {
-        this.toasterService.error('Une erreur est survenue lors de la récupération de votre profil.');
-      }
+        this.toasterService.error(
+          'Une erreur est survenue lors de la récupération de votre profil.'
+        );
+      },
     });
     this.fetchUserProfil();
     this.fetchUserPartis();
-    this.fetchUserPersonality();
   }
 
-  fetchUserProfil(){
+  fetchUserProfil() {
     this.loadingService.increment();
     this.apiHandler.getUser()!.subscribe({
       next: (data: User) => {
@@ -80,13 +87,15 @@ export class ProfilComponent {
         this.loadingService.decrement();
       },
       error: (error) => {
-        this.toasterService.error('Une erreur est survenue lors de la récupération de votre profil.');
+        this.toasterService.error(
+          'Une erreur est survenue lors de la récupération de votre profil.'
+        );
         this.loadingService.decrement();
-      }
+      },
     });
   }
 
-  fetchUserPartis(){
+  fetchUserPartis() {
     this.loadingService.increment();
     this.apiHandler.getUserPartis().subscribe({
       next: (data: Party[]) => {
@@ -94,74 +103,15 @@ export class ProfilComponent {
         this.loadingService.decrement();
       },
       error: (error) => {
-        this.toasterService.error('Une erreur est survenue lors de la récupération de vos partis.');
+        this.toasterService.error(
+          'Une erreur est survenue lors de la récupération de vos partis.'
+        );
         this.loadingService.decrement();
-      }
-    });
-  }
-
-  onPersonalityDescriptionChange(){
-    this.isPersonalityModified = true;
-  }
-
-  fetchUserPersonality(){
-    this.loadingService.increment();
-    this.apiHandler.getUserPersonality().subscribe({
-      next: (data: Personality) => {
-        this.userPersonality = data;
-        this.loadingService.decrement();
-        this.fetchDebates();
-      },error: (error) => {
-        this.toasterService.error('Une erreur est survenue lors de la récupération de votre profil de personnalité.');
-        this.loadingService.decrement();
-      }
-    });
-  }
-
-  updatePersonality(){
-    this.loadingService.increment();
-    const description = this.personalityDescription.nativeElement.value;
-    this.apiHandler.updatePersonalityDescription(description).subscribe(() => {
-      this.toasterService.success('Votre description a été mise à jour.');
-      this.loadingService.decrement();
-      this.isPersonalityModified = false;
-    });
-  }
-
-  createPersonality(){
-    this.loadingService.increment();
-    this.apiHandler.becomePersonality().subscribe(() => {
-      this.toasterService.success('Vous êtes désormais une personnalité publique.');
-      this.fetchUserPersonality();
-      this.loadingService.decrement();
-    }); 
-  }
-
-  createDebate() {
-    this.router.navigate(['/debate/create'], {
-      queryParams: { personalityCreatorId: this.userPersonality!.id },
-      queryParamsHandling: 'merge'
-    });
-  }
-
-  fetchDebates() {
-    this.apiHandler.getPersonalityPersonalDebates(this.userPersonality!.id).subscribe((debates: any) => {
-      this.debates = debates;
-    });
-  }
-
-  makeDebateFirst(debateId: string) {
-    this.apiHandler.setFirstDebateDisplayForPersonality(this.userPersonality!.id).subscribe({
-      next: () => {
-        this.toasterService.success('Débat mis en avant');
       },
-      error: () => {
-        this.toasterService.error('Erreur lors de la mise en avant du débat');
-      }
     });
   }
 
-  logout(){
+  logout() {
     this.apiHandler.logout();
   }
 

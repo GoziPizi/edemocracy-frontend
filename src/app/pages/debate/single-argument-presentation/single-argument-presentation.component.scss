@@ -25,8 +25,43 @@
     cursor: pointer;
 }
 
+#moderation-toolbar {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+#moderation-toolbar button {
+
+    height: 40px;
+    width: 40px;
+
+    background-color: transparent;
+    border: none;
+    border-radius: 20px;
+
+    cursor: pointer;
+
+    transition: all 0.3s;
+
+    &:hover {
+        background-color: #CCC;
+    }
+}
+
+i {
+    background-color: transparent;
+}
+
 #container:hover #report {
     display: block;
+}
+
+#container:hover #moderation-toolbar {
+    display: flex;
 }
 
 #content {

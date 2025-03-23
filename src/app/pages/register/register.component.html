@@ -1,27 +1,27 @@
 <div id="page">
     <i id="back-arrow" [routerLink]="['/landing']" class="fa-solid fa-arrow-left"></i>
-    <img src="../../../assets/E-Democracy-no-white.png" alt="image" class="main-image" height="233px" width="600px">
+    <img src="../../../assets/Democracy_Online_BigLogo.png" alt="image" class="main-image" height="233px" width="600px">
     <h1>Inscription</h1>
     <div id="thumbnails-container">
         <app-register-thumbnail
             class="thumbnail"
             title="Gratuit"
             price="Gratuit"
-            [features]="['Prix : 0€', 'Accès au site', 'Sondages non vérifiés']"
+            [features]="['Prix : Gratuit', 'Accès au site', 'Sondages non vérifiés']"
             description="Idéal pour : Ceux qui veulent se faire une idée de la démocratie participative."
             redirect="free"></app-register-thumbnail>
         <app-register-thumbnail
             class="thumbnail"
             title="Standard"
             price="4.99€"
-            [features]="['Prix : 4.99€', 'Accès complet au site', 'Sondages vérifiés']"
+            [features]="['Prix d\'inscription : 4.99€','Abonnement: Gratuit' , 'Accès complet au site', 'Sondages vérifiés', 'Accès au système de parrainage : remboursez votre inscription et plus encore en parrainant vos amis.']"
             description="Idéal pour : Ceux qui souhaitent que leurs votes soient pris en compte pour un résultat fiable."
             redirect="standard"></app-register-thumbnail>
         <app-register-thumbnail
             class="thumbnail"
             title="Premium"
             price="14.99€/ an"
-            [features]="['Prix : 14.99€/ an', 'Accès complet au site', 'Sondages vérifiés', 'Souscription au parti « Mouvement des Citoyens Actifs (MCA) »', 'Le MCA s\'engage à respecter les avis obtenus sur le site via ses représentants afin de mettre en place une démocratie participative.']"
+            [features]="['Prix : 14.99€/ an', 'Formule standard + MCA', 'Souscription au parti « Mouvement des Citoyens Actifs (MCA) ». Le MCA s\'engage à respecter les avis obtenus sur le site via ses représentants afin de mettre en place une démocratie participative lorsque nous aurons des représentants.', 'Adhésion à l\'association Virtual Democracy Initiative, permettant de participer au développement, à l\'éthique et à la modération du site lui-même.']"
             description="Idéal pour : Membre engagé voulant influencer activement les décisions politiques ."
             redirect="premium"></app-register-thumbnail>
     </div>
