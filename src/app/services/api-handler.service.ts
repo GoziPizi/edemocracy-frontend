@@ -23,6 +23,7 @@ import { ReportType } from '../models/report';
 import { adminViewPersonalJackpot } from '../models/jackpot';
 import { MediaDebateThumbnail } from '../pages/accueil/accueil.component';
 import { personalReport, report } from '../models/moderation/reports';
+import { RegisterFormType } from '../pages/register/register-form/register-form.component';
 
 @Injectable({
   providedIn: 'root',
@@ -133,17 +134,9 @@ export class ApiHandlerService {
     return this.http.post(`${this.baseUrl}/api/login/register-free`, form);
   }
 
-  registerStandard(form: any) {
-    return this.http.post(`${this.baseUrl}/api/login/register-standard`, form);
-  }
-
-  registerPremium(form: any) {
-    return this.http.post(`${this.baseUrl}/api/login/register-premium`, form);
-  }
-
-  registerBienfaiteur(form: any) {
+  registedPaid(form: any, registerType: RegisterFormType) {
     return this.http.post(
-      `${this.baseUrl}/api/login/register-bienfaiteur`,
+      `${this.baseUrl}/api/login/register-paid/${registerType}`,
       form
     );
   }

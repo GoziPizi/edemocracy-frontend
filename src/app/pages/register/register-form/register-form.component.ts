@@ -23,7 +23,7 @@ import { DiplomaInputComponent } from './diploma-input/diploma-input.component';
 import { religions } from './religions';
 import { origins } from './origins';
 
-enum RegisterFormType {
+export enum RegisterFormType {
   Free = 'free',
   Standard = 'standard',
   Premium = 'premium',
@@ -396,47 +396,17 @@ export class RegisterFormComponent {
 
     formData.append('diplomas', JSON.stringify(diplomas));
 
-    if (this.type === RegisterFormType.Standard) {
-      this.api.registerStandard(formData).subscribe({
-        next: (data: any) => {
-          this.loading.decrement();
-          const { checkoutUrl } = data;
-          window.location.href = checkoutUrl;
-        },
-        error: (error: any) => {
-          this.loading.decrement();
-          this.toastr.error("Erreur lors de l'inscription");
-        },
-      });
-    }
-
-    if (this.type === RegisterFormType.Premium) {
-      this.api.registerPremium(formData).subscribe({
-        next: (data: any) => {
-          this.loading.decrement();
-          const { checkoutUrl } = data;
-          window.location.href = checkoutUrl;
-        },
-        error: (error: any) => {
-          this.loading.decrement();
-          this.toastr.error("Erreur lors de l'inscription");
-        },
-      });
-    }
-
-    if (this.type === RegisterFormType.Bienfaiteur) {
-      this.api.registerBienfaiteur(formData).subscribe({
-        next: (data: any) => {
-          this.loading.decrement();
-          const { checkoutUrl } = data;
-          window.location.href = checkoutUrl;
-        },
-        error: (error: any) => {
-          this.loading.decrement();
-          this.toastr.error("Erreur lors de l'inscription");
-        },
-      });
-    }
+    this.api.registedPaid(formData, this.type).subscribe({
+      next: (data: any) => {
+        this.loading.decrement();
+        const { checkoutUrl } = data;
+        window.location.href = checkoutUrl;
+      },
+      error: (error: any) => {
+        this.loading.decrement();
+        this.toastr.error("Erreur lors de l'inscription");
+      },
+    });
   }
 
   visit() {
