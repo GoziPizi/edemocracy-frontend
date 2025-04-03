@@ -27,6 +27,7 @@ enum RegisterFormType {
   Free = 'free',
   Standard = 'standard',
   Premium = 'premium',
+  Bienfaiteur = 'bienfaiteur',
 }
 
 @Component({
@@ -148,7 +149,8 @@ export class RegisterFormComponent {
       if (
         routeType === 'free' ||
         routeType === 'standard' ||
-        routeType === 'premium'
+        routeType === 'premium' ||
+        routeType === 'bienfaiteur'
       ) {
         this.type = routeType as any;
       } else {
@@ -327,19 +329,19 @@ export class RegisterFormComponent {
     }
 
     if (this.registerForm.value.origin1) {
-      formData.append('origin', this.registerForm.value.origin1 as string);
+      formData.append('origin1', this.registerForm.value.origin1 as string);
     }
 
     if (this.registerForm.value.origin2) {
-      formData.append('origin', this.registerForm.value.origin2 as string);
+      formData.append('origin2', this.registerForm.value.origin2 as string);
     }
 
     if (this.registerForm.value.origin3) {
-      formData.append('origin', this.registerForm.value.origin3 as string);
+      formData.append('origin3', this.registerForm.value.origin3 as string);
     }
 
     if (this.registerForm.value.origin4) {
-      formData.append('origin', this.registerForm.value.origin4 as string);
+      formData.append('origin4', this.registerForm.value.origin4 as string);
     }
 
     if (this.registerForm.value.sponsorshipCode) {
@@ -421,6 +423,20 @@ export class RegisterFormComponent {
         },
       });
     }
+
+    if (this.type === RegisterFormType.Bienfaiteur) {
+      this.api.registerBienfaiteur(formData).subscribe({
+        next: (data: any) => {
+          this.loading.decrement();
+          const { checkoutUrl } = data;
+          window.location.href = checkoutUrl;
+        },
+        error: (error: any) => {
+          this.loading.decrement();
+          this.toastr.error("Erreur lors de l'inscription");
+        },
+      });
+    }
   }
 
   visit() {
@@ -456,6 +472,22 @@ export class RegisterFormComponent {
     }
     if (this.type === RegisterFormType.Premium) {
       return 'Inscription premium';
+    }
+    if (this.type === RegisterFormType.Bienfaiteur) {
+      return 'Inscription bienfaiteur';
+    }
+    return 'Inscription gratuite';
+  }
+
+  get description() {
+    if (this.type === RegisterFormType.Standard) {
+      return 'Inscription standard';
+    }
+    if (this.type === RegisterFormType.Premium) {
+      return 'Inscription premium';
+    }
+    if (this.type === RegisterFormType.Bienfaiteur) {
+      return 'Inscription bienfaiteur';
     }
     return 'Inscription gratuite';
   }

@@ -214,6 +214,8 @@
         <p *ngIf="isCodeVerified" id="code-valid">Votre code de parrainage est valide.</p>
         <p *ngIf="!isCodeVerified && registerForm.get('sponsorshipCode')?.touched" id="code-invalid">Votre code de parrainage n'est pas valide.</p>
 
+        <p>{{description}}</p>
+
         <button *ngIf="!notFree" class="validate-button" (click)="onSubmit()" [disabled]="disabled">Valider mon inscription</button>
         <button *ngIf="notFree" class="validate-button pay-button" (click)="onSubmit()" [disabled]="disabled">Procéder au paiement</button>
     </form>

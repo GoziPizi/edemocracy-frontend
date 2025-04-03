@@ -1,6 +1,6 @@
 <div id="page">
     <i id="back-arrow" [routerLink]="['/landing']" class="fa-solid fa-arrow-left"></i>
-    <img src="../../../assets/Democracy_Online_BigLogo.png" alt="image" class="main-image" height="233px" width="600px">
+    <img src="../../../assets/Democracy_Online_LongLogo.png" alt="image" class="main-image" height="150px" width="1000">
     <h1>Inscription</h1>
     <div id="thumbnails-container">
         <app-register-thumbnail
@@ -21,8 +21,15 @@
             class="thumbnail"
             title="Premium"
             price="14.99€/ an"
-            [features]="['Prix : 14.99€/ an', 'Formule standard + MCA', 'Souscription au parti « Mouvement des Citoyens Actifs (MCA) ». Le MCA s\'engage à respecter les avis obtenus sur le site via ses représentants afin de mettre en place une démocratie participative lorsque nous aurons des représentants.', 'Adhésion à l\'association Virtual Democracy Initiative, permettant de participer au développement, à l\'éthique et à la modération du site lui-même.']"
+            [features]="['Prix : 14.99€/ an', 'Formule standard + MCA', 'Souscription au parti « Mouvement des Citoyens Actifs (MCA) ». Le MCA s\'engage à respecter les avis obtenus sur le site via ses représentants afin de mettre en place une démocratie participative lorsque nous aurons des représentants.']"
             description="Idéal pour : Membre engagé voulant influencer activement les décisions politiques ."
             redirect="premium"></app-register-thumbnail>
+        <app-register-thumbnail
+            class="thumbnail"
+            title="Bienfaiteur"
+            price="29.99€/ an"
+            [features]="['Prix : 29.99€ / an', 'Standard + Premium', 'Adhésion à l\'association Virtual Democracy Initiative, permettant de participer au développement, à l\'éthique et à la modération du site lui-même.']"
+            description="Idéal pour : TODO."
+            redirect="bienfaiteur"></app-register-thumbnail>
     </div>
 </div>

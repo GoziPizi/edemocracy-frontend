@@ -141,6 +141,13 @@ export class ApiHandlerService {
     return this.http.post(`${this.baseUrl}/api/login/register-premium`, form);
   }
 
+  registerBienfaiteur(form: any) {
+    return this.http.post(
+      `${this.baseUrl}/api/login/register-bienfaiteur`,
+      form
+    );
+  }
+
   generateSponsorshipCode() {
     const token = localStorage.getItem('token');
     return this.http.get(
