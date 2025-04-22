@@ -4,6 +4,7 @@ export enum MembershipStatus {
   NONE,
   STANDARD,
   PREMIUM,
+  BIENFAITEUR,
 }
 
 export class User {

@@ -451,15 +451,15 @@ export class RegisterFormComponent {
 
   get description() {
     if (this.type === RegisterFormType.Standard) {
-      return 'Inscription standard';
+      return 'En devenant membre cotisant, vous accédez aux fonctionnalités complètes du site, y compris la création de débats, le vote pondéré, et l’accès aux groupes.Votre identité est vérifiée à l’inscription (par carte d’identité), ce qui garantit la fiabilité des votes et protège contre les manipulations médiatiques. Vous bénéficiez également du système de parrainage, vous permettant de recevoir 1 € pour chaque personne qui s’inscrit via votre lien. À ce jour, l’adhésion est valable à vie (sans abonnement récurrent), mais cela pourrait évoluer selon les besoins en sécurité du projet.🛠️ Ce site est actuellement en phase bêta. Pour nous aider à l’améliorer, que ce soit par un soutien personnel ou financier, n’hésitez pas à nous contacter à l’adresse : 📩 help@democracy-online.com ';
     }
     if (this.type === RegisterFormType.Premium) {
-      return 'Inscription premium';
+      return 'Le compte Premium inclut tous les avantages du compte Standard, avec en plus l’adhésion au parti politique "Mouvement des Citoyens Actif" (MCA). Le MCA s’engage à respecter les avis exprimés sur le site par ses membres, et à les représenter dans les instances démocratiques (municipalités, parlement européen, etc.). L’objectif : construire une démocratie participative réelle dès aujourd’hui. L’association politique est actuellement en cours de structuration, et votre participation active via le site est la bienvenue pour en définir les bases. 🛠️ Ce site est actuellement en phase bêta. Pour nous aider à l’améliorer, que ce soit par un soutien personnel ou financier, n’hésitez pas à nous contacter à l’adresse : 📩 help@democracy-online.com ';
     }
     if (this.type === RegisterFormType.Bienfaiteur) {
-      return 'Inscription bienfaiteur';
+      return 'En plus des avantages du compte Premium, le compte Bienfaiteur s’adresse aux personnes qui souhaitent s’impliquer activement dans le développement de la plateforme Democracy Online. En tant que bienfaiteur, vous pouvez notamment participer à la modération et aux projets internes de l’association Virtual Democracy Initiative, sous réserve de respecter rigoureusement le règlement. Ce compte symbolise un engagement fort pour une démocratie moderne, éthique et transparente. 🛠️ Ce site est actuellement en phase bêta. Pour nous aider à l’améliorer, que ce soit par un soutien personnel ou financier, n’hésitez pas à nous contacter à l’adresse : 📩 help@democracy-online.com ';
     }
-    return 'Inscription gratuite';
+    return 'Le compte gratuit vous permet de découvrir les fonctionnalités de Democracy Online. Toutefois, il ne donne pas accès aux votes pondérés, car aucune vérification d’identité n’est effectuée. Afin d’éviter toute manipulation (ex. : achat massif de votes), vos participations sont comptabilisées dans des graphiques distincts, à titre indicatif. Ce compte reste idéal pour explorer librement la plateforme et participer aux débats de manière informelle. ';
   }
 
   get isPremium() {

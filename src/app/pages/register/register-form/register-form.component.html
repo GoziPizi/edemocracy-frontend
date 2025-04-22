@@ -7,6 +7,7 @@
         <button class="validate-button" (click)="visit()">Je visite le site</button>
     </div>
     <p>{{inscriptionName}}</p>
+    <p id="description" >{{description}}</p>
     <form [formGroup]="registerForm" id="register-form">
         <label for="firstName">Prénom :</label>
         <input class="input" type="text" formControlName="firstName" id="firstName" name="firstName" required>
@@ -213,8 +214,6 @@
         </div>
         <p *ngIf="isCodeVerified" id="code-valid">Votre code de parrainage est valide.</p>
         <p *ngIf="!isCodeVerified && registerForm.get('sponsorshipCode')?.touched" id="code-invalid">Votre code de parrainage n'est pas valide.</p>
-
-        <p>{{description}}</p>
 
         <button *ngIf="!notFree" class="validate-button" (click)="onSubmit()" [disabled]="disabled">Valider mon inscription</button>
         <button *ngIf="notFree" class="validate-button pay-button" (click)="onSubmit()" [disabled]="disabled">Procéder au paiement</button>

@@ -1179,6 +1179,15 @@ export class ApiHandlerService {
     });
   }
 
+  becomeBienfaiteur() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/contribution/bienfaiteur`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   //Follow related methods
 
   getAllFollows() {

@@ -62,6 +62,20 @@ export class CotisationComponentComponent {
     });
   }
 
+  becomeBienfaiteur() {
+    this.loadingService.increment();
+    this.apiHandler.becomeBienfaiteur().subscribe({
+      next: (data: any) => {
+        this.loadingService.decrement();
+        window.location.href = data.url;
+      },
+      error: (error: any) => {
+        this.toasterService.error('Impossible de devenir membre bienfaiteur');
+        this.loadingService.decrement();
+      },
+    });
+  }
+
   generateSponsorshipCode() {
     this.loadingService.increment();
     this.apiHandler.generateSponsorshipCode().subscribe({
@@ -171,6 +185,13 @@ export class CotisationComponentComponent {
     return (
       (this.contributionStatus as unknown as string) ===
       (MembershipStatus[MembershipStatus.PREMIUM] as unknown as string)
+    );
+  }
+
+  get isBienfaiteurUser(): boolean {
+    return (
+      (this.contributionStatus as unknown as string) ===
+      (MembershipStatus[MembershipStatus.BIENFAITEUR] as unknown as string)
     );
   }
 
