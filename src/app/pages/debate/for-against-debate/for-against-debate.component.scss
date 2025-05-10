@@ -12,12 +12,6 @@
     border-radius: 5px;
 }
 
-#bar-container {
-    width: 100%;
-    height: 50px;
-    display: flex;
-    flex-direction: row;
-}
 
 #really-for {
     background-color: $hope-green
@@ -38,3 +32,54 @@
 #neutral {
     background-color: gray;
 }
+/* Bloc global */
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Bloc pourcentages */
+  #pourcentages {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #pourcentages p {
+    width: 30px; /* ➔ Réduit de moitié */
+    height: 20px; /* ➔ Réduit de moitié */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 10px; /* ➔ Légèrement réduit pour correspondre à la taille des cases */
+    border-radius: 4px; /* ➔ Un peu plus petit aussi pour rester harmonieux */
+    color: white;
+  }
+  
+  
+  /* Couleurs spécifiques */
+  #pourcentages p:nth-child(1) { background-color: #2E8B57; } /* Très Pour */
+  #pourcentages p:nth-child(2) { background-color: #3CB371; } /* Pour */
+  #pourcentages p:nth-child(3) { background-color: #808080; } /* Neutre */
+  #pourcentages p:nth-child(4) { background-color: #F08080; } /* Contre */
+  #pourcentages p:nth-child(5) { background-color: #D72631; } /* Très Contre */
+  
+  /* Bloc barres de votes */
+  #bar-container {
+    width: 100%;
+    display: flex;
+    height: 20px; /* ➔ Double la hauteur actuelle */
+    margin-top: 8px;
+  }
+  
+  #bar-container div {
+    height: 100%;
+  }
+  

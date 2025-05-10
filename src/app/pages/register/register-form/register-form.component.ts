@@ -36,6 +36,9 @@ export class RegisterFormComponent {
 
   type: RegisterFormType = RegisterFormType.Free;
 
+  sponsorName: string | null = null;
+
+
   registerForm = new FormGroup({
     //required fields
     firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -136,29 +139,57 @@ export class RegisterFormComponent {
     this.manuallyAddProfession = !this.manuallyAddProfession;
   }
 
-  onSubmit() {
+  async onSubmit() {
+    const code = this.registerForm.get('sponsorshipCode')?.value;
+  
+    if (code) {
+      const isValid = await this.checkSponsorshipCode(true); // ➜ validation silencieuse
+      if (!isValid) {
+        // Optionnel : message ou blocage
+        console.warn('Code de parrainage invalide');
+      }
+    }
+  
     if (this.type === RegisterFormType.Free) {
       this.freeSubmit();
     } else {
       this.paidSubmit();
     }
   }
+  
 
-  checkSponsorshipCode() {
-    if(this.registerForm.value.sponsorshipCode) {
-      this.api.checkSponsorshipCode(this.registerForm.value.sponsorshipCode).subscribe({
+  async checkSponsorshipCode(silent: boolean = false): Promise<boolean> {
+    const code = this.registerForm.value.sponsorshipCode;
+  
+    if (!code) return false;
+  
+    return new Promise((resolve) => {
+      this.api.checkSponsorshipCode(code).subscribe({
         next: (data: any) => {
           this.isCodeVerified = true;
           this.isSponsored = true;
+          this.sponsorName = data.sponsorName || 'votre parrain'; // <-- 🔥 nom récupéré ici
+  
+          if (!silent) {
+            this.toastr.success('Code de parrainage valide');
+          }
+  
+          resolve(true);
         },
-        error: (error: any) => {
+        error: () => {
           this.isCodeVerified = false;
-          this.toastr.error('Code de parrainage invalide');
+          this.sponsorName = null;
+  
+          if (!silent) {
+            this.toastr.error('Code de parrainage invalide');
+          }
+  
+          resolve(false);
         }
       });
-    }
+    });
   }
-
+  
 
   freeSubmit() {
 

@@ -9,6 +9,8 @@ import { ToasterComponent } from './utils/toaster/toaster.component';
 import { DonationSiderComponent } from "./utils/donation-sider/donation-sider.component";
 import { DonationSiderService } from './services/donation-sider.service';
 import { ReportingScreenComponent } from "./utils/reporting-screen/reporting-screen.component";
+import { ViewportScroller } from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
@@ -25,11 +27,20 @@ export class AppComponent {
   constructor(
     private apiHandler: ApiHandlerService,
     private router: Router,
-    private donationSiderService: DonationSiderService
+    private donationSiderService: DonationSiderService,
+    private viewportScroller: ViewportScroller
   ) {
 
   }
 
+  ngOnInit(): void {
+    this.navigationChangeSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.viewportScroller.scrollToPosition([0, 0]);
+      }
+    });
+  }
+  
   isFooterOrHeaderVisible(url: string) {
     if (
       url.includes('/connexion')

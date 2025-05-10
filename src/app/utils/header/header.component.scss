@@ -1,18 +1,21 @@
 @import '../../../colors.scss';
 
 #container {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    width: 100%;
     display: flex;
-    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 64px;
+    position: relative;
     background-color: $democracy-blue;
 }
 
 #bell {
-    margin: 0 10px;
-}
+    font-size: 20px;
+    margin-right: 16px;
+    cursor: pointer;
+    color: #333;
+  }
 
 .header-link {
     margin: 0 20px;
@@ -46,10 +49,10 @@ h2 i {
 }
 
 #search-bar {
-    align-self: center;
-    margin-right: 20px;
-    margin-left: auto;
-}
+    flex: 1;
+    max-width: 400px;
+    margin: 0 24px;
+  }
 
 #search-input {
     padding: 10px;
@@ -80,9 +83,16 @@ h2 i {
 
 #profil {
     display: flex;
-    flex-direction: row;
     align-items: center;
-}
+    gap: 12px;
+  }
+  
+  #profil-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
 
 #profil img {
     width: 50px;
@@ -94,3 +104,12 @@ h2 i {
 #visitor {
     margin: 0
 }
+
+@media screen and (max-width: 768px) {
+    .main-header, #container {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  

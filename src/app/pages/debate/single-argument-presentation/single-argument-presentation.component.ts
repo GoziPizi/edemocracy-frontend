@@ -21,8 +21,9 @@ import { ToasterService } from '../../../services/toaster.service';
 })
 export class SingleArgumentPresentationComponent {
 
-  @Input() argument!: Argument;
+  @Input() argument!: any;
   @Input() $voteSubject!: any;
+  @Input() minimal: boolean = false;
 
   isForcedShown = false;
 
@@ -39,6 +40,7 @@ export class SingleArgumentPresentationComponent {
   }
 
   ngOnInit() {
+    console.log('📦 argument reçu dans le composant :', this.argument);
     this.fetchActualVoteForSubDebate();
   }
 

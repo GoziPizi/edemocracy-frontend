@@ -1,4 +1,4 @@
-import { Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ViewEncapsulation, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { Debate, DebateDescriptionReformulation } from '../../models/debate';
 import { ApiHandlerService } from '../../services/api-handler.service';
 import { Argument, ArgumentType } from '../../models/argument';
@@ -21,6 +21,9 @@ import { VisitorService } from '../../services/visitor.service';
 import { ReportComponent } from '../../utils/report/report.component';
 import { ReportType } from '../../models/report';
 import { FollowButtonComponent } from '../../utils/follow-button/follow-button.component';
+import { HeaderComponent } from '../../utils/header/header.component';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-debate',
@@ -33,32 +36,39 @@ import { FollowButtonComponent } from '../../utils/follow-button/follow-button.c
     ArgumentsDisplayerComponent,
     ArgumentDebatePresentationComponent,
     SingleReformulationPresentationComponent,
+    SingleArgumentPresentationComponent,
     ReportComponent,
+    HeaderComponent,
+    RouterLink,
     FollowButtonComponent
   ],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class DebateComponent {
+export class DebateComponent implements OnInit, OnDestroy {
+
 
   @ViewChild('debateResult') forAgainstDebate!: ForAgainstDebateComponent;
   @ViewChild('debateContributorsResult') forAgainstContributorsDebate!: ForAgainstDebateComponent;
   @ViewChild('swiperContainer', { static: false }) swiper!: ElementRef;
 
-  @ViewChild('argumentsFor') argumentsForDisplayer!: ArgumentsDisplayerComponent;
-  @ViewChild('argumentsAgainst') argumentsAgainstDisplayer!: ArgumentsDisplayerComponent;
-  @ViewChild('argumentsSolution') argumentsSolutionDisplayer!: ArgumentsDisplayerComponent;
-
   @ViewChild('argumentDebatePresentation') argumentDebatePresentation!: ArgumentDebatePresentationComponent;
 
   voteSubject$ = new Subject<{argumentId: string, vote: boolean}>
   voteSubjectSubscription: any;
+  slidesPerView = 3; // Par défaut pour PC
+  isChildDebate: boolean = true; // ou true selon les cas réels
 
   debateId: string = '1';
   debate: Debate = new Debate();
   arguments: Argument[] = [];
   reformulations: DebateDescriptionReformulation[] = [];
+  mainReformulationIndex: number = 0;
+  public argumentsFor: any[] = [];
+  public argumentsAgainst: any[] = [];
+  public argumentsSolution: any[] = [];
+
 
   debateTopic: Topic = new Topic();
 
@@ -119,16 +129,60 @@ export class DebateComponent {
   ngOnInit() {
     this.routeSubscription = this.route.params.subscribe(params => {
       this.debateId = params['id'];
+      
       this.getDebate();
       this.getDebateArguments();
       this.getDebateReformulations();
     });
+  
+    this.updateSwiperSlidesPerView();
+    window.addEventListener('resize', this.updateSwiperSlidesPerView.bind(this));
+  }
+  
+  onFollow(): void {
+    console.log('⭐️ Suivre déclenché');
+    // Ajoute ici ta logique de suivi
+  }
+  
+  onGoToParentDebate(): void {
+    // 👉 Ici tu définis ce que tu veux faire.
+    // Par exemple, revenir à un débat parent ou à une liste.
+    window.history.back(); // simple retour arrière
   }
 
-  ngOnDestroy() {
-    this.routeSubscription.unsubscribe();
-    this.voteSubjectSubscription.unsubscribe();
+  onShare(): void {
+    const url = window.location.href;
+    if (navigator.share) {
+      navigator.share({
+        title: 'Voir ce débat',
+        text: 'Viens donner ton avis sur ce débat',
+        url,
+      });
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        alert('📋 Lien copié dans le presse-papiers !');
+      });
+    }
   }
+  
+  onReport(): void {
+    console.log('🟠 Signalement déclenché');
+    // Ajoute ici ta logique de signalement
+  }
+  
+
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.updateSwiperSlidesPerView.bind(this));
+  
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+    if (this.voteSubjectSubscription) {
+      this.voteSubjectSubscription.unsubscribe();
+    }
+  }
+  
+  
 
   getDebate() {
     this.loadingService.increment();
@@ -168,17 +222,58 @@ export class DebateComponent {
 
   getDebateReformulations() {
     this.loadingService.increment();
-    this.apiHandler.getDebateReformulations(this.debateId).subscribe({
-      next: (reformulations: any) => {
-        this.reformulations = reformulations;
+  
+    this.apiHandler.getDebateReformulations(this.debateId).subscribe((reformulations: DebateDescriptionReformulation[]) => {
+      if (!reformulations || reformulations.length === 0) {
+        this.reformulations = [];
         this.loadingService.decrement();
-      },
-      error: (err) => {
-        this.loadingService.decrement();
-        this.toasterService.error('Erreur lors de la récupération des reformulations');
+        return;
       }
+  
+      // 1. Trier par popularité
+      const sortedByScore = [...reformulations].sort((a, b) => b.score - a.score);
+      const main = sortedByScore[0];
+  
+      // 2. Trier par date (du plus ancien au plus récent pour le côté gauche)
+      const left = [...reformulations]
+       .filter(r => r.id !== main.id)
+        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+
+      // 3. Les plus populaires décroissants vers la droite
+      const right = [...sortedByScore].filter(r => r.id !== main.id);
+  
+      // 4. Recomposer
+      this.reformulations = [...left, main, ...right];
+      this.mainReformulationIndex = this.reformulations.findIndex(r => r.id === main.id);
+  
+      this.loadingService.decrement();
+  
+      setTimeout(() => {
+        const swiperEl: any = this.swiper?.nativeElement;
+        if (swiperEl && typeof swiperEl.swiper?.slideTo === 'function') {
+          swiperEl.swiper.slideTo(this.mainReformulationIndex, 0);
+        }
+      }, 200);
+    }, (err) => {
+      this.loadingService.decrement();
+      this.toasterService.error('Erreur lors de la récupération des reformulations');
     });
   }
+
+  updateSwiperSlidesPerView() {
+    const swiperEl: any = this.swiper?.nativeElement;
+    if (!swiperEl || !swiperEl.swiper) return;
+  
+    if (window.innerWidth <= 768) {
+      swiperEl.swiper.params.slidesPerView = 1;
+    } else {
+      swiperEl.swiper.params.slidesPerView = 3;
+    }
+  
+    swiperEl.swiper.update();
+  }
+  
+  
 
   patchReformulationForm() {
     if(this.reformulations.length === 0) return;
@@ -263,10 +358,18 @@ export class DebateComponent {
   }
 
   updateArguments() {
-    this.argumentsForDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.FOR));
-    this.argumentsAgainstDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.AGAINST));
-    this.argumentsSolutionDisplayer.setArgumentsList(this.arguments.filter((arg) => arg.type === ArgumentType.SOLUTION));
+    console.log('🧠 this.arguments =', this.arguments);
+  
+    this.argumentsFor = this.arguments.filter(arg => arg.type === ArgumentType.FOR);
+    this.argumentsAgainst = this.arguments.filter(arg => arg.type === ArgumentType.AGAINST);
+    this.argumentsSolution = this.arguments.filter(arg => arg.type === ArgumentType.SOLUTION);
+  
+    console.log('✅ argumentsFor:', this.argumentsFor);
+    console.log('❌ argumentsAgainst:', this.argumentsAgainst);
+    console.log('🛠 argumentsSolution:', this.argumentsSolution);
   }
+  
+  
 
   isCurrentValue(value: number):boolean {
     let value2 = DebateVote[value] as unknown
@@ -345,20 +448,16 @@ export class DebateComponent {
   }
 
   getClass(value: number): string {
-    switch(value) {
-      case -2:
-        return 'red';
-      case -1:
-        return 'orange';
-      case 0:
-        return 'grey';
-      case 1:
-        return 'lightgreen';
-      case 2:
-        return 'green';
+    switch (value) {
+      case -2: return 'really-against';
+      case -1: return 'against';
+      case 0: return 'neutral';
+      case 1: return 'for';
+      case 2: return 'really-for';
+      default: return '';
     }
-    return 'grey';
-  }
+  }  
+  
 
   share(event: any){
 
@@ -448,4 +547,12 @@ export class DebateComponent {
     return `${sumFor / sum * 100}%`;
   }
 
+  updateSlidesPerView() {
+    if (window.innerWidth <= 768) {
+      this.slidesPerView = 1; // Mobile
+    } else {
+      this.slidesPerView = 3; // PC
+    }
+  }
+  
 }
