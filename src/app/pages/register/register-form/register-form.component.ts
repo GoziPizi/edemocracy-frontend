@@ -198,39 +198,36 @@ export class RegisterFormComponent {
       this.paidSubmit();
     }
   }
-  
-  async checkSponsorshipCode(silent: boolean = false): Promise<boolean> {
-    const code = this.registerForm.value.sponsorshipCode;
+ async checkSponsorshipCode(silent: boolean = false): Promise<boolean> {
+  const code = this.registerForm.value.sponsorshipCode;
 
-    if (!code) return false;
+  if (!code) return false;
 
-    return new Promise((resolve) => {
-      this.api.checkSponsorshipCode(code).subscribe({
-        next: (data: any) => {
-          this.isCodeVerified = true;
-          this.isSponsored = true;
-          this.sponsorName = data.sponsorName || 'votre parrain'; // <-- 🔥 nom récupéré ici
+  return new Promise((resolve) => {
+    this.api.checkSponsorshipCode(code).subscribe({
+      next: (data: any) => {
+        this.isCodeVerified = true;
+        this.isSponsored = true;
 
-          if (!silent) {
-            this.toastr.success('Code de parrainage valide');
-          }
-
-          resolve(true);
-        },
-        error: () => {
-          this.isCodeVerified = false;
-          this.sponsorName = null;
-
-          if (!silent) {
-            this.toastr.error('Code de parrainage invalide');
-          }
-
-          resolve(false);
+        if (!silent) {
+          this.toastr.success('Code de parrainage valide');
         }
-      });
-    });
-  }
 
+        resolve(true);
+      },
+      error: () => {
+        this.isCodeVerified = false;
+        this.sponsorName = null;
+
+        if (!silent) {
+          this.toastr.error('Code de parrainage invalide');
+        }
+
+        resolve(false);
+      }
+    });
+  });
+}
 
   freeSubmit() {
     this.loading.increment();

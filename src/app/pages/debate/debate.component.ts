@@ -45,7 +45,6 @@ import { SharingService } from '../../services/sharing.service';
   selector: 'app-debate',
   standalone: true,
   imports: [
-    ForAgainstDebateComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -56,8 +55,8 @@ import { SharingService } from '../../services/sharing.service';
     HeaderComponent,
     RouterLink,
     FollowButtonComponent,
-    ModerationToolbarComponent
-
+    ModerationToolbarComponent,
+    ForAgainstDebateComponent 
   ],
   templateUrl: './debate.component.html',
   styleUrl: './debate.component.scss',
@@ -65,13 +64,14 @@ import { SharingService } from '../../services/sharing.service';
 })
 export class DebateComponent implements OnInit, OnDestroy {
   @ViewChild('debateResult') forAgainstDebate!: ForAgainstDebateComponent;
-  @ViewChild('debateContributorsResult') forAgainstContributorsDebate!: ForAgainstDebateComponent;
+  @ViewChild('debateContributorsResult')
+  forAgainstContributorsDebate!: ForAgainstDebateComponent;
   @ViewChild('swiperContainer', { static: false }) swiper!: ElementRef;
 
-  @ViewChild('argumentDebatePresentation') argumentDebatePresentation!: ArgumentDebatePresentationComponent;
+  @ViewChild('argumentDebatePresentation')
+  argumentDebatePresentation!: ArgumentDebatePresentationComponent;
 
-
-  voteSubject$ = new Subject<{ argumentId: string; vote: boolean }>();
+  voteSubject$ = new Subject<{argumentId: string, vote: boolean}>
   voteSubjectSubscription: any;
   slidesPerView = 3; // Par défaut pour PC
   isChildDebate: boolean = true; // ou true selon les cas réels
@@ -108,14 +108,14 @@ export class DebateComponent implements OnInit, OnDestroy {
     content: new FormControl(''),
     isNameDisplayed: new FormControl(false),
     isWorkDisplayed: new FormControl(false),
-    isPoliticSideDisplayed: new FormControl(false),
+    isPoliticSideDisplayed: new FormControl(false)
   });
 
   argumentTypes = [
     ArgumentType.FOR,
     ArgumentType.AGAINST,
-    ArgumentType.SOLUTION,
-  ];
+    ArgumentType.SOLUTION
+  ]
 
   argumentPopUp: boolean = false;
   newArgumentForm = new FormGroup({
@@ -124,7 +124,7 @@ export class DebateComponent implements OnInit, OnDestroy {
     type: new FormControl(ArgumentType.FOR, Validators.required),
     isNameDisplayed: new FormControl(false),
     isWorkDisplayed: new FormControl(false),
-    isPoliticSideDisplayed: new FormControl(false),
+    isPoliticSideDisplayed: new FormControl(false)
   });
 
   constructor(
@@ -135,16 +135,17 @@ export class DebateComponent implements OnInit, OnDestroy {
     private toasterService: ToasterService,
     private visitorService: VisitorService,
     private sharingService: SharingService
+
   ) {
     this.voteSubjectSubscription = this.voteSubject$.subscribe({
       next: (data) => {
         this.voteForArgument(data.argumentId, data.vote);
-      },
+      }
     });
   }
 
   ngOnInit() {
-    this.routeSubscription = this.route.params.subscribe((params) => {
+    this.routeSubscription = this.route.params.subscribe(params => {
       this.debateId = params['id'];
       
       this.getDebate();
@@ -208,9 +209,7 @@ export class DebateComponent implements OnInit, OnDestroy {
         this.loadingService.decrement();
         this.debate = debate;
         this.forAgainstDebate.setDebateResult(this.debate.debateResult);
-        this.forAgainstContributorsDebate.setDebateResult(
-          this.debate.debateContributorsResult
-        );
+        this.forAgainstContributorsDebate.setDebateResult(this.debate.debateContributorsResult);
         this.getTopic();
         this.argumentDebatePresentation.setArgumentId(this.debate.argumentId);
         this.patchReformulationForm();
@@ -218,25 +217,25 @@ export class DebateComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.loadingService.decrement();
         this.toasterService.error('Erreur lors de la récupération du débat');
-      },
+      } 
     });
   }
 
   getDebateArguments() {
     this.loadingService.increment();
-    this.apiHandler.getDebateArguments(this.debateId).subscribe({
-      next: (args: Argument[]) => {
-        this.loadingService.decrement();
-        this.arguments = args;
-        this.updateArguments();
-      },
-      error: (err) => {
-        this.loadingService.decrement();
-        this.toasterService.error(
-          'Erreur lors de la récupération des arguments'
-        );
-      },
-    });
+    this.apiHandler.getDebateArguments(this.debateId).subscribe(
+      {
+        next: (args: Argument[]) => {
+          this.loadingService.decrement();
+          this.arguments = args;
+          this.updateArguments();
+        },
+        error: (err) => {
+          this.loadingService.decrement();
+          this.toasterService.error('Erreur lors de la récupération des arguments');
+        }
+      }
+    );
   }
 
    getDebateReformulations() {
@@ -277,8 +276,10 @@ export class DebateComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.loadingService.decrement();
-        this.toasterService.error('Erreur lors de la récupération des reformulations');
-      }
+        this.toasterService.error(
+          'Erreur lors de la récupération des reformulations'
+        );
+      },
     });
   }
 
@@ -295,24 +296,23 @@ export class DebateComponent implements OnInit, OnDestroy {
   
     swiperEl.swiper.update();
   }
-  
-  
+
 
   patchReformulationForm() {
-    if (this.reformulations.length === 0) return;
+    if(this.reformulations.length === 0) return;
     this.newReformulationForm.patchValue({
       title: this.debate.title,
-      content: this.debate.content,
+      content: this.debate.content
     });
   }
 
   getTopic() {
-    if (!this.debate.topicId) return;
-    this.apiHandler
-      .getTopicById(this.debate.topicId)
-      .subscribe((topic: any) => {
+    if(!this.debate.topicId) return;
+    this.apiHandler.getTopicById(this.debate.topicId).subscribe(
+      (topic: any) => {
         this.debateTopic = topic;
-      });
+      }
+    );
   }
 
   voteForDebate(vote: DebateVote) {
@@ -326,13 +326,13 @@ export class DebateComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.loadingService.decrement();
         this.toasterService.error('Erreur lors du vote');
-      },
-    });
+      }
+    })
   }
 
   voteForArgument(argumentId: string, vote: boolean | null) {
     this.loadingService.increment();
-    if (vote === null) {
+    if(vote === null) {
       this.loadingService.increment();
       this.apiHandler.deleteVote(argumentId).subscribe({
         next: () => {
@@ -344,11 +344,11 @@ export class DebateComponent implements OnInit, OnDestroy {
           this.loadingService.decrement();
           this.toasterService.error('Erreur lors de la suppression du vote');
           this.refreshPage();
-        },
+        }
       });
       return;
     }
-    if (vote) {
+    if(vote) {
       this.loadingService.increment();
       this.apiHandler.voteUp(argumentId).subscribe({
         next: () => {
@@ -360,22 +360,22 @@ export class DebateComponent implements OnInit, OnDestroy {
           this.loadingService.decrement();
           this.toasterService.error('Erreur lors du vote');
           this.refreshPage();
-        },
+        }
       });
       return;
-    } else {
+    }
+    else {
       this.loadingService.increment();
       this.apiHandler.voteDown(argumentId).subscribe({
         next: () => {
           this.loadingService.decrement();
           this.toasterService.success('Vote enregistré');
           this.refreshPage();
-        },
-        error: (err) => {
+        },error: (err) => {
           this.loadingService.decrement();
           this.toasterService.error('Erreur lors du vote');
           this.refreshPage();
-        },
+        }
       });
     }
   }
@@ -391,9 +391,6 @@ export class DebateComponent implements OnInit, OnDestroy {
     console.log('❌ argumentsAgainst:', argumentsAgainst);
     console.log('🛠 argumentsSolution:', argumentsSolution);
   }
-
-  
-
   isCurrentValue(value: number): boolean {
     let value2 = DebateVote[value] as unknown;
     let vote = this.debate.hasVote as unknown;
@@ -406,26 +403,24 @@ export class DebateComponent implements OnInit, OnDestroy {
     let data: any = this.newArgumentForm.value;
     data = {
       ...data,
-      debateId: this.debateId,
-    };
+      debateId: this.debateId
+    }
     this.apiHandler.postArgument(data).subscribe({
       next: () => {
         this.loadingService.decrement();
         this.toasterService.success('Argument enregistré');
         this.refreshPage();
-      },
+      }, 
       error: (err) => {
-        if (err.error.errorName === 'ContentWithBanWordsException') {
+        if(err.error.errorName === 'ContentWithBanWordsException') {
           this.toasterService.error('Le contenu contient des mots bannis');
           this.loadingService.decrement();
           return;
         }
         this.loadingService.decrement();
-        this.toasterService.error(
-          "Erreur lors de l'enregistrement de l'argument"
-        );
+        this.toasterService.error('Erreur lors de l\'enregistrement de l\'argument');
         this.refreshPage();
-      },
+      }
     });
   }
 
@@ -434,8 +429,8 @@ export class DebateComponent implements OnInit, OnDestroy {
     let data: any = this.newReformulationForm.value;
     data = {
       ...data,
-      debateId: this.debateId,
-    };
+      debateId: this.debateId
+    }
     this.apiHandler.postReformulation(data).subscribe({
       next: () => {
         this.loadingService.decrement();
@@ -443,17 +438,15 @@ export class DebateComponent implements OnInit, OnDestroy {
         this.refreshPage();
       },
       error: (err) => {
-        if (err.error.errorName === 'ContentWithBanWordsException') {
+        if(err.error.errorName === 'ContentWithBanWordsException') {
           this.toasterService.error('Le contenu contient des mots bannis');
           this.loadingService.decrement();
           return;
         }
         this.loadingService.decrement();
-        this.toasterService.error(
-          "Erreur lors de l'enregistrement de la reformulation"
-        );
+        this.toasterService.error('Erreur lors de l\'enregistrement de la reformulation');
         this.refreshPage();
-      },
+      }
     });
   }
 
@@ -470,9 +463,8 @@ export class DebateComponent implements OnInit, OnDestroy {
   }
 
   isNegative(value: number): boolean {
-    const result =
-      value === DebateVote.REALLY_AGAINST || value === DebateVote.AGAINST;
-    return result;
+    const result = value === DebateVote.REALLY_AGAINST || value === DebateVote.AGAINST;
+    return result
   }
 
 getClass(value: number): string {
@@ -485,16 +477,15 @@ getClass(value: number): string {
     default: return '';
   }
 }
+share(event: any) {
+  event.stopPropagation();
+  event.preventDefault();
+  this.sharingService.shareDebate(this.debateId);
+}
 
-  share(event: any) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    this.sharingService.shareDebate(this.debateId);
-  }
 
   get numberOfVotants(): number {
-    const result =
+    const result = 
       this.debate.debateResult.nbReallyFor +
       this.debate.debateResult.nbFor +
       this.debate.debateResult.nbNeutral +
@@ -504,7 +495,7 @@ getClass(value: number): string {
   }
 
   get numberOfContributors(): number {
-    const result =
+    const result = 
       this.debate.debateContributorsResult.nbReallyFor +
       this.debate.debateContributorsResult.nbFor +
       this.debate.debateContributorsResult.nbNeutral +
@@ -516,22 +507,13 @@ getClass(value: number): string {
   get popularReformulations(): DebateDescriptionReformulation[] {
     return this.reformulations.sort((a, b) => b.score - a.score).slice(0, 3);
   }
-
+  
   get recentReformulations(): DebateDescriptionReformulation[] {
-    return this.reformulations
-      .sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      )
-      .slice(0, 3);
+    return this.reformulations.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 3);
   }
 
   get isDebateFromArgument(): boolean {
-    if (
-      this.debate.argumentId === null ||
-      this.debate.argumentId === undefined ||
-      this.debate.argumentId === ''
-    ) {
+    if(this.debate.argumentId === null || this.debate.argumentId === undefined || this.debate.argumentId === '') {
       return false;
     }
     return true;
@@ -550,46 +532,31 @@ getClass(value: number): string {
   }
 
   get lineWidth() {
-    const sumFor =
-      this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
-    const sumAgainst =
-      this.debate.debateResult.nbReallyAgainst +
-      this.debate.debateResult.nbAgainst;
+    const sumFor = this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
+    const sumAgainst = this.debate.debateResult.nbReallyAgainst + this.debate.debateResult.nbAgainst;
     const sum = sumFor + sumAgainst;
-    if (sum === 0) {
+    if(sum === 0) {
       return '50%';
     }
-    return `${(sumFor / sum) * 100}%`;
+    return `${sumFor / sum * 100}%`;
   }
 
   get oppositelineWidth() {
-    const sumFor =
-      this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
-    const sumAgainst =
-      this.debate.debateResult.nbReallyAgainst +
-      this.debate.debateResult.nbAgainst;
+    const sumFor = this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
+    const sumAgainst = this.debate.debateResult.nbReallyAgainst + this.debate.debateResult.nbAgainst;
     const sum = sumFor + sumAgainst;
-    if (sum === 0) {
+    if(sum === 0) {
       return '50%';
     }
-    return `${(sumAgainst / sum) * 100}%`;
+    return `${sumAgainst / sum * 100}%`;
   }
 
   get numberForPourcentage() {
-    const sumFor =
-      this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
+    const sumFor = this.debate.debateResult.nbReallyFor + this.debate.debateResult.nbFor;
     const sum = this.numberOfVotants;
-    if (sum === 0) {
+    if(sum === 0) {
       return '0%';
     }
-    return `${(sumFor / sum) * 100}%`;
+    return `${sumFor / sum * 100}%`;
   }
-  updateSlidesPerView() {
-    if (window.innerWidth <= 768) {
-      this.slidesPerView = 1; // Mobile
-    } else {
-      this.slidesPerView = 3; // PC
-    }
-  }
-
 }

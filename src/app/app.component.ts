@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ActivatedRoute,
@@ -15,6 +15,7 @@ import { DonationSiderComponent } from './utils/donation-sider/donation-sider.co
 import { DonationSiderService } from './services/donation-sider.service';
 import { ReportingScreenComponent } from './utils/reporting-screen/reporting-screen.component';
 import { ViewportScroller } from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
@@ -36,13 +37,13 @@ export class AppComponent {
   title = 'Online Democracy';
   navigationChangeSubscription: any;
 
-  constructor(
-    private apiHandler: ApiHandlerService,
-    private router: Router,
-    private donationSiderService: DonationSiderService,
-    private viewportScroller: ViewportScroller,
-    private route: ActivatedRoute
-  ) {}
+constructor(
+  private apiHandler: ApiHandlerService,
+  private router: Router,
+  private donationSiderService: DonationSiderService,
+  private viewportScroller: ViewportScroller,
+  private route: ActivatedRoute
+) {}
 
   handleSponsorshipCode() {
     this.route.queryParams.subscribe((params) => {
@@ -63,7 +64,12 @@ ngOnInit(): void {
   });
 }
 
-  
+    ngOnDestroy(): void {
+    if (this.navigationChangeSubscription) {
+      this.navigationChangeSubscription.unsubscribe();
+    }
+  }
+
   isFooterOrHeaderVisible(url: string) {
     if (
       url.includes('/connexion') ||
