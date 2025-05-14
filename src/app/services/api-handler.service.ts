@@ -23,6 +23,7 @@ import { ReportType } from '../models/report';
 import { adminViewPersonalJackpot } from '../models/jackpot';
 import { MediaDebateThumbnail } from '../pages/accueil/accueil.component';
 import { personalReport, report } from '../models/moderation/reports';
+import { DebateDescriptionReformulation } from '../models/debate';
 import { RegisterFormType } from '../pages/register/register-form/register-form.component';
 
 @Injectable({
@@ -357,9 +358,18 @@ export class ApiHandlerService {
 
   //Topics related methods
 
-  getTopics() {
+  getNews(): Observable<{ title: string }[]> {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/topics`, {
+    return this.http.get<{ title: string }[]>(`${this.baseUrl}/api/news`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  getTopics(): Observable<{ name: string }[]> {
+    const token = localStorage.getItem('token');
+    return this.http.get<{ name: string }[]>(`${this.baseUrl}/api/topics`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -389,16 +399,25 @@ export class ApiHandlerService {
       }
     );
   }
-
-  getRecentTopics() {
+  
+  getRecentTopics(): Observable<{ title: string }[]> {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/topics/recent`, {
+    return this.http.get<{ title: string }[]>(`${this.baseUrl}/api/topics/recent`, {
       headers: {
         Authorization: `${token}`,
       },
     });
   }
-
+  
+  getRecentTopicsPaginated(page: number) {
+    const token = localStorage.getItem('token');
+    return this.http.get<any[]>(`${this.baseUrl}/api/topics/recent-paginated/${page}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+  
   getTopicById(id: string) {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.baseUrl}/api/topics/${id}`, {
@@ -643,9 +662,9 @@ export class ApiHandlerService {
     );
   }
 
-  getDebateReformulations(id: string) {
+  getDebateReformulations(id: string): Observable<DebateDescriptionReformulation[]> {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/debates/${id}/reformulations`, {
+    return this.http.get<DebateDescriptionReformulation[]>(`${this.baseUrl}/api/debates/${id}/reformulations`, {
       headers: {
         Authorization: `${token}`,
       },

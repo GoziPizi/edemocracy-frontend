@@ -1,3 +1,11 @@
+<!-- ✅ HEADER POUR MOBILE UNIQUEMENT -->
+<app-header class="mobile-header"></app-header>
+
+
+<!-- 🧱 Contenu principal de la page -->
+<div id="page-container">
+  <!-- (tout le reste du contenu HTML ici) -->
+
 <div id="page-container">
     <app-moderation-toolbar id="moderation-toolbar" [copyType]="'debate'" ></app-moderation-toolbar>
     <i class="fa-solid fa-share fa-2x" id="share" (click)="share($event)" ></i>
@@ -9,17 +17,16 @@
         id="follow-button"></app-follow-button>
     <h1 style="margin-bottom: 0" >Débat</h1>
 
-    <div id="presentation">
-        <h3>{{debate.title}}</h3>
-        <p class="preserve-whitespace">{{debate.content}}</p>
+    <div id="presentation" style="display: none;">
+        <h3>la tartifléte est n° 2</h3>
+        <p class="preserve-whitespace">x&lt;vws</p>
         <div id="color-bar">
-            <div id="for" [ngStyle]="{'width' : lineWidth, 'background-color': greenColor}" >
-            </div>
-            <div id="against" [ngStyle]="{'width' : oppositelineWidth, 'background-color': redColor}">
-            </div>
+          <div id="for" style="width: 100%; background-color: rgb(46, 139, 87);"></div>
+          <div id="against" style="width: 0%; background-color: rgb(215, 38, 49);"></div>
         </div>
-        <p>{{numberForPourcentage}} pour</p>
-    </div>
+        <p>100% pour</p>
+      </div>
+      
 
     <div class="separation-line"></div>
 
@@ -29,56 +36,90 @@
 
     <h1>Reformulations récentes et populaires</h1>
 
+    <swiper-container
+  class="reformulation-swiper"
+  #swiperContainer
+  navigation="true"
+  centered-slides="true"
+  slides-per-view="3"
+  space-between="16"
+  style="width: 100%; max-width: 1200px; margin: auto; padding-top: 20px;"
+  [breakpoints]="{
+    '0': { 'slidesPerView': 1 },
+    '1024': { 'slidesPerView': 3 }
+  }"
+  init="true"
+>
+  <swiper-slide *ngFor="let reformulation of reformulations">
+    <div
+      class="slide-wrapper"
+      [ngClass]="{
+        'reformulation-principale':
+          reformulation.id === reformulations[mainReformulationIndex].id
+      }"
+    >
+      <app-single-reformulation-presentation
+        class="single-argument-presentation"
+        [reformulation]="reformulation"
+      ></app-single-reformulation-presentation>
+    </div>
+  </swiper-slide>
+</swiper-container>
+
+  
+
     <div id=add-reformulation style="display:flex; flex-direction: column; align-items: center" >
         <button (click)="toggleReformulationPopUp()" [disabled]="isVisitor" ><i class="fa-regular fa-comment-dots"></i>Proposer une reformulation</button>
-        <p style="margin-left: 2%; margin-right: 2%" >Cette section vous permet de créer une reformulation de l'argument ou commmentaire faisant actuellement l'objet du débat dans le but d'apporter des précisions, corrections ou simplifications afin d'obtenir un débat le plus clair et compréhensible possible.</p>
-        <p style="margin-left: 2%; margin-right: 2%">Assurez-vous de ne pas changer le sens global de l'argument ou du commentaire original qui a fait l'objet du débat pour lequel des gens ont voté. L'utilisation de cette fonction dans le but de saboter le débat sera punie par des sanctions prévues dans les conditions générales d'utilisations.</p>
-    </div>
-
-    <div id="arguments-container">
-        <div id="recent-arguments">
-            <h4>Reformulations Récents:</h4>
-            <swiper-container 
-                *ngIf="recentReformulations.length > 0"
-                navigation="true" 
-                dir="rtl"
-                >
-                <swiper-slide *ngFor="let reformulation of recentReformulations" dir="ltr">
-                    <app-single-reformulation-presentation 
-                        class="single-argument-presentation" 
-                        [reformulation]="reformulation"></app-single-reformulation-presentation>
-                </swiper-slide>
-            </swiper-container>
-        </div>
-        <div id="popular-arguments">
-            <h4>Reformulations Populaires:</h4>
-            <swiper-container 
-                *ngIf="popularReformulations.length > 0"
-                #swiperContainer
-                navigation="true"
-                centeredSlides="true"
-                [slidesPerView]=2 >
-                <swiper-slide *ngFor="let reformulation of popularReformulations">
-                    <app-single-reformulation-presentation 
-                        class="single-argument-presentation" 
-                        [reformulation]="reformulation"></app-single-reformulation-presentation>
-                </swiper-slide>
-            </swiper-container>
-        </div>
     </div>
 
     <div class="separation-line"></div>
 
     <h1>Arguments par type</h1>
 
-    <div id="sorted-arguments">
-        <h4>Arguments pour: </h4>
-        <app-arguments-displayer #argumentsFor [voteSubject$]="voteSubject$"></app-arguments-displayer>
-        <h4>Arguments contre: </h4>
-        <app-arguments-displayer #argumentsAgainst [voteSubject$]="voteSubject$"></app-arguments-displayer>
-        <h4>Solutions: </h4>
-        <app-arguments-displayer #argumentsSolution [voteSubject$]="voteSubject$"></app-arguments-displayer>
-    </div>
+    <div id="sorted-arguments" class="argument-swiper">
+      <h4>Arguments pour:</h4>
+<swiper-container
+  class="argument-swiper"
+  navigation="true"
+  slides-per-view="3"
+  space-between="16"
+  [breakpoints]="{ '0': { 'slidesPerView': 1 }, '1024': { 'slidesPerView': 3 } }"
+  style="width: 100%; margin-bottom: 20px;"
+>
+  <swiper-slide *ngFor="let arg of argumentsFor">
+    <app-single-argument-presentation [argument]="arg" [minimal]="true"></app-single-argument-presentation>
+  </swiper-slide>
+</swiper-container>
+
+<h4>Arguments contre:</h4>
+<swiper-container
+  class="argument-swiper"
+  navigation="true"
+  slides-per-view="3"
+  space-between="16"
+  [breakpoints]="{ '0': { 'slidesPerView': 1 }, '1024': { 'slidesPerView': 3 } }"
+  style="width: 100%; margin-bottom: 20px;"
+>
+  <swiper-slide *ngFor="let arg of argumentsAgainst">
+    <app-single-argument-presentation [argument]="arg" [minimal]="true"></app-single-argument-presentation>
+  </swiper-slide>
+</swiper-container>
+
+<h4>Solutions:</h4>
+<swiper-container
+  class="argument-swiper"
+  navigation="true"
+  slides-per-view="3"
+  space-between="16"
+  [breakpoints]="{ '0': { 'slidesPerView': 1 }, '1024': { 'slidesPerView': 3 } }"
+  style="width: 100%; margin-bottom: 20px;"
+>
+  <swiper-slide *ngFor="let arg of argumentsSolution">
+    <app-single-argument-presentation [argument]="arg" [minimal]="true"></app-single-argument-presentation>
+  </swiper-slide>
+</swiper-container>
+
+    
 
     <div id=add-argument style="display:flex; flex-direction: column; align-items: center" >
         <button (click)="toggleArgumentPopUp()" [disabled]="isVisitor"><i class="fa-regular fa-comment-dots"></i>Ajouter un argument</button>
@@ -88,19 +129,25 @@
     <div class="separation-line"></div>
 
     <div id="for-against">
+        <!-- Bloc votants et contributeurs fusionné -->
         <div id="nb-of-votes">
-            <p>{{numberOfVotants}} votants</p>
-            <p>{{numberOfContributors}} contributeurs votants</p>
-        </div>
-        <h1>Votez pour ou contre cette idée:</h1>
+            <p>{{numberOfVotants}} votants - {{numberOfContributors}} contributeurs votants</p>
+          </div>
+          
+          <h1>Votez pour ou contre cette idée:</h1>
+        
+        <!-- Bloc de vote -->
         <div id="vote-selector">
-            <button 
-                *ngFor="let value of voteValues" 
-                class="validate-button {{getClass(value)}}"
-                [disabled]="isVisitor"
-                (click)="voteForDebate(value)"
-                [ngClass]="{'selected' : isCurrentValue(value)}">{{mapperEnumToString(value)}}</button>
-        </div>
+            <button
+              *ngFor="let value of voteValues"
+              class="validate-button"
+              [disabled]="isVisitor"
+              (click)="voteForDebate(value)"
+              [ngClass]="getClass(value)">
+              {{ mapperEnumToString(value) }}
+            </button>
+          </div>          
+  
         <p>Total des votes:</p>
         <app-for-against-debate #debateResult ></app-for-against-debate>
         <p>Vote des contributeurs:</p>
@@ -145,6 +192,14 @@
     <div class="pop-up-content">
         <i class="fas fa-times" (click)="toggleReformulationPopUp()"></i>
         <h3>Proposer une reformulation</h3>
+        <!-- Texte explicatif pour la reformulation -->
+            <p style="margin-left: 2%; margin-right: 2%;">
+              Cette section vous permet de créer une reformulation de l'argument ou commentaire faisant actuellement l'objet du débat dans le but d'apporter des précisions, corrections ou simplifications afin d'obtenir un débat le plus clair et compréhensible possible.
+            </p>
+             <p style="margin-left: 2%; margin-right: 2%;">
+             Assurez-vous de ne pas changer le sens global de l'argument ou du commentaire original qui a fait l'objet du débat pour lequel des gens ont voté. L'utilisation de cette fonction dans le but de saboter le débat sera punie par des sanctions prévues dans les conditions générales d'utilisations.
+            </p>
+  
         <form [formGroup]="newReformulationForm" class="post-form">
             <label for="title">Titre:</label>
             <input type="text" formControlName="title" id="title" class="input" name="title" required>
@@ -166,4 +221,40 @@
         </form>
         <p class="validate-button" (click)="onValidateReformulation()" >Valider</p>
     </div>
+  </div>
+
+
+     <!-- ✅ BARRE FIXE BAS D'ÉCRAN – ICÔNES UNIQUEMENT -->
+<div class="debate-toolbar">
+  <button class="toolbar-button" *ngIf="isChildDebate" (click)="onGoToParentDebate()">
+    <i class="fa-solid fa-arrow-left" title="Débat précédent"></i>
+  </button>
+
+  <a class="toolbar-button header-link" routerLink="/accueil">
+    <i class="fa-solid fa-house" aria-hidden="true"></i>
+  </a>  
+  
+  <div class="toolbar-button">
+    <app-follow-button 
+      *ngIf="debateId !== '1' && !isVisitor"
+      [entityId]="debateId" 
+      [entityType]="'debate'">
+    </app-follow-button>
+  </div>
+
+  <button class="toolbar-button" (click)="share($event)">
+    <i class="fa-solid fa-share" title="Partager"></i>
+  </button>
+
+  <div class="toolbar-button">
+    <app-report 
+      [id]="debateId" 
+      [type]="reportType.DEBATE" 
+      [size]="'small'" 
+      *ngIf="debateId != '1'">
+    </app-report>
+  </div>
+</div>
+
+
 </div>

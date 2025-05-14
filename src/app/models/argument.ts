@@ -24,4 +24,9 @@ export class Argument {
     userName?: string;
     userPoliticSide?: PoliticSides;
     userWork?: string; 
+    nbFor?: number;
+    nbReallyFor?: number;
+    nbAgainst?: number;
+    nbReallyAgainst?: number;
+
 }

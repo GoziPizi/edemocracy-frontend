@@ -1,20 +1,22 @@
 import { DebateVote } from "../enums/voteDebate";
 
 export function debateVoteEnumToString(value: DebateVote): string {
-    switch(value){
+    switch (value) {
         case DebateVote.REALLY_AGAINST:
-            return 'très contre'
+            return 'Très Contre (-2)';
         case DebateVote.AGAINST:
-            return 'contre'
+            return 'Contre (-1)';
         case DebateVote.NEUTRAL:
-            return 'neutre'
+            return 'Neutre (0)';
         case DebateVote.FOR:
-            return 'pour'
+            return 'Pour (+1)';
         case DebateVote.REALLY_FOR:
-            return 'très pour'
-
+            return 'Très Pour (+2)';
+        default:
+            return '';
     }
 }
+
 
 export function debateVoteEnumToInt(value: DebateVote): number {
     switch(value){

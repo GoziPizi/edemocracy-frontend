@@ -1,4 +1,12 @@
 @import '../../../styles.scss';
+@import 'swiper/element/css';
+
+#moderation-toolbar {
+    position: fixed;
+    top: 120px;
+    left: 10px;
+    z-index: 100;
+}
 
 #moderation-toolbar {
     position: fixed;
@@ -10,7 +18,7 @@
 #share {
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 24px;
     cursor: pointer;
 
     &:hover {
@@ -19,17 +27,16 @@
 
 }
 
+
 #report {
     position: absolute;
     top: 50px;
-    right: 10px;
+    right: 22px;
     cursor: pointer;
 
     &:hover {
         color: $debate-red;
     }
-
-
 }
 
 #follow-button {
@@ -53,12 +60,16 @@
 }
 
 #page-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+  width: 100%;
+  max-width: 100vw;          // ✅ empêche tout débordement horizontal
+  overflow-x: hidden;        // ✅ coupe ce qui dépasse
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;    // ✅ évite les débordements dus aux padding/margin
 }
+
 
 #presentation {
     margin-top: 20px;
@@ -77,16 +88,23 @@
     display: flex;
     flex-direction: row;
     border-radius: 10px;
+     margin-bottom: 10px;
+    overflow-x: hidden;
+    max-width: 100%;
 
-    margin-bottom: 10px;
 }
 
 #arguments-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;              // ✅ permet aux enfants de passer à la ligne si besoin
+  overflow-x: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
 
 #recent-arguments {
     width: 33%;
@@ -116,14 +134,41 @@
     flex-direction: column;
 }
 
+/* Bloc nombre de votes */
 #nb-of-votes {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px;
-    border-radius: 10px;
-
-}
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  
+  #nb-of-votes p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  /* Titre principal */
+  h1 {
+    text-align: center;
+    margin-top: 6px;
+    margin-bottom: 10px;
+    font-size: 22px; /* ➔ Augmenté */
+    font-weight: bold;
+  }  
+  
+  /* ➡️ Mobile spécifique */
+  @media (max-width: 768px) {
+    #nb-of-votes p {
+      font-size: 13px; /* ➔ Texte un peu plus petit sur mobile */
+      margin-bottom: 4px;
+    }
+  
+    h1 {
+      font-size: 14px; /* ➔ Titre réduit sur mobile */
+      margin-top: 4px;
+      margin-bottom: 8px;
+    }
+  }
+  
 
 #for-against h1 {
     align-self: center;
@@ -134,6 +179,8 @@
     padding: 0 5%;
     display: flex;
     flex-direction: row;
+    overflow-x: hidden;
+    max-width: 100%;
     justify-content: space-between
 }
 
@@ -256,11 +303,17 @@ button i {
 }
 
 #type-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;             // ✅ Permet le retour à la ligne si trop serré
+  width: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
 
 #sorted-arguments {
     width: 100%;
@@ -270,19 +323,207 @@ button i {
     margin-left: 10px;
 }
 
-swiper-container {
-    width: 100%;
-}
-
-swiper-slide {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-}
 
 .preserve-whitespace {
     white-space: pre-line;
 }
+/* Conteneur des boutons */
+/* Bloc principal des boutons */
+#vote-selector {
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  /* Style des boutons */
+  #vote-selector button {
+    width: 150px;
+    height: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    margin: 2px; /* ➔ Réduit fortement la marge autour du bouton */
+    padding: 8px 10px; /* ➔ Laisse juste un peu de respiration interne */
+  }  
+  
+  /* Couleurs spécifiques pour les votes */
+  .really-for {
+    background-color: #2E8B57;
+    color: white;
+  }
+  
+  .for {
+    background-color: #3CB371;
+    color: white;
+  }
+  
+  .neutral {
+    background-color: #808080;
+    color: white;
+  }
+  
+  .against {
+    background-color: #F08080;
+    color: black;
+  }
+  
+  .really-against {
+    background-color: #D72631;
+    color: white;
+  }
+  
+  /* ➡️ Adaptation mobile */
+  @media (max-width: 768px) {
+    #vote-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      justify-items: center;
+      margin: 0;
+      padding: 0;
+    }
+  
+    #vote-selector button {
+      width: 110px;
+      height: 34px;
+      padding: 2px 4px;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+  
+    /* Le bouton Neutre (3ᵉ bouton) prend toute la ligne */
+    #vote-selector button:nth-child(3) {
+      grid-column: 1 / span 2;
+      width: 160px;
+    }
+  }
+ /* ============================
+   🎯 Reformulation Slider
+   ============================ */
+
+.reformulation-swiper {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding-top: 20px;
+}
+
+.slide-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 100%;
+
+  &.reformulation-principale {
+    border: 2px solid #007bff;
+    border-radius: 12px;
+    padding: 10px;
+  }
+}
+
+swiper-container.reformulation-swiper {
+  width: 100%;
+  padding: 0 10px;
+}
+
+swiper-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: 100%;
+}
+
+
+
+/* Responsive spécifique mobile pour reformulations */
+@media (max-width: 768px) {
+  .reformulation-swiper {
+    padding: 0 10px;
+  }
+
+  .slide-wrapper {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* =============================
+   🎯 Argument Swiper Style Fix
+   ============================= */
+
+   .argument-swiper swiper-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  
+  /* === BARRE FIXE EN BAS DE L'ÉCRAN (UNIFIÉE) === */
+.debate-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  background: #e6f0ff;
+  border-top: 1px solid #ccc;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 8px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+
+  .toolbar-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    height: 100%;
+    padding: 0 8px;
+    text-decoration: none; // important si <a>
+    flex: 1 1 20%;
+    max-width: 100px;
+
+    i {
+      font-size: 16px;
+    }
+
+    &:hover {
+      color: #007bff;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    display: none !important;
+  }
+}
+
+/* ✅ Afficher le header sur mobile */
+.mobile-header {
+  display: block;
+}
+
+/* ❌ Le masquer sur les écrans larges */
+@media (min-width: 1024px) {
+  .mobile-header {
+    display: none !important;
+  }
+}
+

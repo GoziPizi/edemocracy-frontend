@@ -54,5 +54,8 @@ export const routes: Routes = [
     { path: 'privacy-policy', loadComponent: () => import('./pages/legal-notice/privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent) },
     { path: 'terms-of-service', loadComponent: () => import('./pages/legal-notice/terms-of-service/terms-of-service.component').then(m => m.TermsOfServiceComponent) },
 
+    { path: 'argument/:id', loadComponent: () => import('./pages/debate/debate.component').then(m => m.DebateComponent) },
+
+
     { path: '**', redirectTo: 'accueil' }
 ];

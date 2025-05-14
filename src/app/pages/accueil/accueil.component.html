@@ -1,21 +1,108 @@
+<!-- 🔝 Barre d'icônes (version mobile uniquement) -->
+<nav id="mobile-header"*ngIf="isMobile">
+  <div class="icon-button" (click)="goTo('accueil')">
+    <i class="fas fa-home"></i>
+  </div>
+  <div class="icon-button" (click)="toggleSearch()">
+    <i class="fas fa-search"></i>
+  </div>
+  <div class="icon-button" (click)="toggleSidebar()">
+    <i class="fas fa-book"></i>
+  </div>
+  <div class="icon-button" (click)="goTo('notifications')">
+    <i class="fas fa-bell"></i>
+  </div>
+  <div class="icon-button" [routerLink]="isAuthenticated() ? '/profil' : '/landing'">
+    <i class="fas fa-user" aria-hidden="true"></i>
+  </div>
+  
+</nav>
+
+
+<!-- 🔍 Zone de recherche filtrée -->
+<div id="mobile-search" *ngIf="showSearch">
+  <select [(ngModel)]="searchCategory">
+    <option value="sujets">Sujets</option>
+    <option value="debats">Débats</option>
+    <option value="personnalites">Personnalités</option>
+    <option value="partis">Partis</option>
+  </select>
+
+  <input [(ngModel)]="searchText" placeholder="Rechercher..." />
+
+  <button id="search-launch" (click)="launchSearch()">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+  </div>
+
+
+<!-- 🧱 Contenu principal -->
 <div id="container">
-    <div [routerLink]="['/publish-topic']" id="publish-button" *ngIf="isAdmin" >
-        <i class="fas fa-plus fa-3x"></i>
+  <div [routerLink]="['/publish-topic']" id="publish-button" *ngIf="isAdmin">
+    <i class="fas fa-plus fa-3x"></i>
+  </div>
+
+  <div id="left-container" *ngIf="!isMobile">
+    <app-home-news></app-home-news>
+    <app-home-topics></app-home-topics>
+  </div>
+
+  <div id="main-content">
+    <img src="assets/Democracy_Online_LongLogo.png" style="width: 60%" />
+    <div id="thumbnail-container">
+      <app-debate-accueil-thumbnail
+        class="thumbnail"
+        #thumbnail
+        *ngFor="let debate of debates"
+        [debate]="debate"
+      ></app-debate-accueil-thumbnail>
     </div>
-    <div id="left-container">
-        <app-home-news></app-home-news>
-        <app-home-topics></app-home-topics>
-    </div>
-    <div id="main-content">
-        <img src="assets/Democracy_Online_LongLogo.png" style="width:60%">
-        <div id="thumbnail-container">
-            <app-debate-accueil-thumbnail class="thumbnail" #thumbnail *ngFor="let debate of debates" [debate]="debate"></app-debate-accueil-thumbnail>
-        </div>
-    </div>
+  </div>
 </div>
+
+
 <div id="loading" *ngIf="isLoading">
-    <div class="spinner"></div>
+  <div class="spinner"></div>
 </div>
+
 <div id="end" *ngIf="hasReachedEnd">
-    <p style="text-align:center" >Il n'y a plus de débats à charger.</p>
+  <p style="text-align: center">Il n'y a plus de débats à charger.</p>
 </div>
+
+<!-- 📱 Menu latéral (mobile) -->
+<div id="mobile-sidebar" *ngIf="showSidebar">
+  <button class="close-button" (click)="closeSidebar()">❌ Fermer</button>
+  <div id="mobile-sidebar-content">
+
+    <h3>📰 Actualités</h3>
+    <ul>
+      <li 
+        *ngFor="let news of homeNews | slice:0:10" 
+        (click)="goToTopic(news.id)" 
+        class="clickable-news"
+      >
+        {{ news.title }}
+      </li>
+    </ul>
+
+    <h3>📚 Sujets</h3>
+    <ul>
+      <li *ngFor="let topic of homeTopics">
+        {{ topic.name }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- 🦶 Pied de page -->
+<footer id="desktop-footer" *ngIf="showFooter">
+  <nav>
+    <a routerLink="/navigation">Navigation</a>
+    <a routerLink="/partis">Parti Politique</a>
+    <a routerLink="/personnalites">Personnalité Politique</a>
+    <a routerLink="/mentions-legales">Mentions Légales</a>
+    <a routerLink="/conditions-generales">Conditions Générales</a>
+    <a routerLink="/confidentialite">Politique de Confidentialité</a>
+  </nav>
+</footer>
+

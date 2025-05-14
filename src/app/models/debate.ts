@@ -15,6 +15,7 @@ export class Debate {
     debateResult: DebateResult = new DebateResult();
     debateContributorsResult: DebateResult = new DebateResult();
     hasVote: DebateVote | null = null;
+    parentDebateId?: string;
 }
 
 export class DebateVoteFromUser {
@@ -40,12 +41,14 @@ export class DebateDescriptionReformulation {
     content: string = '';
     title: string = '';
     score: number = 0;
+    likes: number = 0; // ➕ AJOUTER cette ligne
     isFlaged: boolean = false;
     createdAt: string = '';
     userName?: string;
     userPoliticSide?: PoliticSides;
     userWork?: string; 
 }
+
 
 export class DebateReformulationVote {
     id: string = '';

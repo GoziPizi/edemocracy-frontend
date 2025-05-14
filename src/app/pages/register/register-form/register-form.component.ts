@@ -52,6 +52,9 @@ export class RegisterFormComponent {
 
   type: RegisterFormType = RegisterFormType.Free;
 
+  sponsorName: string | null = null;
+
+
   registerForm = new FormGroup({
     //required fields
     firstName: new FormControl('', [
@@ -178,30 +181,53 @@ export class RegisterFormComponent {
     this.manuallyAddProfession = !this.manuallyAddProfession;
   }
 
-  onSubmit() {
+  async onSubmit() {
+    const code = this.registerForm.get('sponsorshipCode')?.value;
+  
+    if (code) {
+      const isValid = await this.checkSponsorshipCode(true); // ➜ validation silencieuse
+      if (!isValid) {
+        // Optionnel : message ou blocage
+        console.warn('Code de parrainage invalide');
+      }
+    }
+  
     if (this.type === RegisterFormType.Free) {
       this.freeSubmit();
     } else {
       this.paidSubmit();
     }
   }
+ async checkSponsorshipCode(silent: boolean = false): Promise<boolean> {
+  const code = this.registerForm.value.sponsorshipCode;
 
-  checkSponsorshipCode() {
-    if (this.registerForm.value.sponsorshipCode) {
-      this.api
-        .checkSponsorshipCode(this.registerForm.value.sponsorshipCode)
-        .subscribe({
-          next: (data: any) => {
-            this.isCodeVerified = true;
-            this.isSponsored = true;
-          },
-          error: (error: any) => {
-            this.isCodeVerified = false;
-            this.toastr.error('Code de parrainage invalide');
-          },
-        });
-    }
-  }
+  if (!code) return false;
+
+  return new Promise((resolve) => {
+    this.api.checkSponsorshipCode(code).subscribe({
+      next: (data: any) => {
+        this.isCodeVerified = true;
+        this.isSponsored = true;
+
+        if (!silent) {
+          this.toastr.success('Code de parrainage valide');
+        }
+
+        resolve(true);
+      },
+      error: () => {
+        this.isCodeVerified = false;
+        this.sponsorName = null;
+
+        if (!silent) {
+          this.toastr.error('Code de parrainage invalide');
+        }
+
+        resolve(false);
+      }
+    });
+  });
+}
 
   freeSubmit() {
     this.loading.increment();
