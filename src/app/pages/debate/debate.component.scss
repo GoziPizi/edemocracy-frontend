@@ -1,6 +1,13 @@
 @import '../../../styles.scss';
 @import 'swiper/element/css';
 
+#moderation-toolbar {
+    position: fixed;
+    top: 120px;
+    left: 10px;
+    z-index: 100;
+}
+
 #share {
     position: absolute;
     top: 10px;

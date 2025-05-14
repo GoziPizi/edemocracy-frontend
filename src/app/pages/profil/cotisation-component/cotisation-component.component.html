@@ -2,15 +2,22 @@
     Vous êtes un utilisateur gratuit.
     <button style="margin-left: 10px" class="validate-button green-button" (click)="becomeStandard()" >Devenir standard</button>
     <button style="margin-left: 10px" class="validate-button green-button" (click)="becomePremium()" >Devenir premium</button>
+    <button style="margin-left: 10px" class="validate-button green-button" (click)="becomeBienfaiteur()" >Devenir bienfaiteur</button>
 </div>
 <div id="standard-user" *ngIf="isStandardUser">
     Vous êtes un utilisateur standard.
     <button style="margin-left: 10px" class="validate-button green-button" (click)="becomePremium()" >Devenir premium</button>
+    <button style="margin-left: 10px" class="validate-button green-button" (click)="becomeBienfaiteur()" >Devenir bienfaiteur</button>
 
 </div>
 <div id="premium-user" *ngIf="isPremiumUser">
     Vous êtes un utilisateur premium.
-    <button onclick="location.href='mailto:support@digital-democracy.com?subject=Demande%20de%20résiliation'" style="margin-left: 10px" class="validate-button red-button">Résilier mon abonnement</button>
+    <button style="margin-left: 10px" class="validate-button green-button" (click)="becomeBienfaiteur()" >Devenir bienfaiteur</button>
+    <button onclick="location.href='mailto:support@democracy-online.com?subject=Demande%20de%20résiliation'" style="margin-left: 10px" class="validate-button red-button">Résilier mon abonnement</button>
+</div>
+<div id="bienfaiteur-user" *ngIf="isBienfaiteurUser">
+    Vous êtes un utilisateur bienfaiteur.
+    <button onclick="location.href='mailto:support@democracy-online.com?subject=Demande%20de%20résiliation'" style="margin-left: 10px" class="validate-button red-button">Résilier mon abonnement</button>
 </div>
 <div id="sponsorship-code" style="margin-top: 10px">
     <div *ngIf="sponsorshipCode">
@@ -52,4 +59,10 @@
         <input type="text" [(ngModel)]="newIBAN" placeholder="IBAN">
         <button class="validate-button green-button" (click)="setJackpotIBAN()">Valider</button>
     </div>
+</div>
+
+<div id="donation">
+    <button class="validate-button green-button" onclick="location.href='mailto:help@democracy-online.com'">
+        Nous soutenir par un prêt, un mécénat, ou une collaboration
+    </button>
 </div>

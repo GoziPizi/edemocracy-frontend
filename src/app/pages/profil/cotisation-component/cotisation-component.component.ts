@@ -6,16 +6,16 @@ import { LoadingService } from '../../../services/loading.service';
 import { ToasterService } from '../../../services/toaster.service';
 import { JackpotStatus, personalJackpot } from '../../../models/jackpot';
 import { FormsModule } from '@angular/forms';
+import { SharingService } from '../../../services/sharing.service';
 
 @Component({
   selector: 'app-cotisation-component',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './cotisation-component.component.html',
-  styleUrl: './cotisation-component.component.scss'
+  styleUrl: './cotisation-component.component.scss',
 })
 export class CotisationComponentComponent {
-
   @Input() contributionStatus!: MembershipStatus;
   @Input() sponsorshipCode!: string | null;
   personalJackpot: personalJackpot | null = null;
@@ -26,8 +26,9 @@ export class CotisationComponentComponent {
   constructor(
     private apiHandler: ApiHandlerService,
     private loadingService: LoadingService,
-    private toasterService: ToasterService
-  ) { }
+    private toasterService: ToasterService,
+    private sharingService: SharingService
+  ) {}
 
   ngOnInit() {
     this.getPersonalJackpot();
@@ -43,8 +44,8 @@ export class CotisationComponentComponent {
       error: (error: any) => {
         this.toasterService.error('Impossible de devenir membre standard');
         this.loadingService.decrement();
-      }
-    })
+      },
+    });
   }
 
   becomePremium() {
@@ -57,8 +58,22 @@ export class CotisationComponentComponent {
       error: (error: any) => {
         this.toasterService.error('Impossible de devenir membre premium');
         this.loadingService.decrement();
-      }
-    })
+      },
+    });
+  }
+
+  becomeBienfaiteur() {
+    this.loadingService.increment();
+    this.apiHandler.becomeBienfaiteur().subscribe({
+      next: (data: any) => {
+        this.loadingService.decrement();
+        window.location.href = data.url;
+      },
+      error: (error: any) => {
+        this.toasterService.error('Impossible de devenir membre bienfaiteur');
+        this.loadingService.decrement();
+      },
+    });
   }
 
   generateSponsorshipCode() {
@@ -70,24 +85,16 @@ export class CotisationComponentComponent {
         this.sponsorshipCode = data.code;
       },
       error: (error: any) => {
-        this.toasterService.error('Impossible de générer un code de parrainage');
+        this.toasterService.error(
+          'Impossible de générer un code de parrainage'
+        );
         this.loadingService.decrement();
-      }
-    })
+      },
+    });
   }
 
   createSponsorshipLink() {
-
-    if(!this.sponsorshipCode) {
-      this.toasterService.error('Impossible de créer un lien de parrainage');
-      return;
-    }
-
-    navigator.clipboard.writeText(`https://digital-democracy.com/register?sponsorshipCode=${this.sponsorshipCode}`).then(() => {
-      this.toasterService.success('Lien copié dans le presse-papier');
-    }).catch(err => {
-      this.toasterService.error('Erreur lors de la copie du texte');
-    });
+    this.sharingService.shareSponsorshipCode();
   }
 
   getPersonalJackpot() {
@@ -97,8 +104,8 @@ export class CotisationComponentComponent {
       },
       error: (error: any) => {
         this.personalJackpot = null;
-      }
-    })
+      },
+    });
   }
 
   openIBANPopUp() {
@@ -126,8 +133,8 @@ export class CotisationComponentComponent {
       error: (error: any) => {
         this.loadingService.decrement();
         this.toasterService.error('Impossible de mettre à jour votre IBAN');
-      }
-    })
+      },
+    });
   }
 
   withdrawPersonalJackpot() {
@@ -140,36 +147,55 @@ export class CotisationComponentComponent {
       next: (data: any) => {
         this.loadingService.decrement();
         this.personalJackpot = data;
-        this.toasterService.success('Votre demande de retrait a bien été prise en compte');
+        this.toasterService.success(
+          'Votre demande de retrait a bien été prise en compte'
+        );
       },
       error: (error: any) => {
         this.loadingService.decrement();
-        this.toasterService.error('Impossible de retirer votre cagnotte personnelle');
-      }
-    })
+        this.toasterService.error(
+          'Impossible de retirer votre cagnotte personnelle'
+        );
+      },
+    });
   }
 
   get isFreeUser(): boolean {
-    if(this.contributionStatus as unknown as string === MembershipStatus[MembershipStatus.NONE] as unknown as string) {
+    if (
+      (this.contributionStatus as unknown as string) ===
+      (MembershipStatus[MembershipStatus.NONE] as unknown as string)
+    ) {
       return true;
     }
 
-    if(!this.contributionStatus) {
+    if (!this.contributionStatus) {
       return true;
     }
-    return  false;
+    return false;
   }
 
   get isStandardUser(): boolean {
-    return this.contributionStatus as unknown as string === MembershipStatus[MembershipStatus.STANDARD] as unknown as string;
+    return (
+      (this.contributionStatus as unknown as string) ===
+      (MembershipStatus[MembershipStatus.STANDARD] as unknown as string)
+    );
   }
 
   get isPremiumUser(): boolean {
-    return this.contributionStatus as unknown as string === MembershipStatus[MembershipStatus.PREMIUM] as unknown as string;
+    return (
+      (this.contributionStatus as unknown as string) ===
+      (MembershipStatus[MembershipStatus.PREMIUM] as unknown as string)
+    );
+  }
+
+  get isBienfaiteurUser(): boolean {
+    return (
+      (this.contributionStatus as unknown as string) ===
+      (MembershipStatus[MembershipStatus.BIENFAITEUR] as unknown as string)
+    );
   }
 
   get waiting(): boolean {
     return this.personalJackpot?.status === JackpotStatus.PENDING;
   }
-
 }

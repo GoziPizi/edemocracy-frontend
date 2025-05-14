@@ -1,12 +1,13 @@
 <div id="page">
     <i id="back-arrow" [routerLink]="['/register']" class="fa-solid fa-arrow-left"></i>
-    <img src="../../../assets/E-Democracy-no-white.png" alt="image" class="main-image" height="233px" width="600px">
+    <img src="../../../../assets/Democracy_Online_BigLogo.png" alt="image" class="main-image" height="233px" width="600px">
     <h1>Bienvenue</h1>
     <div id="sponsorship-visit" *ngIf="isSponsored">
         <p>Vous avez été invité par un parrain, souhaitez-vous visiter le site avant votre inscription ? Votre code restera utilisable.</p>
         <button class="validate-button" (click)="visit()">Je visite le site</button>
     </div>
     <p>{{inscriptionName}}</p>
+    <p id="description" >{{description}}</p>
     <form [formGroup]="registerForm" id="register-form">
         <label for="firstName">Prénom :</label>
         <input class="input" type="text" formControlName="firstName" id="firstName" name="firstName" required>
@@ -84,38 +85,38 @@
         <ng-select
             class="custom"
             formControlName="birthSex">
-            <ng-option>Femme</ng-option>
-            <ng-option>Homme</ng-option>
-            <ng-option>Autre</ng-option>
+            <ng-option [value]="'Femme'" >Femme</ng-option>
+            <ng-option [value]="'Homme'">Homme</ng-option>
+            <ng-option [value]="'Autre'">Autre</ng-option>
         </ng-select>
 
         <label for="actualSex">Identité de genre :</label>
         <ng-select
             class="custom"
             formControlName="actualSex">
-            <ng-option>Cisgenre</ng-option>
-            <ng-option>Transgenre</ng-option>
-            <ng-option>Non-binaire</ng-option>
-            <ng-option>Genderqueer</ng-option>
-            <ng-option>Pangender</ng-option>
-            <ng-option>Genderfluid</ng-option>
-            <ng-option>Agender</ng-option>
-            <ng-option>Bigender</ng-option>
-            <ng-option>Third-gender</ng-option>
-            <ng-option>Two-spirit</ng-option>
-            <ng-option>Asexual</ng-option>
+            <ng-option [value]="'Cisgenre'">Cisgenre</ng-option>
+            <ng-option [value]="'Transgenre'">Transgenre</ng-option>
+            <ng-option [value]="'Non-binaire'">Non-binaire</ng-option>
+            <ng-option [value]="'Genderqueer'">Genderqueer</ng-option>
+            <ng-option [value]="'Pangender'">Pangender</ng-option>
+            <ng-option [value]="'Genderfluid'">Genderfluid</ng-option>
+            <ng-option [value]="'Agender'">Agender</ng-option>
+            <ng-option [value]="'Bigender'">Bigender</ng-option>
+            <ng-option [value]="'Third-gender'">Third-gender</ng-option>
+            <ng-option [value]="'Two-spirit'">Two-spirit</ng-option>
+            <ng-option [value]="'Asexual'">Asexual</ng-option>
         </ng-select>
 
         <label for="sexualOrientation">Orientation sexuelle :</label>
         <ng-select
             class="custom"
             formControlName="sexualOrientation">
-            <ng-option>Hétérosexuel</ng-option>
-            <ng-option>Homosexuel</ng-option>
-            <ng-option>Bisexuel</ng-option>
-            <ng-option>Asexuel</ng-option>
-            <ng-option>Pansexuel</ng-option>
-            <ng-option>Autre</ng-option>
+            <ng-option [value]="'Hétérosexuel'">Hétérosexuel</ng-option>
+            <ng-option [value]="'Homosexuel'">Homosexuel</ng-option>
+            <ng-option [value]="'Bisexuel'">Bisexuel</ng-option>
+            <ng-option [value]="'Asexuel'">Asexuel</ng-option>
+            <ng-option [value]="'Pansexuel'">Pansexuel</ng-option>
+            <ng-option [value]="'Autre'">Autre</ng-option>
         </ng-select>
 
         <div class="line"></div>
@@ -131,16 +132,54 @@
             [multiple]="false"
             required></ng-select>
 
-        <label for="origin">Origine :</label>
+        <label>Origine : (4 maximum)</label>
         <ng-select 
-            class="custom" 
-            formControlName="origin" 
+            class="custom"
+            formControlName="origin1" 
             [items]="origins" 
             bindLabel="label" 
             bindValue="value" 
             placeholder="Choisir l'origine" 
             [multiple]="false"
             required></ng-select>
+
+        <ng-select 
+            *ngIf="registerForm.value.origin1"
+            style="margin-top: 10px"
+            class="custom" 
+            formControlName="origin2" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
+
+        <ng-select 
+            *ngIf="registerForm.value.origin2"
+            style="margin-top: 10px"
+            class="custom" 
+            formControlName="origin3" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
+
+        <ng-select 
+            *ngIf="registerForm.value.origin3"
+            style="margin-top: 10px"
+            class="custom" 
+            formControlName="origin4" 
+            [items]="origins" 
+            bindLabel="label" 
+            bindValue="value" 
+            placeholder="Choisir l'origine" 
+            [multiple]="false"
+            required></ng-select>
+
+        
 
         <div class="line"></div>
 

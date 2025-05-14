@@ -1,0 +1,8 @@
+<div id="toolbar">
+    <button (click)="copy()" title="Copier le débat" *ngIf="moderationService.copyStatus">
+        <i class="fa-regular fa-copy fa-xl"></i>
+    </button>
+    <button (click)="fusion()" title="Fusionner le débat" *ngIf="moderationService.fusionStatus" >
+        <i class="fa-solid fa-code-merge fa-xl"></i>
+    </button>
+</div>

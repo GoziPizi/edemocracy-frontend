@@ -9,8 +9,9 @@ import { ReportType } from '../../../models/report';
 import { DebateVoteFromUser } from '../../../models/debate';
 import { DebateVote } from '../../../enums/voteDebate';
 import { politicSideMapperEnumToUser } from '../../../mappers/politicside-mapper';
-import { ToasterComponent } from '../../../utils/toaster/toaster.component';
 import { ToasterService } from '../../../services/toaster.service';
+import { ModerationService } from '../../../services/moderation.service';
+import { LoadingService } from '../../../services/loading.service';
 
 @Component({
   selector: 'app-single-argument-presentation',
@@ -35,7 +36,9 @@ export class SingleArgumentPresentationComponent {
     private router: Router,
     private visitorService: VisitorService,
     private apiService: ApiHandlerService,
-    private toaster: ToasterService
+    private toaster: ToasterService,
+    public moderationService: ModerationService,
+    private loadingService: LoadingService
   ) {
   }
 
@@ -80,6 +83,33 @@ export class SingleArgumentPresentationComponent {
       return;
     }
     this.$voteSubject.next({argumentId: this.argument.id, vote: false});
+  }
+
+  copy(event: any) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.moderationService.setCopyContent(this.argument.id);
+  }
+
+  fusion(event: any) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.loadingService.increment();
+    if(!this.moderationService.copyContent) {
+      this.toaster.error('Aucun contenu à fusionner');
+      return;
+    }
+    this.apiService.mergeArgumentsFromSameDebate(this.moderationService.copyContent, this.argument.id).subscribe({
+      next: () => {
+        this.loadingService.decrement();
+        this.toaster.success('Fusion effectuée');
+        this.refreshPage();
+      },
+      error: () => {
+        this.loadingService.decrement();
+        this.toaster.error('Erreur lors de la fusion');
+      }
+    })
   }
 
   navigateToDebate() {
@@ -134,6 +164,10 @@ export class SingleArgumentPresentationComponent {
     this.isForcedShown = true;
   }
 
+  refreshPage() {
+    window.location.reload();
+  }
+
   get redColor() {
     return '#D72631';
   }
@@ -179,5 +213,11 @@ export class SingleArgumentPresentationComponent {
       return ', ' + politicSideMapperEnumToUser(this.argument.userPoliticSide);
     }
     return '';
+  }
+
+  get isModerator() {
+    return this.apiService.user?.role === 'MODERATOR1'
+    || this.apiService.user?.role === 'MODERATOR2'
+    || this.apiService.user?.role === 'ADMIN';
   }
 }

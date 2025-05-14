@@ -1,0 +1,29 @@
+<div id="create-personality" *ngIf="!userPersonality">
+    <button (click)="createPersonality()" >Devenir une personalité publiques</button>
+</div>
+<div id="modify-personality" *ngIf="userPersonality">
+    <p>Vous êtes une personalité publique</p>
+    <form [formGroup]="updatePersonnalityForm" id="personality-form">
+        <label>Pseudo:</label>
+        <input 
+            formControlName="pseudo"
+            id="personality-input"
+            (input)="onPersonalityPseudoChange()" 
+            value="{{userPersonality.pseudo}}" 
+            placeholder="Pseudo (optionnel)">
+        <label>Présentation:</label>
+        <textarea 
+            formControlName="description"
+            id="personality-input" 
+            (input)="onPersonalityDescriptionChange()" ></textarea>
+        <button (click)="updatePersonality()" *ngIf="isPersonalityModified" id="modify-personality-button">Mettre à jour</button>
+    </form>
+</div>
+<div id="personnalityDebates" *ngIf="userPersonality">
+    <h2>Débats de votre personnalité:</h2>
+    <button class="validate-button" (click)="createDebate()" >Ajouter un débat</button>
+    <div *ngFor="let debate of debates">
+        <app-debate-thumbnail [debate]="debate" ></app-debate-thumbnail>
+        <button class="validate-button" (click)="makeDebateFirst(debate.id)" >Faire de ce débat le premier débat affiché.</button>
+    </div>
+</div>

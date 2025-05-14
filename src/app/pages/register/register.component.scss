@@ -18,7 +18,6 @@
   height: auto;
   padding: 24px;
 }
-
 /* 🧱 Conteneur des formules */
 #thumbnails-container {
   display: flex;
@@ -38,10 +37,14 @@
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.3s ease;
-  width: calc(100% / 3 - 40px);
   box-sizing: border-box;
+flex-grow: 1;
+flex-shrink: 1;
+flex-basis: clamp(250px, 30%, 320px);
+  max-width: 320px;
   margin: 0;
 }
+
 
 .thumbnail:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

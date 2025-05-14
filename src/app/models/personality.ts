@@ -1,9 +1,10 @@
-import { PublicUser } from "./users";
+import { PublicUser } from './users';
 
 export class Personality {
   id: string = 'id-personality';
   userId: string = 'id-user';
   partyId?: string = 'id-party';
+  pseudo?: string = undefined;
   for: string[] = ['id-for'];
   against: string[] = ['id-against'];
   description: string = 'description';

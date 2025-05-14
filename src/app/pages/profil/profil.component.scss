@@ -59,39 +59,3 @@
         color: black;
     }
 }
-
-#modify-personality {
-    display: flex;
-    flex-direction: column;
-}
-
-#personality-description {
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: darken(white, 15%);
-    color: #000;
-    font-size: 1em;
-    font-weight: 600;
-    margin-right: 10px;
-
-    resize: none;
-    width: 500px;
-}
-
-#modify-personality-button {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: darken(white, 15%);
-    color: #000;
-    font-size: 1em;
-    font-weight: 600;
-    width: 500px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: darken(white, 10%);
-    }
-}

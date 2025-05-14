@@ -1,6 +1,6 @@
 <div id="container">
     <div style="display:flex; flex-direction:row; width:100%; align-items:center">
-        <p>Nom du diplôme :</p>
+        <p style="margin-right:10px">Nom du diplôme :</p>
         <ng-select [(ngModel)]="selectedDiploma" class="custom" style="width:100%" *ngIf="!manualInput">
             <ng-option *ngFor="let diploma of diplomas" [value]="diploma">{{diploma}}</ng-option>
         </ng-select>

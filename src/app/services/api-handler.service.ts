@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { PartySearchCriteria, PersonalitySearchCriteria } from '../models/criterias';
+import {
+  PartySearchCriteria,
+  PersonalitySearchCriteria,
+} from '../models/criterias';
 import { TopicSearchItem } from '../models/topics';
 import { Debate } from '../models/debate';
 import { Argument } from '../models/argument';
@@ -21,16 +24,16 @@ import { adminViewPersonalJackpot } from '../models/jackpot';
 import { MediaDebateThumbnail } from '../pages/accueil/accueil.component';
 import { personalReport, report } from '../models/moderation/reports';
 import { DebateDescriptionReformulation } from '../models/debate';
+import { RegisterFormType } from '../pages/register/register-form/register-form.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiHandlerService {
-
   private baseUrl: string;
 
   isLogged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  user : User | null = null;
+  user: User | null = null;
 
   get role() {
     if (!this.user) {
@@ -77,7 +80,7 @@ export class ApiHandlerService {
 
   logout() {
     localStorage.removeItem('token');
-    this.visitorService.setIsVisitor(true); 
+    this.visitorService.setIsVisitor(true);
     this.isLogged.next(false);
     this.router.navigate(['/landing']);
   }
@@ -100,16 +103,20 @@ export class ApiHandlerService {
     });
   }
 
-
-  parseJwt(token:string) {
+  parseJwt(token: string) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+    var jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
 
     return JSON.parse(jsonPayload);
-};
+  }
 
   getUserId() {
     const token = localStorage.getItem('token');
@@ -128,25 +135,30 @@ export class ApiHandlerService {
     return this.http.post(`${this.baseUrl}/api/login/register-free`, form);
   }
 
-  registerStandard(form: any) {
-    return this.http.post(`${this.baseUrl}/api/login/register-standard`, form);
-  }
-
-  registerPremium(form: any) {
-    return this.http.post(`${this.baseUrl}/api/login/register-premium`, form);
+  registedPaid(form: any, registerType: RegisterFormType) {
+    return this.http.post(
+      `${this.baseUrl}/api/login/register-paid/${registerType}`,
+      form
+    );
   }
 
   generateSponsorshipCode() {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/sponsorship/generate-sponsorship-code`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get(
+      `${this.baseUrl}/api/sponsorship/generate-sponsorship-code`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   checkSponsorshipCode(code: string) {
-    return this.http.post(`${this.baseUrl}/api/sponsorship/check-sponsorship-code`, { code });
+    return this.http.post(
+      `${this.baseUrl}/api/sponsorship/check-sponsorship-code`,
+      { code }
+    );
   }
 
   getPersonalJackpot() {
@@ -160,20 +172,27 @@ export class ApiHandlerService {
 
   setJackpotIBAN(iban: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/sponsorship/personal-jackpot-IBAN`, { iban }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/sponsorship/personal-jackpot-IBAN`,
+      { iban },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   withdrawPersonalJackpot() {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/sponsorship/personal-jackpot-withdraw`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get(
+      `${this.baseUrl}/api/sponsorship/personal-jackpot-withdraw`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   deleteUser() {
@@ -186,11 +205,17 @@ export class ApiHandlerService {
   }
 
   resetPassword(email: string) {
-    return this.http.post(`${this.baseUrl}/api/login/reset-password`, { email });
+    return this.http.post(`${this.baseUrl}/api/login/reset-password`, {
+      email,
+    });
   }
 
   changePassword(email: string, token: string, password: string) {
-    return this.http.post(`${this.baseUrl}/api/login/change-password`, { email, token, password });
+    return this.http.post(`${this.baseUrl}/api/login/change-password`, {
+      email,
+      token,
+      password,
+    });
   }
 
   //Presentatio related methods
@@ -205,30 +230,54 @@ export class ApiHandlerService {
 
   updateMainPresentation(presentation: string, founder: string) {
     const token = localStorage.getItem('token');
-    return this.http.put(`${this.baseUrl}/api/presentation/`, { presentation, founder }, {
+    return this.http.put(
+      `${this.baseUrl}/api/presentation/`,
+      { presentation, founder },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
+  }
+
+  //Users related methods
+
+  getUser() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.isLogged.next(false);
+      this.visitorService.setIsVisitor(true);
+    }
+    return this.http
+      .get<User>(`${this.baseUrl}/api/users`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      })
+      .pipe(
+        tap((response: User) => {
+          this.user = response;
+        })
+      );
+  }
+
+  getUserDiplomas() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/users/diplomas`, {
       headers: {
         Authorization: `${token}`,
       },
     });
   }
 
-  //Users related methods
-
-  getUser() { 
+  updateUserDiplomas(diplomas: { name: string; obtention: number }[]) {
     const token = localStorage.getItem('token');
-    if (!token) {
-      this.isLogged.next(false);
-      this.visitorService.setIsVisitor(true);
-    }
-    return this.http.get<User>(`${this.baseUrl}/api/users`, {
+    return this.http.put(`${this.baseUrl}/api/users/diplomas`, diplomas, {
       headers: {
         Authorization: `${token}`,
       },
-    }).pipe(
-      tap((response: User) => {
-        this.user = response;
-      })
-    );
+    });
   }
 
   getUserById(id: string) {
@@ -253,11 +302,15 @@ export class ApiHandlerService {
     const token = localStorage.getItem('token');
     let formData = new FormData();
     formData.append('profilePicture', image);
-    return this.http.put(`${this.baseUrl}/api/users/profile-picture`, formData, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.put(
+      `${this.baseUrl}/api/users/profile-picture`,
+      formData,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getUserPartis() {
@@ -269,31 +322,29 @@ export class ApiHandlerService {
     });
   }
 
-  getUserPersonality() {
-    const token = localStorage.getItem('token');
-    return this.http.get<Personality>(`${this.baseUrl}/api/users/personality`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
-  }
-
   getOpinions() {
     const token = localStorage.getItem('token');
-    return this.http.get<OpinionWithTopicName[]>(`${this.baseUrl}/api/users/opinions`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<OpinionWithTopicName[]>(
+      `${this.baseUrl}/api/users/opinions`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   postOpinion(topicId: string, opinion: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/users/opinions`, { topicId, opinion }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/users/opinions`,
+      { topicId, opinion },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   deleteOpinion(opinionId: string) {
@@ -327,20 +378,26 @@ export class ApiHandlerService {
 
   getTopicslist(): Observable<TopicSearchItem[]> {
     const token = localStorage.getItem('token');
-    return this.http.get<TopicSearchItem[]>(`${this.baseUrl}/api/topics/fulllist`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<TopicSearchItem[]>(
+      `${this.baseUrl}/api/topics/fulllist`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getTopicsParentlist(): Observable<TopicSearchItem[]> {
     const token = localStorage.getItem('token');
-    return this.http.get<TopicSearchItem[]>(`${this.baseUrl}/api/topics/parentlist`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<TopicSearchItem[]>(
+      `${this.baseUrl}/api/topics/parentlist`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
   
   getRecentTopics(): Observable<{ title: string }[]> {
@@ -381,7 +438,7 @@ export class ApiHandlerService {
 
   postTopic(form: any, image?: File) {
     let formData = new FormData();
-    for(let key in form) {
+    for (let key in form) {
       formData.append(key, form[key]);
     }
     if (image) {
@@ -415,6 +472,15 @@ export class ApiHandlerService {
     });
   }
 
+  getUserPersonality() {
+    const token = localStorage.getItem('token');
+    return this.http.get<Personality>(`${this.baseUrl}/api/users/personality`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
   searchPersonalities(criteria: PersonalitySearchCriteria) {
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/personality/search`, criteria, {
@@ -426,16 +492,33 @@ export class ApiHandlerService {
 
   becomePersonality() {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/personality`, {}, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/personality`,
+      {},
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   updatePersonalityDescription(description: string) {
     const token = localStorage.getItem('token');
-    return this.http.put(`${this.baseUrl}/api/personality`, { description }, {
+    return this.http.put(
+      `${this.baseUrl}/api/personality`,
+      { description },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
+  }
+
+  updatePersonality(form: any) {
+    const token = localStorage.getItem('token');
+    return this.http.put(`${this.baseUrl}/api/personality`, form, {
       headers: {
         Authorization: `${token}`,
       },
@@ -444,38 +527,51 @@ export class ApiHandlerService {
 
   getPersonalityOpinions(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.get<OpinionWithTopicName[]>(`${this.baseUrl}/api/personality/${id}/opinions`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<OpinionWithTopicName[]>(
+      `${this.baseUrl}/api/personality/${id}/opinions`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getPersonalityDebates(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.get<Debate[]>(`${this.baseUrl}/api/personality/${id}/debates`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<Debate[]>(
+      `${this.baseUrl}/api/personality/${id}/debates`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getPersonalityPersonalDebates(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.get<Debate[]>(`${this.baseUrl}/api/personality/${id}/personal-debates`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<Debate[]>(
+      `${this.baseUrl}/api/personality/${id}/personal-debates`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   setFirstDebateDisplayForPersonality(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/personality/${id}/first-debate-display`, {}, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/personality/${id}/first-debate-display`,
+      {},
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   //Debate related methods
@@ -483,11 +579,14 @@ export class ApiHandlerService {
   //returns the debates that are trending, with their associated media.
   getTrendingDebatesThumbnails(page: number) {
     const token = localStorage.getItem('token');
-    return this.http.get<MediaDebateThumbnail[]>(`${this.baseUrl}/api/debates/trending/${page}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<MediaDebateThumbnail[]>(
+      `${this.baseUrl}/api/debates/trending/${page}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getDebatesByTime() {
@@ -501,11 +600,14 @@ export class ApiHandlerService {
 
   getDebatesByPopularity() {
     const token = localStorage.getItem('token');
-    return this.http.get<Debate[]>(`${this.baseUrl}/api/debates/by-popularity`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<Debate[]>(
+      `${this.baseUrl}/api/debates/by-popularity`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getDebate(id: string) {
@@ -526,13 +628,17 @@ export class ApiHandlerService {
     });
   }
 
-  voteForDebate(id: string, value: DebateVote){
+  voteForDebate(id: string, value: DebateVote) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/debates/${id}/vote`, {value: debateVoteEnumToStrictString(value)}, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/debates/${id}/vote`,
+      { value: debateVoteEnumToStrictString(value) },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getDebateVote(id: string) {
@@ -546,11 +652,14 @@ export class ApiHandlerService {
 
   getDebateArguments(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.get<Argument[]>(`${this.baseUrl}/api/debates/${id}/arguments`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<Argument[]>(
+      `${this.baseUrl}/api/debates/${id}/arguments`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getDebateReformulations(id: string): Observable<DebateDescriptionReformulation[]> {
@@ -564,20 +673,28 @@ export class ApiHandlerService {
 
   postReformulation(data: any) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/debates/${data.debateId}/reformulations`, data, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/debates/${data.debateId}/reformulations`,
+      data,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   voteForReformulation(id: string, value: boolean | null) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/debates/reformulations/${id}/vote`, { value }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/debates/reformulations/${id}/vote`,
+      { value },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getDebateReformulation(id: string) {
@@ -591,11 +708,14 @@ export class ApiHandlerService {
 
   getDebateReformulationVote(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/debates/reformulations/${id}/vote`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get(
+      `${this.baseUrl}/api/debates/reformulations/${id}/vote`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   postDebate(form: any) {
@@ -638,20 +758,28 @@ export class ApiHandlerService {
 
   voteUp(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/arguments/${id}/vote`, { value: true }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/arguments/${id}/vote`,
+      { value: true },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   voteDown(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/arguments/${id}/vote`, { value: false }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/arguments/${id}/vote`,
+      { value: false },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   //Party related methods
@@ -674,7 +802,7 @@ export class ApiHandlerService {
     });
   }
 
-  updateParty(id:string, form: any) {
+  updateParty(id: string, form: any) {
     const token = localStorage.getItem('token');
     return this.http.put(`${this.baseUrl}/api/parties/${id}`, form, {
       headers: {
@@ -696,11 +824,14 @@ export class ApiHandlerService {
 
   checkAdminPartyRights(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.get<boolean>(`${this.baseUrl}/api/parties/${id}/check-admin`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<boolean>(
+      `${this.baseUrl}/api/parties/${id}/check-admin`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   searchParties(criteria: PartySearchCriteria) {
@@ -723,11 +854,15 @@ export class ApiHandlerService {
 
   addMemberToParty(partyId: string, email: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/parties/${partyId}/members`, { email }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/parties/${partyId}/members`,
+      { email },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getInvitations() {
@@ -750,11 +885,15 @@ export class ApiHandlerService {
 
   answerInvitation(id: string, answer: boolean) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/invitations/${id}/answer`, { answer }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/invitations/${id}/answer`,
+      { answer },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getAllHistoricEvents(partyId: string) {
@@ -768,20 +907,27 @@ export class ApiHandlerService {
 
   postHistoricEvent(partyId: string, form: any) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/parties/${partyId}/history`, form, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/parties/${partyId}/history`,
+      form,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   deleteHistoricEvent(partyId: string, eventId: string) {
     const token = localStorage.getItem('token');
-    return this.http.delete(`${this.baseUrl}/api/parties/${partyId}/history/${eventId}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.delete(
+      `${this.baseUrl}/api/parties/${partyId}/history/${eventId}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getPartyComments(partyId: string) {
@@ -795,20 +941,27 @@ export class ApiHandlerService {
 
   postPartyComment(partyId: string, content: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/parties/${partyId}/comments`, { content }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/parties/${partyId}/comments`,
+      { content },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   deletePartyComment(partyId: string, commentId: string) {
     const token = localStorage.getItem('token');
-    return this.http.delete(`${this.baseUrl}/api/parties/${partyId}/comments/${commentId}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.delete(
+      `${this.baseUrl}/api/parties/${partyId}/comments/${commentId}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getSinglePartyComment(commentId: string) {
@@ -822,29 +975,39 @@ export class ApiHandlerService {
 
   getPartyDebates(partyId: string) {
     const token = localStorage.getItem('token');
-    return this.http.get<Debate[]>(`${this.baseUrl}/api/parties/${partyId}/debates`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<Debate[]>(
+      `${this.baseUrl}/api/parties/${partyId}/debates`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getPersonalDebateOfParty(partyId: string) {
     const token = localStorage.getItem('token');
-    return this.http.get<Debate[]>(`${this.baseUrl}/api/parties/${partyId}/personal-debates`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<Debate[]>(
+      `${this.baseUrl}/api/parties/${partyId}/personal-debates`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   setFirstDebateDisplay(partyId: string, debateId: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/parties/${partyId}/first-debate-display`, { debateId }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/parties/${partyId}/first-debate-display`,
+      { debateId },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   //Admin related methods
@@ -860,11 +1023,15 @@ export class ApiHandlerService {
 
   addBanWord(banWord: any) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/admin/banwords`, {word: banWord}, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/admin/banwords`,
+      { word: banWord },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   removeBanWord(id: string) {
@@ -887,11 +1054,15 @@ export class ApiHandlerService {
 
   setAdmin(email: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/admin/admins`, {email}, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/admin/admins`,
+      { email },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   removeAdmin(id: string) {
@@ -914,40 +1085,54 @@ export class ApiHandlerService {
 
   verifyRequest(id: string, verified: boolean) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/admin/verifications-request/${id}`, {verified}, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/admin/verifications-request/${id}`,
+      { verified },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getNonEmptyJackpots() {
     const token = localStorage.getItem('token');
-    return this.http.get<adminViewPersonalJackpot[]>(`${this.baseUrl}/api/admin/non-empty-jackpots`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<adminViewPersonalJackpot[]>(
+      `${this.baseUrl}/api/admin/non-empty-jackpots`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   confirmPaymentUsersJackpot(userId: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/admin/confirm-payment`, {userId}, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/admin/confirm-payment`,
+      { userId },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   //Search related methods
 
   textSearch(query: string) {
     const token = localStorage.getItem('token');
-    return this.http.get<SearchResult[]>(`${this.baseUrl}/api/search/all/${query}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<SearchResult[]>(
+      `${this.baseUrl}/api/search/all/${query}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   textSearchByType(query: string, type: string) {
@@ -962,11 +1147,14 @@ export class ApiHandlerService {
   //Notifications related methods
   getNotifications() {
     const token = localStorage.getItem('token');
-    return this.http.get<NotificationEdemoc[]>(`${this.baseUrl}/api/notification`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<NotificationEdemoc[]>(
+      `${this.baseUrl}/api/notification`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   deleteNotification(id: string) {
@@ -980,11 +1168,15 @@ export class ApiHandlerService {
 
   markNotificationAsRead(id: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/notification/${id}/read`, {}, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/notification/${id}/read`,
+      {},
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   //Contributions related methods
@@ -1000,6 +1192,15 @@ export class ApiHandlerService {
   becomePremium() {
     const token = localStorage.getItem('token');
     return this.http.get(`${this.baseUrl}/api/contribution/premium`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+  }
+
+  becomeBienfaiteur() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/api/contribution/bienfaiteur`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -1028,11 +1229,15 @@ export class ApiHandlerService {
 
   follow(entityId: string, entityType: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/users/follows`, { entityId, entityType }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/users/follows`,
+      { entityId, entityType },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   //Moderation related methods
@@ -1048,11 +1253,14 @@ export class ApiHandlerService {
 
   getModeration2Reports() {
     const token = localStorage.getItem('token');
-    return this.http.get<report[]>(`${this.baseUrl}/api/moderation/moderation-2-reports`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<report[]>(
+      `${this.baseUrl}/api/moderation/moderation-2-reports`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getReportDetails(reportId: string) {
@@ -1064,7 +1272,7 @@ export class ApiHandlerService {
     });
   }
 
-  report(data:any){
+  report(data: any) {
     const token = localStorage.getItem('token');
     return this.http.post(`${this.baseUrl}/api/moderation/report`, data, {
       headers: {
@@ -1075,56 +1283,81 @@ export class ApiHandlerService {
 
   ignoreReport(reportId: string) {
     const token = localStorage.getItem('token');
-    return this.http.delete(`${this.baseUrl}/api/moderation/reports/${reportId}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.delete(
+      `${this.baseUrl}/api/moderation/reports/${reportId}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getReportEntity(reportId: string) {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/moderation/reports/${reportId}/entity`, {
-      headers: {
-        Authorization: `${token}`,
+    return this.http.get(
+      `${this.baseUrl}/api/moderation/reports/${reportId}/entity`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
       }
-    });
+    );
   }
 
   deleteEntity(reportId: string) {
     const token = localStorage.getItem('token');
-    return this.http.delete(`${this.baseUrl}/api/moderation/reports/${reportId}/delete-entity`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.delete(
+      `${this.baseUrl}/api/moderation/reports/${reportId}/delete-entity`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   escalateToModeration2(reportId: string) {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/moderation/reports/${reportId}/escalate-to-moderation-2`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get(
+      `${this.baseUrl}/api/moderation/reports/${reportId}/escalate-to-moderation-2`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
-  warnUser(userId: string, reason:string, reportId?: string) {
+  warnUser(userId: string, reason: string, reportId?: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/moderation/user/${userId}/warn`, { userId, reason, reportId }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/moderation/user/${userId}/warn`,
+      { userId, reason, reportId },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
-  postSanction(reportingId: string, sanctionType: string, reason: string, sanctionDuration?: number) {
+  postSanction(
+    reportingId: string,
+    sanctionType: string,
+    reason: string,
+    sanctionDuration?: number
+  ) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/moderation/sanction`, { reportingId, sanctionType, sanctionDuration, reason }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/moderation/sanction`,
+      { reportingId, sanctionType, sanctionDuration, reason },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   getHistoric() {
@@ -1138,11 +1371,40 @@ export class ApiHandlerService {
 
   getModeratorHistoric(moderatorId: string) {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.baseUrl}/api/moderation/historic/${moderatorId}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get(
+      `${this.baseUrl}/api/moderation/historic/${moderatorId}`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
+  }
+
+  mergeArgumentsFromSameDebate(debateId: string, debateId2: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(
+      `${this.baseUrl}/api/moderation/argument/${debateId}/merge/${debateId2}`,
+      {},
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
+  }
+
+  mergeDebateIntoAnother(debateId: string, debateId2: string) {
+    const token = localStorage.getItem('token');
+    return this.http.post(
+      `${this.baseUrl}/api/moderation/debate/${debateId}/merge/${debateId2}`,
+      {},
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   //moderation staff
@@ -1151,43 +1413,58 @@ export class ApiHandlerService {
     const token = localStorage.getItem('token');
     return this.http.get<User[]>(`${this.baseUrl}/api/moderation/moderators`, {
       headers: {
-        Authorization: `${token}`
+        Authorization: `${token}`,
       },
     });
   }
 
   setRole(email: string, role: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/moderation/role`, { email, role }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/moderation/role`,
+      { email, role },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   //as a user
 
   getPersonalReports() {
     const token = localStorage.getItem('token');
-    return this.http.get<personalReport[]>(`${this.baseUrl}/api/moderation/personal-reports`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.get<personalReport[]>(
+      `${this.baseUrl}/api/moderation/personal-reports`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   contestSanction(reportId: string, reason: string) {
     const token = localStorage.getItem('token');
-    return this.http.post(`${this.baseUrl}/api/moderation/reports/${reportId}/contest`, { reason }, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    return this.http.post(
+      `${this.baseUrl}/api/moderation/reports/${reportId}/contest`,
+      { reason },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
   }
 
   //donation related methods
 
-  getDonationLink(email:string, amount: number, interval: string | null) {
-    return this.http.post(`${this.baseUrl}/api/donation/get-checkout-session`, {email, amount, interval});
+  getDonationLink(email: string, amount: number, interval: string | null) {
+    return this.http.post(`${this.baseUrl}/api/donation/get-checkout-session`, {
+      email,
+      amount,
+      interval,
+    });
   }
 }
